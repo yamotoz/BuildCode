@@ -1,0 +1,26 @@
+---
+// Header.astro
+---
+
+<header class="sticky top-0 z-50 glass-panel border-b border-border-color px-6 py-4 md:px-12 lg:px-24">
+  <div class="mx-auto relative flex max-w-[1440px] items-center justify-between">
+    <a href="/" class="flex items-center gap-3 text-slate-100 hover:opacity-80 transition-opacity">
+      <img src="/logo_backofff.png" alt="BuildCode" class="h-8 w-auto object-contain" />
+      <h2 class="font-display text-xl font-bold tracking-tight text-white hidden sm:block">BuildCode</h2>
+    </a>
+    <nav class="hidden md:flex absolute left-1/2 -translate-x-1/2 gap-8">
+      <a class="text-slate-300 hover:text-primary transition-colors text-sm font-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-primary rounded" href="/#problema">Problema</a>
+      <a class="text-slate-300 hover:text-primary transition-colors text-sm font-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-primary rounded" href="/#solucao">Solução</a>
+      <a class="text-slate-300 hover:text-primary transition-colors text-sm font-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-primary rounded" href="/#beneficios">Benefícios</a>
+      <a class="text-slate-300 hover:text-primary transition-colors text-sm font-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-primary rounded" href="/biblioteca">Biblioteca</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <a href="/login" class="hidden md:flex cursor-pointer items-center justify-center rounded-full border border-primary/30 px-6 py-2 text-primary hover:bg-primary/10 transition-colors text-sm font-semibold tracking-wide focus:outline-none focus:ring-2 focus:ring-primary">
+          Login
+      </a>
+      <a href="/app" class="flex cursor-pointer items-center justify-center rounded-full bg-primary text-background-dark hover:bg-white transition-colors px-6 py-2 text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(179,218,242,0.3)] focus:outline-none focus:ring-2 focus:ring-white">
+          Acessar Sistema
+      </a>
+    </div>
+  </div>
+</header>

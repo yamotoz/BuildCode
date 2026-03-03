@@ -1,0 +1,164 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+// Sample Data for MVP
+const techCards = [
+  {
+    category: "Frameworks Frontend",
+    name: "Astro",
+    language: "JavaScript/TypeScript",
+    whatIs: "Framework web para conteúdo focado em performance",
+    whenToUse: "Sites focados em conteúdo, blogs, documentações, e-commerce",
+    pros: ["Performance extrema (SSG/Islands)", "Agnóstico a framework de UI", "Fácil adoção"],
+    cons: ["Menos ideal para dashboards complexos (SPA)"],
+    bestFor: "Landing Pages de Alta Conversão",
+    icon: "rocket_launch"
+  },
+  {
+    category: "Frameworks Frontend",
+    name: "Next.js",
+    language: "JavaScript/TypeScript",
+    whatIs: "React framework for production",
+    whenToUse: "Aplicações dinâmicas complexas, portais, SaaS",
+    pros: ["Ecossistema massivo (React)", "App Router robusto", "Ótimo para SSR"],
+    cons: ["Curva de aprendizado (App Router)", "Tamanho de bundle maior"],
+    bestFor: "SaaS escalável, Dashboards B2B",
+    icon: "web"
+  },
+  {
+    category: "Backend",
+    name: "Supabase",
+    language: "PostgreSQL / TypeScript",
+    whatIs: "Firebase alternative open source",
+    whenToUse: "Desenvolvimento ágil com necessidade de banco relacional e Auth",
+    pros: ["PostgreSQL puro por baixo", "Realtime out-of-the-box", "Edge Functions"],
+    cons: ["Vendor lock-in se usar apenas features managed", "Custo em scale extrema"],
+    bestFor: "MVP Rápido, SaaS modernos",
+    icon: "database"
+  },
+  {
+    category: "Backend",
+    name: "Go (Golang)",
+    language: "Go",
+    whatIs: "Linguagem compilada com concorrência nativa",
+    whenToUse: "Microserviços de alta performance, CRON jobs, Processamento massivo",
+    pros: ["Performance absurda", "Concorrência com Goroutines", "Tipagem forte e simples"],
+    cons: ["Verbosidade em tratativa de erros", "Curva de aprendizado inicial"],
+    bestFor: "APIs de alto tráfego (100k+ users)",
+    icon: "terminal"
+  },
+  {
+    category: "Infraestrutura",
+    name: "Redis",
+    language: "C",
+    whatIs: "In-memory data structure store",
+    whenToUse: "Caching, mensageria (Pub/Sub), gerenciamento de sessão",
+    pros: ["Latência quase zero", "Tipos de dados avançados"],
+    cons: ["Dados voláteis (se configurado apenas in-memory)", "Custo de RAM"],
+    bestFor: "Rate limiting, Leaderboards, Session cache",
+    icon: "memory"
+  }
+];
+
+const categories = [...new Set(techCards.map(c => c.category))];
+---
+
+<Layout title="BuildCode | Biblioteca Técnica">
+  <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+    <Header />
+    
+    <main class="flex-1 flex flex-col w-full px-6 py-12 md:px-12 lg:px-24">
+      <div class="mx-auto w-full max-w-[1440px]">
+        <!-- Page Header -->
+        <div class="flex flex-col gap-4 mb-12">
+          <div class="inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5">
+            <span class="text-xs font-semibold tracking-widest text-primary uppercase">Conhecimento Estratégico</span>
+          </div>
+          <h1 class="font-display text-4xl md:text-5xl font-black tracking-tight text-white">
+            Biblioteca Ténica
+          </h1>
+          <p class="text-lg text-slate-400 font-medium max-w-[700px]">
+            Explore ferramentas modernas, entenda seus trade-offs e saiba exatamente quando utilizar (ou não) cada tecnologia.
+          </p>
+        </div>
+
+        <!-- Filters (Static UI for MVP) -->
+        <div class="flex flex-wrap gap-3 mb-12">
+          <button class="px-5 py-2 rounded-full bg-primary text-background-dark font-bold text-sm transition-colors hover:opacity-90">
+            Todas
+          </button>
+          {categories.map(cat => (
+            <button class="px-5 py-2 rounded-full glass-panel text-slate-300 font-medium text-sm transition-colors hover:text-white hover:border-primary/50">
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {techCards.map(tech => (
+            <div class="glass-panel p-6 rounded-2xl flex flex-col gap-6 group hover:-translate-y-1 hover:border-primary/30 transition-all duration-300 relative overflow-hidden">
+              <!-- Glow efffect on hover -->
+              <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              
+              <div class="relative z-10 flex justify-between items-start">
+                <div class="flex items-center gap-4">
+                  <div class="size-12 rounded-xl bg-surface-dark border border-border-color flex items-center justify-center text-primary shadow-inner">
+                    <span class="material-symbols-outlined">{tech.icon}</span>
+                  </div>
+                  <div>
+                    <h3 class="font-display font-bold text-xl text-white">{tech.name}</h3>
+                    <p class="text-xs text-primary font-medium">{tech.category}</p>
+                  </div>
+                </div>
+                <div class="px-3 py-1 rounded bg-surface-dark border border-border-color text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
+                  {tech.language}
+                </div>
+              </div>
+
+              <div class="relative z-10">
+                <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                  {tech.whatIs}
+                </p>
+                
+                <div class="flex flex-col gap-3">
+                  <div class="bg-surface-dark/50 rounded-lg p-3 border border-border-color">
+                    <div class="flex items-center gap-2 mb-1">
+                      <span class="material-symbols-outlined text-[14px] text-green-400">task_alt</span>
+                      <span class="text-xs font-bold text-white uppercase tracking-wide">Quando Usar</span>
+                    </div>
+                    <p class="text-xs text-slate-400">{tech.whenToUse}</p>
+                  </div>
+                  
+                  <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-green-500/5 border border-green-500/10 rounded-lg p-3">
+                      <span class="text-[10px] text-green-400 font-bold uppercase tracking-wider block mb-1">Prós</span>
+                      <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+                        {tech.pros.map(pro => <li>{pro}</li>)}
+                      </ul>
+                    </div>
+                    <div class="bg-red-500/5 border border-red-500/10 rounded-lg p-3">
+                      <span class="text-[10px] text-red-400 font-bold uppercase tracking-wider block mb-1">Contras</span>
+                      <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+                        {tech.cons.map(con => <li>{con}</li>)}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="relative z-10 mt-auto pt-4 border-t border-border-color flex items-center justify-between">
+                <span class="text-xs text-slate-500">Ideal para:</span>
+                <span class="text-xs text-secondary font-bold text-right">{tech.bestFor}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </main>
+    
+    <Footer />
+  </div>
+</Layout>

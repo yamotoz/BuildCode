@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="BuildCode | Privacidade">
+  <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-dark">
+    <Header />
+    <main class="flex-1 w-full px-6 py-20 md:px-12 lg:px-24">
+      <div class="mx-auto max-w-3xl glass-panel p-8 md:p-12 rounded-2xl">
+        <h1 class="font-display text-4xl font-bold text-white mb-8 border-b border-primary/20 pb-4">Política de Privacidade</h1>
+        <div class="prose prose-invert prose-blue max-w-none text-slate-300 space-y-6">
+          <section>
+            <h2 class="text-xl font-bold text-primary mb-2">1. Coleta de Dados</h2>
+            <p>Coletamos apenas as informações necessárias para a geração dos PRDs e para o funcionamento da sua conta, como e-mail e preferências técnicas informadas no formulário.</p>
+          </section>
+          <section>
+            <h2 class="text-xl font-bold text-primary mb-2">2. Uso das Informações</h2>
+            <p>Seus dados são utilizados exclusivamente para personalizar as recomendações de arquitetura e enviar atualizações críticas sobre o serviço.</p>
+          </section>
+          <section>
+            <h2 class="text-xl font-bold text-primary mb-2">3. Segurança</h2>
+            <p>Utilizamos tecnologias modernas (como Supabase Auth) para garantir que seus dados e projetos salvos estejam protegidos e acessíveis apenas por você.</p>
+          </section>
+          <section>
+            <h2 class="text-xl font-bold text-primary mb-2">4. Compartilhamento</h2>
+            <p>Não vendemos ou compartilhamos seus dados pessoais com terceiros para fins publicitários.</p>
+          </section>
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </div>
+</Layout>

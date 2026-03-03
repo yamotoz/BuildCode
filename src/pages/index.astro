@@ -1,0 +1,316 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="BuildCode - Engenharia de Elite para Projetos Visionários">
+  <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+    <Header />
+    
+    <main class="flex-1 flex flex-col items-center w-full">
+      <!-- Hero Section -->
+      <section class="relative w-full flex flex-col items-center justify-center min-h-[80vh] px-6 py-20 overflow-hidden">
+        <!-- Video Background with Dark Filter -->
+        <div class="absolute inset-0 z-0 pointer-events-none">
+          <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+            <source src="/code01.mp4" type="video/mp4" />
+          </video>
+          <div class="absolute inset-0 bg-background-dark/80 backdrop-blur-[2px]"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+          <div class="absolute inset-0 flex items-center justify-center opacity-30">
+            <div class="w-[800px] h-[800px] bg-primary/20 rounded-full blur-[120px]"></div>
+            <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary-dark/20 rounded-full blur-[100px]"></div>
+          </div>
+        </div>
+        
+        <div class="relative z-10 flex flex-col items-center text-center max-w-[900px] gap-8 opacity-0 animate-[fade-in-up_1s_ease-out_forwards]">
+          <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 mb-4">
+            <span class="flex size-2 rounded-full bg-primary animate-pulse"></span>
+            <span class="text-xs font-semibold tracking-widest text-primary uppercase">IA-Powered Architecture</span>
+          </div>
+          <h1 class="font-display text-5xl md:text-7xl font-black leading-tight tracking-tighter text-white">
+            Engenharia de <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-dark">Elite</span> para Projetos Visionários
+          </h1>
+          <p class="text-lg md:text-xl text-slate-400 font-medium leading-relaxed max-w-[700px]">
+            A arquitetura perfeita para o seu software começa com decisões inteligentes. Use IA para selecionar stacks, mitigar riscos e escalar com integridade.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center gap-4 mt-8">
+            <a href="/app" class="flex w-full sm:w-auto cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-primary to-primary-dark text-background-dark hover:opacity-90 transition-opacity px-8 py-4 text-base font-bold tracking-wide shadow-[0_0_20px_rgba(179,218,242,0.4)] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark">
+              Acessar Sistema
+            </a>
+            <a href="#problema" class="flex w-full sm:w-auto cursor-pointer items-center justify-center rounded-full glass-panel text-white hover:bg-white/5 transition-colors px-8 py-4 text-base font-semibold tracking-wide focus:outline-none focus:ring-2 focus:ring-white">
+              <span class="material-symbols-outlined mr-2 text-primary">play_circle</span>
+              Ver Demonstração
+            </a>
+          </div>
+        </div>
+        
+        <!-- Abstract decorative element below hero -->
+        <div class="mt-20 w-full max-w-[1000px] relative z-10 rounded-2xl glass-panel p-2 glow-border shadow-2xl shadow-primary/10">
+          <div class="w-full h-[300px] md:h-[400px] rounded-xl bg-surface-dark border border-border-color overflow-hidden relative flex items-center justify-center bg-[radial-gradient(circle_at_50%_50%,rgba(179,218,242,0.05)_0%,transparent_50%),linear-gradient(to_bottom,var(--color-surface-dark),var(--color-background-dark))]">
+            <!-- Mock Terminal UI -->
+            <div class="w-full h-full flex flex-col text-left p-6 font-mono text-sm text-slate-400">
+              <div class="flex gap-2 mb-6">
+                <div class="size-3 rounded-full bg-red-500/50"></div>
+                <div class="size-3 rounded-full bg-yellow-500/50"></div>
+                <div class="size-3 rounded-full bg-green-500/50"></div>
+              </div>
+              <div class="space-y-3 opacity-80">
+                <p><span class="text-primary">&gt;</span> Analyzing project requirements...</p>
+                <p><span class="text-primary">&gt;</span> Expected user load: 1M+ active users</p>
+                <p><span class="text-primary">&gt;</span> Data processing: Real-time</p>
+                <p><span class="text-primary">&gt;</span> Evaluating architectural patterns...</p>
+                <p class="text-slate-500 mt-4">Generating optimal tech stack...</p>
+                <div class="mt-4 p-4 rounded bg-white/5 border border-white/10 text-white font-sans max-w-md">
+                  <div class="flex items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined text-green-400">check_circle</span>
+                    <span class="font-bold">Recommended Architecture</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2 mt-4 text-xs">
+                    <div class="p-2 rounded bg-surface-light border border-border-color">Frontend: Next.js</div>
+                    <div class="p-2 rounded bg-surface-light border border-border-color">Backend: Go Microservices</div>
+                    <div class="p-2 rounded bg-surface-light border border-border-color">Database: PostgreSQL</div>
+                    <div class="p-2 rounded bg-surface-light border border-border-color">Cache: Redis</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Problem -->
+      <section class="w-full px-6 py-24 md:px-12 lg:px-24 bg-surface-dark/50 border-y border-border-color" id="problema">
+        <div class="mx-auto max-w-[1200px] flex flex-col gap-16">
+          <div class="flex flex-col items-center text-center gap-4 max-w-[800px] mx-auto">
+            <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight text-white">
+              O Problema da <span class="text-slate-400">Arquitetura</span>
+            </h2>
+            <p class="text-lg text-slate-400 font-medium">
+              Escolher a tecnologia errada custa tempo, dinheiro e sanidade. A falta de visão sistêmica leva ao caos no desenvolvimento.
+            </p>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-6 hover:-translate-y-1 transition-transform duration-300">
+              <div class="size-14 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-3xl">hub</span>
+              </div>
+              <div class="flex flex-col gap-3">
+                <h3 class="font-display text-xl font-bold text-white">Decisões Descentralizadas</h3>
+                <p class="text-slate-400 leading-relaxed">Falta de coesão e padronização entre times. Cada equipe escolhe uma tecnologia diferente, criando um Frankenstein arquitetural impossível de manter.</p>
+              </div>
+            </div>
+            
+            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-6 hover:-translate-y-1 transition-transform duration-300">
+              <div class="size-14 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400">
+                <span class="material-symbols-outlined text-3xl">stacks</span>
+              </div>
+              <div class="flex flex-col gap-3">
+                <h3 class="font-display text-xl font-bold text-white">Confusão de Stack</h3>
+                <p class="text-slate-400 leading-relaxed">Excesso de tecnologias sem necessidade clara. Adotar ferramentas apenas porque são 'hype', ignorando os reais requisitos do projeto.</p>
+              </div>
+            </div>
+            
+            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-6 hover:-translate-y-1 transition-transform duration-300">
+              <div class="size-14 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-400">
+                <span class="material-symbols-outlined text-3xl">trending_down</span>
+              </div>
+              <div class="flex flex-col gap-3">
+                <h3 class="font-display text-xl font-bold text-white">Débito de Escalabilidade</h3>
+                <p class="text-slate-400 leading-relaxed">Custos altos e lentidão para escalar o sistema. Quando o sucesso chega, a arquitetura cede e o refatoramento custa meses de trabalho.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Solution & Features -->
+      <section class="w-full px-6 py-24 md:px-12 lg:px-24 relative overflow-hidden" id="solucao">
+        <div class="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary-dark/10 rounded-full blur-[100px] -translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+        <div class="mx-auto max-w-[1200px] flex flex-col lg:flex-row gap-16 items-center">
+          <div class="flex flex-1 flex-col gap-8">
+            <div class="inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5">
+              <span class="text-xs font-semibold tracking-widest text-primary uppercase">Solução Estruturada</span>
+            </div>
+            <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
+              A stack perfeita, <br/>escolhida por IA
+            </h2>
+            <p class="text-lg text-slate-400 font-medium">
+              Nossa IA avalia os requisitos de negócio, restrições técnicas e metas de longo prazo para recomendar a arquitetura ideal, gerando documentação completa em minutos.
+            </p>
+            <div class="flex flex-col gap-6 mt-4">
+              <div class="flex items-start gap-4">
+                <div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0 mt-1">
+                  <span class="material-symbols-outlined text-xl">memory</span>
+                </div>
+                <div>
+                  <h4 class="text-white font-bold text-lg">Seleção de Stack via IA</h4>
+                  <p class="text-slate-400 mt-1">Algoritmos avançados que analisam trade-offs e mitigam riscos técnicos antes da primeira linha de código.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0 mt-1">
+                  <span class="material-symbols-outlined text-xl">description</span>
+                </div>
+                <div>
+                  <h4 class="text-white font-bold text-lg">Geração Automatizada de PRD</h4>
+                  <p class="text-slate-400 mt-1">Documentos de requisitos detalhados (PRD) gerados instantaneamente, alinhando engenharia e produto.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex-1 w-full relative">
+            <div class="relative z-10 w-full aspect-square md:aspect-[4/3] rounded-2xl glass-panel glow-border p-4 flex flex-col gap-4">
+              <div class="flex justify-between items-center border-b border-border-color pb-4">
+                <div class="text-white font-medium">Architecture Overview</div>
+                <div class="flex gap-2">
+                  <span class="size-2.5 rounded-full bg-slate-700"></span>
+                  <span class="size-2.5 rounded-full bg-slate-700"></span>
+                  <span class="size-2.5 rounded-full bg-slate-700"></span>
+                </div>
+              </div>
+              <div class="flex-1 grid grid-cols-2 gap-4">
+                <div class="rounded-xl border border-primary/30 bg-primary/5 p-4 flex flex-col items-center justify-center gap-3 text-center relative overflow-hidden">
+                  <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none"></div>
+                  <span class="material-symbols-outlined text-4xl text-primary">check_circle</span>
+                  <div>
+                    <div class="text-white font-bold text-sm">Frontend</div>
+                    <div class="text-slate-400 text-xs mt-1">React + Next.js</div>
+                  </div>
+                  <div class="absolute top-2 right-2 flex items-center gap-1 text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                    <span class="material-symbols-outlined text-[10px]">auto_awesome</span> Selected
+                  </div>
+                </div>
+                <div class="rounded-xl border border-border-color bg-surface-dark p-4 flex flex-col items-center justify-center gap-3 text-center opacity-70">
+                  <span class="material-symbols-outlined text-4xl text-slate-500">api</span>
+                  <div>
+                    <div class="text-white font-bold text-sm">API Gateway</div>
+                    <div class="text-slate-500 text-xs mt-1">GraphQL / Apollo</div>
+                  </div>
+                </div>
+                <div class="rounded-xl border border-border-color bg-surface-dark p-4 flex flex-col items-center justify-center gap-3 text-center opacity-70">
+                  <span class="material-symbols-outlined text-4xl text-slate-500">database</span>
+                  <div>
+                    <div class="text-white font-bold text-sm">Database</div>
+                    <div class="text-slate-500 text-xs mt-1">PostgreSQL + Prisma</div>
+                  </div>
+                </div>
+                <div class="rounded-xl border border-primary/30 bg-primary/5 p-4 flex flex-col items-center justify-center gap-3 text-center relative overflow-hidden">
+                  <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none"></div>
+                  <span class="material-symbols-outlined text-4xl text-primary">check_circle</span>
+                  <div>
+                    <div class="text-white font-bold text-sm">Infrastructure</div>
+                    <div class="text-slate-400 text-xs mt-1">AWS / Kubernetes</div>
+                  </div>
+                  <div class="absolute top-2 right-2 flex items-center gap-1 text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                    <span class="material-symbols-outlined text-[10px]">auto_awesome</span> Selected
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="absolute -bottom-8 -right-8 w-48 rounded-xl glass-panel p-4 flex items-center gap-4 z-20 border border-primary/20 shadow-xl shadow-background-dark">
+              <div class="size-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
+                <span class="material-symbols-outlined">description</span>
+              </div>
+              <div>
+                <div class="text-white text-xs font-bold">PRD Generated</div>
+                <div class="text-slate-400 text-[10px]">Just now</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Benefits -->
+      <section class="w-full px-6 py-24 md:px-12 lg:px-24 bg-surface-dark/30 border-t border-border-color" id="beneficios">
+        <div class="mx-auto max-w-[1200px] flex flex-col gap-16">
+          <div class="flex flex-col items-center text-center gap-4 max-w-[800px] mx-auto">
+            <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight text-white">
+              Benefícios a longo prazo
+            </h2>
+            <p class="text-lg text-slate-400 font-medium">
+              Construa uma base sólida para o futuro. Sistemas que nascem com a arquitetura certa escalam sem fricção.
+            </p>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="glass-panel p-6 rounded-2xl flex flex-col gap-4 group hover:bg-surface-light transition-colors">
+              <div class="size-12 rounded-full bg-surface-dark border border-border-color flex items-center justify-center text-white group-hover:text-primary group-hover:border-primary/50 transition-colors">
+                <span class="material-symbols-outlined text-2xl">shield</span>
+              </div>
+              <div>
+                <h3 class="font-display text-lg font-bold text-white mb-2">Segurança</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Mitigação proativa de vulnerabilidades com escolhas sólidas e validadas pela indústria.</p>
+              </div>
+            </div>
+            
+            <div class="glass-panel p-6 rounded-2xl flex flex-col gap-4 group hover:bg-surface-light transition-colors">
+              <div class="size-12 rounded-full bg-surface-dark border border-border-color flex items-center justify-center text-white group-hover:text-primary group-hover:border-primary/50 transition-colors">
+                <span class="material-symbols-outlined text-2xl">moving</span>
+              </div>
+              <div>
+                <h3 class="font-display text-lg font-bold text-white mb-2">Escalabilidade</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Arquitetura resiliente pronta para suportar de centenas a milhões de usuários simultâneos.</p>
+              </div>
+            </div>
+            
+            <div class="glass-panel p-6 rounded-2xl flex flex-col gap-4 group hover:bg-surface-light transition-colors">
+              <div class="size-12 rounded-full bg-surface-dark border border-border-color flex items-center justify-center text-white group-hover:text-primary group-hover:border-primary/50 transition-colors">
+                <span class="material-symbols-outlined text-2xl">search</span>
+              </div>
+              <div>
+                <h3 class="font-display text-lg font-bold text-white mb-2">Clareza</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Visão cristalina do roadmap técnico, alinhando engenharia com objetivos de negócios.</p>
+              </div>
+            </div>
+            
+            <div class="glass-panel p-6 rounded-2xl flex flex-col gap-4 group hover:bg-surface-light transition-colors">
+              <div class="size-12 rounded-full bg-surface-dark border border-border-color flex items-center justify-center text-white group-hover:text-primary group-hover:border-primary/50 transition-colors">
+                <span class="material-symbols-outlined text-2xl">menu_book</span>
+              </div>
+              <div>
+                <h3 class="font-display text-lg font-bold text-white mb-2">Educação</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Aprenda as melhores práticas de engenharia durante o processo de estruturação.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Final CTA -->
+      <section class="w-full px-6 py-32 md:px-12 lg:px-24">
+        <div class="mx-auto max-w-[1000px] relative">
+          <div class="absolute -inset-[2px] rounded-[2rem] bg-gradient-to-r from-primary to-primary-dark opacity-30 blur-lg"></div>
+          <div class="absolute -inset-[1px] rounded-[2rem] bg-gradient-to-r from-primary to-primary-dark opacity-50"></div>
+          <div class="relative bg-background-dark rounded-[2rem] p-12 md:p-20 flex flex-col items-center text-center gap-8 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://placeholder.pics/svg/800x400')] opacity-5 bg-cover bg-center pointer-events-none"></div>
+            <div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px]"></div>
+            <h2 class="font-display text-4xl md:text-6xl font-black tracking-tight text-white relative z-10">
+              O futuro do seu código <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-dark">começa agora.</span>
+            </h2>
+            <p class="text-xl text-slate-400 max-w-[600px] relative z-10">
+              Pare de adivinhar sua stack. Comece a construir com certeza e escala desde o dia zero.
+            </p>
+            <a href="/app" class="relative z-10 mt-4 flex cursor-pointer items-center justify-center rounded-full bg-white text-background-dark hover:bg-slate-200 transition-colors px-10 py-5 text-lg font-bold tracking-wide shadow-[0_0_30px_rgba(255,255,255,0.2)] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark">
+              Começar meu Projeto
+              <span class="material-symbols-outlined ml-2">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

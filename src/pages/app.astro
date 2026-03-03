@@ -1,0 +1,497 @@
+---
+import Layout from '../layouts/Layout.astro';
+export const prerender = false;
+---
+
+<Layout title="BuildCode | Arquiteto de Software">
+  <div class="relative flex flex-col min-h-screen bg-background-dark overflow-hidden">
+    
+    <!-- Background decorative grid -->
+    <div class="absolute inset-0 z-0 pointer-events-none"
+      style="background-image: radial-gradient(circle at 2px 2px, rgba(179,218,242,0.04) 1px, transparent 0); background-size: 40px 40px;">
+    </div>
+    <!-- Glow orbs -->
+    <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full blur-[120px] pointer-events-none bg-primary/10"></div>
+    <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] rounded-full blur-[120px] pointer-events-none bg-primary-dark/10"></div>
+
+    <!-- TOP NAV -->
+    <header class="relative z-20 flex items-center justify-between px-8 py-4 border-b border-border-color glass-panel">
+      <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <img src="/logo_backofff.png" alt="BuildCode" class="h-8 w-auto object-contain" />
+        <span class="font-display text-lg font-bold text-white tracking-tight hidden sm:block">BuildCode</span>
+      </a>
+
+      <!-- Progress Stepper (center) -->
+      <div class="hidden md:flex flex-col items-center flex-1 max-w-xl px-12">
+        <div class="flex justify-between w-full mb-2 text-[10px] uppercase tracking-widest font-bold text-slate-500">
+          <span id="step-lbl-1" class="text-primary transition-colors">Contexto</span>
+          <span id="step-lbl-2" class="transition-colors">Escalabilidade</span>
+          <span id="step-lbl-3" class="transition-colors">Natureza</span>
+          <span id="step-lbl-4" class="transition-colors">Resultado</span>
+        </div>
+        <div class="w-full h-[2px] bg-surface-dark rounded-full relative overflow-hidden">
+          <div id="progress-bar" class="absolute top-0 left-0 h-full bg-primary shadow-[0_0_10px_rgba(179,218,242,0.6)] rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Right: User -->
+      <div class="flex items-center gap-4">
+        <div class="w-8 h-8 rounded-full border border-border-color bg-surface-dark flex items-center justify-center">
+          <span class="material-symbols-outlined text-slate-400 text-sm">person</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="relative z-10 flex flex-1 gap-6 p-6 max-w-[1440px] mx-auto w-full">
+
+      <!-- LEFT SIDEBAR: Insights -->
+      <aside class="w-72 hidden xl:flex flex-col gap-6 shrink-0">
+        <div class="glass-panel rounded-2xl p-6 flex flex-col gap-6">
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-4">Architecture Insights</h3>
+            <div class="flex flex-col gap-4">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-400">Estimativa de Custo</span>
+                <span id="insight-cost" class="text-sm font-semibold text-green-400">—</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-400">Complexidade</span>
+                <span id="insight-complexity" class="text-sm font-semibold text-white">—</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-400">Time-to-Market</span>
+                <span id="insight-ttm" class="text-sm font-semibold text-white">—</span>
+              </div>
+            </div>
+          </div>
+          <!-- Live suggestion box -->
+          <div class="pt-6 border-t border-border-color">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Sugestão Live</h3>
+            <div class="p-3 bg-surface-dark/70 rounded-lg border border-border-color">
+              <p id="insight-tip" class="text-[11px] leading-relaxed text-slate-300">Preencha o formulário para receber sugestões em tempo real.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Status -->
+        <div class="glass-panel rounded-2xl p-4 flex items-center gap-3 mt-auto">
+          <div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+          <span class="text-xs font-medium text-slate-400">AI Engine: Online & Analisando</span>
+        </div>
+      </aside>
+
+      <!-- CENTER: Wizard -->
+      <section class="flex-1 flex flex-col items-center justify-center gap-8 py-8">
+        <form id="wizard-form" class="w-full max-w-5xl">
+
+          <!-- STEP 1: Contexto -->
+          <div class="step flex flex-col items-center gap-8" data-step="1">
+            <div class="text-center max-w-2xl space-y-3">
+              <h2 class="font-display text-4xl lg:text-5xl font-black text-white tracking-tight">
+                Defina a <span class="text-primary">Alma</span> do seu Software.
+              </h2>
+              <p class="text-slate-400 text-lg font-medium">Descreva o propósito real do sistema e o problema que ele resolve.</p>
+            </div>
+            <textarea
+              id="contexto"
+              name="contexto"
+              rows="5"
+              required
+              class="w-full glass-panel rounded-2xl p-6 text-white text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all resize-none leading-relaxed"
+              placeholder="Ex: Quero criar um SaaS para barbearias gerenciarem agendamentos e finanças. Os usuários marcarão horários via link ou WhatsApp..."
+            ></textarea>
+            <div class="flex justify-end w-full">
+              <button type="button" data-next class="next-btn flex items-center gap-3 px-10 py-4 bg-primary text-background-dark rounded-xl font-bold shadow-[0_0_20px_rgba(179,218,242,0.3)] hover:shadow-[0_0_35px_rgba(179,218,242,0.5)] hover:-translate-y-0.5 transition-all group">
+                Próxima Etapa
+                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Escalabilidade -->
+          <div class="step hidden flex-col items-center gap-8" data-step="2">
+            <div class="text-center max-w-2xl space-y-3">
+              <h2 class="font-display text-4xl lg:text-5xl font-black text-white tracking-tight">
+                Qual o volume de <span class="text-primary">usuários</span> esperado?
+              </h2>
+              <p class="text-slate-400 text-lg font-medium">Nos primeiros 6–12 meses de operação.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+              <label class="cursor-pointer group">
+                <input type="radio" name="escala" value="MVP" class="peer sr-only" required />
+                <div class="glass-panel rounded-2xl p-8 flex flex-col gap-4 text-left transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
+                  <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center group-[.peer:checked+&]:bg-primary transition-colors">
+                    <span class="material-symbols-outlined text-primary group-[.peer:checked+&]:text-background-dark">rocket_launch</span>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-white text-lg">MVP</h4>
+                    <p class="text-sm text-slate-400 mt-1">&lt;10k usuários ativos</p>
+                  </div>
+                  <p class="text-xs text-slate-500 leading-relaxed mt-2">Foco em validação e agilidade. Arquitetura enxuta para crescimento orgânico.</p>
+                </div>
+              </label>
+              <label class="cursor-pointer group">
+                <input type="radio" name="escala" value="Global" class="peer sr-only" />
+                <div class="glass-panel rounded-2xl p-8 flex flex-col gap-4 text-left transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
+                  <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center transition-colors">
+                    <span class="material-symbols-outlined text-primary">public</span>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-white text-lg">Escala Global</h4>
+                    <p class="text-sm text-slate-400 mt-1">&gt;1M usuários ativos</p>
+                  </div>
+                  <p class="text-xs text-slate-500 leading-relaxed mt-2">Distribuído, Multi-region e Alta disponibilidade. Pronto para o mundo.</p>
+                </div>
+              </label>
+              <label class="cursor-pointer group">
+                <input type="radio" name="escala" value="Enterprise" class="peer sr-only" />
+                <div class="glass-panel rounded-2xl p-8 flex flex-col gap-4 text-left transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
+                  <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center transition-colors">
+                    <span class="material-symbols-outlined text-primary">hub</span>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-white text-lg">Enterprise</h4>
+                    <p class="text-sm text-slate-400 mt-1">Alta densidade de dados</p>
+                  </div>
+                  <p class="text-xs text-slate-500 leading-relaxed mt-2">Foco em governança, segurança e integrações complexas de legado.</p>
+                </div>
+              </label>
+            </div>
+
+            <div class="flex items-center gap-6">
+              <button type="button" class="prev-btn px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">Voltar</button>
+              <button type="button" class="next-btn flex items-center gap-3 px-10 py-4 bg-primary text-background-dark rounded-xl font-bold shadow-[0_0_20px_rgba(179,218,242,0.3)] hover:shadow-[0_0_35px_rgba(179,218,242,0.5)] hover:-translate-y-0.5 transition-all group">
+                Próxima Etapa
+                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Natureza -->
+          <div class="step hidden flex-col items-center gap-8" data-step="3">
+            <div class="text-center max-w-2xl space-y-3">
+              <h2 class="font-display text-4xl lg:text-5xl font-black text-white tracking-tight">
+                Qual a <span class="text-primary">natureza</span> da plataforma?
+              </h2>
+              <p class="text-slate-400 text-lg font-medium">Para qual(is) dispositivo(s) o sistema será projetado?</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+              <label class="cursor-pointer group">
+                <input type="radio" name="natureza" value="Web" class="peer sr-only" required />
+                <div class="glass-panel rounded-2xl p-8 flex flex-col items-center gap-4 transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
+                  <span class="material-symbols-outlined text-4xl text-primary">web</span>
+                  <div class="text-center">
+                    <h4 class="font-bold text-white text-lg">Apenas Web</h4>
+                    <p class="text-xs text-slate-500 mt-1">SaaS, Dashboard, Portal</p>
+                  </div>
+                </div>
+              </label>
+              <label class="cursor-pointer group">
+                <input type="radio" name="natureza" value="Mobile" class="peer sr-only" />
+                <div class="glass-panel rounded-2xl p-8 flex flex-col items-center gap-4 transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
+                  <span class="material-symbols-outlined text-4xl text-primary">smartphone</span>
+                  <div class="text-center">
+                    <h4 class="font-bold text-white text-lg">App Mobile</h4>
+                    <p class="text-xs text-slate-500 mt-1">iOS, Android (React Native)</p>
+                  </div>
+                </div>
+              </label>
+              <label class="cursor-pointer group">
+                <input type="radio" name="natureza" value="Web + Mobile" class="peer sr-only" />
+                <div class="glass-panel rounded-2xl p-8 flex flex-col items-center gap-4 transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
+                  <span class="material-symbols-outlined text-4xl text-primary">devices</span>
+                  <div class="text-center">
+                    <h4 class="font-bold text-white text-lg">Cross-Platform</h4>
+                    <p class="text-xs text-slate-500 mt-1">Web + Mobile unificado</p>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <div class="flex items-center gap-6">
+              <button type="button" class="prev-btn px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">Voltar</button>
+              <button type="button" id="generate-btn" class="flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-cta to-yellow-600 text-background-dark rounded-xl font-black shadow-[0_0_20px_rgba(242,171,109,0.4)] hover:shadow-[0_0_35px_rgba(242,171,109,0.6)] hover:-translate-y-0.5 transition-all group">
+                <span class="material-symbols-outlined">auto_awesome</span>
+                Gerar PRD Arquitetural
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Loading -->
+          <div class="step hidden flex-col items-center justify-center gap-6 py-16 text-center" data-step="4">
+            <div class="size-20 rounded-full border-4 border-surface-dark border-t-primary animate-spin"></div>
+            <h2 class="font-display text-2xl font-bold text-white">Analisando Arquitetura...</h2>
+            <p id="loading-msg" class="font-mono text-sm text-primary h-5">Validando padrões de escalabilidade...</p>
+          </div>
+
+          <!-- STEP 5: Resultado -->
+          <div class="step hidden flex-col gap-6 w-full" data-step="5">
+            <div class="flex items-center justify-between">
+              <h2 class="font-display text-2xl font-bold text-white">Seu PRD Estratégico</h2>
+              <button type="button" id="copy-btn" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-border-color bg-surface-dark text-xs text-slate-300 hover:text-white hover:bg-surface-light transition-colors">
+                <span class="material-symbols-outlined text-sm">content_copy</span> COPIAR MARKDOWN
+              </button>
+            </div>
+            <div class="relative bg-[#05080A] rounded-2xl border border-primary/20 overflow-hidden">
+              <div class="flex items-center gap-2 px-4 py-3 border-b border-border-color bg-surface-dark">
+                <span class="size-3 rounded-full bg-red-500/80"></span>
+                <span class="size-3 rounded-full bg-yellow-500/80"></span>
+                <span class="size-3 rounded-full bg-green-500/80"></span>
+                <span class="font-mono text-[10px] text-slate-500 ml-2">architecture_prd.md</span>
+              </div>
+              <textarea id="prd-output" readonly class="w-full min-h-[450px] bg-transparent text-slate-300 font-mono text-xs md:text-sm p-6 resize-none focus:outline-none" style="scrollbar-color: #364C59 transparent;"></textarea>
+            </div>
+            <div class="flex justify-center">
+              <button type="button" class="restart-btn px-8 py-3 rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-colors">
+                Iniciar Novo Projeto
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 px-8 py-4 text-center border-t border-border-color bg-background-dark/30">
+      <p class="text-[10px] text-slate-600 uppercase tracking-widest font-semibold">BuildCode AI Engine v1.0 — © 2026</p>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .step { display: flex; }
+  .step.hidden { display: none; }
+
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .step:not(.hidden) {
+    animation: fade-in-up 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let currentStep = 1;
+    const totalSteps = 3;
+
+    const steps = document.querySelectorAll('.step') as NodeListOf<HTMLElement>;
+    const progressBar = document.getElementById('progress-bar') as HTMLElement;
+    const stepLabels = [
+      document.getElementById('step-lbl-1'),
+      document.getElementById('step-lbl-2'),
+      document.getElementById('step-lbl-3'),
+      document.getElementById('step-lbl-4'),
+    ];
+
+    // Insight sidebar refs
+    const insightCost = document.getElementById('insight-cost')!;
+    const insightComplexity = document.getElementById('insight-complexity')!;
+    const insightTtm = document.getElementById('insight-ttm')!;
+    const insightTip = document.getElementById('insight-tip')!;
+
+    const prdOutput = document.getElementById('prd-output') as HTMLTextAreaElement;
+    const form = document.getElementById('wizard-form') as HTMLFormElement;
+
+    function updateProgress(step: number) {
+      const pct = ((step - 1) / totalSteps) * 100;
+      progressBar.style.width = `${pct}%`;
+
+      stepLabels.forEach((lbl, i) => {
+        if (!lbl) return;
+        lbl.classList.toggle('text-primary', i + 1 === step);
+        lbl.classList.toggle('text-slate-500', i + 1 !== step);
+      });
+    }
+
+    function showStep(step: number) {
+      steps.forEach(el => {
+        el.classList.add('hidden');
+      });
+      const active = document.querySelector(`.step[data-step="${step}"]`) as HTMLElement | null;
+      if (active) active.classList.remove('hidden');
+      updateProgress(step);
+    }
+
+    function updateInsights(scale?: string, nature?: string) {
+      if (!scale) return;
+      const costMap: Record<string, string>  = { MVP: 'Baixa', Global: 'Alta', Enterprise: 'Muito Alta' };
+      const compMap: Record<string, string>  = { MVP: 'Moderada', Global: 'Alta', Enterprise: 'Muito Alta' };
+      const ttmMap:  Record<string, string>  = { MVP: 'Rápido', Global: 'Médio', Enterprise: 'Longo' };
+      const tipMap:  Record<string, string>  = {
+        MVP: 'Com baixa volumetria, considere Serverless para otimização de custos operacionais.',
+        Global: 'Em escala global, invista em CDN edge + arquitetura distribuída multi-region.',
+        Enterprise: 'Para Enterprise, priorize auditoria, RBAC granular e integrações via API Gateway.',
+      };
+      insightCost.textContent = costMap[scale] || '—';
+      insightComplexity.textContent = compMap[scale] || '—';
+      insightTtm.textContent = ttmMap[scale] || '—';
+      insightTip.textContent = tipMap[scale] || 'Aguardando seleção...';
+    }
+
+    // Event listeners for radio change on step 2
+    document.querySelectorAll('input[name="escala"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        updateInsights((e.target as HTMLInputElement).value);
+      });
+    });
+
+    document.querySelectorAll('.next-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (currentStep === 1) {
+          const ctx = document.getElementById('contexto') as HTMLTextAreaElement;
+          if (!ctx.value.trim()) {
+            ctx.classList.add('border-red-500', 'ring-1', 'ring-red-500/50');
+            return;
+          }
+          ctx.classList.remove('border-red-500', 'ring-1', 'ring-red-500/50');
+        }
+        if (currentStep < totalSteps) {
+          currentStep++;
+          showStep(currentStep);
+        }
+      });
+    });
+
+    document.querySelectorAll('.prev-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (currentStep > 1) { currentStep--; showStep(currentStep); }
+      });
+    });
+
+    // AI Generate
+    const generateBtn = document.getElementById('generate-btn');
+    if (generateBtn) {
+      generateBtn.addEventListener('click', () => {
+        const escala = form.querySelector('input[name="escala"]:checked') as HTMLInputElement | null;
+        const natureza = form.querySelector('input[name="natureza"]:checked') as HTMLInputElement | null;
+        const contexto = (document.getElementById('contexto') as HTMLTextAreaElement).value;
+
+        if (!escala || !natureza) {
+          alert('Por favor, selecione todas as opções antes de continuar.');
+          return;
+        }
+
+        // Show Loading Step
+        showStep(4);
+
+        const msgs = [
+          'Validando padrões de escalabilidade...',
+          'Mapeando topologia de banco de dados...',
+          'Selecionando stack ideal para o contexto...',
+          'Redigindo especificações técnicas...',
+          'Finalizando PRD...',
+        ];
+        let i = 0;
+        const loadingMsg = document.getElementById('loading-msg')!;
+        const interval = setInterval(() => {
+          if (i < msgs.length) { loadingMsg.textContent = msgs[i]; i++; }
+          else {
+            clearInterval(interval);
+            setTimeout(() => {
+              generatePRD(contexto, escala.value, natureza.value);
+              showStep(5);
+            }, 400);
+          }
+        }, 700);
+      });
+    }
+
+    function generatePRD(context: string, scale: string, nature: string) {
+      const stacks: Record<string, { fe: string; be: string; db: string; infra: string; custo: string }> = {
+        MVP: {
+          fe: 'Astro + React (Islands)',
+          be: 'Node.js (NestJS) + Supabase Edge Functions',
+          db: 'PostgreSQL via Supabase',
+          infra: 'Vercel (Frontend) + Supabase Managed',
+          custo: '$0 a $50 / mês',
+        },
+        Global: {
+          fe: 'Next.js (App Router) + CDN Edge',
+          be: 'Go (Microserviços) + Redis + Kafka',
+          db: 'PostgreSQL (RDS Multi-AZ) + Redis Cache',
+          infra: 'AWS EKS (Kubernetes) / GCP Cloud Run',
+          custo: '$500 a $3000+ / mês',
+        },
+        Enterprise: {
+          fe: 'Next.js + Monorepo (Turborepo)',
+          be: 'Go + Java Spring Boot + API Gateway',
+          db: 'PostgreSQL + Elasticsearch + Redis',
+          infra: 'AWS / Azure (Multi-region, SLA 99.99%)',
+          custo: '$2000 a $10.000+ / mês',
+        },
+      };
+
+      const s = stacks[scale] || stacks['MVP'];
+      const mobileNote = nature !== 'Web' ? `\n- **Camada Mobile**: React Native (Expo) para iOS e Android` : '';
+
+      prdOutput.value = `# PRD TÉCNICO — BUILDCODE AI
+Gerado em: ${new Date().toLocaleDateString('pt-BR')} | Escala: ${scale} | Plataforma: ${nature}
+
+---
+
+## 1. Contexto de Negócio
+${context}
+
+## 2. Stack Recomendada
+
+| Camada        | Tecnologia                |
+|---------------|--------------------------|
+| Frontend      | ${s.fe}               |
+| Backend       | ${s.be}               |
+| Database      | ${s.db}               |
+| Infraestrutura| ${s.infra}            |${mobileNote}
+
+## 3. Arquitetura Sugerida
+- **Padrão**: Clean Architecture + SOLID
+- **Comunicação**: REST API com contratos OpenAPI (Swagger)
+- **Autenticação**: JWT + OAuth2 (Supabase Auth ou Auth0)
+- **Observabilidade**: Logs centralizados (Datadog / Sentry), Health checks
+
+## 4. Estimativa de Custos
+- **Fase inicial**: ${s.custo}
+- **Estratégia**: Iniciar com tiers gratuitos dos serviços managed e escalar horizontalmente conforme crescimento
+
+## 5. Prompt Base para IA (Copie e cole no seu assistente de código)
+> Atue como Staff Engineer especialista em ${s.be} e ${s.fe}.
+> Meu projeto tem escala ${scale} e será ${nature}.
+> Priorize Clean Architecture, segurança de dados e testes automatizados (TDD).
+> O frontend deve seguir padrões WCAG (Acessibilidade A11y) e design system consistente.
+
+---
+*Este documento foi gerado pelo BuildCode AI e serve como ponto de partida para sua arquitetura.*`;
+    }
+
+    // Copy button
+    const copyBtn = document.getElementById('copy-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(prdOutput.value).then(() => {
+          const prev = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<span class="material-symbols-outlined text-sm text-green-400">check</span> COPIADO!';
+          setTimeout(() => (copyBtn.innerHTML = prev), 2000);
+        });
+      });
+    }
+
+    document.querySelectorAll('.restart-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        form.reset();
+        currentStep = 1;
+        insightCost.textContent = '—';
+        insightComplexity.textContent = '—';
+        insightTtm.textContent = '—';
+        insightTip.textContent = 'Preencha o formulário para receber sugestões em tempo real.';
+        showStep(1);
+      });
+    });
+
+    // Init
+    showStep(1);
+  });
+</script>
