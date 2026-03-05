@@ -1,18 +1,69 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { questions, phases, testesOptions } from '../data/wizard-config';
+import { tooltips } from '../data/tooltips';
+import { skillsMap } from '../data/skills-map';
+import { technologies } from '../data/technologies';
 export const prerender = false;
+
+const totalSteps = 20;
+
+// Logo map for wizard static options (local SVGs)
+const si = (slug: string) => `/icons/${slug}.svg`;
+const optionLogoMap: Record<string, string> = {
+  // Ferramentas
+  cursor: si('cursor'), 'claude-code': si('anthropic'), vscode: si('visualstudiocode'), windsurf: si('codeium'),
+  // Frontend
+  'html-css': si('html5'), astro: si('astro'), react: si('react'), vue: si('vuedotjs'),
+  nextjs: si('nextdotjs'), nuxt: si('nuxtdotjs'), svelte: si('svelte'), angular: si('angular'),
+  solid: si('solid'), remix: si('remix'),
+  // Backend
+  supabase: si('supabase'), firebase: si('firebase'), express: si('express'), nestjs: si('nestjs'),
+  fastify: si('fastify'), fastapi: si('fastapi'), django: si('django'), go: si('go'),
+  rust: si('rust'), spring: si('springboot'), laravel: si('laravel'),
+  // Database
+  'sql-managed': si('postgresql'), 'sql-raw': si('postgresql'), nosql: si('mongodb'), vetorial: si('pinecone'),
+  // Infra
+  vercel: si('vercel'), railway: si('railway'), netlify: si('netlify'), cloudflare: si('cloudflare'),
+  digitalocean: si('digitalocean'), aws: si('amazonaws'), 'docker-vps': si('docker'),
+};
+
+// Serialize tech DB for client-side search (only the fields we need)
+const techDB = technologies.map(t => ({
+  name: t.name,
+  category: t.category,
+  tagline: t.tagline,
+  logo: t.logo,
+  website: t.website,
+  description: t.description,
+  pros: t.pros,
+  cons: t.cons,
+  useCases: t.useCases,
+  language: t.language,
+  typeIcon: t.typeIcon
+}));
 ---
 
 <Layout title="BuildCode | Arquiteto de Software">
   <div class="relative flex flex-col min-h-screen bg-background-dark overflow-hidden">
-    
-    <!-- Background decorative grid -->
-    <div class="absolute inset-0 z-0 pointer-events-none"
-      style="background-image: radial-gradient(circle at 2px 2px, rgba(179,218,242,0.04) 1px, transparent 0); background-size: 40px 40px;">
+
+    <!-- Three.js Canvas Background -->
+    <canvas id="three-canvas" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+    <!-- Background decorative -->
+    <div class="absolute inset-0 z-[1] pointer-events-none"
+      style="background-image: radial-gradient(circle at 2px 2px, rgba(46,116,139,0.04) 1px, transparent 0); background-size: 40px 40px;">
     </div>
-    <!-- Glow orbs -->
-    <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full blur-[120px] pointer-events-none bg-primary/10"></div>
-    <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] rounded-full blur-[120px] pointer-events-none bg-primary-dark/10"></div>
+    <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full blur-[120px] pointer-events-none bg-primary/10 z-[1]"></div>
+    <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] rounded-full blur-[120px] pointer-events-none bg-primary-dark/10 z-[1]"></div>
+
+    <!-- TOOLTIP FLOATING ELEMENT -->
+    <div id="bc-tooltip" class="fixed z-[9999] px-4 py-3 rounded-xl bg-[#0D1117]/95 backdrop-blur-xl border border-primary/30 text-slate-200 text-xs leading-relaxed max-w-xs shadow-[0_8px_32px_rgba(0,0,0,0.6),0_0_20px_rgba(46,116,139,0.15)] pointer-events-none opacity-0 transition-opacity duration-200" style="transform: translateX(-50%)">
+      <div class="flex items-start gap-2">
+        <span class="material-symbols-outlined text-primary text-sm mt-0.5 shrink-0">info</span>
+        <span id="bc-tooltip-text"></span>
+      </div>
+    </div>
 
     <!-- TOP NAV -->
     <header class="relative z-20 flex items-center justify-between px-8 py-4 border-b border-border-color glass-panel">
@@ -21,17 +72,22 @@ export const prerender = false;
         <span class="font-display text-lg font-bold text-white tracking-tight hidden sm:block">BuildCode</span>
       </a>
 
-      <!-- Progress Stepper (center) -->
-      <div class="hidden md:flex flex-col items-center flex-1 max-w-xl px-12">
-        <div class="flex justify-between w-full mb-2 text-[10px] uppercase tracking-widest font-bold text-slate-500">
-          <span id="step-lbl-1" class="text-primary transition-colors">Contexto</span>
-          <span id="step-lbl-2" class="transition-colors">Escalabilidade</span>
-          <span id="step-lbl-3" class="transition-colors">Natureza</span>
-          <span id="step-lbl-4" class="transition-colors">Resultado</span>
+      <!-- Progress Stepper (4 phases) -->
+      <div class="hidden md:flex flex-col items-center flex-1 max-w-2xl px-12">
+        <div class="flex justify-between w-full mb-2">
+          {phases.map((p, i) => (
+            <div class="flex items-center gap-1.5" id={`phase-lbl-${p.id}`}>
+              <span class={`material-symbols-outlined text-sm ${i === 0 ? 'text-primary' : 'text-slate-600'} transition-colors`}>{p.icon}</span>
+              <span class={`text-[10px] uppercase tracking-widest font-bold ${i === 0 ? 'text-primary' : 'text-slate-600'} transition-colors`}>{p.label}</span>
+            </div>
+          ))}
         </div>
         <div class="w-full h-[2px] bg-surface-dark rounded-full relative overflow-hidden">
-          <div id="progress-bar" class="absolute top-0 left-0 h-full bg-primary shadow-[0_0_10px_rgba(179,218,242,0.6)] rounded-full transition-all duration-500" style="width: 0%"></div>
+          <div id="progress-bar" class="absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-secondary shadow-[0_0_15px_rgba(46,116,139,0.5)] rounded-full transition-all duration-700 ease-out" style="width: 0%"></div>
         </div>
+        <!-- hidden elements kept for JS references -->
+        <span id="step-counter" class="sr-only">01 / 20</span>
+        <span id="step-phase-name" class="sr-only">Contexto</span>
       </div>
 
       <!-- Right: User -->
@@ -45,7 +101,7 @@ export const prerender = false;
     <!-- MAIN CONTENT -->
     <main class="relative z-10 flex flex-1 gap-6 p-6 max-w-[1440px] mx-auto w-full">
 
-      <!-- LEFT SIDEBAR: Insights -->
+      <!-- LEFT SIDEBAR: Live Insights -->
       <aside class="w-72 hidden xl:flex flex-col gap-6 shrink-0">
         <div class="glass-panel rounded-2xl p-6 flex flex-col gap-6">
           <div>
@@ -57,24 +113,32 @@ export const prerender = false;
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-sm text-slate-400">Complexidade</span>
-                <span id="insight-complexity" class="text-sm font-semibold text-white">—</span>
+                <div id="insight-complexity" class="flex gap-0.5">
+                  <span class="material-symbols-outlined text-sm text-slate-700">star</span>
+                  <span class="material-symbols-outlined text-sm text-slate-700">star</span>
+                  <span class="material-symbols-outlined text-sm text-slate-700">star</span>
+                  <span class="material-symbols-outlined text-sm text-slate-700">star</span>
+                  <span class="material-symbols-outlined text-sm text-slate-700">star</span>
+                </div>
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-sm text-slate-400">Time-to-Market</span>
                 <span id="insight-ttm" class="text-sm font-semibold text-white">—</span>
               </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-400">Senioridade</span>
+                <span id="insight-level" class="text-sm font-semibold text-primary">—</span>
+              </div>
             </div>
           </div>
-          <!-- Live suggestion box -->
           <div class="pt-6 border-t border-border-color">
-            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Sugestão Live</h3>
+            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">💡 Sugestão Live</h3>
             <div class="p-3 bg-surface-dark/70 rounded-lg border border-border-color">
               <p id="insight-tip" class="text-[11px] leading-relaxed text-slate-300">Preencha o formulário para receber sugestões em tempo real.</p>
             </div>
           </div>
         </div>
 
-        <!-- AI Status -->
         <div class="glass-panel rounded-2xl p-4 flex items-center gap-3 mt-auto">
           <div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
           <span class="text-xs font-medium text-slate-400">AI Engine: Online & Analisando</span>
@@ -85,169 +149,208 @@ export const prerender = false;
       <section class="flex-1 flex flex-col items-center justify-center gap-8 py-8">
         <form id="wizard-form" class="w-full max-w-5xl">
 
-          <!-- STEP 1: Contexto -->
-          <div class="step flex flex-col items-center gap-8" data-step="1">
-            <div class="text-center max-w-2xl space-y-3">
-              <h2 class="font-display text-4xl lg:text-5xl font-black text-white tracking-tight">
-                Defina a <span class="text-primary">Alma</span> do seu Software.
-              </h2>
-              <p class="text-slate-400 text-lg font-medium">Descreva o propósito real do sistema e o problema que ele resolve.</p>
+          <!-- Render all 20 questions dynamically -->
+          {questions.map((q) => (
+            <div class={`step flex ${q.step === 1 ? '' : 'hidden'} flex-col items-center gap-8`} data-step={q.step} data-phase={q.phase}>
+              <div class="text-center max-w-2xl space-y-3">
+                <h2 class="font-display text-3xl lg:text-5xl font-black text-white tracking-tight">
+                  {q.titlePre}{' '}<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">{q.titleHighlight}</span>{' '}{q.titlePost}
+                </h2>
+                <p class="text-slate-400 text-lg font-medium">{q.subtitle}</p>
+                {q.isOptionalForHobby && (
+                  <span id={`optional-badge-${q.step}`} class="hidden inline-flex items-center gap-1 px-3 py-1 rounded-full bg-cta/10 text-cta text-[10px] font-bold uppercase tracking-widest border border-cta/20">
+                    <span class="material-symbols-outlined text-xs">info</span> Opcional para projetos pessoais
+                  </span>
+                )}
+              </div>
+
+              {/* Textarea type */}
+              {q.type === 'textarea' && (
+                <textarea
+                  id={q.name}
+                  name={q.name}
+                  rows="5"
+                  required
+                  class="w-full glass-panel rounded-2xl p-6 text-white text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all resize-none leading-relaxed font-body"
+                  placeholder={q.placeholder}
+                ></textarea>
+              )}
+
+              {/* Radio / Checkbox options */}
+              {(q.type === 'radio' || q.type === 'checkbox') && q.options && (
+                <div class="w-full space-y-6">
+                  {/* Search bar for searchable questions */}
+                  {q.searchable && (
+                    <div class="w-full" data-search-block={q.name} data-db-category={q.dbCategory}>
+                      <div class="relative flex items-center gap-3">
+                        <span class="material-symbols-outlined absolute left-4 text-slate-500 text-lg pointer-events-none">search</span>
+                        <input
+                          type="text"
+                          class="tech-search-input w-full pl-11 pr-4 py-3 rounded-xl glass-panel text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
+                          placeholder={`Buscar ${q.name === 'frontend' ? 'framework frontend' : q.name === 'backend' ? 'tecnologia backend' : q.name === 'database' ? 'banco de dados' : 'plataforma de infra'} no banco...`}
+                          data-for={q.name}
+                          data-category={q.dbCategory}
+                          autocomplete="off"
+                        />
+                        <button
+                          type="button"
+                          class="custom-tech-btn shrink-0 flex items-center gap-2 px-4 py-3 rounded-xl border border-cta/30 bg-cta/10 text-cta text-xs font-bold hover:bg-cta hover:text-background-dark transition-all"
+                          data-for={q.name}
+                          title="Informe uma tecnologia que não está na biblioteca"
+                        >
+                          <span class="material-symbols-outlined text-sm">edit</span>
+                          Personalizar
+                        </button>
+                        <span class="text-[10px] text-slate-600 font-mono shrink-0 pr-1">ESC limpa</span>
+                      </div>
+                      <!-- Custom tech input (hidden by default) -->
+                      <div class="custom-tech-input hidden mt-3 flex items-center gap-3" data-custom-for={q.name}>
+                        <input
+                          type="text"
+                          class="custom-tech-value flex-1 px-4 py-3 rounded-xl glass-panel text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-cta/50 focus:ring-1 focus:ring-cta/50 transition-all border-cta/20"
+                          placeholder="Digite o nome da tecnologia que deseja usar..."
+                          autocomplete="off"
+                        />
+                        <button
+                          type="button"
+                          class="custom-tech-confirm shrink-0 flex items-center gap-2 px-4 py-3 rounded-xl bg-cta text-background-dark text-xs font-bold hover:bg-cta/80 transition-all"
+                          data-for={q.name}
+                        >
+                          <span class="material-symbols-outlined text-sm">check</span>
+                          Confirmar
+                        </button>
+                      </div>
+                      <div
+                        class="tech-search-results hidden mt-3 grid grid-cols-1 md:grid-cols-3 gap-3"
+                        data-results-for={q.name}
+                      ></div>
+                      <p class="tech-search-empty hidden mt-3 text-center text-sm text-slate-600 py-4">Nenhuma tecnologia encontrada. Tente outro termo.</p>
+                      <div class="w-full h-px bg-border-color my-4"></div>
+                    </div>
+                  )}
+
+                  <div class={`grid grid-cols-1 gap-4 w-full ${q.cols === 2 ? 'md:grid-cols-2' : q.cols === 4 ? 'md:grid-cols-4' : 'md:grid-cols-3'}`}>
+                    {q.options.map(opt => (
+                      <label class="cursor-pointer group option-label relative" data-min-level={opt.minLevel || 1}>
+                        <input type={q.type} name={q.name} value={opt.value} class="peer sr-only" />
+                        <div class="glass-panel rounded-2xl p-5 flex flex-col gap-3 text-left transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(46,116,139,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(46,116,139,0.15)] hover:border-primary/40 h-full">
+                          <div class="flex items-start justify-between gap-2">
+                            <div class="size-10 rounded-xl bg-primary/10 group-[.peer:checked+&]:bg-primary transition-colors shrink-0 overflow-hidden relative">
+                              {optionLogoMap[opt.value] ? (
+                                <img src={optionLogoMap[opt.value]} alt={opt.label} class="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                                <span class="material-symbols-outlined text-primary group-[.peer:checked+&]:text-background-dark text-xl hidden items-center justify-center absolute inset-0 w-full h-full">{opt.icon}</span>
+                              ) : (
+                                <span class="material-symbols-outlined text-primary group-[.peer:checked+&]:text-background-dark text-xl flex items-center justify-center absolute inset-0 w-full h-full">{opt.icon}</span>
+                              )}
+                            </div>
+                            {opt.website && (
+                              <button
+                                type="button"
+                                class="info-btn shrink-0 size-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary/40 hover:bg-primary/10 transition-all z-10"
+                                data-tech-name={opt.label}
+                                data-tech-url={opt.website}
+                                title={`Saber mais sobre ${opt.label}`}
+                                onclick="event.preventDefault(); event.stopPropagation();"
+                              >
+                                <span class="material-symbols-outlined text-[16px] pointer-events-none">info</span>
+                              </button>
+                            )}
+                          </div>
+                          <div class="flex-1">
+                            <h4 class="font-bold text-white text-sm">{opt.label}</h4>
+                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">{opt.desc}</p>
+                          </div>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+              )}
+
+              {/* Special: Testes sub-section under Q20 */}
+              {q.step === 20 && (
+                <div class="w-full mt-4">
+                  <h3 class="font-display text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">bug_report</span> Estratégia de Testes
+                  </h3>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {testesOptions.map(opt => (
+                      <label class="cursor-pointer group option-label">
+                        <input type="checkbox" name="testes" value={opt.value} class="peer sr-only" />
+                        <div class="glass-panel rounded-xl p-4 flex items-center gap-4 transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 hover:border-primary/40">
+                          <span class="material-symbols-outlined text-primary text-lg">{opt.icon}</span>
+                          <div>
+                            <h4 class="font-bold text-white text-sm">{opt.label}</h4>
+                            <p class="text-[10px] text-slate-500">{opt.desc}</p>
+                          </div>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <!-- Navigation buttons -->
+              <div class="flex items-center gap-6 mt-4">
+                {q.step > 1 && (
+                  <button type="button" class="prev-btn px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">Voltar</button>
+                )}
+                {q.step < totalSteps ? (
+                  <button type="button" class="next-btn flex items-center gap-3 px-10 py-4 bg-primary text-background-dark rounded-xl font-bold shadow-[0_0_20px_rgba(46,116,139,0.3)] hover:shadow-[0_0_35px_rgba(46,116,139,0.5)] hover:-translate-y-0.5 transition-all group">
+                    Próxima Etapa
+                    <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
+                  </button>
+                ) : (
+                  <button type="button" id="generate-btn" class="flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-cta to-yellow-600 text-background-dark rounded-xl font-black shadow-[0_0_20px_rgba(242,171,109,0.4)] hover:shadow-[0_0_35px_rgba(242,171,109,0.6)] hover:-translate-y-0.5 transition-all group">
+                    <span class="material-symbols-outlined">auto_awesome</span>
+                    Gerar PRD & Prompt Base
+                  </button>
+                )}
+              </div>
             </div>
-            <textarea
-              id="contexto"
-              name="contexto"
-              rows="5"
-              required
-              class="w-full glass-panel rounded-2xl p-6 text-white text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all resize-none leading-relaxed"
-              placeholder="Ex: Quero criar um SaaS para barbearias gerenciarem agendamentos e finanças. Os usuários marcarão horários via link ou WhatsApp..."
-            ></textarea>
-            <div class="flex justify-end w-full">
-              <button type="button" data-next class="next-btn flex items-center gap-3 px-10 py-4 bg-primary text-background-dark rounded-xl font-bold shadow-[0_0_20px_rgba(179,218,242,0.3)] hover:shadow-[0_0_35px_rgba(179,218,242,0.5)] hover:-translate-y-0.5 transition-all group">
-                Próxima Etapa
-                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
-              </button>
+          ))}
+
+          <!-- STEP 21: Loading -->
+          <div class="step hidden flex flex-col items-center justify-center gap-6 py-16 text-center" data-step="21" data-phase="4">
+            <div class="relative">
+              <div class="size-24 rounded-full border-4 border-surface-dark border-t-primary animate-spin"></div>
+              <span class="material-symbols-outlined text-primary text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse">auto_awesome</span>
+            </div>
+            <h2 class="font-display text-2xl font-bold text-white mt-4">Construindo sua Arquitetura...</h2>
+            <p id="loading-msg" class="font-mono text-sm text-primary h-5">Analisando contexto do projeto...</p>
+            <div class="flex gap-2 mt-4">
+              <div class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 0ms"></div>
+              <div class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 150ms"></div>
+              <div class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 300ms"></div>
             </div>
           </div>
 
-          <!-- STEP 2: Escalabilidade -->
-          <div class="step hidden flex-col items-center gap-8" data-step="2">
-            <div class="text-center max-w-2xl space-y-3">
-              <h2 class="font-display text-4xl lg:text-5xl font-black text-white tracking-tight">
-                Qual o volume de <span class="text-primary">usuários</span> esperado?
-              </h2>
-              <p class="text-slate-400 text-lg font-medium">Nos primeiros 6–12 meses de operação.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-              <label class="cursor-pointer group">
-                <input type="radio" name="escala" value="MVP" class="peer sr-only" required />
-                <div class="glass-panel rounded-2xl p-8 flex flex-col gap-4 text-left transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
-                  <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center group-[.peer:checked+&]:bg-primary transition-colors">
-                    <span class="material-symbols-outlined text-primary group-[.peer:checked+&]:text-background-dark">rocket_launch</span>
-                  </div>
-                  <div>
-                    <h4 class="font-bold text-white text-lg">MVP</h4>
-                    <p class="text-sm text-slate-400 mt-1">&lt;10k usuários ativos</p>
-                  </div>
-                  <p class="text-xs text-slate-500 leading-relaxed mt-2">Foco em validação e agilidade. Arquitetura enxuta para crescimento orgânico.</p>
-                </div>
-              </label>
-              <label class="cursor-pointer group">
-                <input type="radio" name="escala" value="Global" class="peer sr-only" />
-                <div class="glass-panel rounded-2xl p-8 flex flex-col gap-4 text-left transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
-                  <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center transition-colors">
-                    <span class="material-symbols-outlined text-primary">public</span>
-                  </div>
-                  <div>
-                    <h4 class="font-bold text-white text-lg">Escala Global</h4>
-                    <p class="text-sm text-slate-400 mt-1">&gt;1M usuários ativos</p>
-                  </div>
-                  <p class="text-xs text-slate-500 leading-relaxed mt-2">Distribuído, Multi-region e Alta disponibilidade. Pronto para o mundo.</p>
-                </div>
-              </label>
-              <label class="cursor-pointer group">
-                <input type="radio" name="escala" value="Enterprise" class="peer sr-only" />
-                <div class="glass-panel rounded-2xl p-8 flex flex-col gap-4 text-left transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
-                  <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center transition-colors">
-                    <span class="material-symbols-outlined text-primary">hub</span>
-                  </div>
-                  <div>
-                    <h4 class="font-bold text-white text-lg">Enterprise</h4>
-                    <p class="text-sm text-slate-400 mt-1">Alta densidade de dados</p>
-                  </div>
-                  <p class="text-xs text-slate-500 leading-relaxed mt-2">Foco em governança, segurança e integrações complexas de legado.</p>
-                </div>
-              </label>
-            </div>
-
-            <div class="flex items-center gap-6">
-              <button type="button" class="prev-btn px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">Voltar</button>
-              <button type="button" class="next-btn flex items-center gap-3 px-10 py-4 bg-primary text-background-dark rounded-xl font-bold shadow-[0_0_20px_rgba(179,218,242,0.3)] hover:shadow-[0_0_35px_rgba(179,218,242,0.5)] hover:-translate-y-0.5 transition-all group">
-                Próxima Etapa
-                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- STEP 3: Natureza -->
-          <div class="step hidden flex-col items-center gap-8" data-step="3">
-            <div class="text-center max-w-2xl space-y-3">
-              <h2 class="font-display text-4xl lg:text-5xl font-black text-white tracking-tight">
-                Qual a <span class="text-primary">natureza</span> da plataforma?
-              </h2>
-              <p class="text-slate-400 text-lg font-medium">Para qual(is) dispositivo(s) o sistema será projetado?</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-              <label class="cursor-pointer group">
-                <input type="radio" name="natureza" value="Web" class="peer sr-only" required />
-                <div class="glass-panel rounded-2xl p-8 flex flex-col items-center gap-4 transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
-                  <span class="material-symbols-outlined text-4xl text-primary">web</span>
-                  <div class="text-center">
-                    <h4 class="font-bold text-white text-lg">Apenas Web</h4>
-                    <p class="text-xs text-slate-500 mt-1">SaaS, Dashboard, Portal</p>
-                  </div>
-                </div>
-              </label>
-              <label class="cursor-pointer group">
-                <input type="radio" name="natureza" value="Mobile" class="peer sr-only" />
-                <div class="glass-panel rounded-2xl p-8 flex flex-col items-center gap-4 transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
-                  <span class="material-symbols-outlined text-4xl text-primary">smartphone</span>
-                  <div class="text-center">
-                    <h4 class="font-bold text-white text-lg">App Mobile</h4>
-                    <p class="text-xs text-slate-500 mt-1">iOS, Android (React Native)</p>
-                  </div>
-                </div>
-              </label>
-              <label class="cursor-pointer group">
-                <input type="radio" name="natureza" value="Web + Mobile" class="peer sr-only" />
-                <div class="glass-panel rounded-2xl p-8 flex flex-col items-center gap-4 transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(179,218,242,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(179,218,242,0.15)] hover:border-primary/40">
-                  <span class="material-symbols-outlined text-4xl text-primary">devices</span>
-                  <div class="text-center">
-                    <h4 class="font-bold text-white text-lg">Cross-Platform</h4>
-                    <p class="text-xs text-slate-500 mt-1">Web + Mobile unificado</p>
-                  </div>
-                </div>
-              </label>
-            </div>
-
-            <div class="flex items-center gap-6">
-              <button type="button" class="prev-btn px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">Voltar</button>
-              <button type="button" id="generate-btn" class="flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-cta to-yellow-600 text-background-dark rounded-xl font-black shadow-[0_0_20px_rgba(242,171,109,0.4)] hover:shadow-[0_0_35px_rgba(242,171,109,0.6)] hover:-translate-y-0.5 transition-all group">
-                <span class="material-symbols-outlined">auto_awesome</span>
-                Gerar PRD Arquitetural
-              </button>
-            </div>
-          </div>
-
-          <!-- STEP 4: Loading -->
-          <div class="step hidden flex-col items-center justify-center gap-6 py-16 text-center" data-step="4">
-            <div class="size-20 rounded-full border-4 border-surface-dark border-t-primary animate-spin"></div>
-            <h2 class="font-display text-2xl font-bold text-white">Analisando Arquitetura...</h2>
-            <p id="loading-msg" class="font-mono text-sm text-primary h-5">Validando padrões de escalabilidade...</p>
-          </div>
-
-          <!-- STEP 5: Resultado -->
-          <div class="step hidden flex-col gap-6 w-full" data-step="5">
+          <!-- STEP 22: Result (PRD + Prompt Base Tabs) -->
+          <div class="step hidden flex flex-col gap-6 w-full" data-step="22" data-phase="4">
+            <!-- Tab Switcher -->
             <div class="flex items-center justify-between">
-              <h2 class="font-display text-2xl font-bold text-white">Seu PRD Estratégico</h2>
+              <div class="flex gap-2">
+                <button type="button" id="tab-prd" class="result-tab px-5 py-2 rounded-lg text-sm font-bold bg-primary/10 text-primary border border-primary/20 transition-all">📋 PRD Estratégico</button>
+                <button type="button" id="tab-prompt" class="result-tab px-5 py-2 rounded-lg text-sm font-bold text-slate-500 border border-transparent hover:text-white transition-all">🚀 Prompt Base</button>
+              </div>
               <button type="button" id="copy-btn" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-border-color bg-surface-dark text-xs text-slate-300 hover:text-white hover:bg-surface-light transition-colors">
-                <span class="material-symbols-outlined text-sm">content_copy</span> COPIAR MARKDOWN
+                <span class="material-symbols-outlined text-sm">content_copy</span> COPIAR
               </button>
             </div>
+            <!-- Output Area -->
             <div class="relative bg-[#05080A] rounded-2xl border border-primary/20 overflow-hidden">
               <div class="flex items-center gap-2 px-4 py-3 border-b border-border-color bg-surface-dark">
                 <span class="size-3 rounded-full bg-red-500/80"></span>
                 <span class="size-3 rounded-full bg-yellow-500/80"></span>
                 <span class="size-3 rounded-full bg-green-500/80"></span>
-                <span class="font-mono text-[10px] text-slate-500 ml-2">architecture_prd.md</span>
+                <span id="output-filename" class="font-mono text-[10px] text-slate-500 ml-2">architecture_prd.md</span>
               </div>
-              <textarea id="prd-output" readonly class="w-full min-h-[450px] bg-transparent text-slate-300 font-mono text-xs md:text-sm p-6 resize-none focus:outline-none" style="scrollbar-color: #364C59 transparent;"></textarea>
+              <textarea id="prd-output" readonly class="w-full min-h-[500px] bg-transparent text-slate-300 font-mono text-xs md:text-sm p-6 resize-none focus:outline-none" style="scrollbar-color: #1C4D5E transparent;"></textarea>
+              <textarea id="prompt-output" readonly class="hidden w-full min-h-[500px] bg-transparent text-slate-300 font-mono text-xs md:text-sm p-6 resize-none focus:outline-none" style="scrollbar-color: #1C4D5E transparent;"></textarea>
             </div>
-            <div class="flex justify-center">
-              <button type="button" class="restart-btn px-8 py-3 rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-colors">
-                Iniciar Novo Projeto
-              </button>
+            <div class="flex justify-center gap-4">
+              <button type="button" class="restart-btn px-8 py-3 rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-colors">Iniciar Novo Projeto</button>
             </div>
           </div>
 
@@ -257,8 +360,75 @@ export const prerender = false;
 
     <!-- FOOTER -->
     <footer class="relative z-10 px-8 py-4 text-center border-t border-border-color bg-background-dark/30">
-      <p class="text-[10px] text-slate-600 uppercase tracking-widest font-semibold">BuildCode AI Engine v1.0 — © 2026</p>
+      <p class="text-[10px] text-slate-600 uppercase tracking-widest font-semibold">BuildCode AI Engine v2.0 — © 2026</p>
     </footer>
+    
+    <!-- TECH INFO MODAL -->
+    <div id="tech-modal" class="fixed inset-0 z-[99999] hidden items-center justify-center px-4 py-8 pointer-events-none opacity-0 transition-opacity duration-300">
+      <!-- Backdrop -->
+      <div id="tech-modal-overlay" class="absolute inset-0 bg-[#06070a]/80 backdrop-blur-sm pointer-events-auto"></div>
+      
+      <!-- Modal Panel -->
+      <div class="relative bg-surface border border-white/10 rounded-3xl w-full max-w-2xl max-h-[90vh] flex flex-col pointer-events-auto shadow-2xl transform scale-95 transition-transform duration-300 overflow-hidden" id="tech-modal-panel">
+        
+        <!-- Header -->
+        <div class="px-6 py-5 border-b border-white/5 flex items-center justify-between shrink-0 bg-surface-dark/50">
+           <div class="flex items-center gap-4">
+              <div class="size-12 rounded-xl bg-black/50 border border-white/5 flex items-center justify-center overflow-hidden p-2 shadow-inner" id="modal-logo-container">
+                 <img id="modal-tech-logo" src="" alt="" class="w-full h-full object-contain" />
+              </div>
+              <div>
+                 <h3 id="modal-tech-name" class="font-display font-bold text-xl text-white tracking-tight leading-none mb-1">Tecnologia</h3>
+                 <div class="flex items-center gap-2">
+                   <span id="modal-tech-language" class="px-2 py-0.5 bg-white/5 text-slate-400 text-[9px] font-bold uppercase tracking-widest rounded-md">Ling</span>
+                 </div>
+              </div>
+           </div>
+           
+           <button type="button" id="close-tech-modal" class="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-colors">
+              <span class="material-symbols-outlined text-[20px]">close</span>
+           </button>
+        </div>
+        
+        <!-- Scrollable Content -->
+        <div class="p-6 md:p-8 overflow-y-auto custom-scrollbar flex-1 space-y-6 bg-gradient-to-b from-transparent to-black/20">
+           
+           <section>
+              <h4 class="text-[10px] text-primary uppercase font-bold tracking-[0.2em] mb-3 flex items-center gap-2">
+                 <span class="material-symbols-outlined text-[14px]">architecture</span> Visão Geral
+              </h4>
+              <p id="modal-tech-desc" class="text-sm text-slate-300 leading-relaxed font-body"></p>
+           </section>
+           
+           <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                 <h4 class="text-[10px] text-[#5A9DB5] uppercase font-bold tracking-[0.2em] mb-3 flex items-center gap-2 border-b border-white/5 pb-2">
+                    <span class="material-symbols-outlined text-[16px]">check_circle</span> Vantagens
+                 </h4>
+                 <ul id="modal-tech-pros" class="space-y-2 mt-3"></ul>
+              </div>
+              <div>
+                 <h4 class="text-[10px] text-cta uppercase font-bold tracking-[0.2em] mb-3 flex items-center gap-2 border-b border-white/5 pb-2">
+                    <span class="material-symbols-outlined text-[16px]">warning</span> Contras
+                 </h4>
+                 <ul id="modal-tech-cons" class="space-y-2 mt-3"></ul>
+              </div>
+           </section>
+           
+           <section class="p-4 rounded-xl bg-primary/5 border border-primary/10 relative overflow-hidden">
+             <div class="absolute left-0 top-0 w-1 h-full bg-primary/50"></div>
+             <h4 class="text-[10px] text-primary uppercase font-bold tracking-[0.2em] mb-2 pl-2">Cena Ideal</h4>
+             <p id="modal-tech-usecases" class="text-sm text-slate-200 font-medium pl-2 leading-relaxed"></p>
+           </section>
+
+           <a id="modal-tech-website" href="#" target="_blank" rel="noopener noreferrer" class="hidden flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-primary/10 border border-primary/20 text-primary text-sm font-bold hover:bg-primary hover:text-background-dark transition-all duration-200 group/link">
+             <span class="material-symbols-outlined text-base group-hover/link:rotate-12 transition-transform">open_in_new</span>
+             Acessar Site Oficial
+           </a>
+
+        </div>
+      </div>
+    </div>
   </div>
 </Layout>
 
@@ -267,231 +437,993 @@ export const prerender = false;
   .step.hidden { display: none; }
 
   @keyframes fade-in-up {
-    from { opacity: 0; transform: translateY(16px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
   .step:not(.hidden) {
-    animation: fade-in-up 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+    animation: fade-in-up 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+
+  /* Tooltip term styling */
+  [data-tip] {
+    cursor: help;
+    border-bottom: 1px dashed rgba(46,116,139,0.5);
+    color: #5A9DB5;
+    transition: color 0.2s;
+  }
+  [data-tip]:hover {
+    color: #F2AB6D;
   }
 </style>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    let currentStep = 1;
-    const totalSteps = 3;
+<script define:vars={{ tooltipData: tooltips, skillsData: skillsMap, totalSteps, techDB }}>
+document.addEventListener('DOMContentLoaded', () => {
+  let currentStep = 1;
+  let userSeniority = 'junior'; // default
+  let userTipo = 'hobby';
 
-    const steps = document.querySelectorAll('.step') as NodeListOf<HTMLElement>;
-    const progressBar = document.getElementById('progress-bar') as HTMLElement;
-    const stepLabels = [
-      document.getElementById('step-lbl-1'),
-      document.getElementById('step-lbl-2'),
-      document.getElementById('step-lbl-3'),
-      document.getElementById('step-lbl-4'),
-    ];
+  const steps = document.querySelectorAll('.step');
+  const progressBar = document.getElementById('progress-bar');
+  const stepCounter = document.getElementById('step-counter');
+  const stepPhaseName = document.getElementById('step-phase-name');
+  const form = document.getElementById('wizard-form');
+  const prdOutput = document.getElementById('prd-output');
+  const promptOutput = document.getElementById('prompt-output');
 
-    // Insight sidebar refs
-    const insightCost = document.getElementById('insight-cost')!;
-    const insightComplexity = document.getElementById('insight-complexity')!;
-    const insightTtm = document.getElementById('insight-ttm')!;
-    const insightTip = document.getElementById('insight-tip')!;
+  // Insight refs
+  const insightCost = document.getElementById('insight-cost');
+  const insightComplexity = document.getElementById('insight-complexity');
+  const insightTtm = document.getElementById('insight-ttm');
+  const insightLevel = document.getElementById('insight-level');
+  const insightTip = document.getElementById('insight-tip');
 
-    const prdOutput = document.getElementById('prd-output') as HTMLTextAreaElement;
-    const form = document.getElementById('wizard-form') as HTMLFormElement;
+  // Tooltip
+  const tooltipEl = document.getElementById('bc-tooltip');
+  const tooltipText = document.getElementById('bc-tooltip-text');
 
-    function updateProgress(step: number) {
-      const pct = ((step - 1) / totalSteps) * 100;
-      progressBar.style.width = `${pct}%`;
+  const phaseNames = ['Contexto', 'Stack Técnica', 'Qualidade', 'Final'];
 
-      stepLabels.forEach((lbl, i) => {
-        if (!lbl) return;
-        lbl.classList.toggle('text-primary', i + 1 === step);
-        lbl.classList.toggle('text-slate-500', i + 1 !== step);
-      });
-    }
+  // ═══════════════════════════════════════════
+  //  STEP NAVIGATION
+  // ═══════════════════════════════════════════
+  function getPhase(step) {
+    if (step <= 5) return 1;
+    if (step <= 12) return 2;
+    if (step <= 18) return 3;
+    return 4;
+  }
 
-    function showStep(step: number) {
-      steps.forEach(el => {
-        el.classList.add('hidden');
-      });
-      const active = document.querySelector(`.step[data-step="${step}"]`) as HTMLElement | null;
-      if (active) active.classList.remove('hidden');
-      updateProgress(step);
-    }
+  function updateProgress(step) {
+    const pct = Math.min(((step - 1) / totalSteps) * 100, 100);
+    progressBar.style.width = `${pct}%`;
+    const s = Math.min(step, totalSteps);
+    stepCounter.textContent = `${String(s).padStart(2, '0')} / ${totalSteps}`;
+    const phase = getPhase(step);
+    stepPhaseName.textContent = phaseNames[phase - 1] || 'Resultado';
 
-    function updateInsights(scale?: string, nature?: string) {
-      if (!scale) return;
-      const costMap: Record<string, string>  = { MVP: 'Baixa', Global: 'Alta', Enterprise: 'Muito Alta' };
-      const compMap: Record<string, string>  = { MVP: 'Moderada', Global: 'Alta', Enterprise: 'Muito Alta' };
-      const ttmMap:  Record<string, string>  = { MVP: 'Rápido', Global: 'Médio', Enterprise: 'Longo' };
-      const tipMap:  Record<string, string>  = {
-        MVP: 'Com baixa volumetria, considere Serverless para otimização de custos operacionais.',
-        Global: 'Em escala global, invista em CDN edge + arquitetura distribuída multi-region.',
-        Enterprise: 'Para Enterprise, priorize auditoria, RBAC granular e integrações via API Gateway.',
-      };
-      insightCost.textContent = costMap[scale] || '—';
-      insightComplexity.textContent = compMap[scale] || '—';
-      insightTtm.textContent = ttmMap[scale] || '—';
-      insightTip.textContent = tipMap[scale] || 'Aguardando seleção...';
-    }
-
-    // Event listeners for radio change on step 2
-    document.querySelectorAll('input[name="escala"]').forEach(radio => {
-      radio.addEventListener('change', (e) => {
-        updateInsights((e.target as HTMLInputElement).value);
-      });
-    });
-
-    document.querySelectorAll('.next-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (currentStep === 1) {
-          const ctx = document.getElementById('contexto') as HTMLTextAreaElement;
-          if (!ctx.value.trim()) {
-            ctx.classList.add('border-red-500', 'ring-1', 'ring-red-500/50');
-            return;
-          }
-          ctx.classList.remove('border-red-500', 'ring-1', 'ring-red-500/50');
-        }
-        if (currentStep < totalSteps) {
-          currentStep++;
-          showStep(currentStep);
+    // Update phase labels
+    for (let i = 1; i <= 4; i++) {
+      const phLbl = document.getElementById(`phase-lbl-${i}`);
+      if (!phLbl) continue;
+      const els = phLbl.querySelectorAll('span');
+      els.forEach(el => {
+        if (i <= phase) {
+          el.classList.remove('text-slate-600');
+          el.classList.add('text-primary');
+        } else {
+          el.classList.remove('text-primary');
+          el.classList.add('text-slate-600');
         }
       });
+    }
+  }
+
+  function showStep(step) {
+    steps.forEach(el => el.classList.add('hidden'));
+    const active = document.querySelector(`.step[data-step="${step}"]`);
+    if (active) active.classList.remove('hidden');
+    updateProgress(step);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Seniority-based option filtering
+  function filterOptionsBySeniority() {
+    const levelMap = { 'junior': 1, 'pleno': 2, 'senior': 3 };
+    const level = levelMap[userSeniority] || 1;
+
+    document.querySelectorAll('.option-label[data-min-level]').forEach(label => {
+      const minLevel = parseInt(label.getAttribute('data-min-level') || '1');
+      if (minLevel > level) {
+        label.style.display = 'none';
+        // Uncheck hidden inputs
+        const input = label.querySelector('input');
+        if (input) input.checked = false;
+      } else {
+        label.style.display = '';
+      }
     });
 
-    document.querySelectorAll('.prev-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (currentStep > 1) { currentStep--; showStep(currentStep); }
-      });
+    // Show/hide optional badges for hobby
+    document.querySelectorAll('[id^="optional-badge-"]').forEach(badge => {
+      badge.classList.toggle('hidden', userTipo !== 'hobby');
+      badge.classList.toggle('inline-flex', userTipo === 'hobby');
     });
+  }
 
-    // AI Generate
-    const generateBtn = document.getElementById('generate-btn');
-    if (generateBtn) {
-      generateBtn.addEventListener('click', () => {
-        const escala = form.querySelector('input[name="escala"]:checked') as HTMLInputElement | null;
-        const natureza = form.querySelector('input[name="natureza"]:checked') as HTMLInputElement | null;
-        const contexto = (document.getElementById('contexto') as HTMLTextAreaElement).value;
+  // Listen for seniority change
+  document.querySelectorAll('input[name="senioridade"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      userSeniority = e.target.value;
+      filterOptionsBySeniority();
+      updateInsights();
+    });
+  });
+  document.querySelectorAll('input[name="tipo"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      userTipo = e.target.value;
+      filterOptionsBySeniority();
+      updateInsights();
+    });
+  });
 
-        if (!escala || !natureza) {
-          alert('Por favor, selecione todas as opções antes de continuar.');
+  // Next / Prev buttons
+  document.querySelectorAll('.next-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Validate current step
+      if (currentStep === 1) {
+        const ctx = document.getElementById('contexto');
+        if (!ctx.value.trim()) {
+          ctx.classList.add('border-red-500', 'ring-1', 'ring-red-500/50');
+          ctx.focus();
           return;
         }
+        ctx.classList.remove('border-red-500', 'ring-1', 'ring-red-500/50');
+      }
+      if (currentStep < totalSteps) {
+        const prevPhase = getPhase(currentStep);
+        currentStep++;
+        const newPhase = getPhase(currentStep);
+        showStep(currentStep);
+        updateInsights();
 
-        // Show Loading Step
-        showStep(4);
+        // Three.js camera dive on phase 1 → phase 2 (Q5 → Q6)
+        if (prevPhase === 1 && newPhase === 2 && typeof window.__bcDive === 'function') {
+          window.__bcDive();
+        }
+      }
+    });
+  });
 
-        const msgs = [
-          'Validando padrões de escalabilidade...',
-          'Mapeando topologia de banco de dados...',
-          'Selecionando stack ideal para o contexto...',
-          'Redigindo especificações técnicas...',
-          'Finalizando PRD...',
-        ];
-        let i = 0;
-        const loadingMsg = document.getElementById('loading-msg')!;
-        const interval = setInterval(() => {
-          if (i < msgs.length) { loadingMsg.textContent = msgs[i]; i++; }
-          else {
-            clearInterval(interval);
-            setTimeout(() => {
-              generatePRD(contexto, escala.value, natureza.value);
-              showStep(5);
-            }, 400);
-          }
-        }, 700);
-      });
+  document.querySelectorAll('.prev-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (currentStep > 1) { currentStep--; showStep(currentStep); updateInsights(); }
+    });
+  });
+
+  // ═══════════════════════════════════════════
+  //  LIVE INSIGHTS ENGINE
+  // ═══════════════════════════════════════════
+  function updateInsights() {
+    const escala = form.querySelector('input[name="escala"]:checked')?.value;
+    const tipo = form.querySelector('input[name="tipo"]:checked')?.value;
+
+    // Cost
+    const costMap = { '50': '$0 – $20/mês', '1000': '$20 – $100/mês', '10000': '$100 – $500/mês', '50000': '$500 – $5k+/mês' };
+    insightCost.textContent = costMap[escala] || '—';
+
+    // Complexity stars
+    const compMap = { '50': 1, '1000': 2, '10000': 3, '50000': 5 };
+    const levelComp = { 'hobby': 0, 'saas': 1, 'enterprise': 2 };
+    let stars = (compMap[escala] || 0) + (levelComp[tipo] || 0);
+    stars = Math.min(stars, 5);
+    const starsHTML = Array.from({ length: 5 }, (_, i) =>
+      `<span class="material-symbols-outlined text-sm ${i < stars ? 'text-cta' : 'text-slate-700'}" style="font-variation-settings: 'FILL' ${i < stars ? 1 : 0}">star</span>`
+    ).join('');
+    insightComplexity.innerHTML = starsHTML;
+
+    // TTM
+    const ttmMap = { '50': '2–4 semanas', '1000': '1–3 meses', '10000': '3–6 meses', '50000': '6–12 meses' };
+    insightTtm.textContent = ttmMap[escala] || '—';
+
+    // Level
+    const levelLbl = { 'junior': '🟢 Júnior', 'pleno': '🟡 Pleno', 'senior': '🔴 Sênior' };
+    insightLevel.textContent = levelLbl[userSeniority] || '—';
+
+    // Tips
+    const tips = {
+      1: 'Descreva seu projeto com o máximo de detalhes para uma arquitetura precisa.',
+      2: 'Sua senioridade adapta as recomendações automaticamente.',
+      3: 'A escala define toda a infraestrutura necessária.',
+      4: 'Projetos SaaS exigem mais rigor em segurança e escalabilidade.',
+      5: 'O Prompt Base será otimizado para a ferramenta escolhida.',
+      6: 'Frontend escolhido influencia a experiência do usuário e a performance.',
+      7: 'O backend é o motor do sistema. Managed (BaaS) é ideal para MVPs.',
+      8: 'MCPs conectam sua IA diretamente às ferramentas do projeto.',
+      9: 'SQL é confiável e maduro. NoSQL é flexível. Vetorial é para IA.',
+      10: 'Skills técnicas são injetadas no prompt como referências de boas práticas.',
+      11: 'Vercel e Railway são ideais para começar rápido. AWS para escala enterprise.',
+      12: 'Híbrido (SQL + Cache) é a escolha dos sistemas de alta performance.',
+      13: 'RBAC é essencial para sistemas com múltiplos tipos de usuário.',
+      14: 'Rate Limiting e Sanitização são o mínimo para qualquer app em produção.',
+      15: 'WebSockets são essenciais para chat, dashboards live e notificações.',
+      16: 'Funcional é tendência. OOP é tradição. Misto é pragmatismo.',
+      17: 'Graceful Degradation melhora a UX. Strict Mode melhora a segurança.',
+      18: 'i18n desde o dia 1 evita refatoração dolorosa no futuro.',
+      19: 'Stripe + Webhooks é a combinação mais usada para SaaS.',
+      20: 'Testes E2E garantem que o sistema funciona como o usuário espera.',
+    };
+    insightTip.textContent = tips[currentStep] || 'Próxima etapa...';
+  }
+
+  // ═══════════════════════════════════════════
+  //  TOOLTIP SYSTEM
+  // ═══════════════════════════════════════════
+  document.addEventListener('mouseover', (e) => {
+    const target = e.target.closest('[data-tip]');
+    if (!target) return;
+    const term = target.getAttribute('data-tip');
+    const text = tooltipData[term];
+    if (!text) return;
+    tooltipText.textContent = text;
+    tooltipEl.style.opacity = '1';
+    const rect = target.getBoundingClientRect();
+    tooltipEl.style.top = `${rect.top - tooltipEl.offsetHeight - 10}px`;
+    tooltipEl.style.left = `${rect.left + rect.width / 2}px`;
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest('[data-tip]')) {
+      tooltipEl.style.opacity = '0';
     }
+  });
 
-    function generatePRD(context: string, scale: string, nature: string) {
-      const stacks: Record<string, { fe: string; be: string; db: string; infra: string; custo: string }> = {
-        MVP: {
-          fe: 'Astro + React (Islands)',
-          be: 'Node.js (NestJS) + Supabase Edge Functions',
-          db: 'PostgreSQL via Supabase',
-          infra: 'Vercel (Frontend) + Supabase Managed',
-          custo: '$0 a $50 / mês',
-        },
-        Global: {
-          fe: 'Next.js (App Router) + CDN Edge',
-          be: 'Go (Microserviços) + Redis + Kafka',
-          db: 'PostgreSQL (RDS Multi-AZ) + Redis Cache',
-          infra: 'AWS EKS (Kubernetes) / GCP Cloud Run',
-          custo: '$500 a $3000+ / mês',
-        },
-        Enterprise: {
-          fe: 'Next.js + Monorepo (Turborepo)',
-          be: 'Go + Java Spring Boot + API Gateway',
-          db: 'PostgreSQL + Elasticsearch + Redis',
-          infra: 'AWS / Azure (Multi-region, SLA 99.99%)',
-          custo: '$2000 a $10.000+ / mês',
-        },
-      };
+  // ═══════════════════════════════════════════
+  //  GENERATE PRD + PROMPT BASE
+  // ═══════════════════════════════════════════
+  const generateBtn = document.getElementById('generate-btn');
+  if (generateBtn) {
+    generateBtn.addEventListener('click', () => {
+      showStep(21); // Loading
 
-      const s = stacks[scale] || stacks['MVP'];
-      const mobileNote = nature !== 'Web' ? `\n- **Camada Mobile**: React Native (Expo) para iOS e Android` : '';
+      const msgs = [
+        'Analisando contexto do projeto...',
+        'Mapeando topologia de banco de dados...',
+        'Validando padrões de escalabilidade...',
+        'Selecionando stack ideal...',
+        'Calculando estimativa financeira...',
+        'Gerando Roadmap de Segurança...',
+        'Montando Prompt Base otimizado...',
+        'Finalizando documentação...',
+      ];
+      let i = 0;
+      const loadingMsg = document.getElementById('loading-msg');
+      const interval = setInterval(() => {
+        if (i < msgs.length) { loadingMsg.textContent = msgs[i]; i++; }
+        else {
+          clearInterval(interval);
+          setTimeout(() => {
+            generateOutputs();
+            showStep(22);
+            progressBar.style.width = '100%';
+          }, 500);
+        }
+      }, 600);
+    });
+  }
 
-      prdOutput.value = `# PRD TÉCNICO — BUILDCODE AI
-Gerado em: ${new Date().toLocaleDateString('pt-BR')} | Escala: ${scale} | Plataforma: ${nature}
+  function getFormValue(name) {
+    const el = form.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : '';
+  }
+  function getFormValues(name) {
+    return Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value);
+  }
+  function getTextValue(name) {
+    const el = form.querySelector(`[name="${name}"]`);
+    return el ? el.value : '';
+  }
+
+  function generateOutputs() {
+    const data = {
+      contexto: getTextValue('contexto'),
+      senioridade: getFormValue('senioridade'),
+      escala: getFormValue('escala'),
+      tipo: getFormValue('tipo'),
+      ferramenta: getFormValue('ferramenta'),
+      frontend: getFormValue('frontend'),
+      backend: getFormValue('backend'),
+      mcps: getFormValues('mcps'),
+      database: getFormValue('database'),
+      skills: getFormValues('skills'),
+      infra: getFormValue('infra'),
+      persistencia: getFormValue('persistencia'),
+      auth: getFormValue('auth'),
+      seguranca: getFormValues('seguranca'),
+      realtime: getFormValue('realtime'),
+      codestyle: getFormValue('codestyle'),
+      erros: getFormValue('erros'),
+      i18n: getFormValue('i18n'),
+      integracoes: getFormValues('integracoes'),
+      seo: getFormValue('seo'),
+      testes: getFormValues('testes'),
+    };
+
+    // Label maps for display
+    const lbl = {
+      senioridade: { junior: 'Júnior', pleno: 'Pleno', senior: 'Sênior' },
+      escala: { '50': 'Até 50 MAC', '1000': 'Até 1.000 MAC', '10000': 'Até 10.000 MAC', '50000': '50.000+ MAC' },
+      tipo: { hobby: 'Pessoal/Hobby', saas: 'SaaS', enterprise: 'Enterprise' },
+      ferramenta: { cursor: 'Cursor', 'claude-code': 'Claude Code', antigravity: 'Anti-Gravity', vscode: 'VS Code', windsurf: 'Windsurf', outro: 'Outro' },
+      frontend: { 'html-css': 'HTML+CSS', astro: 'Astro', react: 'React', vue: 'Vue.js', nextjs: 'Next.js', nuxt: 'Nuxt.js', svelte: 'Svelte/SvelteKit', angular: 'Angular', solid: 'SolidJS', remix: 'Remix' },
+      backend: { supabase: 'Supabase', firebase: 'Firebase', express: 'Node.js+Express', nestjs: 'NestJS', fastify: 'Fastify', fastapi: 'FastAPI', django: 'Django', go: 'Go', rust: 'Rust', spring: 'Spring Boot', laravel: 'Laravel' },
+      database: { 'sql-managed': 'SQL Managed', 'sql-raw': 'SQL Dedicado', nosql: 'NoSQL', vetorial: 'Vetorial (AI)' },
+      infra: { vercel: 'Vercel', railway: 'Railway', supabase: 'Supabase Host', netlify: 'Netlify', cloudflare: 'Cloudflare', digitalocean: 'DigitalOcean', aws: 'AWS', 'docker-vps': 'Docker+VPS' },
+      persistencia: { relacional: 'Relacional', documentos: 'Documentos', hibrido: 'Híbrido' },
+      auth: { nenhum: 'Sem Auth', basico: 'Email+Senha', oauth: 'OAuth Social', rbac: 'RBAC', enterprise: 'Enterprise SSO' },
+      realtime: { nao: 'Não', websocket: 'WebSocket', sse: 'SSE', polling: 'Polling' },
+      codestyle: { functional: 'Funcional', oop: 'OOP', misto: 'Misto' },
+      erros: { graceful: 'Graceful Degradation', strict: 'Strict', hibrido: 'Híbrido' },
+      i18n: { nao: 'Não', poucos: '2-3 idiomas', global: 'Global' },
+      seo: { 'seo-full': 'SEO Completo', 'seo-none': 'App Privado', 'seo-partial': 'Parcial' },
+    };
+
+    const L = (cat, val) => lbl[cat]?.[val] || val || 'Não definido';
+    const date = new Date().toLocaleDateString('pt-BR');
+    const isSenior = data.senioridade === 'senior';
+
+    // Cost estimation
+    const costBase = { '50': 0, '1000': 30, '10000': 150, '50000': 800 };
+    const costInfra = { vercel: 0, railway: 5, supabase: 0, netlify: 0, cloudflare: 5, digitalocean: 12, aws: 50, 'docker-vps': 15 };
+    const costAuth = { nenhum: 0, basico: 0, oauth: 0, rbac: 10, enterprise: 50 };
+    const estimatedCost = (costBase[data.escala] || 0) + (costInfra[data.infra] || 0) + (costAuth[data.auth] || 0);
+    const costRange = `$${estimatedCost} – $${Math.round(estimatedCost * 2.5)}/mês`;
+
+    // Collect skills URLs
+    const selectedSkillsURLs = [];
+    const techNames = [L('frontend', data.frontend), L('backend', data.backend)];
+    techNames.forEach(tn => {
+      if (skillsData[tn]) {
+        skillsData[tn].forEach(s => selectedSkillsURLs.push(`- ${s.name}: ${s.url}`));
+      }
+    });
+
+    // ═══ PRD OUTPUT ═══
+    prdOutput.value = `# 📋 PRD TÉCNICO — BUILDCODE AI
+Gerado em: ${date} | Senioridade: ${L('senioridade', data.senioridade)}
+Escala: ${L('escala', data.escala)} | Tipo: ${L('tipo', data.tipo)}
 
 ---
 
-## 1. Contexto de Negócio
-${context}
+## 1. SUMÁRIO EXECUTIVO
 
-## 2. Stack Recomendada
+**Projeto:** ${data.contexto.substring(0, 200)}${data.contexto.length > 200 ? '...' : ''}
 
-| Camada        | Tecnologia                |
-|---------------|--------------------------|
-| Frontend      | ${s.fe}               |
-| Backend       | ${s.be}               |
-| Database      | ${s.db}               |
-| Infraestrutura| ${s.infra}            |${mobileNote}
-
-## 3. Arquitetura Sugerida
-- **Padrão**: Clean Architecture + SOLID
-- **Comunicação**: REST API com contratos OpenAPI (Swagger)
-- **Autenticação**: JWT + OAuth2 (Supabase Auth ou Auth0)
-- **Observabilidade**: Logs centralizados (Datadog / Sentry), Health checks
-
-## 4. Estimativa de Custos
-- **Fase inicial**: ${s.custo}
-- **Estratégia**: Iniciar com tiers gratuitos dos serviços managed e escalar horizontalmente conforme crescimento
-
-## 5. Prompt Base para IA (Copie e cole no seu assistente de código)
-> Atue como Staff Engineer especialista em ${s.be} e ${s.fe}.
-> Meu projeto tem escala ${scale} e será ${nature}.
-> Priorize Clean Architecture, segurança de dados e testes automatizados (TDD).
-> O frontend deve seguir padrões WCAG (Acessibilidade A11y) e design system consistente.
+**Classificação:** ${L('tipo', data.tipo)} — ${L('escala', data.escala)}
+**Nível do Dev:** ${L('senioridade', data.senioridade)}
+**Plataforma de Dev:** ${L('ferramenta', data.ferramenta)}
 
 ---
-*Este documento foi gerado pelo BuildCode AI e serve como ponto de partida para sua arquitetura.*`;
-    }
 
-    // Copy button
-    const copyBtn = document.getElementById('copy-btn');
-    if (copyBtn) {
-      copyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(prdOutput.value).then(() => {
-          const prev = copyBtn.innerHTML;
-          copyBtn.innerHTML = '<span class="material-symbols-outlined text-sm text-green-400">check</span> COPIADO!';
-          setTimeout(() => (copyBtn.innerHTML = prev), 2000);
+## 2. JUSTIFICATIVA DE STACK
+
+| Camada         | Tecnologia Escolhida          | Justificativa |
+|----------------|------------------------------|---------------|
+| **Frontend**   | ${L('frontend', data.frontend)} | ${isSenior ? 'Performance e escalabilidade prioritárias.' : 'Facilidade de uso e comunidade ativa.'} |
+| **Backend**    | ${L('backend', data.backend)}   | ${isSenior ? 'Controle total sobre lógica e performance.' : 'Produtividade máxima com managed services.'} |
+| **Banco**      | ${L('database', data.database)} | ${data.database === 'sql-managed' ? 'Zero overhead de infra.' : 'Controle e flexibilidade de dados.'} |
+| **Infra**      | ${L('infra', data.infra)}       | ${data.infra === 'vercel' || data.infra === 'railway' ? 'Deploy rápido e escalável.' : 'Controle total da infraestrutura.'} |
+| **Auth**       | ${L('auth', data.auth)}         | ${data.auth === 'rbac' ? 'Controle de acesso granular por papéis.' : 'Simplicidade para o contexto do projeto.'} |
+| **Persistência** | ${L('persistencia', data.persistencia)} | Best fit para o modelo de dados do projeto. |
+
+---
+
+## 3. DESENHO DA ARQUITETURA
+
+**Padrão Arquitetural:** ${isSenior ? 'Clean Architecture + SOLID + Domain-Driven Design' : 'MVC Simplificado + Monolito'}
+**Comunicação:** ${data.realtime !== 'nao' ? 'REST API + ' + L('realtime', data.realtime) : 'REST API (HTTP)'}
+**Autenticação:** ${L('auth', data.auth)} ${data.seguranca.includes('mfa') ? '+ MFA' : ''}
+**Estilo de Código:** ${L('codestyle', data.codestyle)}
+**Tratamento de Erros:** ${L('erros', data.erros)}
+**i18n:** ${L('i18n', data.i18n)}
+
+### Fluxo de Dados:
+\`\`\`
+[Cliente] → [${L('frontend', data.frontend)}] → [${L('backend', data.backend)}] → [${L('database', data.database)}]
+${data.realtime !== 'nao' ? `         ↕ [${L('realtime', data.realtime)}] (Real-time)` : ''}
+${data.persistencia === 'hibrido' ? '         → [Redis Cache Layer]' : ''}
+\`\`\`
+
+---
+
+## 4. ROADMAP DE SEGURANÇA
+
+${data.seguranca.length > 0 ? data.seguranca.map(s => {
+  const segLabels = { https: 'HTTPS/TLS Forçado', sanitizacao: 'Sanitização de Dados', 'rate-limit': 'Rate Limiting', mfa: 'MFA', csrf: 'CSRF Protection', helmet: 'Security Headers' };
+  return `- ✅ **${segLabels[s] || s}**`;
+}).join('\n') : '- ⚠️ Nenhuma camada de segurança selecionada. Recomendamos ao mínimo HTTPS + Sanitização.'}
+
+${isSenior ? `
+### Recomendações Adicionais (Sênior):
+- Implementar OWASP Top 10 compliance
+- Secrets management (Vault ou variáveis de ambiente criptografadas)
+- Logs de auditoria para ações críticas
+- Pen-testing antes do go-live` : ''}
+
+---
+
+## 5. ESTIMATIVA DE ESCALABILIDADE
+
+**Meta:** ${L('escala', data.escala)}
+**Estratégia:** ${data.escala === '50' ? 'Serverless/Managed — escala automática sem preocupação.' : data.escala === '50000' ? 'Multi-region, CDN edge, load balancing, auto-scaling horizontal.' : 'Vertical scaling inicialmente, horizontal quando necessário.'}
+
+---
+
+## 6. RELATÓRIO FINANCEIRO ESTIMADO
+
+| Item | Custo Estimado |
+|------|---------------|
+| **Infraestrutura** | ${costRange} |
+| **Banco de Dados** | ${data.database === 'sql-managed' ? 'Incluído no managed (free tier possível)' : '$20 – $100/mês'} |
+| **Auth Service** | ${data.auth === 'nenhum' || data.auth === 'basico' ? 'Gratuito' : '$10 – $50/mês'} |
+| **Total Estimado** | **${costRange}** |
+
+> ⚠️ Valores aproximados baseados em tiers gratuitos e iniciais. Custos da aumentam com tráfego.
+
+---
+
+## 7. INTEGRAÇÕES EXTERNAS
+
+${data.integracoes.length > 0 ? data.integracoes.map(i => `- ${i.charAt(0).toUpperCase() + i.slice(1)}`).join('\n') : '- Nenhuma integração selecionada.'}
+
+## 8. TESTES
+
+${data.testes.length > 0 ? data.testes.map(t => `- ${t.charAt(0).toUpperCase() + t.slice(1)}`).join('\n') : '- Sem testes planejados neste momento.'}
+
+${data.mcps.length > 0 ? `## 9. MCPs CONECTADOS\n${data.mcps.map(m => `- ${m}`).join('\n')}` : ''}
+
+---
+*Documento gerado pelo BuildCode AI Engine v2.0 — ${date}*`;
+
+    // ═══ PROMPT BASE OUTPUT ═══
+    const toolInstructions = {
+      cursor: 'Siga as convenções do Cursor AI. Use @codebase para referenciar arquivos. Gere código diretamente nos arquivos.',
+      'claude-code': 'Siga as convenções do Claude Code CLI. Use TodoRead/TodoWrite para gerenciar tarefas. Seja detalhista.',
+      antigravity: 'Siga as convenções do Anti-Gravity (Google DeepMind). Use task boundaries e artifacts.',
+      vscode: 'Gere código compatível com VS Code + Copilot. Use comentários descritivos.',
+      windsurf: 'Siga as convenções do Windsurf (Codeium). Use fluxos guiados por IA.',
+      outro: 'Gere código bem documentado e modular.',
+    };
+
+    promptOutput.value = `# 🚀 PROMPT BASE — BUILDCODE AI
+# Cole este prompt inteiro na sua ferramenta de Vibe Coding
+
+---
+
+## CONTEXTO DE NEGÓCIO
+
+Você é um Engenheiro de Software ${L('senioridade', data.senioridade)} especialista em ${L('frontend', data.frontend)} e ${L('backend', data.backend)}.
+
+Estamos construindo: ${data.contexto}
+
+**Escala alvo:** ${L('escala', data.escala)}
+**Tipo:** ${L('tipo', data.tipo)}
+
+---
+
+## INSTRUÇÕES DE PERSONALIDADE
+
+- ${isSenior ? 'Seja RIGOROSO com tipos, padrões de projeto (SOLID), testes e segurança.' : 'Foque em SIMPLICIDADE. Priorize time-to-market e manutenibilidade.'}
+- Estilo de código: **${L('codestyle', data.codestyle)}**
+- Tratamento de erros: **${L('erros', data.erros)}**
+- ${L('ferramenta', data.ferramenta)}: ${toolInstructions[data.ferramenta] || toolInstructions.outro}
+- Todas as respostas e comentários de código devem ser em **Português (PT-BR)**
+
+---
+
+## ARQUITETURA TÉCNICA
+
+A stack definida é:
+- **Frontend:** ${L('frontend', data.frontend)}
+- **Backend:** ${L('backend', data.backend)}
+- **Banco de Dados:** ${L('database', data.database)}
+- **Infraestrutura:** ${L('infra', data.infra)}
+- **Persistência:** ${L('persistencia', data.persistencia)}
+- **Autenticação:** ${L('auth', data.auth)}
+${data.realtime !== 'nao' ? `- **Real-time:** ${L('realtime', data.realtime)}` : ''}
+${data.i18n !== 'nao' ? `- **i18n:** ${L('i18n', data.i18n)}` : ''}
+
+### Estrutura de Pastas Sugerida:
+\`\`\`
+src/
+├── ${data.frontend === 'nextjs' || data.frontend === 'nuxt' ? 'app/' : 'pages/'}
+├── components/
+│   ├── ui/
+│   └── features/
+├── ${isSenior ? 'domain/' : 'lib/'}
+${isSenior ? '│   ├── entities/\n│   ├── use-cases/\n│   └── repositories/' : '│   ├── utils/\n│   └── api/'}
+├── ${isSenior ? 'infrastructure/' : 'services/'}
+├── styles/
+├── types/
+└── ${data.i18n !== 'nao' ? 'locales/' : 'config/'}
+\`\`\`
+
+---
+
+## DIRETRIZES DE SEGURANÇA
+
+${data.seguranca.length > 0 ? data.seguranca.map(s => {
+  const segInst = {
+    https: 'Force HTTPS em todas as rotas. Redirecione HTTP → HTTPS.',
+    sanitizacao: 'Sanitize TODOS os inputs do usuário. Previna XSS e SQL Injection. Use bibliotecas validadas (Zod, DOMPurify).',
+    'rate-limit': 'Implemente Rate Limiting em todas as rotas de API (ex: 100 req/min por IP).',
+    mfa: 'Implemente MFA (Multi-Factor Authentication) para ações sensíveis.',
+    csrf: 'Ative CSRF tokens em todos os formulários.',
+    helmet: 'Configure Security Headers (Helmet): HSTS, CSP, X-Frame-Options.',
+  };
+  return `- ${segInst[s] || s}`;
+}).join('\n') : '- Implemente ao mínimo: HTTPS + Sanitização de inputs + Validação de dados.'}
+- Garanta que todas as rotas de API sejam protegidas com ${L('auth', data.auth)}
+
+---
+
+## SKILLS TÉCNICAS
+
+${selectedSkillsURLs.length > 0 ? `Utilize as diretrizes contidas nestas referências:\n${selectedSkillsURLs.join('\n')}` : 'Siga as melhores práticas oficiais de cada tecnologia da stack.'}
+
+${data.skills.length > 0 ? `\n### Padrões Exigidos:\n${data.skills.map(s => {
+  const skillDesc = {
+    'clean-arch': '- **Clean Architecture**: Separe Domain, Application e Infrastructure rigorosamente.',
+    'design-system': '- **Design System**: Crie tokens de design (cores, tipografia, espaçamentos) e componentes reutilizáveis.',
+    'api-design': '- **API Design**: Siga padrões REST. Versione APIs. Documente com OpenAPI/Swagger.',
+    testing: '- **Testing Strategy**: Siga a pirâmide de testes. Unit > Integration > E2E.',
+    security: '- **Security Hardening**: OWASP Top 10 compliance obrigatória.',
+    performance: '- **Web Performance**: Core Web Vitals ≤ bom. Lazy load, code splitting, image optimization.',
+    a11y: '- **Acessibilidade**: WCAG 2.1 AA compliance. Testes com screen reader.',
+    devops: '- **DevOps**: CI/CD pipeline com testes automatizados. Deploy automático em staging.',
+  };
+  return skillDesc[s] || `- ${s}`;
+}).join('\n')}` : ''}
+
+---
+
+## TASK INICIAL
+
+Comece estruturando o **setup inicial do projeto** garantindo que:
+
+1. A estrutura de pastas esteja conforme a arquitetura definida acima
+2. A stack (${L('frontend', data.frontend)} + ${L('backend', data.backend)}) esteja configurada e funcionando
+3. ${data.auth !== 'nenhum' ? `O sistema de autenticação (${L('auth', data.auth)}) esteja implementado` : 'A conexão com o banco de dados esteja funcional'}
+4. ${isSenior ? 'Os testes unitários estejam configurados e rodando' : 'Um health check endpoint esteja funcionando'}
+5. O ambiente de desenvolvimento esteja pronto para produtividade máxima
+
+**Após o setup, gere a primeira feature conforme o contexto do projeto.**
+
+---
+*Prompt gerado pelo BuildCode AI Engine v2.0 — ${date}*`;
+  }
+
+  // ═══════════════════════════════════════════
+  //  RESULT TABS
+  // ═══════════════════════════════════════════
+  const tabPrd = document.getElementById('tab-prd');
+  const tabPrompt = document.getElementById('tab-prompt');
+  const outputFilename = document.getElementById('output-filename');
+
+  tabPrd?.addEventListener('click', () => {
+    prdOutput.classList.remove('hidden');
+    promptOutput.classList.add('hidden');
+    tabPrd.classList.add('bg-primary/10', 'text-primary', 'border-primary/20');
+    tabPrd.classList.remove('text-slate-500');
+    tabPrompt.classList.remove('bg-primary/10', 'text-primary', 'border-primary/20');
+    tabPrompt.classList.add('text-slate-500');
+    outputFilename.textContent = 'architecture_prd.md';
+  });
+  tabPrompt?.addEventListener('click', () => {
+    promptOutput.classList.remove('hidden');
+    prdOutput.classList.add('hidden');
+    tabPrompt.classList.add('bg-primary/10', 'text-primary', 'border-primary/20');
+    tabPrompt.classList.remove('text-slate-500');
+    tabPrd.classList.remove('bg-primary/10', 'text-primary', 'border-primary/20');
+    tabPrd.classList.add('text-slate-500');
+    outputFilename.textContent = 'prompt_base.md';
+  });
+
+  // Copy
+  const copyBtn = document.getElementById('copy-btn');
+  copyBtn?.addEventListener('click', () => {
+    const activeOutput = promptOutput.classList.contains('hidden') ? prdOutput : promptOutput;
+    navigator.clipboard.writeText(activeOutput.value).then(() => {
+      const prev = copyBtn.innerHTML;
+      copyBtn.innerHTML = '<span class="material-symbols-outlined text-sm text-green-400">check</span> COPIADO!';
+      setTimeout(() => (copyBtn.innerHTML = prev), 2000);
+    });
+  });
+
+  // Restart
+  document.querySelectorAll('.restart-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      form.reset();
+      currentStep = 1;
+      userSeniority = 'junior';
+      userTipo = 'hobby';
+      insightCost.textContent = '—';
+      insightTtm.textContent = '—';
+      insightLevel.textContent = '—';
+      insightTip.textContent = 'Preencha o formulário para receber sugestões em tempo real.';
+      // clear search block selections
+      document.querySelectorAll('.tech-search-results').forEach(el => el.innerHTML = '');
+      document.querySelectorAll('.tech-search-results, .tech-search-empty').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tech-search-input').forEach(el => el.value = '');
+      filterOptionsBySeniority();
+      showStep(1);
+    });
+  });
+
+  // ═══════════════════════════════════════════
+  //  TECH SEARCH
+  // ═══════════════════════════════════════════
+  // Access the serialized database passed via Astro global script scope
+  const availableTechs = window.techDB || [];
+
+  const getSeniorityNum = (lvl) => {
+    if (lvl === 'senior') return 3;
+    if (lvl === 'pleno') return 2;
+    return 1;
+  };
+
+  document.querySelectorAll('.tech-search-input').forEach(input => {
+    const questionName = input.getAttribute('data-for');
+    const category = input.getAttribute('data-category');
+    const resultsContainer = document.querySelector(`[data-results-for="${questionName}"]`);
+    const emptyMsg = input.closest('[data-search-block]').querySelector('.tech-search-empty');
+    if (!resultsContainer) return;
+
+    input.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      
+      if (query.length < 2) {
+        resultsContainer.innerHTML = '';
+        resultsContainer.classList.add('hidden');
+        emptyMsg.classList.add('hidden');
+        return;
+      }
+
+      // Filter by category and query, take max 9 results
+      const results = availableTechs.filter(t => {
+        // match category exactly
+        if (t.category !== category && !(category === 'data' && t.category === 'database')) return false;
+        
+        // check keyword match
+        return t.name.toLowerCase().includes(query) || (t.tagline && t.tagline.toLowerCase().includes(query));
+      }).slice(0, 9); // limits to 9 solutions as requested
+
+      if (results.length === 0) {
+        resultsContainer.innerHTML = '';
+        resultsContainer.classList.add('hidden');
+        emptyMsg.classList.remove('hidden');
+        return;
+      }
+
+      emptyMsg.classList.add('hidden');
+      
+      // Assume missing minLevel is Senior-equivalent in the DB to trigger warnings
+      const currentLevelNum = getSeniorityNum(userSeniority);
+
+      resultsContainer.innerHTML = results.map(tech => {
+        // Simple heuristic: if it's not in the 9 pre-filtered options, it's probably heavier/advanced.
+        // We warn them it's advanced.
+        const isAdvanced = currentLevelNum < 2; // warn juniors basically
+
+        return `
+          <label class="cursor-pointer group option-label relative">
+            <input type="radio" name="${questionName}" value="${tech.name}" class="peer sr-only" />
+            <div class="glass-panel rounded-2xl p-4 flex flex-col gap-2 text-left transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_20px_rgba(46,116,139,0.2)] hover:border-primary/40 h-full">
+              <div class="flex items-start justify-between gap-2">
+                <div class="size-8 rounded-lg bg-surface flex items-center justify-center shrink-0">
+                  <img src="${tech.logo || 'https://svgl.app/library/supabase.svg'}" alt="${tech.name}" class="w-5 h-5 object-contain" onerror="this.src='https://svgl.app/library/supabase.svg'" />
+                </div>
+                ${isAdvanced ? '<span class="px-2 py-0.5 rounded-md bg-yellow-500/10 text-yellow-400 text-[10px] font-bold border border-yellow-500/20" title="Tecnologia consideravelmente complexa para um MVP ou nível Júnior.">⚠️ Avançado</span>' : ''}
+              </div>
+              <div class="flex items-start justify-between gap-2 mt-1">
+                <div class="flex-1">
+                  <h4 class="font-bold text-white text-sm truncate">${tech.name}</h4>
+                  <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-2 leading-snug">${tech.tagline}</p>
+                </div>
+                <button
+                  type="button"
+                  class="info-btn shrink-0 size-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary/40 hover:bg-primary/10 transition-all z-10 mt-1"
+                  data-tech-name="${tech.name}"
+                  data-tech-url="${tech.website}"
+                  title="Saber mais sobre ${tech.name}"
+                  onclick="event.preventDefault(); event.stopPropagation();"
+                >
+                  <span class="material-symbols-outlined text-[16px] pointer-events-none">info</span>
+                </button>
+              </div>
+            </div>
+          </label>
+        `;
+      }).join('');
+      
+      resultsContainer.classList.remove('hidden');
+
+      // Add standard click sound effect
+      resultsContainer.querySelectorAll('input').forEach(radio => {
+        radio.addEventListener('change', () => {
+           // when selecting from search, we trigger the updateInsights logic
+           updateInsights();
         });
-      });
-    }
-
-    document.querySelectorAll('.restart-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        form.reset();
-        currentStep = 1;
-        insightCost.textContent = '—';
-        insightComplexity.textContent = '—';
-        insightTtm.textContent = '—';
-        insightTip.textContent = 'Preencha o formulário para receber sugestões em tempo real.';
-        showStep(1);
       });
     });
 
-    // Init
-    showStep(1);
+    // Clear on ESC
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        input.value = '';
+        input.dispatchEvent(new Event('input'));
+      }
+    });
   });
+
+  // ═══════════════════════════════════════════
+  //  PERSONALIZAR (CUSTOM TECH) LOGIC
+  // ═══════════════════════════════════════════
+  document.querySelectorAll('.custom-tech-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const questionName = btn.getAttribute('data-for');
+      const customBlock = document.querySelector(`[data-custom-for="${questionName}"]`);
+      if (customBlock) {
+        customBlock.classList.toggle('hidden');
+        customBlock.classList.toggle('flex');
+        if (!customBlock.classList.contains('hidden')) {
+          customBlock.querySelector('.custom-tech-value').focus();
+        }
+      }
+    });
+  });
+
+  document.querySelectorAll('.custom-tech-confirm').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const questionName = btn.getAttribute('data-for');
+      const customBlock = document.querySelector(`[data-custom-for="${questionName}"]`);
+      const input = customBlock.querySelector('.custom-tech-value');
+      const value = input.value.trim();
+      if (!value) return;
+
+      // Deselect any existing radio for this question
+      document.querySelectorAll(`input[name="${questionName}"]`).forEach(r => r.checked = false);
+
+      // Create a hidden radio with the custom value and check it
+      const existingCustom = document.getElementById(`custom-radio-${questionName}`);
+      if (existingCustom) existingCustom.remove();
+
+      const hiddenRadio = document.createElement('input');
+      hiddenRadio.type = 'radio';
+      hiddenRadio.name = questionName;
+      hiddenRadio.value = value;
+      hiddenRadio.checked = true;
+      hiddenRadio.id = `custom-radio-${questionName}`;
+      hiddenRadio.className = 'sr-only';
+      document.getElementById('wizard-form').appendChild(hiddenRadio);
+
+      // Show confirmation feedback
+      const prevText = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Selecionado!';
+      btn.classList.add('bg-green-600');
+      btn.classList.remove('bg-cta');
+      setTimeout(() => {
+        btn.innerHTML = prevText;
+        btn.classList.remove('bg-green-600');
+        btn.classList.add('bg-cta');
+      }, 2000);
+
+      updateInsights();
+    });
+  });
+
+  // ═══════════════════════════════════════════
+  //  MODAL LOGIC
+  // ═══════════════════════════════════════════
+  const modal = document.getElementById('tech-modal');
+  const modalOverlay = document.getElementById('tech-modal-overlay');
+  const modalPanel = document.getElementById('tech-modal-panel');
+  const closeModalBtn = document.getElementById('close-tech-modal');
+  
+  function openInfoModal(techName, techUrl) {
+     // match by url first (more accurate), then by name
+     let tech = availableTechs.find(t => t.website && techUrl && t.website === techUrl);
+     if (!tech) {
+        tech = availableTechs.find(t => t.name.toLowerCase().includes(techName.toLowerCase()) || techName.toLowerCase().includes(t.name.toLowerCase()));
+     }
+     
+     if (!tech) return; // fail safe if mapping breaks
+     
+     document.getElementById('modal-tech-name').textContent = tech.name;
+     document.getElementById('modal-tech-language').textContent = tech.language;
+     document.getElementById('modal-tech-desc').textContent = tech.description;
+     document.getElementById('modal-tech-logo').src = tech.logo || 'https://svgl.app/library/supabase.svg';
+     
+     document.getElementById('modal-tech-pros').innerHTML = (tech.pros || []).map(p =>
+        `<li class="flex gap-2 text-[12px] text-slate-400 items-start"><span class="material-symbols-outlined text-[#5A9DB5]/80 text-[14px] shrink-0 mt-0.5">done</span> <span class="leading-relaxed">${p}</span></li>`
+     ).join('');
+
+     document.getElementById('modal-tech-cons').innerHTML = (tech.cons || []).map(c =>
+        `<li class="flex gap-2 text-[12px] text-slate-400 items-start"><span class="material-symbols-outlined text-cta/70 text-[14px] shrink-0 mt-0.5">close</span> <span class="leading-relaxed">${c}</span></li>`
+     ).join('');
+     
+     document.getElementById('modal-tech-usecases').textContent = tech.useCases;
+
+     const websiteLink = document.getElementById('modal-tech-website');
+     if (tech.website && tech.website !== '#') {
+       websiteLink.href = tech.website;
+       websiteLink.classList.remove('hidden');
+       websiteLink.classList.add('flex');
+     } else {
+       websiteLink.classList.add('hidden');
+       websiteLink.classList.remove('flex');
+     }
+
+     modal.classList.remove('hidden');
+     // reflow required for transition
+     void modal.offsetWidth;
+     modal.classList.add('flex', 'opacity-100');
+     modalPanel.classList.remove('scale-95');
+     modalPanel.classList.add('scale-100');
+  }
+  
+  function closeModal() {
+     modal.classList.remove('opacity-100');
+     modalPanel.classList.remove('scale-100');
+     modalPanel.classList.add('scale-95');
+     setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+     }, 300);
+  }
+  
+  closeModalBtn.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', closeModal);
+  
+  document.addEventListener('keydown', (e) => {
+     if (e.key === 'Escape' && modal.classList.contains('flex')) {
+        closeModal();
+     }
+  });
+  
+  // Delegate clicks on dynamic elements (since search results recreate dom)
+  document.addEventListener('click', (e) => {
+     const infoBtn = e.target.closest('.info-btn');
+     if (infoBtn) {
+        openInfoModal(infoBtn.getAttribute('data-tech-name'), infoBtn.getAttribute('data-tech-url'));
+     }
+  });
+
+  // Init
+  showStep(1);
+  updateInsights();
+});
+
+// Pass DB from server to client
+window.techDB = techDB;
+</script>
+
+<!-- Three.js Particle Animation -->
+<script>
+import * as THREE from 'three';
+
+const canvas = document.getElementById('three-canvas');
+if (canvas) {
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Create particles
+  const count = 1500;
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+  const sizes = new Float32Array(count);
+
+  const primary = new THREE.Color(0x2E748B);
+  const secondary = new THREE.Color(0x5A9DB5);
+  const accent = new THREE.Color(0xF2AB6D);
+
+  for (let i = 0; i < count; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 120;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 120;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 120;
+
+    const r = Math.random();
+    const c = r < 0.7 ? primary : r < 0.9 ? secondary : accent;
+    colors[i * 3] = c.r;
+    colors[i * 3 + 1] = c.g;
+    colors[i * 3 + 2] = c.b;
+
+    sizes[i] = Math.random() * 1.2 + 0.3;
+  }
+
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+  const material = new THREE.PointsMaterial({
+    size: 0.8,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.2,
+    sizeAttenuation: true,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+
+  const particles = new THREE.Points(geometry, material);
+  scene.add(particles);
+
+  camera.position.z = 50;
+
+  // Dive animation state
+  let isDiving = false;
+  let diveProgress = 0;
+  const diveSpeed = 0.02;
+  const originalZ = 50;
+  const diveTargetZ = 5;
+
+  // Expose dive function globally
+  window.__bcDive = function() {
+    isDiving = true;
+    diveProgress = 0;
+  };
+
+  // Animation loop
+  const clock = new THREE.Clock();
+  function animate() {
+    requestAnimationFrame(animate);
+    const elapsed = clock.getElapsedTime();
+
+    // Gentle rotation
+    particles.rotation.y = elapsed * 0.03;
+    particles.rotation.x = Math.sin(elapsed * 0.02) * 0.1;
+
+    // Subtle particle floating
+    const pos = geometry.attributes.position.array;
+    for (let i = 0; i < count; i++) {
+      pos[i * 3 + 1] += Math.sin(elapsed + i * 0.1) * 0.003;
+    }
+    geometry.attributes.position.needsUpdate = true;
+
+    // Camera dive animation (Q5 → Q6 transition)
+    if (isDiving) {
+      diveProgress += diveSpeed;
+      const ease = 1 - Math.pow(1 - Math.min(diveProgress, 1), 3); // easeOutCubic
+      camera.position.z = originalZ - (originalZ - diveTargetZ) * ease;
+      material.opacity = 0.2 + ease * 0.4;
+
+      if (diveProgress >= 1) {
+        // Return slowly after dive
+        setTimeout(() => {
+          isDiving = false;
+          const returnAnim = () => {
+            if (camera.position.z < originalZ) {
+              camera.position.z += 0.3;
+              material.opacity = Math.max(0.2, material.opacity - 0.005);
+              requestAnimationFrame(returnAnim);
+            }
+          };
+          returnAnim();
+        }, 1500);
+      }
+    }
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // Resize handler
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+}
 </script>

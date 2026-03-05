@@ -1,164 +1,370 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-
-// Sample Data for MVP
-const techCards = [
-  {
-    category: "Frameworks Frontend",
-    name: "Astro",
-    language: "JavaScript/TypeScript",
-    whatIs: "Framework web para conteúdo focado em performance",
-    whenToUse: "Sites focados em conteúdo, blogs, documentações, e-commerce",
-    pros: ["Performance extrema (SSG/Islands)", "Agnóstico a framework de UI", "Fácil adoção"],
-    cons: ["Menos ideal para dashboards complexos (SPA)"],
-    bestFor: "Landing Pages de Alta Conversão",
-    icon: "rocket_launch"
-  },
-  {
-    category: "Frameworks Frontend",
-    name: "Next.js",
-    language: "JavaScript/TypeScript",
-    whatIs: "React framework for production",
-    whenToUse: "Aplicações dinâmicas complexas, portais, SaaS",
-    pros: ["Ecossistema massivo (React)", "App Router robusto", "Ótimo para SSR"],
-    cons: ["Curva de aprendizado (App Router)", "Tamanho de bundle maior"],
-    bestFor: "SaaS escalável, Dashboards B2B",
-    icon: "web"
-  },
-  {
-    category: "Backend",
-    name: "Supabase",
-    language: "PostgreSQL / TypeScript",
-    whatIs: "Firebase alternative open source",
-    whenToUse: "Desenvolvimento ágil com necessidade de banco relacional e Auth",
-    pros: ["PostgreSQL puro por baixo", "Realtime out-of-the-box", "Edge Functions"],
-    cons: ["Vendor lock-in se usar apenas features managed", "Custo em scale extrema"],
-    bestFor: "MVP Rápido, SaaS modernos",
-    icon: "database"
-  },
-  {
-    category: "Backend",
-    name: "Go (Golang)",
-    language: "Go",
-    whatIs: "Linguagem compilada com concorrência nativa",
-    whenToUse: "Microserviços de alta performance, CRON jobs, Processamento massivo",
-    pros: ["Performance absurda", "Concorrência com Goroutines", "Tipagem forte e simples"],
-    cons: ["Verbosidade em tratativa de erros", "Curva de aprendizado inicial"],
-    bestFor: "APIs de alto tráfego (100k+ users)",
-    icon: "terminal"
-  },
-  {
-    category: "Infraestrutura",
-    name: "Redis",
-    language: "C",
-    whatIs: "In-memory data structure store",
-    whenToUse: "Caching, mensageria (Pub/Sub), gerenciamento de sessão",
-    pros: ["Latência quase zero", "Tipos de dados avançados"],
-    cons: ["Dados voláteis (se configurado apenas in-memory)", "Custo de RAM"],
-    bestFor: "Rate limiting, Leaderboards, Session cache",
-    icon: "memory"
-  }
-];
-
-const categories = [...new Set(techCards.map(c => c.category))];
+import { categories } from '../data/categories';
+import { technologies } from '../data/technologies';
 ---
 
-<Layout title="BuildCode | Biblioteca Técnica">
-  <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-    <Header />
+<Layout title="Biblioteca Técnica | BuildCode">
+  <!-- Digital Grain Background para estética premium -->
+  <div class="fixed inset-0 pointer-events-none bg-grain opacity-[0.03] z-[9999]"></div>
+  
+  <div class="flex h-screen overflow-hidden w-full relative bg-background-dark text-slate-200">
     
-    <main class="flex-1 flex flex-col w-full px-6 py-12 md:px-12 lg:px-24">
-      <div class="mx-auto w-full max-w-[1440px]">
-        <!-- Page Header -->
-        <div class="flex flex-col gap-4 mb-12">
-          <div class="inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5">
-            <span class="text-xs font-semibold tracking-widest text-primary uppercase">Conhecimento Estratégico</span>
-          </div>
-          <h1 class="font-display text-4xl md:text-5xl font-black tracking-tight text-white">
-            Biblioteca Ténica
-          </h1>
-          <p class="text-lg text-slate-400 font-medium max-w-[700px]">
-            Explore ferramentas modernas, entenda seus trade-offs e saiba exatamente quando utilizar (ou não) cada tecnologia.
-          </p>
+    <!-- LEFT SIDEBAR: Nav colapsável -->
+    <aside class="group/sidebar w-[80px] hover:w-[260px] transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] bg-surface-dark/80 backdrop-blur-3xl border-r border-border-color flex flex-col z-40 shrink-0">
+      <div class="p-5 mb-6 flex items-center overflow-hidden shrink-0 mt-2">
+        <a href="/" class="min-w-[40px] size-10 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 shadow-[0_0_15px_rgba(46,116,139,0.15)] group-hover/sidebar:shadow-[0_0_20px_rgba(46,116,139,0.3)] transition-all">
+          <img src="/logo_backofff.png" alt="BuildCode" class="w-6 h-6 object-contain" />
+        </a>
+        <div class="ml-4 opacity-0 group-hover/sidebar:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+          <h1 class="font-display font-bold text-lg text-white tracking-tight">BuildCode</h1>
         </div>
-
-        <!-- Filters (Static UI for MVP) -->
-        <div class="flex flex-wrap gap-3 mb-12">
-          <button class="px-5 py-2 rounded-full bg-primary text-background-dark font-bold text-sm transition-colors hover:opacity-90">
-            Todas
+      </div>
+      
+      <nav class="flex-1 px-4 space-y-2 overflow-hidden custom-scrollbar">
+        <button data-cat="all" class="cat-btn active w-full flex items-center gap-4 px-3 py-3 rounded-xl bg-primary/10 text-primary border border-primary/20 cursor-pointer overflow-hidden transition-all shadow-[0_0_10px_rgba(46,116,139,0.05)]">
+          <span class="material-symbols-outlined min-w-[24px]">apps</span>
+          <span class="font-bold text-sm opacity-0 group-hover/sidebar:opacity-100 transition-opacity whitespace-nowrap">Todas as Stacks</span>
+        </button>
+        {categories.map(cat => (
+          <button data-cat={cat.id} class="cat-btn w-full flex items-center gap-4 px-3 py-3 rounded-xl text-slate-400 hover:bg-surface-light hover:text-white border border-transparent transition-all cursor-pointer overflow-hidden">
+            <span class="material-symbols-outlined min-w-[24px]">{cat.icon}</span>
+            <span class="font-medium text-sm opacity-0 group-hover/sidebar:opacity-100 transition-opacity whitespace-nowrap">{cat.name}</span>
           </button>
-          {categories.map(cat => (
-            <button class="px-5 py-2 rounded-full glass-panel text-slate-300 font-medium text-sm transition-colors hover:text-white hover:border-primary/50">
-              {cat}
-            </button>
-          ))}
+        ))}
+      </nav>
+      
+      <div class="p-4 border-t border-border-color shrink-0">
+         <a href="/app" class="w-full flex items-center gap-4 px-3 py-3 rounded-xl bg-cta/10 text-cta border border-cta/20 hover:bg-cta hover:text-background-dark hover:shadow-[0_0_20px_rgba(242,171,109,0.3)] transition-all duration-300 cursor-pointer overflow-hidden group/cta">
+            <span class="material-symbols-outlined min-w-[24px] group-hover/cta:animate-bounce">rocket_launch</span>
+            <span class="font-bold text-sm opacity-0 group-hover/sidebar:opacity-100 transition-opacity whitespace-nowrap">Acessar Sistema</span>
+         </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT: Search & Grid -->
+    <main class="flex-1 flex flex-col h-full overflow-y-auto overflow-x-hidden custom-scrollbar relative bg-[#06070a]">
+      <!-- Background glows -->
+      <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] pointer-events-none"></div>
+      
+      <header class="sticky top-0 z-30 px-8 py-8 bg-[#06070a]/80 backdrop-blur-xl border-b border-white/[0.04] flex flex-col gap-8 transition-all duration-300">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 max-w-[1600px] mx-auto w-full">
+          <div>
+            <h2 class="font-display text-3xl font-black text-white tracking-tight">Biblioteca <span id="category-title" class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Técnica</span></h2>
+            <p class="text-slate-400 text-sm mt-1 font-medium">Explore as ferramentas mais consolidadas do mercado e saiba exatamente quando usar.</p>
+          </div>
+          <div class="flex items-center gap-4 bg-surface-dark px-5 py-3 rounded-2xl border border-border-color shadow-inner shrink-0">
+             <div class="flex flex-col items-center">
+               <span class="font-display text-2xl font-black text-white leading-none">{technologies.length}</span>
+               <span class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mt-1">Tecnologias</span>
+             </div>
+             <div class="w-px h-8 bg-border-color mx-2"></div>
+             <div class="flex flex-col items-center">
+               <span class="font-display text-2xl font-black text-white leading-none">{categories.length}</span>
+               <span class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mt-1">Categorias</span>
+             </div>
+          </div>
         </div>
-
-        <!-- Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {techCards.map(tech => (
-            <div class="glass-panel p-6 rounded-2xl flex flex-col gap-6 group hover:-translate-y-1 hover:border-primary/30 transition-all duration-300 relative overflow-hidden">
-              <!-- Glow efffect on hover -->
-              <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-              
-              <div class="relative z-10 flex justify-between items-start">
-                <div class="flex items-center gap-4">
-                  <div class="size-12 rounded-xl bg-surface-dark border border-border-color flex items-center justify-center text-primary shadow-inner">
-                    <span class="material-symbols-outlined">{tech.icon}</span>
-                  </div>
-                  <div>
-                    <h3 class="font-display font-bold text-xl text-white">{tech.name}</h3>
-                    <p class="text-xs text-primary font-medium">{tech.category}</p>
-                  </div>
-                </div>
-                <div class="px-3 py-1 rounded bg-surface-dark border border-border-color text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
-                  {tech.language}
-                </div>
-              </div>
-
-              <div class="relative z-10">
-                <p class="text-slate-300 text-sm leading-relaxed mb-4">
-                  {tech.whatIs}
-                </p>
-                
-                <div class="flex flex-col gap-3">
-                  <div class="bg-surface-dark/50 rounded-lg p-3 border border-border-color">
-                    <div class="flex items-center gap-2 mb-1">
-                      <span class="material-symbols-outlined text-[14px] text-green-400">task_alt</span>
-                      <span class="text-xs font-bold text-white uppercase tracking-wide">Quando Usar</span>
-                    </div>
-                    <p class="text-xs text-slate-400">{tech.whenToUse}</p>
-                  </div>
-                  
-                  <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-green-500/5 border border-green-500/10 rounded-lg p-3">
-                      <span class="text-[10px] text-green-400 font-bold uppercase tracking-wider block mb-1">Prós</span>
-                      <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
-                        {tech.pros.map(pro => <li>{pro}</li>)}
-                      </ul>
-                    </div>
-                    <div class="bg-red-500/5 border border-red-500/10 rounded-lg p-3">
-                      <span class="text-[10px] text-red-400 font-bold uppercase tracking-wider block mb-1">Contras</span>
-                      <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
-                        {tech.cons.map(con => <li>{con}</li>)}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="relative z-10 mt-auto pt-4 border-t border-border-color flex items-center justify-between">
-                <span class="text-xs text-slate-500">Ideal para:</span>
-                <span class="text-xs text-secondary font-bold text-right">{tech.bestFor}</span>
-              </div>
+        
+        <div class="relative w-full max-w-[1600px] mx-auto">
+          <div class="rounded-2xl flex items-center px-6 py-4 transition-all bg-surface-dark border border-white/[0.06] focus-within:border-primary/50 focus-within:shadow-[0_0_30px_rgba(46,116,139,0.1)] group">
+            <span class="material-symbols-outlined text-primary mr-4 group-focus-within:animate-pulse">search</span>
+            <input id="search-input" class="bg-transparent border-none focus:ring-0 text-white placeholder:text-slate-600 text-lg w-full font-body tracking-wide outline-none focus:outline-none" placeholder="Qual stack ou ferramenta você quer entender hoje?" type="text" autocomplete="off" spellcheck="false" />
+            <div class="hidden md:flex items-center gap-1.5 opacity-40 shrink-0 pointer-events-none">
+              <kbd class="px-2 py-0.5 rounded bg-surface-light border border-border-color text-[10px] font-mono font-bold text-slate-300">Ctrl</kbd>
+              <kbd class="px-2 py-0.5 rounded bg-surface-light border border-border-color text-[10px] font-mono font-bold text-slate-300">K</kbd>
             </div>
-          ))}
+          </div>
+        </div>
+      </header>
+
+      <div class="p-8 w-full flex-1 max-w-[1600px] mx-auto">
+        <div id="tech-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+           {technologies.map((tech, index) => (
+             <div class="tech-card p-6 rounded-3xl border border-white/[0.04] bg-gradient-to-b from-[#0D1117] to-[#0A0C12] group cursor-pointer relative flex flex-col h-[260px] hover:-translate-y-1 hover:border-primary/40 hover:from-[#12161E] hover:to-[#0D1117] transition-all duration-300 hover:shadow-[0_10px_40px_rgba(0,0,0,0.5)]" data-index={index} data-name={tech.name.toLowerCase()} data-cat={tech.category}>
+                
+                <div class="flex justify-between items-start mb-6 relative z-10">
+                  <div class="size-12 rounded-xl bg-black border border-white/5 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_rgba(46,116,139,0.15)] transition-all overflow-hidden relative">
+                    <img src={tech.logo} alt={tech.name} class="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                    <span class="material-symbols-outlined text-2xl text-slate-500 group-hover:text-primary transition-colors hidden items-center justify-center absolute inset-0 w-full h-full">{tech.typeIcon}</span>
+                  </div>
+                  <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest px-2 py-1 inline-flex items-center justify-center rounded-lg bg-white/[0.02] border border-white/[0.05] group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/20 transition-all">{tech.language}</span>
+                </div>
+                
+                <div class="mb-4 relative z-10 flex-1">
+                  <div class="flex flex-col gap-1.5 mb-2">
+                    <h3 class="font-display text-xl font-bold text-white tracking-tight leading-none group-hover:text-primary transition-colors">{tech.name}</h3>
+                    <span class="text-[10px] text-secondary font-bold tracking-widest uppercase">{tech.tagline}</span>
+                  </div>
+                  <p class="text-slate-400 text-xs leading-relaxed font-body line-clamp-3 mt-3 opacity-80 group-hover:opacity-100 transition-opacity">{tech.description}</p>
+                </div>
+                
+                <div class="mt-auto pt-4 border-t border-white/[0.03] flex items-center justify-between relative z-10">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary/50 group-hover:bg-cta group-hover:animate-pulse"></span>
+                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter italic">{tech.role}</span>
+                  </div>
+                  <span class="material-symbols-outlined text-sm text-primary opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all">arrow_forward</span>
+                </div>
+             </div>
+           ))}
+        </div>
+        
+        <div id="empty-state" class="hidden flex-col items-center justify-center py-20 opacity-60">
+           <span class="material-symbols-outlined text-6xl text-slate-600 mb-4">search_off</span>
+           <h3 class="font-display text-xl font-bold text-slate-300">Nenhuma tecnologia encontrada</h3>
+           <p class="text-slate-500 text-sm mt-2">Tente buscar por um termo diferente ou mude a categoria.</p>
         </div>
       </div>
     </main>
-    
-    <Footer />
+
+    <!-- RIGHT SIDEBAR: Painel de Visão Detalhada -->
+    <aside id="detail-sidebar" class="w-0 shrink-0 opacity-0 overflow-hidden border-l border-white/[0.05] bg-black/60 backdrop-blur-3xl flex flex-col z-50 transition-all duration-[400ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] absolute right-0 top-0 h-full md:relative">
+      <div class="p-6 border-b border-white/[0.05] flex justify-between items-center bg-black/20 shrink-0">
+        <h2 class="font-display text-[10px] uppercase tracking-[0.25em] font-extrabold text-slate-400">Visão Detalhada</h2>
+        <button id="close-detail" class="text-slate-500 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] p-2 rounded-xl transition-all border border-transparent hover:border-white/10" aria-label="Fechar detalhes">
+          <span class="material-symbols-outlined text-sm">close</span>
+        </button>
+      </div>
+      
+      <div class="flex-1 overflow-y-auto p-8 custom-scrollbar relative" id="detail-content">
+        <!-- Injetado magicamente via JS para ultra-velocidade -->
+      </div>
+    </aside>
+
   </div>
 </Layout>
+
+<style>
+  /* Tipografia garantida pelas definições em global.css */
+  .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+  }
+  .bg-grain {
+      background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9NIKu1eMtRCsTKT7BAKjW5vNbqTx_kCS1c4ZUa7z934FhzTzEf77HBIWQx35UKSAnLAmmq6YX5HTlH4rdFIf1x6zGwfyIZyL7vuBeUzHc3Ml9QwwY8xYFVEI646SBtSCW3lqIe3lbxXb6V3QvAYd8G9_QrbjFyrPBWC9VmCBmu3dZ_lNsZMs1EdJTkPpqT0hnAJPpo3oiuRABGFaSVjl6qmx4KpgWQXCFXLdVu8GeXfy99AX35rGoUKb9ovpwCO7kMOY7CY8qgwLb");
+  }
+  
+  /* State para right-sidebar ativa */
+  .detail-open {
+      width: 100%;
+      opacity: 1;
+  }
+  @media (min-width: 768px) {
+      .detail-open {
+          width: 420px;
+      }
+  }
+
+  /* Micro-animação para entrada dos cards */
+  .tech-card {
+      animation: fadeIn 0.4s ease-out backwards;
+  }
+  @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+  }
+  .tech-card:nth-child(n) { animation-delay: calc(var(--grid-index, 0) * 0.03s); }
+</style>
+
+<script define:vars={{ techData: technologies }}>
+   const cards = document.querySelectorAll('.tech-card');
+   const sidebar = document.getElementById('detail-sidebar');
+   const closeBtn = document.getElementById('close-detail');
+   const detailContent = document.getElementById('detail-content');
+   const searchInput = document.getElementById('search-input');
+   const catBtns = document.querySelectorAll('.cat-btn');
+   const emptyState = document.getElementById('empty-state');
+   const categoryTitle = document.getElementById('category-title');
+  
+   let activeCategory = 'all';
+
+   // Inject index var for stagger animations
+   cards.forEach((card, i) => {
+       card.style.setProperty('--grid-index', i % 20); // limits delay scaling
+   });
+
+   // Close Sidebar Logic
+   function closeSidebar() {
+      sidebar.classList.remove('detail-open');
+      cards.forEach(c => c.classList.remove('ring-1', 'ring-primary', 'border-transparent', 'shadow-[0_0_30px_rgba(46,116,139,0.15)]'));
+   }
+
+   closeBtn.addEventListener('click', closeSidebar);
+   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
+
+   // Open Sidebar & Render details
+   cards.forEach(card => {
+      card.addEventListener('click', () => {
+         const index = card.getAttribute('data-index');
+         const tech = techData[index];
+         
+         // Select state feedback
+         cards.forEach(c => c.classList.remove('ring-1', 'ring-primary', 'border-transparent', 'shadow-[0_0_30px_rgba(46,116,139,0.15)]'));
+         card.classList.add('ring-1', 'ring-primary', 'border-transparent', 'shadow-[0_0_30px_rgba(46,116,139,0.15)]');
+
+         // Populate details panel injected markup (tailored to colors and typography of BC)
+         detailContent.innerHTML = `
+            <div class="flex flex-col items-center mb-8 text-center animate-[fadeIn_0.3s_ease-out]">
+              <!-- Logo grande no painel de detalhes -->
+              <div class="size-24 rounded-[1.5rem] bg-gradient-to-br from-surface-dark to-black flex items-center justify-center border border-white/10 mb-5 shadow-[0_0_40px_rgba(46,116,139,0.08)] relative overflow-hidden p-5">
+                <div class="absolute inset-0 bg-[#1C4D5E]/5 blur-xl"></div>
+                <img
+                  src="${tech.logo}"
+                  alt="${tech.name}"
+                  class="w-full h-full object-contain relative z-10"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                />
+                <span class="material-symbols-outlined text-5xl text-primary relative z-10 hidden">${tech.typeIcon}</span>
+              </div>
+              <h2 class="font-display text-3xl font-extrabold text-white tracking-tight mb-2">${tech.name}</h2>
+              <span class="px-3 py-1 bg-surface-dark border border-white/10 text-slate-300 text-[9px] rounded-lg font-bold uppercase tracking-[0.2em] shadow-inner mb-4">${tech.language}</span>
+              ${tech.website !== '#' ? `
+              <a
+                href="${tech.website}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-bold hover:bg-primary hover:text-background-dark transition-all duration-200 group/link"
+              >
+                <span class="material-symbols-outlined text-sm group-hover/link:rotate-12 transition-transform">open_in_new</span>
+                Visitar Site Oficial
+              </a>` : ''}
+            </div>
+            
+            <div class="space-y-8 animate-[fadeIn_0.4s_ease-out]">
+              <section>
+                <div class="flex items-center gap-2 text-primary/90 mb-4 border-b border-white/[0.04] pb-2">
+                  <span class="material-symbols-outlined text-base">architecture</span>
+                  <h4 class="text-[10px] uppercase font-bold tracking-[0.2em]">Visão Geral</h4>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed font-body">
+                  ${tech.description}
+                </p>
+              </section>
+
+              <section>
+                <div class="flex items-center gap-2 text-[#5A9DB5] mb-4 border-b border-white/[0.04] pb-2">
+                  <span class="material-symbols-outlined text-base">check_circle</span>
+                  <h4 class="text-[10px] uppercase font-bold tracking-[0.2em]">Vantagens Notáveis</h4>
+                </div>
+                <ul class="space-y-3">
+                  ${tech.pros.map(pro => `
+                    <li class="flex gap-3 text-sm text-slate-400 items-start">
+                      <span class="material-symbols-outlined text-[#5A9DB5]/80 text-[18px] shrink-0 mt-0.5">done</span>
+                      <span class="leading-relaxed">${pro}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+              </section>
+              
+              <section>
+                <div class="flex items-center gap-2 text-cta mb-4 border-b border-white/[0.04] pb-2">
+                  <span class="material-symbols-outlined text-base">warning</span>
+                  <h4 class="text-[10px] uppercase font-bold tracking-[0.2em]">Fatores Críticos / Contras</h4>
+                </div>
+                <ul class="space-y-3">
+                  ${tech.cons.map(con => `
+                    <li class="flex gap-3 text-sm text-slate-400 items-start">
+                      <span class="material-symbols-outlined text-cta/70 text-[18px] shrink-0 mt-0.5">close</span>
+                      <span class="leading-relaxed">${con}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+              </section>
+
+              <section class="p-5 rounded-2xl bg-surface-dark border border-white/5 relative overflow-hidden group/ideal">
+                 <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover/ideal:opacity-100 transition-opacity"></div>
+                 <h4 class="text-[10px] uppercase font-bold tracking-[0.2em] text-primary mb-3 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">stars</span> Cena Ideal
+                 </h4>
+                 <p class="text-sm text-slate-300 font-medium leading-relaxed relative z-10">${tech.useCases}</p>
+              </section>
+
+              ${tech.website !== '#' ? `
+              <a
+                href="${tech.website}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-primary/10 border border-primary/20 text-primary text-sm font-bold hover:bg-primary hover:text-background-dark transition-all duration-200 group/link"
+              >
+                <span class="material-symbols-outlined text-base group-hover/link:rotate-12 transition-transform">open_in_new</span>
+                Acessar Site Oficial
+              </a>` : ''}
+            </div>
+         `;
+         
+         sidebar.classList.add('detail-open');
+         
+         // Scroll sidebar to top
+         detailContent.scrollTo(0, 0);
+      });
+   });
+
+   // Search and Filter Logic
+   function applyFilters() {
+      const query = searchInput.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+         const cat = card.getAttribute('data-cat');
+         const name = card.getAttribute('data-name');
+         
+         const matchesCat = activeCategory === 'all' || cat === activeCategory;
+         const matchesName = !query || name.includes(query);
+
+         if (matchesCat && matchesName) {
+            card.style.display = 'flex';
+            visibleCount++;
+         } else {
+            card.style.display = 'none';
+         }
+      });
+
+      if (visibleCount === 0) {
+         emptyState.classList.remove('hidden');
+         emptyState.classList.add('flex');
+      } else {
+         emptyState.classList.add('hidden');
+         emptyState.classList.remove('flex');
+      }
+   }
+
+   catBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+         // Reset other buttons
+         catBtns.forEach(b => {
+            b.classList.remove('active', 'bg-primary/10', 'text-primary', 'border-primary/20', 'shadow-[0_0_10px_rgba(46,116,139,0.05)]');
+            b.classList.add('text-slate-400', 'border-transparent');
+         });
+         // Activate clicked
+         btn.classList.add('active', 'bg-primary/10', 'text-primary', 'border-primary/20', 'shadow-[0_0_10px_rgba(46,116,139,0.05)]');
+         btn.classList.remove('text-slate-400', 'border-transparent');
+
+         activeCategory = btn.getAttribute('data-cat');
+         
+         // Update Title
+         const catName = btn.querySelector('span:last-child').textContent;
+         if (activeCategory === 'all') {
+             categoryTitle.textContent = 'Técnica';
+         } else {
+             categoryTitle.textContent = catName;
+         }
+
+         applyFilters();
+         closeSidebar(); // hide detail visually on filter change for cleaner UX
+      });
+   });
+
+   searchInput.addEventListener('input', applyFilters);
+
+   // Focus search on hotkey
+   document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+         e.preventDefault();
+         searchInput.focus();
+      }
+   });
+</script>

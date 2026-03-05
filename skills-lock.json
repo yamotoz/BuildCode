@@ -11,6 +11,11 @@
       "sourceType": "github",
       "computedHash": "bd3a2e8bec64237aca86cd363fa5349a417eb86d3351447642cc1c5862089c47"
     },
+    "readme-blueprint-generator": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "e2c7dabf2e455794260f1516e2ceda6a82dc92a409578cc184fcb0f45bddca54"
+    },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "sourceType": "github",
