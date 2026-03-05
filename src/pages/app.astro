@@ -105,14 +105,14 @@ const techDB = technologies.map(t => ({
       <aside class="w-72 hidden xl:flex flex-col gap-6 shrink-0">
         <div class="glass-panel rounded-2xl p-6 flex flex-col gap-6">
           <div>
-            <h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-4">Architecture Insights</h3>
+            <h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-4" data-i18n="app.insights">Architecture Insights</h3>
             <div class="flex flex-col gap-4">
               <div class="flex items-center justify-between">
-                <span class="text-sm text-slate-400">Estimativa de Custo</span>
+                <span class="text-sm text-slate-400" data-i18n="app.custo">Estimativa de Custo</span>
                 <span id="insight-cost" class="text-sm font-semibold text-green-400">—</span>
               </div>
               <div class="flex items-center justify-between">
-                <span class="text-sm text-slate-400">Complexidade</span>
+                <span class="text-sm text-slate-400" data-i18n="app.complexidade">Complexidade</span>
                 <div id="insight-complexity" class="flex gap-0.5">
                   <span class="material-symbols-outlined text-sm text-slate-700">star</span>
                   <span class="material-symbols-outlined text-sm text-slate-700">star</span>
@@ -122,26 +122,26 @@ const techDB = technologies.map(t => ({
                 </div>
               </div>
               <div class="flex items-center justify-between">
-                <span class="text-sm text-slate-400">Time-to-Market</span>
+                <span class="text-sm text-slate-400" data-i18n="app.ttm">Time-to-Market</span>
                 <span id="insight-ttm" class="text-sm font-semibold text-white">—</span>
               </div>
               <div class="flex items-center justify-between">
-                <span class="text-sm text-slate-400">Senioridade</span>
+                <span class="text-sm text-slate-400" data-i18n="app.senioridade">Senioridade</span>
                 <span id="insight-level" class="text-sm font-semibold text-primary">—</span>
               </div>
             </div>
           </div>
           <div class="pt-6 border-t border-border-color">
-            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">💡 Sugestão Live</h3>
+            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4"><span data-i18n="app.sugestao">💡 Sugestão Live</span></h3>
             <div class="p-3 bg-surface-dark/70 rounded-lg border border-border-color">
-              <p id="insight-tip" class="text-[11px] leading-relaxed text-slate-300">Preencha o formulário para receber sugestões em tempo real.</p>
+              <p id="insight-tip" class="text-[11px] leading-relaxed text-slate-300" data-i18n="app.sugestao.default">Preencha o formulário para receber sugestões em tempo real.</p>
             </div>
           </div>
         </div>
 
         <div class="glass-panel rounded-2xl p-4 flex items-center gap-3 mt-auto">
           <div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
-          <span class="text-xs font-medium text-slate-400">AI Engine: Online & Analisando</span>
+          <span class="text-xs font-medium text-slate-400" data-i18n="app.engine">AI Engine: Online & Analisando</span>
         </div>
       </aside>
 
@@ -199,9 +199,9 @@ const techDB = technologies.map(t => ({
                           title="Informe uma tecnologia que não está na biblioteca"
                         >
                           <span class="material-symbols-outlined text-sm">edit</span>
-                          Personalizar
+                          <span data-i18n="app.personalizar">Personalizar</span>
                         </button>
-                        <span class="text-[10px] text-slate-600 font-mono shrink-0 pr-1">ESC limpa</span>
+                        <span class="text-[10px] text-slate-600 font-mono shrink-0 pr-1" data-i18n="app.esc">ESC limpa</span>
                       </div>
                       <!-- Custom tech input (hidden by default) -->
                       <div class="custom-tech-input hidden mt-3 flex items-center gap-3" data-custom-for={q.name}>
@@ -209,6 +209,7 @@ const techDB = technologies.map(t => ({
                           type="text"
                           class="custom-tech-value flex-1 px-4 py-3 rounded-xl glass-panel text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-cta/50 focus:ring-1 focus:ring-cta/50 transition-all border-cta/20"
                           placeholder="Digite o nome da tecnologia que deseja usar..."
+                          data-i18n-placeholder="app.personalizar.placeholder"
                           autocomplete="off"
                         />
                         <button
@@ -217,7 +218,7 @@ const techDB = technologies.map(t => ({
                           data-for={q.name}
                         >
                           <span class="material-symbols-outlined text-sm">check</span>
-                          Confirmar
+                          <span data-i18n="app.personalizar.confirmar">Confirmar</span>
                         </button>
                       </div>
                       <div
@@ -272,7 +273,7 @@ const techDB = technologies.map(t => ({
               {q.step === 20 && (
                 <div class="w-full mt-4">
                   <h3 class="font-display text-lg font-bold text-white mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">bug_report</span> Estratégia de Testes
+                    <span class="material-symbols-outlined text-primary">bug_report</span> <span data-i18n="app.testes.title">Estratégia de Testes</span>
                   </h3>
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {testesOptions.map(opt => (
@@ -294,17 +295,17 @@ const techDB = technologies.map(t => ({
               <!-- Navigation buttons -->
               <div class="flex items-center gap-6 mt-4">
                 {q.step > 1 && (
-                  <button type="button" class="prev-btn px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">Voltar</button>
+                  <button type="button" class="prev-btn px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-colors" data-i18n="app.voltar">Voltar</button>
                 )}
                 {q.step < totalSteps ? (
                   <button type="button" class="next-btn flex items-center gap-3 px-10 py-4 bg-primary text-background-dark rounded-xl font-bold shadow-[0_0_20px_rgba(46,116,139,0.3)] hover:shadow-[0_0_35px_rgba(46,116,139,0.5)] hover:-translate-y-0.5 transition-all group">
-                    Próxima Etapa
+                    <span data-i18n="app.proxima">Próxima Etapa</span>
                     <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
                   </button>
                 ) : (
                   <button type="button" id="generate-btn" class="flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-cta to-yellow-600 text-background-dark rounded-xl font-black shadow-[0_0_20px_rgba(242,171,109,0.4)] hover:shadow-[0_0_35px_rgba(242,171,109,0.6)] hover:-translate-y-0.5 transition-all group">
                     <span class="material-symbols-outlined">auto_awesome</span>
-                    Gerar PRD & Prompt Base
+                    <span data-i18n="app.gerar">Gerar PRD & Prompt Base</span>
                   </button>
                 )}
               </div>
@@ -317,7 +318,7 @@ const techDB = technologies.map(t => ({
               <div class="size-24 rounded-full border-4 border-surface-dark border-t-primary animate-spin"></div>
               <span class="material-symbols-outlined text-primary text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse">auto_awesome</span>
             </div>
-            <h2 class="font-display text-2xl font-bold text-white mt-4">Construindo sua Arquitetura...</h2>
+            <h2 class="font-display text-2xl font-bold text-white mt-4" data-i18n="app.loading.title">Construindo sua Arquitetura...</h2>
             <p id="loading-msg" class="font-mono text-sm text-primary h-5">Analisando contexto do projeto...</p>
             <div class="flex gap-2 mt-4">
               <div class="w-2 h-2 rounded-full bg-primary animate-bounce" style="animation-delay: 0ms"></div>
@@ -331,11 +332,11 @@ const techDB = technologies.map(t => ({
             <!-- Tab Switcher -->
             <div class="flex items-center justify-between">
               <div class="flex gap-2">
-                <button type="button" id="tab-prd" class="result-tab px-5 py-2 rounded-lg text-sm font-bold bg-primary/10 text-primary border border-primary/20 transition-all">📋 PRD Estratégico</button>
-                <button type="button" id="tab-prompt" class="result-tab px-5 py-2 rounded-lg text-sm font-bold text-slate-500 border border-transparent hover:text-white transition-all">🚀 Prompt Base</button>
+                <button type="button" id="tab-prd" class="result-tab px-5 py-2 rounded-lg text-sm font-bold bg-primary/10 text-primary border border-primary/20 transition-all">📋 <span data-i18n="app.tab.prd">PRD Estratégico</span></button>
+                <button type="button" id="tab-prompt" class="result-tab px-5 py-2 rounded-lg text-sm font-bold text-slate-500 border border-transparent hover:text-white transition-all">🚀 <span data-i18n="app.tab.prompt">Prompt Base</span></button>
               </div>
               <button type="button" id="copy-btn" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-border-color bg-surface-dark text-xs text-slate-300 hover:text-white hover:bg-surface-light transition-colors">
-                <span class="material-symbols-outlined text-sm">content_copy</span> COPIAR
+                <span class="material-symbols-outlined text-sm">content_copy</span> <span data-i18n="app.copiar">COPIAR</span>
               </button>
             </div>
             <!-- Output Area -->

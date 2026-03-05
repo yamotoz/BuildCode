@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { translations } from '../data/i18n';
 
 interface Props {
 	title: string;
@@ -17,7 +18,7 @@ const { title, description = "BuildCode - Arquiteto visual de software e consult
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" href="/faviconBC.png" />
 		<title>{title}</title>
-		
+
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
@@ -27,3 +28,88 @@ const { title, description = "BuildCode - Arquiteto visual de software e consult
 		<slot />
 	</body>
 </html>
+
+<script define:vars={{ i18nData: translations }}>
+  // ═══════════════════════════════════════════
+  //  BuildCode i18n System
+  // ═══════════════════════════════════════════
+  window._i18n = i18nData;
+
+  function getLang() {
+    return localStorage.getItem('bc-lang') || 'pt';
+  }
+
+  function setLang(lang) {
+    localStorage.setItem('bc-lang', lang);
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    applyTranslations(lang);
+    updateLangToggle(lang);
+  }
+
+  function applyTranslations(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const translation = window._i18n[key];
+      if (translation && translation[lang]) {
+        // Preserve inner HTML structure for elements with children
+        if (el.children.length === 0) {
+          el.textContent = translation[lang];
+        } else {
+          // For elements that have child nodes, only replace text nodes
+          el.childNodes.forEach(node => {
+            if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+              node.textContent = translation[lang];
+            }
+          });
+        }
+      }
+    });
+
+    // Update placeholder attributes
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      const translation = window._i18n[key];
+      if (translation && translation[lang]) {
+        el.placeholder = translation[lang];
+      }
+    });
+
+    // Update title attributes
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+      const key = el.getAttribute('data-i18n-title');
+      const translation = window._i18n[key];
+      if (translation && translation[lang]) {
+        el.title = translation[lang];
+      }
+    });
+  }
+
+  function updateLangToggle(lang) {
+    const label = document.getElementById('lang-label');
+    if (label) {
+      label.textContent = lang.toUpperCase();
+    }
+  }
+
+  // Toggle handler
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#lang-toggle')) {
+      const current = getLang();
+      setLang(current === 'pt' ? 'en' : 'pt');
+    }
+  });
+
+  // Apply on load
+  document.addEventListener('DOMContentLoaded', () => {
+    const lang = getLang();
+    if (lang !== 'pt') {
+      applyTranslations(lang);
+    }
+    updateLangToggle(lang);
+  });
+
+  // Expose for other scripts
+  window.bcGetLang = getLang;
+  window.bcSetLang = setLang;
+  window.bcApplyTranslations = applyTranslations;
+</script>

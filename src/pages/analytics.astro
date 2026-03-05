@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AnalyticsDashboard from '../components/analytics/AnalyticsDashboard';
+
+export const prerender = false;
+---
+
+<Layout title="BuildCode — Analytics">
+  <Header />
+  <main class="min-h-screen">
+    <AnalyticsDashboard client:load />
+  </main>
+  <Footer />
+</Layout>

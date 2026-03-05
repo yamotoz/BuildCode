@@ -24,7 +24,7 @@ import { technologies } from '../data/technologies';
       <nav class="flex-1 px-4 space-y-2 overflow-hidden custom-scrollbar">
         <button data-cat="all" class="cat-btn active w-full flex items-center gap-4 px-3 py-3 rounded-xl bg-primary/10 text-primary border border-primary/20 cursor-pointer overflow-hidden transition-all shadow-[0_0_10px_rgba(46,116,139,0.05)]">
           <span class="material-symbols-outlined min-w-[24px]">apps</span>
-          <span class="font-bold text-sm opacity-0 group-hover/sidebar:opacity-100 transition-opacity whitespace-nowrap">Todas as Stacks</span>
+          <span class="font-bold text-sm opacity-0 group-hover/sidebar:opacity-100 transition-opacity whitespace-nowrap" data-i18n="bib.todas">Todas as Stacks</span>
         </button>
         {categories.map(cat => (
           <button data-cat={cat.id} class="cat-btn w-full flex items-center gap-4 px-3 py-3 rounded-xl text-slate-400 hover:bg-surface-light hover:text-white border border-transparent transition-all cursor-pointer overflow-hidden">
@@ -35,9 +35,9 @@ import { technologies } from '../data/technologies';
       </nav>
       
       <div class="p-4 border-t border-border-color shrink-0">
-         <a href="/app" class="w-full flex items-center gap-4 px-3 py-3 rounded-xl bg-cta/10 text-cta border border-cta/20 hover:bg-cta hover:text-background-dark hover:shadow-[0_0_20px_rgba(242,171,109,0.3)] transition-all duration-300 cursor-pointer overflow-hidden group/cta">
-            <span class="material-symbols-outlined min-w-[24px] group-hover/cta:animate-bounce">rocket_launch</span>
-            <span class="font-bold text-sm opacity-0 group-hover/sidebar:opacity-100 transition-opacity whitespace-nowrap">Acessar Sistema</span>
+         <a href="/analytics" class="w-full flex items-center gap-4 px-3 py-3 rounded-xl bg-cta/10 text-cta border border-cta/20 hover:bg-cta hover:text-background-dark hover:shadow-[0_0_20px_rgba(242,171,109,0.3)] transition-all duration-300 cursor-pointer overflow-hidden group/cta">
+            <span class="material-symbols-outlined min-w-[24px] group-hover/cta:animate-bounce">analytics</span>
+            <span class="font-bold text-sm opacity-0 group-hover/sidebar:opacity-100 transition-opacity whitespace-nowrap" data-i18n="bib.analytics">Visualizar Analytics</span>
          </a>
       </div>
     </aside>
@@ -50,18 +50,18 @@ import { technologies } from '../data/technologies';
       <header class="sticky top-0 z-30 px-8 py-8 bg-[#06070a]/80 backdrop-blur-xl border-b border-white/[0.04] flex flex-col gap-8 transition-all duration-300">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 max-w-[1600px] mx-auto w-full">
           <div>
-            <h2 class="font-display text-3xl font-black text-white tracking-tight">Biblioteca <span id="category-title" class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Técnica</span></h2>
-            <p class="text-slate-400 text-sm mt-1 font-medium">Explore as ferramentas mais consolidadas do mercado e saiba exatamente quando usar.</p>
+            <h2 class="font-display text-3xl font-black text-white tracking-tight"><span data-i18n="bib.title">Biblioteca </span><span id="category-title" class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary" data-i18n="bib.title.highlight">Técnica</span></h2>
+            <p class="text-slate-400 text-sm mt-1 font-medium" data-i18n="bib.subtitle">Explore as ferramentas mais consolidadas do mercado e saiba exatamente quando usar.</p>
           </div>
           <div class="flex items-center gap-4 bg-surface-dark px-5 py-3 rounded-2xl border border-border-color shadow-inner shrink-0">
              <div class="flex flex-col items-center">
                <span class="font-display text-2xl font-black text-white leading-none">{technologies.length}</span>
-               <span class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mt-1">Tecnologias</span>
+               <span class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mt-1" data-i18n="bib.tecnologias">Tecnologias</span>
              </div>
              <div class="w-px h-8 bg-border-color mx-2"></div>
              <div class="flex flex-col items-center">
                <span class="font-display text-2xl font-black text-white leading-none">{categories.length}</span>
-               <span class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mt-1">Categorias</span>
+               <span class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mt-1" data-i18n="bib.categorias">Categorias</span>
              </div>
           </div>
         </div>
@@ -69,7 +69,7 @@ import { technologies } from '../data/technologies';
         <div class="relative w-full max-w-[1600px] mx-auto">
           <div class="rounded-2xl flex items-center px-6 py-4 transition-all bg-surface-dark border border-white/[0.06] focus-within:border-primary/50 focus-within:shadow-[0_0_30px_rgba(46,116,139,0.1)] group">
             <span class="material-symbols-outlined text-primary mr-4 group-focus-within:animate-pulse">search</span>
-            <input id="search-input" class="bg-transparent border-none focus:ring-0 text-white placeholder:text-slate-600 text-lg w-full font-body tracking-wide outline-none focus:outline-none" placeholder="Qual stack ou ferramenta você quer entender hoje?" type="text" autocomplete="off" spellcheck="false" />
+            <input id="search-input" class="bg-transparent border-none focus:ring-0 text-white placeholder:text-slate-600 text-lg w-full font-body tracking-wide outline-none focus:outline-none" placeholder="Qual stack ou ferramenta você quer entender hoje?" data-i18n-placeholder="bib.search" type="text" autocomplete="off" spellcheck="false" />
             <div class="hidden md:flex items-center gap-1.5 opacity-40 shrink-0 pointer-events-none">
               <kbd class="px-2 py-0.5 rounded bg-surface-light border border-border-color text-[10px] font-mono font-bold text-slate-300">Ctrl</kbd>
               <kbd class="px-2 py-0.5 rounded bg-surface-light border border-border-color text-[10px] font-mono font-bold text-slate-300">K</kbd>
@@ -111,8 +111,8 @@ import { technologies } from '../data/technologies';
         
         <div id="empty-state" class="hidden flex-col items-center justify-center py-20 opacity-60">
            <span class="material-symbols-outlined text-6xl text-slate-600 mb-4">search_off</span>
-           <h3 class="font-display text-xl font-bold text-slate-300">Nenhuma tecnologia encontrada</h3>
-           <p class="text-slate-500 text-sm mt-2">Tente buscar por um termo diferente ou mude a categoria.</p>
+           <h3 class="font-display text-xl font-bold text-slate-300" data-i18n="bib.empty.title">Nenhuma tecnologia encontrada</h3>
+           <p class="text-slate-500 text-sm mt-2" data-i18n="bib.empty.desc">Tente buscar por um termo diferente ou mude a categoria.</p>
         </div>
       </div>
     </main>
@@ -120,7 +120,7 @@ import { technologies } from '../data/technologies';
     <!-- RIGHT SIDEBAR: Painel de Visão Detalhada -->
     <aside id="detail-sidebar" class="w-0 shrink-0 opacity-0 overflow-hidden border-l border-white/[0.05] bg-black/60 backdrop-blur-3xl flex flex-col z-50 transition-all duration-[400ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] absolute right-0 top-0 h-full md:relative">
       <div class="p-6 border-b border-white/[0.05] flex justify-between items-center bg-black/20 shrink-0">
-        <h2 class="font-display text-[10px] uppercase tracking-[0.25em] font-extrabold text-slate-400">Visão Detalhada</h2>
+        <h2 class="font-display text-[10px] uppercase tracking-[0.25em] font-extrabold text-slate-400" data-i18n="bib.detail.title">Visão Detalhada</h2>
         <button id="close-detail" class="text-slate-500 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] p-2 rounded-xl transition-all border border-transparent hover:border-white/10" aria-label="Fechar detalhes">
           <span class="material-symbols-outlined text-sm">close</span>
         </button>
@@ -229,7 +229,7 @@ import { technologies } from '../data/technologies';
                 class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-bold hover:bg-primary hover:text-background-dark transition-all duration-200 group/link"
               >
                 <span class="material-symbols-outlined text-sm group-hover/link:rotate-12 transition-transform">open_in_new</span>
-                Visitar Site Oficial
+                <span data-i18n="bib.detail.website">Visitar Site Oficial</span>
               </a>` : ''}
             </div>
             
@@ -237,7 +237,7 @@ import { technologies } from '../data/technologies';
               <section>
                 <div class="flex items-center gap-2 text-primary/90 mb-4 border-b border-white/[0.04] pb-2">
                   <span class="material-symbols-outlined text-base">architecture</span>
-                  <h4 class="text-[10px] uppercase font-bold tracking-[0.2em]">Visão Geral</h4>
+                  <h4 class="text-[10px] uppercase font-bold tracking-[0.2em]" data-i18n="bib.detail.overview">Visão Geral</h4>
                 </div>
                 <p class="text-slate-300 text-sm leading-relaxed font-body">
                   ${tech.description}
@@ -247,7 +247,7 @@ import { technologies } from '../data/technologies';
               <section>
                 <div class="flex items-center gap-2 text-[#5A9DB5] mb-4 border-b border-white/[0.04] pb-2">
                   <span class="material-symbols-outlined text-base">check_circle</span>
-                  <h4 class="text-[10px] uppercase font-bold tracking-[0.2em]">Vantagens Notáveis</h4>
+                  <h4 class="text-[10px] uppercase font-bold tracking-[0.2em]" data-i18n="bib.detail.pros">Vantagens Notáveis</h4>
                 </div>
                 <ul class="space-y-3">
                   ${tech.pros.map(pro => `
@@ -262,7 +262,7 @@ import { technologies } from '../data/technologies';
               <section>
                 <div class="flex items-center gap-2 text-cta mb-4 border-b border-white/[0.04] pb-2">
                   <span class="material-symbols-outlined text-base">warning</span>
-                  <h4 class="text-[10px] uppercase font-bold tracking-[0.2em]">Fatores Críticos / Contras</h4>
+                  <h4 class="text-[10px] uppercase font-bold tracking-[0.2em]" data-i18n="bib.detail.cons">Fatores Críticos / Contras</h4>
                 </div>
                 <ul class="space-y-3">
                   ${tech.cons.map(con => `
@@ -277,7 +277,7 @@ import { technologies } from '../data/technologies';
               <section class="p-5 rounded-2xl bg-surface-dark border border-white/5 relative overflow-hidden group/ideal">
                  <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover/ideal:opacity-100 transition-opacity"></div>
                  <h4 class="text-[10px] uppercase font-bold tracking-[0.2em] text-primary mb-3 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-sm">stars</span> Cena Ideal
+                    <span class="material-symbols-outlined text-sm">stars</span> <span data-i18n="bib.detail.ideal">Cena Ideal</span>
                  </h4>
                  <p class="text-sm text-slate-300 font-medium leading-relaxed relative z-10">${tech.useCases}</p>
               </section>
@@ -286,7 +286,12 @@ import { technologies } from '../data/technologies';
          `;
          
          sidebar.classList.add('detail-open');
-         
+
+         // Apply i18n to dynamically injected content
+         if (window.bcApplyTranslations && window.bcGetLang) {
+           window.bcApplyTranslations(window.bcGetLang());
+         }
+
          // Scroll sidebar to top
          detailContent.scrollTo(0, 0);
       });

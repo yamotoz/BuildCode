@@ -27,21 +27,21 @@ import Footer from '../components/Footer.astro';
         <div class="relative z-10 flex flex-col items-center text-center max-w-[900px] gap-8 opacity-0 animate-[fade-in-up_1s_ease-out_forwards]">
           <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 mb-4">
             <span class="flex size-2 rounded-full bg-primary animate-pulse"></span>
-            <span class="text-xs font-semibold tracking-widest text-primary uppercase">IA-Powered Architecture</span>
+            <span class="text-xs font-semibold tracking-widest text-primary uppercase" data-i18n="hero.badge">IA-Powered Architecture</span>
           </div>
           <h1 class="font-display text-5xl md:text-7xl font-black leading-tight tracking-tighter text-white">
-            Engenharia de <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-dark">Elite</span> para Projetos Visionários
+            <span data-i18n="hero.title.1">Engenharia de </span><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-dark" data-i18n="hero.title.highlight">Elite</span><span data-i18n="hero.title.2"> para Projetos Visionários</span>
           </h1>
-          <p class="text-lg md:text-xl text-slate-400 font-medium leading-relaxed max-w-[700px]">
+          <p class="text-lg md:text-xl text-slate-400 font-medium leading-relaxed max-w-[700px]" data-i18n="hero.subtitle">
             A arquitetura perfeita para o seu software começa com decisões inteligentes. Use IA para selecionar stacks, mitigar riscos e escalar com integridade.
           </p>
           <div class="flex flex-col sm:flex-row items-center gap-4 mt-8">
-            <a href="/app" class="flex w-full sm:w-auto cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-primary to-primary-dark text-background-dark hover:opacity-90 transition-opacity px-8 py-4 text-base font-bold tracking-wide shadow-[0_0_20px_rgba(46,116,139,0.4)] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark">
+            <a href="/app" class="flex w-full sm:w-auto cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-primary to-primary-dark text-background-dark hover:opacity-90 transition-opacity px-8 py-4 text-base font-bold tracking-wide shadow-[0_0_20px_rgba(46,116,139,0.4)] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark" data-i18n="hero.cta.primary">
               Acessar Sistema
             </a>
             <a href="#problema" class="flex w-full sm:w-auto cursor-pointer items-center justify-center rounded-full glass-panel text-white hover:bg-white/5 transition-colors px-8 py-4 text-base font-semibold tracking-wide focus:outline-none focus:ring-2 focus:ring-white">
               <span class="material-symbols-outlined mr-2 text-primary">play_circle</span>
-              Ver Demonstração
+              <span data-i18n="hero.cta.secondary">Ver Demonstração</span>
             </a>
           </div>
         </div>
@@ -85,9 +85,9 @@ import Footer from '../components/Footer.astro';
         <div class="mx-auto max-w-[1200px] flex flex-col gap-16">
           <div class="flex flex-col items-center text-center gap-4 max-w-[800px] mx-auto">
             <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight text-white">
-              O Problema da <span class="text-slate-400">Arquitetura</span>
+              <span data-i18n="problema.title.1">O Problema da </span><span class="text-slate-400" data-i18n="problema.title.highlight">Arquitetura</span><span data-i18n="problema.title.2"></span>
             </h2>
-            <p class="text-lg text-slate-400 font-medium">
+            <p class="text-lg text-slate-400 font-medium" data-i18n="problema.subtitle">
               Escolher a tecnologia errada custa tempo, dinheiro e sanidade. A falta de visão sistêmica leva ao caos no desenvolvimento.
             </p>
           </div>
@@ -98,8 +98,8 @@ import Footer from '../components/Footer.astro';
                 <span class="material-symbols-outlined text-3xl">hub</span>
               </div>
               <div class="flex flex-col gap-3">
-                <h3 class="font-display text-xl font-bold text-white">Decisões Descentralizadas</h3>
-                <p class="text-slate-400 leading-relaxed">Falta de coesão e padronização entre times. Cada equipe escolhe uma tecnologia diferente, criando um Frankenstein arquitetural impossível de manter.</p>
+                <h3 class="font-display text-xl font-bold text-white" data-i18n="problema.card1.title">Decisões Descentralizadas</h3>
+                <p class="text-slate-400 leading-relaxed" data-i18n="problema.card1.desc">Falta de coesão e padronização entre times. Cada equipe escolhe uma tecnologia diferente, criando um Frankenstein arquitetural impossível de manter.</p>
               </div>
             </div>
             
@@ -108,8 +108,8 @@ import Footer from '../components/Footer.astro';
                 <span class="material-symbols-outlined text-3xl">stacks</span>
               </div>
               <div class="flex flex-col gap-3">
-                <h3 class="font-display text-xl font-bold text-white">Confusão de Stack</h3>
-                <p class="text-slate-400 leading-relaxed">Excesso de tecnologias sem necessidade clara. Adotar ferramentas apenas porque são 'hype', ignorando os reais requisitos do projeto.</p>
+                <h3 class="font-display text-xl font-bold text-white" data-i18n="problema.card2.title">Confusão de Stack</h3>
+                <p class="text-slate-400 leading-relaxed" data-i18n="problema.card2.desc">Excesso de tecnologias sem necessidade clara. Adotar ferramentas apenas porque são 'hype', ignorando os reais requisitos do projeto.</p>
               </div>
             </div>
             
@@ -118,8 +118,8 @@ import Footer from '../components/Footer.astro';
                 <span class="material-symbols-outlined text-3xl">trending_down</span>
               </div>
               <div class="flex flex-col gap-3">
-                <h3 class="font-display text-xl font-bold text-white">Débito de Escalabilidade</h3>
-                <p class="text-slate-400 leading-relaxed">Custos altos e lentidão para escalar o sistema. Quando o sucesso chega, a arquitetura cede e o refatoramento custa meses de trabalho.</p>
+                <h3 class="font-display text-xl font-bold text-white" data-i18n="problema.card3.title">Débito de Escalabilidade</h3>
+                <p class="text-slate-400 leading-relaxed" data-i18n="problema.card3.desc">Custos altos e lentidão para escalar o sistema. Quando o sucesso chega, a arquitetura cede e o refatoramento custa meses de trabalho.</p>
               </div>
             </div>
           </div>
@@ -132,12 +132,12 @@ import Footer from '../components/Footer.astro';
         <div class="mx-auto max-w-[1200px] flex flex-col lg:flex-row gap-16 items-center">
           <div class="flex flex-1 flex-col gap-8">
             <div class="inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5">
-              <span class="text-xs font-semibold tracking-widest text-primary uppercase">Solução Estruturada</span>
+              <span class="text-xs font-semibold tracking-widest text-primary uppercase" data-i18n="solucao.badge">Solução Estruturada</span>
             </div>
             <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
-              A stack perfeita, <br/>escolhida por IA
+              <span data-i18n="solucao.title.1">A stack perfeita, </span><br/><span data-i18n="solucao.title.2">escolhida por IA</span>
             </h2>
-            <p class="text-lg text-slate-400 font-medium">
+            <p class="text-lg text-slate-400 font-medium" data-i18n="solucao.subtitle">
               Nossa IA avalia os requisitos de negócio, restrições técnicas e metas de longo prazo para recomendar a arquitetura ideal, gerando documentação completa em minutos.
             </p>
             <div class="flex flex-col gap-6 mt-4">
@@ -146,8 +146,8 @@ import Footer from '../components/Footer.astro';
                   <span class="material-symbols-outlined text-xl">memory</span>
                 </div>
                 <div>
-                  <h4 class="text-white font-bold text-lg">Seleção de Stack via IA</h4>
-                  <p class="text-slate-400 mt-1">Algoritmos avançados que analisam trade-offs e mitigam riscos técnicos antes da primeira linha de código.</p>
+                  <h4 class="text-white font-bold text-lg" data-i18n="solucao.feature1.title">Seleção de Stack via IA</h4>
+                  <p class="text-slate-400 mt-1" data-i18n="solucao.feature1.desc">Algoritmos avançados que analisam trade-offs e mitigam riscos técnicos antes da primeira linha de código.</p>
                 </div>
               </div>
               <div class="flex items-start gap-4">
@@ -155,8 +155,8 @@ import Footer from '../components/Footer.astro';
                   <span class="material-symbols-outlined text-xl">description</span>
                 </div>
                 <div>
-                  <h4 class="text-white font-bold text-lg">Geração Automatizada de PRD</h4>
-                  <p class="text-slate-400 mt-1">Documentos de requisitos detalhados (PRD) gerados instantaneamente, alinhando engenharia e produto.</p>
+                  <h4 class="text-white font-bold text-lg" data-i18n="solucao.feature2.title">Geração Automatizada de PRD</h4>
+                  <p class="text-slate-400 mt-1" data-i18n="solucao.feature2.desc">Documentos de requisitos detalhados (PRD) gerados instantaneamente, alinhando engenharia e produto.</p>
                 </div>
               </div>
             </div>
@@ -229,10 +229,10 @@ import Footer from '../components/Footer.astro';
       <section class="w-full px-6 py-24 md:px-12 lg:px-24 bg-surface-dark/30 border-t border-border-color" id="beneficios">
         <div class="mx-auto max-w-[1200px] flex flex-col gap-16">
           <div class="flex flex-col items-center text-center gap-4 max-w-[800px] mx-auto">
-            <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight text-white">
+            <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight text-white" data-i18n="beneficios.title">
               Benefícios a longo prazo
             </h2>
-            <p class="text-lg text-slate-400 font-medium">
+            <p class="text-lg text-slate-400 font-medium" data-i18n="beneficios.subtitle">
               Construa uma base sólida para o futuro. Sistemas que nascem com a arquitetura certa escalam sem fricção.
             </p>
           </div>
@@ -243,8 +243,8 @@ import Footer from '../components/Footer.astro';
                 <span class="material-symbols-outlined text-2xl">shield</span>
               </div>
               <div>
-                <h3 class="font-display text-lg font-bold text-white mb-2">Segurança</h3>
-                <p class="text-slate-400 text-sm leading-relaxed">Mitigação proativa de vulnerabilidades com escolhas sólidas e validadas pela indústria.</p>
+                <h3 class="font-display text-lg font-bold text-white mb-2" data-i18n="beneficios.seguranca.title">Segurança</h3>
+                <p class="text-slate-400 text-sm leading-relaxed" data-i18n="beneficios.seguranca.desc">Mitigação proativa de vulnerabilidades com escolhas sólidas e validadas pela indústria.</p>
               </div>
             </div>
             
@@ -253,8 +253,8 @@ import Footer from '../components/Footer.astro';
                 <span class="material-symbols-outlined text-2xl">moving</span>
               </div>
               <div>
-                <h3 class="font-display text-lg font-bold text-white mb-2">Escalabilidade</h3>
-                <p class="text-slate-400 text-sm leading-relaxed">Arquitetura resiliente pronta para suportar de centenas a milhões de usuários simultâneos.</p>
+                <h3 class="font-display text-lg font-bold text-white mb-2" data-i18n="beneficios.escala.title">Escalabilidade</h3>
+                <p class="text-slate-400 text-sm leading-relaxed" data-i18n="beneficios.escala.desc">Arquitetura resiliente pronta para suportar de centenas a milhões de usuários simultâneos.</p>
               </div>
             </div>
             
@@ -263,8 +263,8 @@ import Footer from '../components/Footer.astro';
                 <span class="material-symbols-outlined text-2xl">search</span>
               </div>
               <div>
-                <h3 class="font-display text-lg font-bold text-white mb-2">Clareza</h3>
-                <p class="text-slate-400 text-sm leading-relaxed">Visão cristalina do roadmap técnico, alinhando engenharia com objetivos de negócios.</p>
+                <h3 class="font-display text-lg font-bold text-white mb-2" data-i18n="beneficios.clareza.title">Clareza</h3>
+                <p class="text-slate-400 text-sm leading-relaxed" data-i18n="beneficios.clareza.desc">Visão cristalina do roadmap técnico, alinhando engenharia com objetivos de negócios.</p>
               </div>
             </div>
             
@@ -273,8 +273,8 @@ import Footer from '../components/Footer.astro';
                 <span class="material-symbols-outlined text-2xl">menu_book</span>
               </div>
               <div>
-                <h3 class="font-display text-lg font-bold text-white mb-2">Educação</h3>
-                <p class="text-slate-400 text-sm leading-relaxed">Aprenda as melhores práticas de engenharia durante o processo de estruturação.</p>
+                <h3 class="font-display text-lg font-bold text-white mb-2" data-i18n="beneficios.educacao.title">Educação</h3>
+                <p class="text-slate-400 text-sm leading-relaxed" data-i18n="beneficios.educacao.desc">Aprenda as melhores práticas de engenharia durante o processo de estruturação.</p>
               </div>
             </div>
           </div>
@@ -290,13 +290,13 @@ import Footer from '../components/Footer.astro';
             <div class="absolute inset-0 bg-[url('https://placeholder.pics/svg/800x400')] opacity-5 bg-cover bg-center pointer-events-none"></div>
             <div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px]"></div>
             <h2 class="font-display text-4xl md:text-6xl font-black tracking-tight text-white relative z-10">
-              O futuro do seu código <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-dark">começa agora.</span>
+              <span data-i18n="cta.title.1">O futuro do seu código </span><br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-dark" data-i18n="cta.title.highlight">começa agora.</span>
             </h2>
-            <p class="text-xl text-slate-400 max-w-[600px] relative z-10">
+            <p class="text-xl text-slate-400 max-w-[600px] relative z-10" data-i18n="cta.subtitle">
               Pare de adivinhar sua stack. Comece a construir com certeza e escala desde o dia zero.
             </p>
             <a href="/app" class="relative z-10 mt-4 flex cursor-pointer items-center justify-center rounded-full bg-white text-background-dark hover:bg-slate-200 transition-colors px-10 py-5 text-lg font-bold tracking-wide shadow-[0_0_30px_rgba(255,255,255,0.2)] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark">
-              Começar meu Projeto
+              <span data-i18n="cta.button">Começar meu Projeto</span>
               <span class="material-symbols-outlined ml-2">arrow_forward</span>
             </a>
           </div>
