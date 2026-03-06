@@ -91,9 +91,49 @@ const techDB = technologies.map(t => ({
       </div>
 
       <!-- Right: User -->
-      <div class="flex items-center gap-4">
-        <div class="w-8 h-8 rounded-full border border-border-color bg-surface-dark flex items-center justify-center">
-          <span class="material-symbols-outlined text-slate-400 text-sm">person</span>
+      <div class="flex items-center gap-3">
+        <!-- Login link (visible when NOT authenticated) -->
+        <a id="app-login-btn" href="/login" class="hidden items-center gap-1.5 px-4 py-2 rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-colors text-sm font-semibold cursor-pointer">
+          <span class="material-symbols-outlined text-sm">login</span>
+          Login
+        </a>
+        <!-- User pill (visible when authenticated) -->
+        <div class="relative">
+          <button id="app-user-btn" type="button" class="hidden items-center gap-2.5 cursor-pointer rounded-full border border-primary/20 pl-3 pr-1.5 py-1.5 hover:bg-primary/5 hover:border-primary/40 transition-all">
+            <span id="app-user-name" class="text-sm font-medium text-white max-w-[120px] truncate"></span>
+            <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
+              <img id="app-avatar-img" src="" alt="" class="w-full h-full object-cover hidden" />
+              <span id="app-avatar-initials" class="text-[10px] font-bold text-primary"></span>
+            </div>
+          </button>
+          <!-- Profile dropdown -->
+          <div id="app-profile-dropdown" class="hidden absolute right-0 top-full mt-2 w-72 rounded-2xl glass-panel border border-primary/20 shadow-[0_8px_32px_rgba(0,0,0,0.5)] z-50 overflow-hidden">
+            <div class="p-4 border-b border-border-color flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30 shrink-0">
+                <img id="app-dd-avatar-img" src="" alt="" class="w-full h-full object-cover hidden" />
+                <span id="app-dd-avatar-initials" class="text-xs font-bold text-primary"></span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p id="app-dd-name" class="text-sm font-bold text-white truncate"></p>
+                <p id="app-dd-email" class="text-[11px] text-slate-500 truncate"></p>
+              </div>
+              <span id="app-dd-role-badge" class="hidden px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border"></span>
+            </div>
+            <div class="p-2 flex flex-col gap-0.5">
+              <a href="/perfil" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-primary/10 transition-colors">
+                <span class="material-symbols-outlined text-base text-primary">person</span>
+                Meu Perfil
+              </a>
+              <a href="/perfil" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-slate-300 hover:text-white hover:bg-primary/10 transition-colors">
+                <span class="material-symbols-outlined text-base text-primary">settings</span>
+                Configurações
+              </a>
+              <button id="app-logout-btn" type="button" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors w-full text-left">
+                <span class="material-symbols-outlined text-base">logout</span>
+                Sair
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -1307,7 +1347,119 @@ Comece estruturando o **setup inicial do projeto** garantindo que:
 window.techDB = techDB;
 </script>
 
-<!-- Three.js Particle Animation -->
+<!-- App Auth: User pill + Profile dropdown -->
+<script>
+import { supabase, getProfile, signOut } from '../lib/supabase';
+import type { Session } from '@supabase/supabase-js';
+
+async function applyAuthUI(session: Session | null) {
+  const loginBtn = document.getElementById('app-login-btn');
+  const userBtn = document.getElementById('app-user-btn');
+  const userName = document.getElementById('app-user-name');
+  const avatarImg = document.getElementById('app-avatar-img') as HTMLImageElement | null;
+  const avatarInitials = document.getElementById('app-avatar-initials');
+  const ddName = document.getElementById('app-dd-name');
+  const ddEmail = document.getElementById('app-dd-email');
+  const ddAvatarImg = document.getElementById('app-dd-avatar-img') as HTMLImageElement | null;
+  const ddAvatarInitials = document.getElementById('app-dd-avatar-initials');
+  const ddRoleBadge = document.getElementById('app-dd-role-badge');
+
+  if (!loginBtn || !userBtn) {
+    console.warn('[BuildCode] Auth elements not found');
+    return;
+  }
+
+  if (session) {
+    // Authenticated — show user pill, hide login
+    loginBtn.style.display = 'none';
+    userBtn.style.display = 'flex';
+
+    let profile = null;
+    try { profile = await getProfile(session.user.id); } catch (_) {}
+
+    const displayName = profile?.full_name || session.user.email?.split('@')[0] || 'Usuário';
+    const initials = displayName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2);
+
+    if (userName) userName.textContent = displayName;
+
+    if (profile?.avatar_url && avatarImg) {
+      avatarImg.src = profile.avatar_url;
+      avatarImg.classList.remove('hidden');
+      if (avatarInitials) avatarInitials.classList.add('hidden');
+    } else if (avatarInitials) {
+      avatarInitials.textContent = initials;
+      avatarInitials.classList.remove('hidden');
+      if (avatarImg) avatarImg.classList.add('hidden');
+    }
+
+    if (ddName) ddName.textContent = displayName;
+    if (ddEmail) ddEmail.textContent = session.user.email || '';
+
+    if (profile?.avatar_url && ddAvatarImg) {
+      ddAvatarImg.src = profile.avatar_url;
+      ddAvatarImg.classList.remove('hidden');
+      if (ddAvatarInitials) ddAvatarInitials.classList.add('hidden');
+    } else if (ddAvatarInitials) {
+      ddAvatarInitials.textContent = initials;
+      ddAvatarInitials.classList.remove('hidden');
+      if (ddAvatarImg) ddAvatarImg.classList.add('hidden');
+    }
+
+    if (ddRoleBadge && profile?.role) {
+      const roleConfig: Record<string, { label: string; classes: string }> = {
+        master: { label: 'Master', classes: 'bg-purple-500/15 text-purple-400 border-purple-500/20' },
+        admin: { label: 'Admin', classes: 'bg-amber-500/15 text-amber-400 border-amber-500/20' },
+        user: { label: 'Usuário', classes: 'bg-slate-500/15 text-slate-400 border-slate-500/20' },
+      };
+      const rc = roleConfig[profile.role] || roleConfig.user;
+      ddRoleBadge.textContent = rc.label;
+      ddRoleBadge.className = `px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border ${rc.classes}`;
+    }
+
+    if (profile?.theme === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      localStorage.setItem('bc-theme', 'light');
+    }
+  } else {
+    // Not authenticated — show login, hide user pill
+    loginBtn.style.display = 'flex';
+    userBtn.style.display = 'none';
+  }
+}
+
+// Use onAuthStateChange as the PRIMARY auth mechanism.
+// It fires INITIAL_SESSION on subscribe (after client reads localStorage),
+// which is more reliable than calling getSession() immediately.
+supabase.auth.onAuthStateChange((_event, session) => {
+  applyAuthUI(session);
+});
+
+// Dropdown toggle
+const userBtn = document.getElementById('app-user-btn');
+const dropdown = document.getElementById('app-profile-dropdown');
+
+userBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  dropdown?.classList.toggle('hidden');
+});
+
+document.addEventListener('click', (e) => {
+  if (dropdown && !dropdown.classList.contains('hidden')) {
+    const target = e.target as HTMLElement;
+    if (!dropdown.contains(target) && target !== userBtn) {
+      dropdown.classList.add('hidden');
+    }
+  }
+});
+
+// Logout
+document.getElementById('app-logout-btn')?.addEventListener('click', async () => {
+  await signOut();
+  window.location.href = '/';
+});
+</script>
+
 <script>
 import * as THREE from 'three';
 

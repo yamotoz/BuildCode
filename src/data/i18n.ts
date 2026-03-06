@@ -135,6 +135,35 @@ export const translations: Record<string, Record<string, string>> = {
   "footer.privacidade": { pt: "Privacidade", en: "Privacy" },
 
   // ══════════════════════════════════
+  //  AUTH / LOGIN / PERFIL
+  // ══════════════════════════════════
+  "auth.welcome": { pt: "Seja bem-vindo ao Futuro.", en: "Welcome to the Future." },
+  "auth.subtitle": { pt: "Entre na sua conta para orquestrar sua próxima arquitetura.", en: "Sign in to orchestrate your next architecture." },
+  "auth.tab.login": { pt: "Entrar", en: "Sign In" },
+  "auth.tab.register": { pt: "Criar Conta", en: "Sign Up" },
+  "auth.google": { pt: "Continuar com o Google", en: "Continue with Google" },
+  "auth.or": { pt: "ou", en: "or" },
+  "auth.email": { pt: "E-mail", en: "Email" },
+  "auth.password": { pt: "Senha", en: "Password" },
+  "auth.name": { pt: "Nome completo", en: "Full name" },
+  "auth.forgot": { pt: "Esqueci minha senha", en: "Forgot password" },
+  "auth.login.btn": { pt: "Entrar no Sistema", en: "Sign In" },
+  "auth.register.btn": { pt: "Criar minha Conta", en: "Create Account" },
+  "auth.no.account": { pt: "Não tem uma conta?", en: "Don't have an account?" },
+  "auth.request": { pt: "Solicite Acesso", en: "Request Access" },
+  "perfil.title": { pt: "Meu Perfil", en: "My Profile" },
+  "perfil.dados": { pt: "Dados Pessoais", en: "Personal Info" },
+  "perfil.prefs": { pt: "Preferências", en: "Preferences" },
+  "perfil.nome": { pt: "Nome completo", en: "Full name" },
+  "perfil.salvar": { pt: "Salvar Nome", en: "Save Name" },
+  "perfil.senioridade": { pt: "Senioridade", en: "Seniority" },
+  "perfil.tema": { pt: "Tema", en: "Theme" },
+  "perfil.tema.escuro": { pt: "Escuro", en: "Dark" },
+  "perfil.tema.claro": { pt: "Claro", en: "Light" },
+  "perfil.sair": { pt: "Sair", en: "Sign Out" },
+  "perfil.salvo": { pt: "Salvo com sucesso!", en: "Saved successfully!" },
+
+  // ══════════════════════════════════
   //  BIBLIOTECA
   // ══════════════════════════════════
   "bib.title": { pt: "Biblioteca ", en: "Tech " },

@@ -20,12 +20,85 @@
         <span class="material-symbols-outlined text-sm">translate</span>
         <span id="lang-label">PT</span>
       </button>
-      <a href="/login" class="hidden md:flex cursor-pointer items-center justify-center rounded-full border border-primary/30 px-6 py-2 text-primary hover:bg-primary/10 transition-colors text-sm font-semibold tracking-wide focus:outline-none focus:ring-2 focus:ring-primary">
+
+      <!-- Login button (visible when NOT authenticated) -->
+      <a id="header-login-btn" href="/login" class="hidden md:flex cursor-pointer items-center justify-center rounded-full border border-primary/30 px-6 py-2 text-primary hover:bg-primary/10 transition-colors text-sm font-semibold tracking-wide focus:outline-none focus:ring-2 focus:ring-primary">
           <span data-i18n="nav.login">Login</span>
       </a>
+
       <a href="/app" class="flex cursor-pointer items-center justify-center rounded-full bg-primary text-background-dark hover:bg-white transition-colors px-6 py-2 text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(179,218,242,0.3)] focus:outline-none focus:ring-2 focus:ring-white">
           <span data-i18n="nav.acessar">Acessar Sistema</span>
+      </a>
+
+      <!-- User pill (visible when authenticated) — after Acessar Sistema -->
+      <a id="header-user-btn" href="/perfil" class="hidden items-center gap-2.5 cursor-pointer rounded-full border border-primary/20 pl-3 pr-1.5 py-1.5 hover:bg-primary/5 hover:border-primary/40 transition-all">
+        <span id="header-user-name" class="text-sm font-medium text-white max-w-[120px] truncate"></span>
+        <div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
+          <img id="header-avatar-img" src="" alt="" class="w-full h-full object-cover hidden" />
+          <span id="header-avatar-initials" class="text-[10px] font-bold text-primary"></span>
+        </div>
       </a>
     </div>
   </div>
 </header>
+
+<script>
+  import { supabase, getProfile } from '../lib/supabase';
+
+  async function updateHeaderAuth() {
+    const loginBtn = document.getElementById('header-login-btn');
+    const userBtn = document.getElementById('header-user-btn');
+    const userName = document.getElementById('header-user-name');
+    const avatarImg = document.getElementById('header-avatar-img');
+    const avatarInitials = document.getElementById('header-avatar-initials');
+
+    if (!loginBtn || !userBtn) return;
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (session) {
+        loginBtn.classList.add('hidden');
+        loginBtn.classList.remove('md:flex');
+        userBtn.classList.remove('hidden');
+        userBtn.classList.add('flex');
+
+        const profile = await getProfile(session.user.id);
+        const displayName = profile?.full_name || session.user.email?.split('@')[0] || 'Usuário';
+
+        if (userName) userName.textContent = displayName;
+
+        if (profile?.avatar_url && avatarImg) {
+          (avatarImg as HTMLImageElement).src = profile.avatar_url;
+          avatarImg.classList.remove('hidden');
+          if (avatarInitials) avatarInitials.classList.add('hidden');
+        } else if (avatarInitials) {
+          const initials = displayName.split(' ').map((w) => w[0]).join('').toUpperCase().slice(0, 2);
+          avatarInitials.textContent = initials;
+          avatarInitials.classList.remove('hidden');
+          if (avatarImg) avatarImg.classList.add('hidden');
+        }
+
+        // Apply user theme preference
+        if (profile?.theme === 'light') {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+          localStorage.setItem('bc-theme', 'light');
+        }
+      } else {
+        loginBtn.classList.remove('hidden');
+        loginBtn.classList.add('md:flex');
+        userBtn.classList.add('hidden');
+        userBtn.classList.remove('flex');
+      }
+    } catch {
+      // Supabase not configured yet — keep default state
+    }
+  }
+
+  updateHeaderAuth();
+
+  supabase.auth.onAuthStateChange(() => {
+    updateHeaderAuth();
+  });
+</script>
