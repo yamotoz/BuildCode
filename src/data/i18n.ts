@@ -13,7 +13,7 @@ export const translations: Record<string, Record<string, string>> = {
   //  HEADER / NAV
   // ══════════════════════════════════
   "nav.problema": { pt: "Problema", en: "Problem" },
-  "nav.solucao": { pt: "Solução", en: "Solution" },
+  "nav.criador": { pt: "Criador", en: "Creator" },
   "nav.analytics": { pt: "Analytics", en: "Analytics" },
   "nav.biblioteca": { pt: "Biblioteca", en: "Library" },
   "nav.login": { pt: "Login", en: "Login" },

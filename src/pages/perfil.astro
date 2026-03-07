@@ -146,6 +146,298 @@ export const prerender = false;
           </div>
         </div>
 
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- AGENT SELECTION (Champion Select) -->
+        <!-- ══════════════════════════════════════════════ -->
+        <div class="rounded-2xl p-6 space-y-5 relative overflow-hidden" style="background: #121212; border: 1px solid #2A3135;">
+          <div class="absolute -top-20 -right-20 w-60 h-60 bg-primary/5 rounded-full blur-[80px] pointer-events-none"></div>
+          <div class="flex items-center gap-2 mb-2 relative z-10">
+            <span class="material-symbols-outlined text-primary text-lg">smart_toy</span>
+            <h3 class="text-lg font-bold text-white">Escolha seu Mentor</h3>
+            <span class="text-[10px] text-slate-500 ml-2">Selecione o agente que guiara seu desenvolvimento</span>
+          </div>
+
+          <div id="agent-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
+            <!-- Cards dynamically rendered below -->
+            <button type="button" data-agent="theboss" class="agent-card group relative rounded-xl overflow-hidden border-2 border-transparent hover:border-[#C0392B]/60 transition-all duration-300 cursor-pointer aspect-[3/4] bg-black">
+              <img src="/agentes/Theboss.png" alt="The Boss" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                <h4 class="text-white font-bold text-sm sm:text-base tracking-wide">The Boss</h4>
+                <p class="text-slate-400 text-[10px] sm:text-xs font-medium mt-0.5">O Arquiteto Pragmatico</p>
+                <p class="text-slate-500 text-[9px] sm:text-[10px] mt-2 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">"Voce quer um software ou um brinquedo?"</p>
+              </div>
+              <div class="agent-check absolute top-2 right-2 w-6 h-6 rounded-full bg-[#C0392B] items-center justify-center hidden">
+                <span class="material-symbols-outlined text-white text-sm">check</span>
+              </div>
+            </button>
+
+            <button type="button" data-agent="azrael" class="agent-card group relative rounded-xl overflow-hidden border-2 border-transparent hover:border-[#8E44AD]/60 transition-all duration-300 cursor-pointer aspect-[3/4] bg-black">
+              <img src="/agentes/Azrael.png" alt="Azrael" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                <h4 class="text-white font-bold text-sm sm:text-base tracking-wide">Azrael</h4>
+                <p class="text-slate-400 text-[10px] sm:text-xs font-medium mt-0.5">O Visionario Obsessivo</p>
+                <p class="text-slate-500 text-[9px] sm:text-[10px] mt-2 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">"Isso e funcional, mas nao e revolucionario."</p>
+              </div>
+              <div class="agent-check absolute top-2 right-2 w-6 h-6 rounded-full bg-[#8E44AD] items-center justify-center hidden">
+                <span class="material-symbols-outlined text-white text-sm">check</span>
+              </div>
+            </button>
+
+            <button type="button" data-agent="rizler" class="agent-card group relative rounded-xl overflow-hidden border-2 border-transparent hover:border-[#27AE60]/60 transition-all duration-300 cursor-pointer aspect-[3/4] bg-black">
+              <img src="/agentes/Rizler.png" alt="Rizler" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                <h4 class="text-white font-bold text-sm sm:text-base tracking-wide">Rizler</h4>
+                <p class="text-slate-400 text-[10px] sm:text-xs font-medium mt-0.5">O Fantasma do Red Team</p>
+                <p class="text-slate-500 text-[9px] sm:text-[10px] mt-2 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">"Bonito seu front-end. Uma pena que eu levaria 12s pra derrubar."</p>
+              </div>
+              <div class="agent-check absolute top-2 right-2 w-6 h-6 rounded-full bg-[#27AE60] items-center justify-center hidden">
+                <span class="material-symbols-outlined text-white text-sm">check</span>
+              </div>
+            </button>
+
+            <button type="button" data-agent="anastasia" class="agent-card group relative rounded-xl overflow-hidden border-2 border-transparent hover:border-[#E91E63]/60 transition-all duration-300 cursor-pointer aspect-[3/4] bg-black">
+              <img src="/agentes/Anastasia.png" alt="Anastasia" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                <h4 class="text-white font-bold text-sm sm:text-base tracking-wide">Anastasia</h4>
+                <p class="text-slate-400 text-[10px] sm:text-xs font-medium mt-0.5">A Rainha do Fullstack</p>
+                <p class="text-slate-500 text-[9px] sm:text-[10px] mt-2 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">"Calma, baby. Vamos deixar tudo perfeito."</p>
+              </div>
+              <div class="agent-check absolute top-2 right-2 w-6 h-6 rounded-full bg-[#E91E63] items-center justify-center hidden">
+                <span class="material-symbols-outlined text-white text-sm">check</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- LoL-style Loading Screen (hidden, shown on selection) -->
+        <div id="agent-loading-screen" class="hidden fixed inset-0 z-[9999] bg-[#0D0D0D] flex flex-col items-center justify-center">
+          <div class="flex items-end justify-center gap-2 sm:gap-4 w-full max-w-4xl px-4">
+            <div data-loading-agent="theboss" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
+              <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
+                <img src="/agentes/Theboss.png" alt="The Boss" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold">The Boss</p>
+              </div>
+              <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden">
+                <div class="agent-load-bar h-full bg-[#C0392B] rounded-full transition-all duration-[4000ms] ease-out" style="width: 0%"></div>
+              </div>
+            </div>
+            <div data-loading-agent="azrael" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
+              <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
+                <img src="/agentes/Azrael.png" alt="Azrael" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold">Azrael</p>
+              </div>
+              <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden">
+                <div class="agent-load-bar h-full bg-[#8E44AD] rounded-full transition-all duration-[4000ms] ease-out" style="width: 0%"></div>
+              </div>
+            </div>
+            <div data-loading-agent="rizler" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
+              <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
+                <img src="/agentes/Rizler.png" alt="Rizler" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold">Rizler</p>
+              </div>
+              <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden">
+                <div class="agent-load-bar h-full bg-[#27AE60] rounded-full transition-all duration-[4000ms] ease-out" style="width: 0%"></div>
+              </div>
+            </div>
+            <div data-loading-agent="anastasia" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
+              <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
+                <img src="/agentes/Anastasia.png" alt="Anastasia" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold">Anastasia</p>
+              </div>
+              <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden">
+                <div class="agent-load-bar h-full bg-[#E91E63] rounded-full transition-all duration-[4000ms] ease-out" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Loading tip -->
+          <div class="mt-8 sm:mt-12 text-center px-6">
+            <p id="loading-tip" class="text-slate-500 text-xs sm:text-sm italic max-w-md"></p>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- LLM MODEL SELECTION -->
+        <!-- ══════════════════════════════════════════════ -->
+        <div class="rounded-2xl p-6 space-y-5 relative overflow-hidden" style="background: #121212; border: 1px solid #2A3135;">
+          <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-cta/5 rounded-full blur-[80px] pointer-events-none"></div>
+          <div class="flex items-center gap-2 mb-2 relative z-10">
+            <span class="material-symbols-outlined text-cta text-lg">psychology</span>
+            <h3 class="text-lg font-bold text-white">Modelo do Mentor</h3>
+            <span class="text-[10px] text-slate-500 ml-2">LLM que seu agente usa no chat para conversar com voce</span>
+          </div>
+
+          <!-- Search -->
+          <div class="relative z-10">
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-lg">search</span>
+              <input id="llm-search" type="text" placeholder="Buscar modelo..." class="w-full rounded-xl border border-border-color bg-surface-dark/50 pl-10 pr-4 py-3 text-sm text-white focus:border-cta/60 focus:ring-1 focus:ring-cta/40 outline-none transition-all" />
+            </div>
+          </div>
+
+          <!-- Tier labels -->
+          <div class="flex items-center gap-4 text-[10px] uppercase tracking-widest font-bold relative z-10">
+            <span class="flex items-center gap-1 text-emerald-400"><span class="material-symbols-outlined text-xs">savings</span> Gratuitos</span>
+            <span class="flex items-center gap-1 text-amber-400"><span class="material-symbols-outlined text-xs">bolt</span> Intermediarios</span>
+            <span class="flex items-center gap-1 text-purple-400"><span class="material-symbols-outlined text-xs">auto_awesome</span> Avancados</span>
+          </div>
+
+          <!-- Models grid -->
+          <div id="llm-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 relative z-10">
+            <!-- Budget tier -->
+            <button type="button" data-llm="google/gemma-3-4b-it:free" data-tier="budget" data-provider="Google" class="llm-card group relative rounded-xl p-4 border-2 border-transparent hover:border-emerald-500/40 transition-all duration-200 cursor-pointer text-left" style="background: rgba(16,185,129,0.04);">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-emerald-400 text-lg">savings</span>
+                  <span class="text-white font-bold text-sm">Gemma 3 4B</span>
+                </div>
+                <span class="llm-check hidden w-5 h-5 rounded-full bg-emerald-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
+              </div>
+              <p class="text-slate-500 text-[11px] leading-relaxed">Modelo leve do Google. Gratuito. Ideal para tarefas simples.</p>
+              <div class="flex items-center gap-2 mt-2">
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold uppercase">Free</span>
+                <span class="text-[9px] text-slate-600">Google</span>
+              </div>
+            </button>
+
+            <button type="button" data-llm="meta-llama/llama-3.1-8b-instruct:free" data-tier="budget" data-provider="Meta" class="llm-card group relative rounded-xl p-4 border-2 border-transparent hover:border-emerald-500/40 transition-all duration-200 cursor-pointer text-left" style="background: rgba(16,185,129,0.04);">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-emerald-400 text-lg">savings</span>
+                  <span class="text-white font-bold text-sm">Llama 3.1 8B</span>
+                </div>
+                <span class="llm-check hidden w-5 h-5 rounded-full bg-emerald-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
+              </div>
+              <p class="text-slate-500 text-[11px] leading-relaxed">Meta Llama 3.1. Gratuito. Boa qualidade para o custo zero.</p>
+              <div class="flex items-center gap-2 mt-2">
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold uppercase">Free</span>
+                <span class="text-[9px] text-slate-600">Meta</span>
+              </div>
+            </button>
+
+            <button type="button" data-llm="mistralai/mistral-small-3.1-24b-instruct:free" data-tier="budget" data-provider="Mistral" class="llm-card group relative rounded-xl p-4 border-2 border-transparent hover:border-emerald-500/40 transition-all duration-200 cursor-pointer text-left" style="background: rgba(16,185,129,0.04);">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-emerald-400 text-lg">savings</span>
+                  <span class="text-white font-bold text-sm">Mistral Small 3.1</span>
+                </div>
+                <span class="llm-check hidden w-5 h-5 rounded-full bg-emerald-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
+              </div>
+              <p class="text-slate-500 text-[11px] leading-relaxed">Mistral compacto. Gratuito. Rapido e eficiente.</p>
+              <div class="flex items-center gap-2 mt-2">
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold uppercase">Free</span>
+                <span class="text-[9px] text-slate-600">Mistral</span>
+              </div>
+            </button>
+
+            <!-- Mid tier -->
+            <button type="button" data-llm="google/gemini-2.0-flash-001" data-tier="mid" data-provider="Google" class="llm-card group relative rounded-xl p-4 border-2 border-transparent hover:border-amber-500/40 transition-all duration-200 cursor-pointer text-left" style="background: rgba(245,158,11,0.04);">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-amber-400 text-lg">bolt</span>
+                  <span class="text-white font-bold text-sm">Gemini 2.0 Flash</span>
+                </div>
+                <span class="llm-check hidden w-5 h-5 rounded-full bg-amber-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
+              </div>
+              <p class="text-slate-500 text-[11px] leading-relaxed">Google Gemini Flash. Rapido, barato e muito capaz.</p>
+              <div class="flex items-center gap-2 mt-2">
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 font-bold uppercase">Mid</span>
+                <span class="text-[9px] text-slate-600">Google</span>
+              </div>
+            </button>
+
+            <button type="button" data-llm="openai/gpt-4o-mini" data-tier="mid" data-provider="OpenAI" class="llm-card group relative rounded-xl p-4 border-2 border-transparent hover:border-amber-500/40 transition-all duration-200 cursor-pointer text-left" style="background: rgba(245,158,11,0.04);">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-amber-400 text-lg">bolt</span>
+                  <span class="text-white font-bold text-sm">GPT-4o Mini</span>
+                </div>
+                <span class="llm-check hidden w-5 h-5 rounded-full bg-amber-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
+              </div>
+              <p class="text-slate-500 text-[11px] leading-relaxed">OpenAI modelo medio. Excelente custo-beneficio.</p>
+              <div class="flex items-center gap-2 mt-2">
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 font-bold uppercase">Mid</span>
+                <span class="text-[9px] text-slate-600">OpenAI</span>
+              </div>
+            </button>
+
+            <button type="button" data-llm="anthropic/claude-3.5-haiku" data-tier="mid" data-provider="Anthropic" class="llm-card group relative rounded-xl p-4 border-2 border-transparent hover:border-amber-500/40 transition-all duration-200 cursor-pointer text-left" style="background: rgba(245,158,11,0.04);">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-amber-400 text-lg">bolt</span>
+                  <span class="text-white font-bold text-sm">Claude 3.5 Haiku</span>
+                </div>
+                <span class="llm-check hidden w-5 h-5 rounded-full bg-amber-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
+              </div>
+              <p class="text-slate-500 text-[11px] leading-relaxed">Anthropic Haiku. Rapido, inteligente e acessivel.</p>
+              <div class="flex items-center gap-2 mt-2">
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 font-bold uppercase">Mid</span>
+                <span class="text-[9px] text-slate-600">Anthropic</span>
+              </div>
+            </button>
+
+            <!-- Pro tier -->
+            <button type="button" data-llm="anthropic/claude-sonnet-4" data-tier="pro" data-provider="Anthropic" class="llm-card group relative rounded-xl p-4 border-2 border-transparent hover:border-purple-500/40 transition-all duration-200 cursor-pointer text-left" style="background: rgba(168,85,247,0.04);">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-purple-400 text-lg">auto_awesome</span>
+                  <span class="text-white font-bold text-sm">Claude Sonnet 4</span>
+                </div>
+                <span class="llm-check hidden w-5 h-5 rounded-full bg-purple-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
+              </div>
+              <p class="text-slate-500 text-[11px] leading-relaxed">Anthropic Sonnet 4. Top tier para codigo e raciocinio.</p>
+              <div class="flex items-center gap-2 mt-2">
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400 font-bold uppercase">Pro</span>
+                <span class="text-[9px] text-slate-600">Anthropic</span>
+              </div>
+            </button>
+
+            <button type="button" data-llm="openai/gpt-4o" data-tier="pro" data-provider="OpenAI" class="llm-card group relative rounded-xl p-4 border-2 border-transparent hover:border-purple-500/40 transition-all duration-200 cursor-pointer text-left" style="background: rgba(168,85,247,0.04);">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-purple-400 text-lg">auto_awesome</span>
+                  <span class="text-white font-bold text-sm">GPT-4o</span>
+                </div>
+                <span class="llm-check hidden w-5 h-5 rounded-full bg-purple-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
+              </div>
+              <p class="text-slate-500 text-[11px] leading-relaxed">OpenAI flagship. Multimodal, rapido e poderoso.</p>
+              <div class="flex items-center gap-2 mt-2">
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400 font-bold uppercase">Pro</span>
+                <span class="text-[9px] text-slate-600">OpenAI</span>
+              </div>
+            </button>
+
+            <button type="button" data-llm="google/gemini-2.5-pro-preview" data-tier="pro" data-provider="Google" class="llm-card group relative rounded-xl p-4 border-2 border-transparent hover:border-purple-500/40 transition-all duration-200 cursor-pointer text-left" style="background: rgba(168,85,247,0.04);">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-purple-400 text-lg">auto_awesome</span>
+                  <span class="text-white font-bold text-sm">Gemini 2.5 Pro</span>
+                </div>
+                <span class="llm-check hidden w-5 h-5 rounded-full bg-purple-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
+              </div>
+              <p class="text-slate-500 text-[11px] leading-relaxed">Google Gemini Pro. Contexto massivo, raciocinio avancado.</p>
+              <div class="flex items-center gap-2 mt-2">
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400 font-bold uppercase">Pro</span>
+                <span class="text-[9px] text-slate-600">Google</span>
+              </div>
+            </button>
+          </div>
+
+          <!-- Selected model info -->
+          <div id="llm-selected-info" class="relative z-10 rounded-xl px-4 py-3 text-sm font-medium bg-cta/5 text-cta border border-cta/15 flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">check_circle</span>
+            <span id="llm-selected-name">Gemma 3 4B</span>
+            <span class="text-slate-500 text-xs ml-auto" id="llm-selected-provider">Google</span>
+          </div>
+        </div>
+
         <!-- Alterar Senha -->
         <div class="rounded-2xl p-6 space-y-5" style="background: #121212; border: 1px solid #2A3135;">
           <div class="flex items-center gap-2 mb-2">
@@ -475,6 +767,8 @@ export const prerender = false;
 
     currentProfile = profile;
     renderProfile(profile, currentUserEmail);
+    initAgentSelection();
+    initLlmSelection();
     loadingEl.classList.add('hidden');
     contentEl.classList.remove('hidden');
   }
@@ -598,6 +892,214 @@ export const prerender = false;
   document.getElementById('btn-cancel-add')!.addEventListener('click', () => {
     document.getElementById('add-user-form')!.classList.add('hidden');
   });
+
+  // ══════════════════════════════
+  //  AGENT SELECTION
+  // ══════════════════════════════
+
+  const agentColors: Record<string, string> = {
+    theboss: '#C0392B',
+    azrael: '#8E44AD',
+    rizler: '#27AE60',
+    anastasia: '#E91E63',
+  };
+
+  const agentTips: Record<string, string[]> = {
+    theboss: [
+      'Pare de olhar a barra e comece a pensar na escala!',
+      'Se sua API demora mais de 200ms, voce ja perdeu o usuario.',
+      'Framework da moda nao paga boleto. Escolha o que funciona.',
+      'Se nao tem teste, nao esta pronto. Ponto final.',
+      'Codigo bonito que nao escala e codigo inutil.',
+    ],
+    azrael: [
+      'O MVP nao e o destino. E a rampa de lancamento.',
+      'IA nao e feature. E infraestrutura. Pense nisso.',
+      'Se seu produto nao coleta dados para evoluir, ele esta estagnado.',
+      'Enquanto voce planeja, alguem ja esta construindo.',
+      'Integracao com IA agora e vantagem competitiva. Amanha sera obrigacao.',
+    ],
+    rizler: [
+      'Enquanto voce espera, eu ja escaneei 3 portas abertas no seu IP.',
+      'Sem MFA e como trancar a porta e deixar a janela aberta.',
+      'Seu .env esta no git? Parabens, o mundo inteiro tem suas credenciais.',
+      'Rate limiting nao e opcional. E sobrevivencia.',
+      'Se voce nao sanitiza inputs, eu nao preciso nem tentar muito.',
+    ],
+    anastasia: [
+      'Amor, um bom front sem um bom back e como maquiagem sem skincare.',
+      'TypeScript nao e opcional. E respeito proprio.',
+      'Design System primeiro, codigo depois. Confia em mim.',
+      'Testa no mobile primeiro. Sempre. Sem desculpas.',
+      'Backend e frontend sao um casal. Eles precisam se comunicar bem.',
+    ],
+  };
+
+  function renderAgentSelection(selectedId: string) {
+    document.querySelectorAll('.agent-card').forEach(card => {
+      const id = (card as HTMLElement).dataset.agent;
+      const check = card.querySelector('.agent-check');
+      if (id === selectedId) {
+        card.classList.add('ring-2');
+        (card as HTMLElement).style.borderColor = agentColors[id] || '#2E748B';
+        (card as HTMLElement).style.boxShadow = `0 0 20px ${agentColors[id]}40`;
+        if (check) { check.classList.remove('hidden'); check.classList.add('flex'); }
+      } else {
+        card.classList.remove('ring-2');
+        (card as HTMLElement).style.borderColor = 'transparent';
+        (card as HTMLElement).style.boxShadow = 'none';
+        if (check) { check.classList.add('hidden'); check.classList.remove('flex'); }
+      }
+    });
+  }
+
+  function showAgentLoadingScreen(selectedId: string) {
+    const screen = document.getElementById('agent-loading-screen')!;
+    screen.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    // Highlight selected agent
+    document.querySelectorAll('.agent-loading-col').forEach(col => {
+      const id = (col as HTMLElement).dataset.loadingAgent;
+      if (id === selectedId) {
+        col.classList.remove('opacity-30', 'grayscale');
+        col.classList.add('opacity-100');
+        const border = col.querySelector('.relative') as HTMLElement;
+        if (border) border.style.borderColor = agentColors[id] || '#2E748B';
+      } else {
+        col.classList.add('opacity-30', 'grayscale');
+        col.classList.remove('opacity-100');
+      }
+    });
+
+    // Show random tip
+    const tips = agentTips[selectedId] || agentTips.theboss;
+    const tipEl = document.getElementById('loading-tip')!;
+    tipEl.textContent = '"' + tips[Math.floor(Math.random() * tips.length)] + '"';
+
+    // Animate progress bars
+    setTimeout(() => {
+      document.querySelectorAll('.agent-load-bar').forEach(bar => {
+        (bar as HTMLElement).style.width = '100%';
+      });
+    }, 100);
+
+    // Close after 4 seconds
+    setTimeout(() => {
+      screen.classList.add('hidden');
+      document.body.style.overflow = '';
+    }, 4200);
+  }
+
+  // Handle card clicks
+  document.querySelectorAll('.agent-card').forEach(card => {
+    card.addEventListener('click', async () => {
+      const agentId = (card as HTMLElement).dataset.agent!;
+      if (currentProfile?.agent === agentId) return;
+
+      // Save to DB and localStorage
+      await updateProfile(currentUserId, { agent: agentId } as Partial<Profile>);
+      localStorage.setItem('bc-agent', agentId);
+      if (currentProfile) (currentProfile as any).agent = agentId;
+
+      renderAgentSelection(agentId);
+      showAgentLoadingScreen(agentId);
+      showFeedback();
+    });
+  });
+
+  // Render initial selection
+  function initAgentSelection() {
+    const saved = (currentProfile as any)?.agent || localStorage.getItem('bc-agent') || 'theboss';
+    localStorage.setItem('bc-agent', saved);
+    renderAgentSelection(saved);
+  }
+
+  // ══════════════════════════════
+  //  LLM MODEL SELECTION
+  // ══════════════════════════════
+
+  const llmTierColors: Record<string, string> = {
+    budget: '#10B981',
+    mid: '#F59E0B',
+    pro: '#A855F7',
+  };
+
+  const llmModelNames: Record<string, string> = {
+    'google/gemma-3-4b-it:free': 'Gemma 3 4B',
+    'meta-llama/llama-3.1-8b-instruct:free': 'Llama 3.1 8B',
+    'mistralai/mistral-small-3.1-24b-instruct:free': 'Mistral Small 3.1',
+    'google/gemini-2.0-flash-001': 'Gemini 2.0 Flash',
+    'openai/gpt-4o-mini': 'GPT-4o Mini',
+    'anthropic/claude-3.5-haiku': 'Claude 3.5 Haiku',
+    'anthropic/claude-sonnet-4': 'Claude Sonnet 4',
+    'openai/gpt-4o': 'GPT-4o',
+    'google/gemini-2.5-pro-preview': 'Gemini 2.5 Pro',
+  };
+
+  function renderLlmSelection(selectedId: string) {
+    document.querySelectorAll('.llm-card').forEach(card => {
+      const id = (card as HTMLElement).dataset.llm;
+      const tier = (card as HTMLElement).dataset.tier || 'budget';
+      const check = card.querySelector('.llm-check');
+      if (id === selectedId) {
+        const color = llmTierColors[tier];
+        (card as HTMLElement).style.borderColor = color + '60';
+        (card as HTMLElement).style.boxShadow = `0 0 15px ${color}20`;
+        if (check) { check.classList.remove('hidden'); check.classList.add('flex'); }
+      } else {
+        (card as HTMLElement).style.borderColor = 'transparent';
+        (card as HTMLElement).style.boxShadow = 'none';
+        if (check) { check.classList.add('hidden'); check.classList.remove('flex'); }
+      }
+    });
+
+    // Update info bar
+    const nameEl = document.getElementById('llm-selected-name');
+    const providerEl = document.getElementById('llm-selected-provider');
+    if (nameEl) nameEl.textContent = llmModelNames[selectedId] || selectedId;
+    const selectedCard = document.querySelector(`[data-llm="${selectedId}"]`) as HTMLElement;
+    if (providerEl && selectedCard) providerEl.textContent = selectedCard.dataset.provider || '';
+  }
+
+  // LLM card clicks
+  document.querySelectorAll('.llm-card').forEach(card => {
+    card.addEventListener('click', async () => {
+      const llmId = (card as HTMLElement).dataset.llm!;
+      const currentLlm = (currentProfile as any)?.llm_model;
+      if (currentLlm === llmId) return;
+
+      await updateProfile(currentUserId, { llm_model: llmId } as Partial<Profile>);
+      localStorage.setItem('bc-llm-model', llmId);
+      if (currentProfile) (currentProfile as any).llm_model = llmId;
+
+      renderLlmSelection(llmId);
+      showFeedback();
+    });
+  });
+
+  // LLM search filter
+  const llmSearchInput = document.getElementById('llm-search') as HTMLInputElement;
+  if (llmSearchInput) {
+    llmSearchInput.addEventListener('input', () => {
+      const query = llmSearchInput.value.toLowerCase().trim();
+      document.querySelectorAll('.llm-card').forEach(card => {
+        const el = card as HTMLElement;
+        const text = el.textContent?.toLowerCase() || '';
+        const provider = (el.dataset.provider || '').toLowerCase();
+        const tier = (el.dataset.tier || '').toLowerCase();
+        const match = !query || text.includes(query) || provider.includes(query) || tier.includes(query);
+        el.style.display = match ? '' : 'none';
+      });
+    });
+  }
+
+  // Init LLM selection
+  function initLlmSelection() {
+    const saved = (currentProfile as any)?.llm_model || localStorage.getItem('bc-llm-model') || 'google/gemma-3-4b-it:free';
+    localStorage.setItem('bc-llm-model', saved);
+    renderLlmSelection(saved);
+  }
 
   document.getElementById('btn-confirm-add')!.addEventListener('click', async () => {
     const name = (document.getElementById('new-user-name') as HTMLInputElement).value.trim();

@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { questions, phases, testesOptions } from '../data/wizard-config';
+import { questions, phases, testesOptions, llmModels, difficultyConfig } from '../data/wizard-config';
 import { tooltips } from '../data/tooltips';
 import { skillsMap } from '../data/skills-map';
 import { technologies } from '../data/technologies';
@@ -45,10 +45,10 @@ const techDB = technologies.map(t => ({
 ---
 
 <Layout title="BuildCode | Arquiteto de Software">
-  <div class="relative flex flex-col min-h-screen bg-background-dark overflow-hidden">
+  <!-- Three.js Canvas Background (outside overflow-hidden container) -->
+  <canvas id="three-canvas" class="fixed inset-0 z-[2] pointer-events-none"></canvas>
 
-    <!-- Three.js Canvas Background -->
-    <canvas id="three-canvas" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+  <div class="relative flex flex-col min-h-screen overflow-hidden">
 
     <!-- Background decorative -->
     <div class="absolute inset-0 z-[1] pointer-events-none"
@@ -66,7 +66,7 @@ const techDB = technologies.map(t => ({
     </div>
 
     <!-- TOP NAV -->
-    <header class="relative z-20 flex items-center justify-between px-8 py-4 border-b border-border-color glass-panel">
+    <header class="relative z-20 flex items-center justify-between px-4 sm:px-8 py-3 sm:py-4 border-b border-border-color glass-panel">
       <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
         <img src="/logo_backofff.png" alt="BuildCode" class="h-8 w-auto object-contain" />
         <span class="font-display text-lg font-bold text-white tracking-tight hidden sm:block">BuildCode</span>
@@ -139,7 +139,7 @@ const techDB = technologies.map(t => ({
     </header>
 
     <!-- MAIN CONTENT -->
-    <main class="relative z-10 flex flex-1 gap-6 p-6 max-w-[1440px] mx-auto w-full">
+    <main class="relative z-10 flex flex-1 gap-4 lg:gap-6 p-3 sm:p-4 lg:p-6 max-w-[1440px] mx-auto w-full">
 
       <!-- LEFT SIDEBAR: Live Insights -->
       <aside class="w-72 hidden xl:flex flex-col gap-6 shrink-0">
@@ -186,22 +186,20 @@ const techDB = technologies.map(t => ({
       </aside>
 
       <!-- CENTER: Wizard -->
-      <section class="flex-1 flex flex-col items-center justify-center gap-8 py-8">
+      <section class="flex-1 flex flex-col items-center justify-center gap-4 sm:gap-6 lg:gap-8 py-4 sm:py-6 lg:py-8">
         <form id="wizard-form" class="w-full max-w-5xl">
 
           <!-- Render all 20 questions dynamically -->
           {questions.map((q) => (
-            <div class={`step flex ${q.step === 1 ? '' : 'hidden'} flex-col items-center gap-8`} data-step={q.step} data-phase={q.phase}>
+            <div class={`step flex ${q.step === 1 ? '' : 'hidden'} flex-col items-center gap-8`} data-step={q.step} data-phase={q.phase} data-visible-for={q.visibleFor === 'all' ? 'all' : JSON.stringify(q.visibleFor)} data-optional-for={q.optionalFor ? JSON.stringify(q.optionalFor) : ''}>
               <div class="text-center max-w-2xl space-y-3">
-                <h2 class="font-display text-3xl lg:text-5xl font-black text-white tracking-tight">
+                <h2 class="font-display text-2xl sm:text-3xl lg:text-5xl font-black text-white tracking-tight">
                   {q.titlePre}{' '}<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">{q.titleHighlight}</span>{' '}{q.titlePost}
                 </h2>
-                <p class="text-slate-400 text-lg font-medium">{q.subtitle}</p>
-                {q.isOptionalForHobby && (
-                  <span id={`optional-badge-${q.step}`} class="hidden inline-flex items-center gap-1 px-3 py-1 rounded-full bg-cta/10 text-cta text-[10px] font-bold uppercase tracking-widest border border-cta/20">
-                    <span class="material-symbols-outlined text-xs">info</span> Opcional para projetos pessoais
-                  </span>
-                )}
+                <p class="text-slate-400 text-sm sm:text-base lg:text-lg font-medium">{q.subtitle}</p>
+                <span id={`optional-badge-${q.step}`} class="hidden items-center gap-1 px-3 py-1 rounded-full bg-cta/10 text-cta text-[10px] font-bold uppercase tracking-widest border border-cta/20">
+                  <span class="material-symbols-outlined text-xs">info</span> Etapa opcional — pode pular
+                </span>
               </div>
 
               {/* Textarea type */}
@@ -270,40 +268,110 @@ const techDB = technologies.map(t => ({
                     </div>
                   )}
 
-                  <div class={`grid grid-cols-1 gap-4 w-full ${q.cols === 2 ? 'md:grid-cols-2' : q.cols === 4 ? 'md:grid-cols-4' : 'md:grid-cols-3'}`}>
-                    {q.options.map(opt => (
-                      <label class="cursor-pointer group option-label relative" data-min-level={opt.minLevel || 1}>
+                  {/* Custom IDE input for "Outro" */}
+                  {q.name === 'ferramenta' && (
+                    <div id="custom-ide-block" class="hidden w-full mb-4">
+                      <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-cta text-lg">edit</span>
+                        <input
+                          type="text"
+                          id="custom-ide-input"
+                          class="flex-1 px-4 py-3 rounded-xl glass-panel text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-cta/50 focus:ring-1 focus:ring-cta/50 transition-all border-cta/20"
+                          placeholder="Informe o nome da sua IDE (ex: WebStorm, Neovim, Zed...)"
+                          autocomplete="off"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Custom MCP input + search */}
+                  {q.name === 'mcps' && (
+                    <div class="w-full space-y-3 mb-4">
+                      <div class="relative flex items-center gap-3">
+                        <span class="material-symbols-outlined absolute left-4 text-slate-500 text-lg pointer-events-none">search</span>
+                        <input
+                          type="text"
+                          id="mcp-search-input"
+                          class="w-full pl-11 pr-4 py-3 rounded-xl glass-panel text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
+                          placeholder="Buscar MCPs na biblioteca..."
+                          autocomplete="off"
+                        />
+                        <button
+                          type="button"
+                          id="mcp-custom-toggle"
+                          class="shrink-0 flex items-center gap-2 px-4 py-3 rounded-xl border border-cta/30 bg-cta/10 text-cta text-xs font-bold hover:bg-cta hover:text-background-dark transition-all"
+                        >
+                          <span class="material-symbols-outlined text-sm">add</span>
+                          Personalizar
+                        </button>
+                      </div>
+                      <div id="mcp-custom-block" class="hidden flex items-center gap-3">
+                        <input
+                          type="text"
+                          id="mcp-custom-input"
+                          class="flex-1 px-4 py-3 rounded-xl glass-panel text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-cta/50 focus:ring-1 focus:ring-cta/50 transition-all border-cta/20"
+                          placeholder="Nome do MCP personalizado (ex: slack-mcp, notion-mcp...)"
+                          autocomplete="off"
+                        />
+                        <button
+                          type="button"
+                          id="mcp-custom-add"
+                          class="shrink-0 flex items-center gap-2 px-4 py-3 rounded-xl bg-cta text-background-dark text-xs font-bold hover:bg-cta/80 transition-all"
+                        >
+                          <span class="material-symbols-outlined text-sm">check</span>
+                          Adicionar
+                        </button>
+                      </div>
+                      <div id="mcp-search-results" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+                      <div class="w-full h-px bg-border-color"></div>
+                    </div>
+                  )}
+
+                  <div class={`grid grid-cols-1 gap-3 sm:gap-4 w-full ${q.cols === 2 ? 'sm:grid-cols-2' : q.cols === 4 ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-2 lg:grid-cols-3'}`}>
+                    {q.options.map(opt => {
+                      const diff = opt.difficulty ? difficultyConfig[opt.difficulty] : null;
+                      return (
+                      <label class="cursor-pointer group option-label relative" data-min-level={opt.minLevel || 1} data-recommended={opt.recommendedFor ? JSON.stringify(opt.recommendedFor) : ''}>
                         <input type={q.type} name={q.name} value={opt.value} class="peer sr-only" />
                         <div class="glass-panel rounded-2xl p-5 flex flex-col gap-3 text-left transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(46,116,139,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(46,116,139,0.15)] hover:border-primary/40 h-full">
                           <div class="flex items-start justify-between gap-2">
-                            <div class="size-10 rounded-xl bg-primary/10 group-[.peer:checked+&]:bg-primary transition-colors shrink-0 overflow-hidden relative">
+                            <div class="size-10 rounded-xl bg-primary/10 group-[.peer:checked+&]:bg-primary transition-colors shrink-0 overflow-hidden relative flex items-center justify-center">
                               {optionLogoMap[opt.value] ? (
-                                <img src={optionLogoMap[opt.value]} alt={opt.label} class="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-                                <span class="material-symbols-outlined text-primary group-[.peer:checked+&]:text-background-dark text-xl hidden items-center justify-center absolute inset-0 w-full h-full">{opt.icon}</span>
+                                <img src={optionLogoMap[opt.value]} alt={opt.label} class="w-6 h-6 object-contain" />
                               ) : (
-                                <span class="material-symbols-outlined text-primary group-[.peer:checked+&]:text-background-dark text-xl flex items-center justify-center absolute inset-0 w-full h-full">{opt.icon}</span>
+                                <span class="material-symbols-outlined text-primary group-[.peer:checked+&]:text-background-dark text-xl">{opt.icon}</span>
                               )}
                             </div>
-                            {opt.website && (
-                              <button
-                                type="button"
-                                class="info-btn shrink-0 size-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary/40 hover:bg-primary/10 transition-all z-10"
-                                data-tech-name={opt.label}
-                                data-tech-url={opt.website}
-                                title={`Saber mais sobre ${opt.label}`}
-                                onclick="event.preventDefault(); event.stopPropagation();"
-                              >
-                                <span class="material-symbols-outlined text-[16px] pointer-events-none">info</span>
-                              </button>
-                            )}
+                            <div class="flex items-center gap-1.5">
+                              {diff && (
+                                <span class={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider border ${diff.color} ${diff.border} ${diff.bg}`}>{diff.label}</span>
+                              )}
+                              {opt.website && (
+                                <button
+                                  type="button"
+                                  class="info-btn shrink-0 size-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary/40 hover:bg-primary/10 transition-all z-10"
+                                  data-tech-name={opt.label}
+                                  data-tech-url={opt.website}
+                                  title={`Saber mais sobre ${opt.label}`}
+                                  onclick="event.preventDefault(); event.stopPropagation();"
+                                >
+                                  <span class="material-symbols-outlined text-[16px] pointer-events-none">info</span>
+                                </button>
+                              )}
+                            </div>
                           </div>
                           <div class="flex-1">
                             <h4 class="font-bold text-white text-sm">{opt.label}</h4>
                             <p class="text-xs text-slate-500 mt-1 leading-relaxed">{opt.desc}</p>
                           </div>
+                          {opt.recommendedFor && opt.recommendedFor.length > 0 && (
+                            <span class="rec-badge hidden items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[9px] font-bold uppercase tracking-wider border border-primary/20 w-fit" data-rec-for={JSON.stringify(opt.recommendedFor)}>
+                              <span class="material-symbols-outlined text-[10px]">thumb_up</span> Recomendado
+                            </span>
+                          )}
                         </div>
                       </label>
-                    ))}
+                    );})}
                   </div>
                 </div>
 
@@ -333,27 +401,65 @@ const techDB = technologies.map(t => ({
               )}
 
               <!-- Navigation buttons -->
-              <div class="flex items-center gap-6 mt-4">
+              <div class="flex items-center gap-4 sm:gap-6 mt-4">
                 {q.step > 1 && (
-                  <button type="button" class="prev-btn px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-colors" data-i18n="app.voltar">Voltar</button>
+                  <button type="button" class="prev-btn px-5 sm:px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-colors text-sm sm:text-base" data-i18n="app.voltar">Voltar</button>
                 )}
-                {q.step < totalSteps ? (
-                  <button type="button" class="next-btn flex items-center gap-3 px-10 py-4 bg-primary text-background-dark rounded-xl font-bold shadow-[0_0_20px_rgba(46,116,139,0.3)] hover:shadow-[0_0_35px_rgba(46,116,139,0.5)] hover:-translate-y-0.5 transition-all group">
+                <button type="button" class="next-btn flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-3 sm:py-4 bg-primary text-background-dark rounded-xl font-bold shadow-[0_0_20px_rgba(46,116,139,0.3)] hover:shadow-[0_0_35px_rgba(46,116,139,0.5)] hover:-translate-y-0.5 transition-all group text-sm sm:text-base">
                     <span data-i18n="app.proxima">Próxima Etapa</span>
                     <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
                   </button>
-                ) : (
-                  <button type="button" id="generate-btn" class="flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-cta to-yellow-600 text-background-dark rounded-xl font-black shadow-[0_0_20px_rgba(242,171,109,0.4)] hover:shadow-[0_0_35px_rgba(242,171,109,0.6)] hover:-translate-y-0.5 transition-all group">
-                    <span class="material-symbols-outlined">auto_awesome</span>
-                    <span data-i18n="app.gerar">Gerar PRD & Prompt Base</span>
-                  </button>
-                )}
               </div>
             </div>
           ))}
 
-          <!-- STEP 21: Loading -->
-          <div class="step hidden flex flex-col items-center justify-center gap-6 py-16 text-center" data-step="21" data-phase="4">
+          <!-- STEP 21: LLM Selection -->
+          <div class="step hidden flex flex-col items-center gap-8" data-step="21" data-phase="4">
+            <div class="text-center max-w-2xl space-y-3">
+              <h2 class="font-display text-3xl lg:text-5xl font-black text-white tracking-tight">
+                Escolha o <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Modelo LLM</span> para Geração
+              </h2>
+              <p class="text-slate-400 text-lg font-medium">O modelo selecionado gerará seu PRD e Prompt Base via OpenRouter.</p>
+            </div>
+            <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
+              {llmModels.map(m => {
+                const tierConfig = {
+                  budget: { label: 'Gratuito', color: 'text-emerald-400', border: 'border-emerald-500/20', bg: 'bg-emerald-500/10' },
+                  mid: { label: 'Intermediario', color: 'text-amber-400', border: 'border-amber-500/20', bg: 'bg-amber-500/10' },
+                  pro: { label: 'Profissional', color: 'text-purple-400', border: 'border-purple-500/20', bg: 'bg-purple-500/10' },
+                };
+                const tc = tierConfig[m.tier as keyof typeof tierConfig];
+                return (
+                  <label class="cursor-pointer group option-label">
+                    <input type="radio" name="llm-model" value={m.value} class="peer sr-only" />
+                    <div class="glass-panel rounded-2xl p-5 flex flex-col gap-3 text-left transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(46,116,139,0.2)] peer-checked:scale-[1.02] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(46,116,139,0.15)] hover:border-primary/40 h-full">
+                      <div class="flex items-start justify-between gap-2">
+                        <div class="size-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                          <span class="material-symbols-outlined text-primary text-xl">{m.icon}</span>
+                        </div>
+                        <span class={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider border ${tc.color} ${tc.border} ${tc.bg}`}>{tc.label}</span>
+                      </div>
+                      <div class="flex-1">
+                        <h4 class="font-bold text-white text-sm">{m.label}</h4>
+                        <p class="text-[10px] text-slate-600 font-mono">{m.provider}</p>
+                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">{m.desc}</p>
+                      </div>
+                    </div>
+                  </label>
+                );
+              })}
+            </div>
+            <div class="flex items-center gap-6 mt-4">
+              <button type="button" class="prev-btn px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">Voltar</button>
+              <button type="button" id="generate-btn" class="flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-cta to-yellow-600 text-background-dark rounded-xl font-black shadow-[0_0_20px_rgba(242,171,109,0.4)] hover:shadow-[0_0_35px_rgba(242,171,109,0.6)] hover:-translate-y-0.5 transition-all group">
+                <span class="material-symbols-outlined">auto_awesome</span>
+                <span data-i18n="app.gerar">Gerar PRD & Prompt Base</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 22: Loading -->
+          <div class="step hidden flex flex-col items-center justify-center gap-6 py-16 text-center" data-step="22" data-phase="4">
             <div class="relative">
               <div class="size-24 rounded-full border-4 border-surface-dark border-t-primary animate-spin"></div>
               <span class="material-symbols-outlined text-primary text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse">auto_awesome</span>
@@ -367,17 +473,29 @@ const techDB = technologies.map(t => ({
             </div>
           </div>
 
-          <!-- STEP 22: Result (PRD + Prompt Base Tabs) -->
-          <div class="step hidden flex flex-col gap-6 w-full" data-step="22" data-phase="4">
+          <!-- STEP 23: Result (PRD + Prompt Base Tabs) -->
+          <div class="step hidden flex flex-col gap-6 w-full" data-step="23" data-phase="4">
             <!-- Tab Switcher -->
-            <div class="flex items-center justify-between">
-              <div class="flex gap-2">
-                <button type="button" id="tab-prd" class="result-tab px-5 py-2 rounded-lg text-sm font-bold bg-primary/10 text-primary border border-primary/20 transition-all">📋 <span data-i18n="app.tab.prd">PRD Estratégico</span></button>
-                <button type="button" id="tab-prompt" class="result-tab px-5 py-2 rounded-lg text-sm font-bold text-slate-500 border border-transparent hover:text-white transition-all">🚀 <span data-i18n="app.tab.prompt">Prompt Base</span></button>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <button type="button" id="tab-prd" class="result-tab px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-bold bg-primary/10 text-primary border border-primary/20 transition-all">PRD</button>
+                <button type="button" id="tab-prompt" class="result-tab px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-bold text-slate-500 border border-transparent hover:text-white transition-all">Prompt Base</button>
+                <span id="prompt-tip" class="hidden text-[9px] text-cta/80 max-w-[200px] leading-tight">Recomendamos a leitura completa e melhorias manuais para maior precisao.</span>
               </div>
-              <button type="button" id="copy-btn" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-border-color bg-surface-dark text-xs text-slate-300 hover:text-white hover:bg-surface-light transition-colors">
-                <span class="material-symbols-outlined text-sm">content_copy</span> <span data-i18n="app.copiar">COPIAR</span>
-              </button>
+              <div class="flex items-center gap-2">
+                <button type="button" id="copy-btn" class="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg border border-border-color bg-surface-dark text-xs text-slate-300 hover:text-white hover:bg-surface-light transition-colors">
+                  <span class="material-symbols-outlined text-sm">content_copy</span> <span data-i18n="app.copiar">COPIAR</span>
+                </button>
+                <button type="button" id="download-pdf-btn" class="hidden flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg border border-primary/30 bg-primary/10 text-xs text-primary hover:text-white hover:bg-primary/20 transition-colors">
+                  <span class="material-symbols-outlined text-sm">picture_as_pdf</span> PDF
+                </button>
+                <button type="button" id="download-docx-btn" class="hidden flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg border border-primary/30 bg-primary/10 text-xs text-primary hover:text-white hover:bg-primary/20 transition-colors">
+                  <span class="material-symbols-outlined text-sm">description</span> Word
+                </button>
+                <button type="button" id="download-md-btn" class="hidden flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg border border-border-color bg-surface-dark text-xs text-slate-300 hover:text-white hover:bg-surface-light transition-colors">
+                  <span class="material-symbols-outlined text-sm">code</span> .md
+                </button>
+              </div>
             </div>
             <!-- Output Area -->
             <div class="relative bg-[#05080A] rounded-2xl border border-primary/20 overflow-hidden">
@@ -387,8 +505,8 @@ const techDB = technologies.map(t => ({
                 <span class="size-3 rounded-full bg-green-500/80"></span>
                 <span id="output-filename" class="font-mono text-[10px] text-slate-500 ml-2">architecture_prd.md</span>
               </div>
-              <textarea id="prd-output" readonly class="w-full min-h-[500px] bg-transparent text-slate-300 font-mono text-xs md:text-sm p-6 resize-none focus:outline-none" style="scrollbar-color: #1C4D5E transparent;"></textarea>
-              <textarea id="prompt-output" readonly class="hidden w-full min-h-[500px] bg-transparent text-slate-300 font-mono text-xs md:text-sm p-6 resize-none focus:outline-none" style="scrollbar-color: #1C4D5E transparent;"></textarea>
+              <textarea id="prd-output" readonly class="w-full min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] bg-transparent text-slate-300 font-mono text-[10px] sm:text-xs md:text-sm p-3 sm:p-4 lg:p-6 resize-none focus:outline-none" style="scrollbar-color: #1C4D5E transparent;"></textarea>
+              <textarea id="prompt-output" readonly class="hidden w-full min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] bg-transparent text-slate-300 font-mono text-[10px] sm:text-xs md:text-sm p-3 sm:p-4 lg:p-6 resize-none focus:outline-none" style="scrollbar-color: #1C4D5E transparent;"></textarea>
             </div>
             <div class="flex justify-center gap-4">
               <button type="button" class="restart-btn px-8 py-3 rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-colors">Iniciar Novo Projeto</button>
@@ -399,8 +517,40 @@ const techDB = technologies.map(t => ({
       </section>
     </main>
 
+    <!-- FLOATING CHAT WIDGET -->
+    <div id="chat-widget" class="fixed bottom-6 right-6 z-[9990] flex flex-col items-end gap-3">
+      <!-- Chat Panel (hidden by default) -->
+      <div id="chat-panel" class="hidden w-80 sm:w-96 h-[28rem] glass-panel rounded-2xl border border-primary/20 shadow-[0_8px_40px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-border-color bg-surface-dark/80">
+          <div class="flex items-center gap-2">
+            <img id="chat-agent-avatar" src="/agentes/Thebossicon.png" alt="Agent" class="size-6 rounded-full object-cover border border-white/20" />
+            <span id="chat-agent-name" class="text-xs font-bold text-white">The Boss</span>
+            <div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+          </div>
+          <button type="button" id="chat-close" class="text-slate-500 hover:text-white transition-colors p-1">
+            <span class="material-symbols-outlined text-base">close</span>
+          </button>
+        </div>
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 text-sm" style="scrollbar-color: #1C4D5E transparent;">
+          <!-- Initial message injected by JS based on selected agent -->
+        </div>
+        <div class="p-3 border-t border-border-color bg-surface-dark/50">
+          <div class="flex items-center gap-2">
+            <input type="text" id="chat-input" class="flex-1 px-3 py-2 rounded-lg bg-background-dark/80 border border-border-color text-white text-xs placeholder:text-slate-600 focus:outline-none focus:border-primary/50 transition-colors" placeholder="Pergunte algo sobre tecnologia..." autocomplete="off" />
+            <button type="button" id="chat-send" class="size-8 rounded-lg bg-primary flex items-center justify-center text-background-dark hover:bg-primary-light transition-colors shrink-0">
+              <span class="material-symbols-outlined text-base">send</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Chat Toggle Button -->
+      <button type="button" id="chat-toggle" class="size-14 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-[0_4px_20px_rgba(46,116,139,0.4)] hover:shadow-[0_4px_30px_rgba(46,116,139,0.6)] hover:scale-110 transition-all overflow-hidden border-2 border-primary/40 relative">
+        <img id="chat-toggle-avatar" src="/agentes/Thebossicon.png" alt="Agent" class="w-full h-full object-cover" />
+      </button>
+    </div>
+
     <!-- FOOTER -->
-    <footer class="relative z-10 px-8 py-4 text-center border-t border-border-color bg-background-dark/30">
+    <footer class="relative z-10 px-4 sm:px-8 py-3 sm:py-4 text-center border-t border-border-color bg-background-dark/30">
       <p class="text-[10px] text-slate-600 uppercase tracking-widest font-semibold">BuildCode AI Engine v2.0 — © 2026</p>
     </footer>
     
@@ -500,8 +650,9 @@ const techDB = technologies.map(t => ({
 <script define:vars={{ tooltipData: tooltips, skillsData: skillsMap, totalSteps, techDB }}>
 document.addEventListener('DOMContentLoaded', () => {
   let currentStep = 1;
-  let userSeniority = 'junior'; // default
+  let userSeniority = 'junior';
   let userTipo = 'hobby';
+  let visibleSteps = []; // dynamically computed
 
   const steps = document.querySelectorAll('.step');
   const progressBar = document.getElementById('progress-bar');
@@ -525,8 +676,72 @@ document.addEventListener('DOMContentLoaded', () => {
   const phaseNames = ['Contexto', 'Stack Técnica', 'Qualidade', 'Final'];
 
   // ═══════════════════════════════════════════
-  //  STEP NAVIGATION
+  //  STEP VISIBILITY & NAVIGATION
   // ═══════════════════════════════════════════
+  function computeVisibleSteps() {
+    visibleSteps = [];
+    // Wizard question steps (1-20)
+    document.querySelectorAll('.step[data-step]').forEach(el => {
+      const stepNum = parseInt(el.getAttribute('data-step'));
+      const vf = el.getAttribute('data-visible-for');
+      if (!vf || vf === 'all') {
+        visibleSteps.push(stepNum);
+        return;
+      }
+      // Steps 21+ (LLM, loading, result) are always visible
+      if (stepNum > 20) {
+        visibleSteps.push(stepNum);
+        return;
+      }
+      try {
+        const types = JSON.parse(vf);
+        if (Array.isArray(types) && types.includes(userTipo)) {
+          visibleSteps.push(stepNum);
+        }
+      } catch(e) {
+        visibleSteps.push(stepNum);
+      }
+    });
+    visibleSteps.sort((a, b) => a - b);
+
+    // Update optional badges
+    document.querySelectorAll('.step[data-step]').forEach(el => {
+      const stepNum = parseInt(el.getAttribute('data-step'));
+      const optFor = el.getAttribute('data-optional-for');
+      const badge = document.getElementById(`optional-badge-${stepNum}`);
+      if (!badge) return;
+      let isOptional = false;
+      if (optFor) {
+        try {
+          const types = JSON.parse(optFor);
+          isOptional = Array.isArray(types) && types.includes(userTipo);
+        } catch(e) {}
+      }
+      badge.classList.toggle('hidden', !isOptional);
+      badge.classList.toggle('inline-flex', isOptional);
+    });
+  }
+
+  function getNextVisibleStep(from) {
+    for (let i = 0; i < visibleSteps.length; i++) {
+      if (visibleSteps[i] > from) return visibleSteps[i];
+    }
+    return null;
+  }
+
+  function getPrevVisibleStep(from) {
+    for (let i = visibleSteps.length - 1; i >= 0; i--) {
+      if (visibleSteps[i] < from) return visibleSteps[i];
+    }
+    return null;
+  }
+
+  function isLastWizardStep(step) {
+    // The last wizard question step before LLM selection (step 21)
+    const wizardSteps = visibleSteps.filter(s => s <= 20);
+    return wizardSteps.length > 0 && wizardSteps[wizardSteps.length - 1] === step;
+  }
+
   function getPhase(step) {
     if (step <= 5) return 1;
     if (step <= 12) return 2;
@@ -535,10 +750,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateProgress(step) {
-    const pct = Math.min(((step - 1) / totalSteps) * 100, 100);
+    const wizardSteps = visibleSteps.filter(s => s <= 21);
+    const idx = wizardSteps.indexOf(step);
+    const pct = idx >= 0 ? Math.min((idx / Math.max(wizardSteps.length - 1, 1)) * 100, 100) : 100;
     progressBar.style.width = `${pct}%`;
-    const s = Math.min(step, totalSteps);
-    stepCounter.textContent = `${String(s).padStart(2, '0')} / ${totalSteps}`;
     const phase = getPhase(step);
     stepPhaseName.textContent = phaseNames[phase - 1] || 'Resultado';
 
@@ -564,7 +779,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const active = document.querySelector(`.step[data-step="${step}"]`);
     if (active) active.classList.remove('hidden');
     updateProgress(step);
+    updateRecommendedBadges();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ═══════════════════════════════════════════
+  //  RECOMMENDATION BADGES
+  // ═══════════════════════════════════════════
+  function updateRecommendedBadges() {
+    document.querySelectorAll('.rec-badge').forEach(badge => {
+      const recFor = badge.getAttribute('data-rec-for');
+      if (!recFor) return;
+      try {
+        const levels = JSON.parse(recFor);
+        const show = Array.isArray(levels) && levels.includes(userSeniority);
+        badge.classList.toggle('hidden', !show);
+        badge.classList.toggle('inline-flex', show);
+      } catch(e) {}
+    });
   }
 
   // Seniority-based option filtering
@@ -576,7 +808,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const minLevel = parseInt(label.getAttribute('data-min-level') || '1');
       if (minLevel > level) {
         label.style.display = 'none';
-        // Uncheck hidden inputs
         const input = label.querySelector('input');
         if (input) input.checked = false;
       } else {
@@ -584,11 +815,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Show/hide optional badges for hobby
-    document.querySelectorAll('[id^="optional-badge-"]').forEach(badge => {
-      badge.classList.toggle('hidden', userTipo !== 'hobby');
-      badge.classList.toggle('inline-flex', userTipo === 'hobby');
-    });
+    computeVisibleSteps();
+    updateRecommendedBadges();
   }
 
   // Listen for seniority change
@@ -602,6 +830,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('input[name="tipo"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
       userTipo = e.target.value;
+      computeVisibleSteps();
       filterOptionsBySeniority();
       updateInsights();
     });
@@ -620,14 +849,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         ctx.classList.remove('border-red-500', 'ring-1', 'ring-red-500/50');
       }
-      if (currentStep < totalSteps) {
-        const prevPhase = getPhase(currentStep);
-        currentStep++;
+
+      const prevPhase = getPhase(currentStep);
+      let nextStep;
+
+      if (isLastWizardStep(currentStep)) {
+        // Jump to LLM selection (step 21)
+        nextStep = 21;
+      } else {
+        nextStep = getNextVisibleStep(currentStep);
+      }
+
+      if (nextStep) {
+        currentStep = nextStep;
         const newPhase = getPhase(currentStep);
         showStep(currentStep);
         updateInsights();
 
-        // Three.js camera dive on phase 1 → phase 2 (Q5 → Q6)
+        // Three.js camera dive on phase 1 → phase 2
         if (prevPhase === 1 && newPhase === 2 && typeof window.__bcDive === 'function') {
           window.__bcDive();
         }
@@ -637,7 +876,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.prev-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      if (currentStep > 1) { currentStep--; showStep(currentStep); updateInsights(); }
+      const prevStep = getPrevVisibleStep(currentStep);
+      if (prevStep) {
+        currentStep = prevStep;
+        showStep(currentStep);
+        updateInsights();
+      }
     });
   });
 
@@ -721,34 +965,50 @@ document.addEventListener('DOMContentLoaded', () => {
   //  GENERATE PRD + PROMPT BASE
   // ═══════════════════════════════════════════
   const generateBtn = document.getElementById('generate-btn');
+  let preGenAsked = false;
   if (generateBtn) {
     generateBtn.addEventListener('click', () => {
-      showStep(21); // Loading
+      // First click: open chat and ask if user wants to add context
+      if (!preGenAsked) {
+        preGenAsked = true;
+        // Open chat panel
+        openChat();
 
-      const msgs = [
-        'Analisando contexto do projeto...',
-        'Mapeando topologia de banco de dados...',
-        'Validando padrões de escalabilidade...',
-        'Selecionando stack ideal...',
-        'Calculando estimativa financeira...',
-        'Gerando Roadmap de Segurança...',
-        'Montando Prompt Base otimizado...',
-        'Finalizando documentação...',
-      ];
-      let i = 0;
-      const loadingMsg = document.getElementById('loading-msg');
-      const interval = setInterval(() => {
-        if (i < msgs.length) { loadingMsg.textContent = msgs[i]; i++; }
-        else {
-          clearInterval(interval);
-          setTimeout(() => {
-            generateOutputs();
-            showStep(22);
-            progressBar.style.width = '100%';
-          }, 500);
-        }
-      }, 600);
+        const contextStr = getWizardContext();
+        const preGenMsg = `Antes de gerar seu PRD e Prompt Base, gostaria de saber se voce tem algo a mais para informar ou contemplar no projeto.\n\nSuas selecoes atuais: ${contextStr || 'Nenhuma selecao detectada.'}\n\nPode me contar detalhes extras, requisitos especificos ou preferencias. Quando estiver pronto, e so me dizer que quer prosseguir!`;
+        appendChatMsg('assistant', preGenMsg);
+        return;
+      }
+
+      // Open chat and let user add context — don't generate yet
+      return;
     });
+  }
+
+  function triggerGeneration() {
+    const msgs = [
+      'Analisando contexto do projeto...',
+      'Mapeando topologia de banco de dados...',
+      'Validando padroes de escalabilidade...',
+      'Selecionando stack ideal...',
+      'Gerando Roadmap de Seguranca...',
+      'Montando Prompt Base otimizado...',
+      'Finalizando documentacao...',
+    ];
+    let i = 0;
+    const loadingMsg = document.getElementById('loading-msg');
+    const interval = setInterval(() => {
+      if (i < msgs.length) { loadingMsg.textContent = msgs[i]; i++; }
+      else {
+        clearInterval(interval);
+        setTimeout(() => {
+          generateOutputs();
+          showStep(23);
+          progressBar.style.width = '100%';
+          showDownloadBtns(true);
+        }, 500);
+      }
+    }, 600);
   }
 
   function getFormValue(name) {
@@ -786,6 +1046,7 @@ document.addEventListener('DOMContentLoaded', () => {
       integracoes: getFormValues('integracoes'),
       seo: getFormValue('seo'),
       testes: getFormValues('testes'),
+      llmModel: getFormValue('llm-model'),
     };
 
     // Label maps for display
@@ -828,218 +1089,738 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ═══ PRD OUTPUT ═══
-    prdOutput.value = `# 📋 PRD TÉCNICO — BUILDCODE AI
-Gerado em: ${date} | Senioridade: ${L('senioridade', data.senioridade)}
-Escala: ${L('escala', data.escala)} | Tipo: ${L('tipo', data.tipo)}
+    const projectTypeLabel = { hobby: 'Projeto Pessoal / Portfolio', saas: 'SaaS / MVP Comercial', enterprise: 'Larga Escala / Enterprise' };
+    const llmLabel = data.llmModel || 'Nenhum selecionado';
+
+    prdOutput.value = `# PRD TECNICO — BUILDCODE AI ENGINE
+Gerado em: ${date} | v2.1
 
 ---
 
-## 1. SUMÁRIO EXECUTIVO
+## 1. SUMARIO EXECUTIVO
 
-**Projeto:** ${data.contexto.substring(0, 200)}${data.contexto.length > 200 ? '...' : ''}
+**Descricao do Projeto:**
+${data.contexto}
 
-**Classificação:** ${L('tipo', data.tipo)} — ${L('escala', data.escala)}
-**Nível do Dev:** ${L('senioridade', data.senioridade)}
-**Plataforma de Dev:** ${L('ferramenta', data.ferramenta)}
-
----
-
-## 2. JUSTIFICATIVA DE STACK
-
-| Camada         | Tecnologia Escolhida          | Justificativa |
-|----------------|------------------------------|---------------|
-| **Frontend**   | ${L('frontend', data.frontend)} | ${isSenior ? 'Performance e escalabilidade prioritárias.' : 'Facilidade de uso e comunidade ativa.'} |
-| **Backend**    | ${L('backend', data.backend)}   | ${isSenior ? 'Controle total sobre lógica e performance.' : 'Produtividade máxima com managed services.'} |
-| **Banco**      | ${L('database', data.database)} | ${data.database === 'sql-managed' ? 'Zero overhead de infra.' : 'Controle e flexibilidade de dados.'} |
-| **Infra**      | ${L('infra', data.infra)}       | ${data.infra === 'vercel' || data.infra === 'railway' ? 'Deploy rápido e escalável.' : 'Controle total da infraestrutura.'} |
-| **Auth**       | ${L('auth', data.auth)}         | ${data.auth === 'rbac' ? 'Controle de acesso granular por papéis.' : 'Simplicidade para o contexto do projeto.'} |
-| **Persistência** | ${L('persistencia', data.persistencia)} | Best fit para o modelo de dados do projeto. |
+**Classificacao:** ${projectTypeLabel[data.tipo] || data.tipo}
+**Escala Alvo:** ${L('escala', data.escala)} usuarios simultaneos
+**Nivel do Desenvolvedor:** ${L('senioridade', data.senioridade)}
+**IDE / Ferramenta:** ${L('ferramenta', data.ferramenta)}
+**Modelo LLM Selecionado:** ${llmLabel}
 
 ---
 
-## 3. DESENHO DA ARQUITETURA
+## 2. DECISAO DE STACK — JUSTIFICATIVA TECNICA
 
-**Padrão Arquitetural:** ${isSenior ? 'Clean Architecture + SOLID + Domain-Driven Design' : 'MVC Simplificado + Monolito'}
-**Comunicação:** ${data.realtime !== 'nao' ? 'REST API + ' + L('realtime', data.realtime) : 'REST API (HTTP)'}
-**Autenticação:** ${L('auth', data.auth)} ${data.seguranca.includes('mfa') ? '+ MFA' : ''}
-**Estilo de Código:** ${L('codestyle', data.codestyle)}
+| Camada | Tecnologia | Por que foi escolhida |
+|--------|-----------|----------------------|
+| **Frontend** | ${L('frontend', data.frontend)} | ${data.frontend === 'html-css' ? 'Maximo controle. Sem overhead de framework. Ideal para aprendizado.' : data.frontend === 'astro' ? 'Zero-JS por padrao. Excelente SEO. Islands Architecture.' : data.frontend === 'react' ? 'Ecossistema massivo. Componentizacao. Ideal para SPAs e dashboards.' : data.frontend === 'nextjs' ? 'React fullstack. SSR/SSG/ISR. API Routes integradas. Otimizado para producao.' : data.frontend === 'vue' ? 'Curva suave. Reatividade elegante. Composition API moderno.' : 'Escolha do usuario — consultar documentacao oficial.'} |
+| **Backend** | ${L('backend', data.backend)} | ${data.backend === 'supabase' ? 'BaaS completo: Auth + DB + Storage + Edge Functions. Rapido para MVPs.' : data.backend === 'firebase' ? 'Google BaaS. Firestore NoSQL + Auth + Hosting. Otimo para prototipagem.' : data.backend === 'express' ? 'Servidor HTTP mais usado em Node.js. Flexivel e leve.' : data.backend === 'nestjs' ? 'Framework enterprise. DI, Guards, Pipes, Interceptors. TypeScript nativo.' : 'Escolha do usuario — consultar documentacao oficial.'} |
+| **Banco de Dados** | ${L('database', data.database)} | ${data.database === 'sql-managed' ? 'Zero overhead de infra. Managed pelo provider.' : data.database === 'sql-raw' ? 'Controle total. Ideal para queries complexas e performance.' : data.database === 'nosql' ? 'Flexibilidade de schema. Escalabilidade horizontal.' : 'Banco vetorial para aplicacoes de IA e embeddings.'} |
+| **Infraestrutura** | ${L('infra', data.infra)} | ${data.infra === 'vercel' ? 'Deploy instantaneo. Edge Functions. Otimizado para Next.js/Astro.' : data.infra === 'railway' ? 'PaaS simples. Deploy via Git. Bom free tier.' : data.infra === 'aws' ? 'Controle total. Escala global. Servicos ilimitados.' : 'Escolha do usuario.'} |
+${data.auth && data.auth !== 'nenhum' ? `| **Autenticacao** | ${L('auth', data.auth)} | ${data.auth === 'rbac' ? 'Controle granular por papeis (admin, user, etc).' : data.auth === 'oauth' ? 'Login social (Google, GitHub, etc). UX simplificada.' : 'Autenticacao basica por email e senha.'} |` : ''}
+${data.persistencia ? `| **Persistencia** | ${L('persistencia', data.persistencia)} | ${data.persistencia === 'hibrido' ? 'SQL + Cache (Redis). Maximo desempenho.' : data.persistencia === 'relacional' ? 'Dados estruturados. ACID compliance.' : 'Documentos flexiveis.'} |` : ''}
+
+---
+
+## 3. ARQUITETURA DO SISTEMA
+
+**Padrao Arquitetural:** ${isSenior ? 'Clean Architecture + SOLID + Domain-Driven Design (DDD)' : data.tipo === 'saas' ? 'MVC + Service Layer + Repository Pattern' : 'MVC Simplificado — Monolito Modular'}
+**Protocolo de Comunicacao:** ${data.realtime && data.realtime !== 'nao' ? 'REST API + ' + L('realtime', data.realtime) + ' (Real-time bidirecional)' : 'REST API (HTTP/HTTPS)'}
+**Estilo de Codigo:** ${L('codestyle', data.codestyle)}
 **Tratamento de Erros:** ${L('erros', data.erros)}
-**i18n:** ${L('i18n', data.i18n)}
-
-### Fluxo de Dados:
-\`\`\`
-[Cliente] → [${L('frontend', data.frontend)}] → [${L('backend', data.backend)}] → [${L('database', data.database)}]
-${data.realtime !== 'nao' ? `         ↕ [${L('realtime', data.realtime)}] (Real-time)` : ''}
-${data.persistencia === 'hibrido' ? '         → [Redis Cache Layer]' : ''}
-\`\`\`
+${data.i18n && data.i18n !== 'nao' ? `**Internacionalizacao:** ${L('i18n', data.i18n)}` : ''}
 
 ---
 
-## 4. ROADMAP DE SEGURANÇA
+## 4. SEGURANCA E COMPLIANCE
 
+### Camadas Implementadas:
 ${data.seguranca.length > 0 ? data.seguranca.map(s => {
-  const segLabels = { https: 'HTTPS/TLS Forçado', sanitizacao: 'Sanitização de Dados', 'rate-limit': 'Rate Limiting', mfa: 'MFA', csrf: 'CSRF Protection', helmet: 'Security Headers' };
-  return `- ✅ **${segLabels[s] || s}**`;
-}).join('\n') : '- ⚠️ Nenhuma camada de segurança selecionada. Recomendamos ao mínimo HTTPS + Sanitização.'}
+  const segMap = {
+    https: '**HTTPS/TLS** — Todas as comunicacoes encriptadas. Redirect HTTP -> HTTPS.',
+    sanitizacao: '**Sanitizacao de Dados** — Input validation em todas as rotas. Prevencao XSS/SQL Injection.',
+    'rate-limit': '**Rate Limiting** — Protecao contra abuso. 100 req/min por IP em rotas publicas.',
+    mfa: '**MFA (Multi-Factor Auth)** — Camada extra de seguranca para acoes criticas.',
+    csrf: '**CSRF Protection** — Tokens CSRF em todos os formularios e mutations.',
+    helmet: '**Security Headers** — HSTS, CSP, X-Frame-Options, X-Content-Type-Options via Helmet.'
+  };
+  return `- ${segMap[s] || s}`;
+}).join('\n') : '- Nenhuma camada selecionada. RECOMENDACAO: Implemente ao minimo HTTPS + Sanitizacao + Rate Limiting.'}
 
-${isSenior ? `
-### Recomendações Adicionais (Sênior):
-- Implementar OWASP Top 10 compliance
-- Secrets management (Vault ou variáveis de ambiente criptografadas)
-- Logs de auditoria para ações críticas
-- Pen-testing antes do go-live` : ''}
+${isSenior ? `### Recomendacoes Enterprise (Senior):
+- OWASP Top 10 compliance obrigatoria
+- Secrets management (HashiCorp Vault / env vars criptografadas)
+- Audit logs para acoes criticas (login, delete, role change)
+- Penetration testing antes de cada release major
+- Dependency scanning automatico (Snyk / Dependabot)` : ''}
 
 ---
 
-## 5. ESTIMATIVA DE ESCALABILIDADE
+## 5. ESCALABILIDADE E PERFORMANCE
 
-**Meta:** ${L('escala', data.escala)}
-**Estratégia:** ${data.escala === '50' ? 'Serverless/Managed — escala automática sem preocupação.' : data.escala === '50000' ? 'Multi-region, CDN edge, load balancing, auto-scaling horizontal.' : 'Vertical scaling inicialmente, horizontal quando necessário.'}
+**Meta de Usuarios:** ${L('escala', data.escala)}
+
+| Metrica | Alvo | Estrategia |
+|---------|------|-----------|
+| **Response Time** | ${data.escala === '50' ? '< 500ms' : '< 200ms'} | ${data.persistencia === 'hibrido' ? 'Cache Layer + CDN' : 'CDN + Query Optimization'} |
+| **Uptime** | ${data.tipo === 'enterprise' ? '99.99%' : '99.9%'} | ${data.infra === 'aws' ? 'Multi-AZ + Auto-scaling' : 'Managed platform SLA'} |
+| **Concurrent Users** | ${L('escala', data.escala)} | ${data.escala === '50000' ? 'Horizontal scaling + Load Balancer + CDN Edge' : data.escala === '10000' ? 'Vertical + Horizontal scaling conforme demanda' : 'Serverless auto-scaling'} |
 
 ---
 
-## 6. RELATÓRIO FINANCEIRO ESTIMADO
+## 6. ESTIMATIVA FINANCEIRA
 
-| Item | Custo Estimado |
-|------|---------------|
-| **Infraestrutura** | ${costRange} |
-| **Banco de Dados** | ${data.database === 'sql-managed' ? 'Incluído no managed (free tier possível)' : '$20 – $100/mês'} |
-| **Auth Service** | ${data.auth === 'nenhum' || data.auth === 'basico' ? 'Gratuito' : '$10 – $50/mês'} |
+| Item | Custo Mensal Estimado |
+|------|----------------------|
+| **Infraestrutura (${L('infra', data.infra)})** | ${costRange} |
+| **Banco de Dados** | ${data.database === 'sql-managed' ? '$0 – $25 (free tier + managed)' : '$20 – $100'} |
+| **Autenticacao** | ${data.auth === 'nenhum' || data.auth === 'basico' || data.auth === 'oauth' ? 'Gratuito (tier free)' : '$10 – $50'} |
+| **CDN / Dominio** | $0 – $20 |
 | **Total Estimado** | **${costRange}** |
 
-> ⚠️ Valores aproximados baseados em tiers gratuitos e iniciais. Custos da aumentam com tráfego.
+> Valores baseados em free tiers e planos iniciais. Custos escalam com trafego e armazenamento.
 
 ---
 
-## 7. INTEGRAÇÕES EXTERNAS
+## 7. INTEGRACOES E SERVICOS EXTERNOS
 
-${data.integracoes.length > 0 ? data.integracoes.map(i => `- ${i.charAt(0).toUpperCase() + i.slice(1)}`).join('\n') : '- Nenhuma integração selecionada.'}
+${data.integracoes.length > 0 ? data.integracoes.map(i => `- **${i.charAt(0).toUpperCase() + i.slice(1)}**`).join('\n') : '- Nenhuma integracao externa selecionada neste momento.'}
 
-## 8. TESTES
+## 8. ESTRATEGIA DE TESTES
 
-${data.testes.length > 0 ? data.testes.map(t => `- ${t.charAt(0).toUpperCase() + t.slice(1)}`).join('\n') : '- Sem testes planejados neste momento.'}
+${data.testes.length > 0 ? data.testes.map(t => {
+  const testMap = { unitario: 'Testes Unitarios — Vitest/Jest para funcoes e componentes isolados', integracao: 'Testes de Integracao — Validar interacao entre modulos e APIs', e2e: 'Testes E2E — Playwright/Cypress para fluxos completos do usuario', performance: 'Testes de Performance — k6/Lighthouse para metricas de carga e web vitals' };
+  return `- **${testMap[t] || t}**`;
+}).join('\n') : '- Sem estrategia de testes definida. RECOMENDACAO: Ao minimo testes unitarios para logica critica.'}
 
-${data.mcps.length > 0 ? `## 9. MCPs CONECTADOS\n${data.mcps.map(m => `- ${m}`).join('\n')}` : ''}
+${data.mcps.length > 0 ? `\n## 9. MCPs (Model Context Protocol)\n\nMCPs conectados para ampliar a capacidade da IA:\n${data.mcps.map(m => `- **${m}**`).join('\n')}` : ''}
 
 ---
-*Documento gerado pelo BuildCode AI Engine v2.0 — ${date}*`;
+
+## 10. SEO E ACESSIBILIDADE
+
+**Estrategia SEO:** ${L('seo', data.seo) || 'Nao definido'}
+${data.seo === 'seo-full' ? `- Meta tags dinamicas (title, description, og:image)
+- Sitemap.xml automatico
+- Schema.org / JSON-LD para rich snippets
+- Performance: Core Web Vitals no verde
+- Canonical URLs e redirect 301 para duplicatas` : data.seo === 'seo-partial' ? `- Meta tags basicas
+- Sitemap.xml
+- Performance otimizada` : '- App privado — SEO nao aplicavel.'}
+
+---
+*Documento gerado pelo BuildCode AI Engine v2.1 — ${date}*
+*Modelo LLM: ${llmLabel}*`;
 
     // ═══ PROMPT BASE OUTPUT ═══
     const toolInstructions = {
-      cursor: 'Siga as convenções do Cursor AI. Use @codebase para referenciar arquivos. Gere código diretamente nos arquivos.',
-      'claude-code': 'Siga as convenções do Claude Code CLI. Use TodoRead/TodoWrite para gerenciar tarefas. Seja detalhista.',
-      antigravity: 'Siga as convenções do Anti-Gravity (Google DeepMind). Use task boundaries e artifacts.',
-      vscode: 'Gere código compatível com VS Code + Copilot. Use comentários descritivos.',
-      windsurf: 'Siga as convenções do Windsurf (Codeium). Use fluxos guiados por IA.',
-      outro: 'Gere código bem documentado e modular.',
+      cursor: `Voce esta operando dentro do Cursor AI.
+Use @codebase para referenciar arquivos existentes antes de qualquer edicao.
+Gere codigo diretamente nos arquivos — nao use blocos de codigo soltos.
+Use Cmd+K (ou Ctrl+K) para edicoes inline em trechos pequenos.
+Mantenha o contexto do projeto usando @docs e @web para consultar documentacao e buscar solucoes.
+Sempre que criar um arquivo novo, siga a estrutura de pastas ja existente no projeto.
+Use @file para referenciar arquivos especificos ao pedir refatoracao ou revisao.`,
+      'claude-code': `Voce esta operando dentro do Claude Code CLI.
+Use TodoWrite para planejar e gerenciar tarefas antes de implementar.
+Use Read para ler arquivos antes de editar — nunca assuma o conteudo de um arquivo.
+Prefira Edit para modificar arquivos existentes (em vez de Write, que sobrescreve tudo).
+Use Grep e Glob para buscar no codebase antes de criar algo que talvez ja exista.
+Seja extremamente detalhista nas implementacoes — codigo completo, funcional, sem placeholders.
+Use Agent com subagent_type=Explore para investigar codebase quando a busca direta nao for suficiente.`,
+      antigravity: `Voce esta operando dentro do Anti-Gravity (Google).
+Use task boundaries para separar implementacoes distintas.
+Gere artifacts completos e funcionais — nunca parciais.
+Mantenha contexto entre tasks usando referencias explicitas.`,
+      vscode: `Voce esta operando dentro do VS Code com Copilot.
+Gere codigo bem comentado para potencializar as sugestoes do Copilot.
+Use JSDoc/TSDoc para funcoes publicas e interfaces.
+Mantenha padroes consistentes de nomenclatura para melhor autocomplete.`,
+      windsurf: `Voce esta operando dentro do Windsurf (Codeium).
+Siga os fluxos guiados por IA do Windsurf para implementacoes complexas.
+Mantenha codigo modular para melhor analise e sugestoes da IA.
+Use os comandos integrados do Windsurf para refatoracao e revisao.`,
+      outro: `Gere codigo bem documentado, modular e organizado.
+Siga os padroes da comunidade para cada tecnologia utilizada.
+Priorize legibilidade e manutencao acima de cleverness.`,
     };
 
-    promptOutput.value = `# 🚀 PROMPT BASE — BUILDCODE AI
-# Cole este prompt inteiro na sua ferramenta de Vibe Coding
+    // Deep frontend best practices per technology
+    const frontendBestPractices = {
+      'html-css': `Fundamentos HTML e CSS:
+Use HTML semantico em todas as paginas: header, main, nav, section, article, aside, footer. Cada pagina deve ter exatamente um main. Use heading hierarchy correto (h1 > h2 > h3, sem pular niveis).
+
+CSS Architecture:
+Utilize CSS custom properties (variáveis) para criar design tokens centralizados: cores, tipografia, espacamentos, border-radius, shadows. Declare-as no :root e reutilize em todo o projeto. Isso garante consistencia visual e facilita mudancas globais.
+
+Layouts devem usar exclusivamente Flexbox e CSS Grid. Flexbox para alinhamento unidimensional (navbars, cards em linha). Grid para layouts bidimensionais (grids de conteudo, dashboards). Nunca use float para layout.
+
+Mobile-first obrigatorio: escreva o CSS base para mobile e use media queries com min-width para expandir. Breakpoints recomendados: 640px (sm), 768px (md), 1024px (lg), 1280px (xl).
+
+Performance CSS: evite seletores profundos (mais de 3 niveis). Prefira classes descritivas. Use content-visibility: auto para elementos fora da tela. Carregue fontes com font-display: swap.`,
+
+      astro: `Astro Framework — Islands Architecture:
+Astro envia zero JavaScript por padrao. Componentes .astro sao renderizados no servidor e entregues como HTML puro. USE ISSO A SEU FAVOR: a grande maioria das paginas e componentes deve ser .astro puro, sem framework de UI.
+
+Quando usar frameworks de UI (React, Vue, Svelte, Solid):
+Use APENAS quando o componente precisa de interatividade no cliente. Exemplos: formularios com validacao em tempo real, modais com estado, componentes com animacoes complexas baseadas em eventos.
+
+Diretivas de hidratacao — escolha a correta:
+client:load para componentes que precisam de JS imediatamente (navbars interativas, formularios acima do fold).
+client:visible para componentes abaixo do fold que so precisam de JS quando aparecem na tela (lazy hydration).
+client:idle para componentes nao-criticos que podem esperar o browser ficar idle.
+client:only para componentes que dependem exclusivamente de APIs do browser (window, document) e nao podem fazer SSR.
+
+Content Collections para dados estruturados: defina schemas com Zod no config.ts, use getCollection() para queries type-safe. Ideal para blogs, documentacao, portfolios.
+
+Otimizacao de imagens: use o componente Image do Astro (@astrojs/image) para otimizacao automatica, WebP conversion, e lazy loading. Nunca use img tags direto para imagens pesadas.
+
+Middleware: use middleware.ts para auth, redirects, e headers server-side. Processe antes de renderizar a pagina.
+
+View Transitions: use a API nativa do Astro para navegacao fluida entre paginas sem full page reload. Configure transition:animate e transition:name para elementos persistentes.
+
+Rotas dinamicas: use [param].astro para paginas dinamicas e [...slug].astro para catch-all. Combine com getStaticPaths() para SSG ou prerender = false para SSR.`,
+
+      react: `React — Componentizacao e Estado:
+Use EXCLUSIVAMENTE componentes funcionais com hooks. Class components sao legado — nunca os use em codigo novo.
+
+Hierarquia de componentes: organize por feature, nao por tipo. Cada feature tem seus componentes, hooks, types e utils. Componentes de UI genericos (Button, Input, Modal) ficam em um diretorio compartilhado.
+
+Custom Hooks para logica reutilizavel: useAuth para autenticacao, useFetch para requests, useDebounce para inputs, useLocalStorage para persistencia. Extraia logica de componentes em hooks sempre que for reutilizavel ou complexa.
+
+Gerenciamento de Estado — use a ferramenta certa:
+Estado local (useState): estado de componente individual (toggle, form input, modal open/close).
+Estado de servidor (TanStack Query / React Query): cache de dados da API, refetch automatico, invalidacao, loading/error states. NUNCA use useEffect para data fetching — use TanStack Query.
+Estado global (Zustand): estado compartilhado entre componentes sem relacao pai-filho. Simples, sem boilerplate. Crie stores separadas por dominio (useAuthStore, useCartStore).
+Formularios (React Hook Form + Zod): validacao type-safe, performance otimizada (sem re-renders desnecessarios), integracao nativa com TypeScript.
+
+Performance critica:
+React.memo: envolva componentes que recebem props estaveis e nao precisam re-renderizar a cada mudanca do pai.
+useMemo: para calculos caros que dependem de valores especificos. Nao use para tudo — apenas quando o calculo e mensuravel.
+useCallback: para callbacks passados como props a componentes memorizados.
+Suspense boundaries: envolva rotas e componentes pesados com Suspense + lazy() para code splitting automatico.
+Keys em listas: use IDs unicos e estaveis. NUNCA use index como key em listas dinamicas (causa bugs de estado).
+Composicao sobre prop drilling: passe componentes como children ou render props ao inves de perfurar props por 3+ niveis.
+
+Error Boundaries: crie pelo menos um ErrorBoundary no nivel da aplicacao e um por feature critica. Mostre fallback UI amigavel ao usuario, logue o erro para monitoramento.`,
+
+      vue: `Vue.js — Composition API e Reatividade:
+Use EXCLUSIVAMENTE Composition API com script setup. Options API e legado. Toda logica reativa deve estar dentro de script setup ou composables.
+
+Composables (use*): extraia logica reutilizavel em composables. useAuth para autenticacao, useFetch para requests, useModal para controle de modais. Cada composable retorna refs reativas e funcoes. Coloque em src/composables/.
+
+Gerenciamento de Estado com Pinia:
+Crie stores por dominio: useAuthStore, useCartStore, useUIStore. Use defineStore com Composition API syntax. Stores sao reativas — use storeToRefs() para desestruturar sem perder reatividade. Persista estado critico com pinia-plugin-persistedstate.
+
+Reatividade avancada:
+ref() para valores primitivos, reactive() para objetos.
+computed() para valores derivados — recalcula automaticamente.
+watchEffect() para side effects que dependem de valores reativos (tracking automatico).
+watch() para observar valores especificos com controle fino (immediate, deep, flush).
+Cuidado com perda de reatividade: nao desestruture reactive() sem toRefs().
+
+Componentes reutilizaveis:
+defineProps com TypeScript para tipagem forte das props.
+defineEmits com TypeScript para eventos tipados.
+Slots nomeados e scoped slots para composicao flexivel de componentes.
+provide/inject para injecao de dependencia em arvore de componentes (alternativa ao prop drilling).
+
+Vue Router: use rotas lazy-loaded com import() dinamico. Navigation guards para protecao de rotas. useRoute() e useRouter() nos composables.`,
+
+      nextjs: `Next.js — App Router e Server Components:
+Use EXCLUSIVAMENTE o App Router (app/). Pages Router e legado e nao deve ser usado em projetos novos.
+
+Server Components por padrao: todo componente no App Router e Server Component. Nao adicione "use client" a menos que o componente precise de interatividade (useState, useEffect, onClick, etc). Server Components podem fazer fetch de dados diretamente, acessar banco de dados, ler filesystem.
+
+Quando usar "use client":
+Componentes com eventos de usuario (onClick, onChange, onSubmit).
+Componentes que usam hooks de estado (useState, useReducer).
+Componentes que usam hooks de efeito (useEffect, useLayoutEffect).
+Componentes que usam APIs do browser (window, document, localStorage).
+REGRA: crie componentes client o menor possivel. Extraia apenas a parte interativa como client component e mantenha o restante como server.
+
+Data Fetching:
+Server Components: faca fetch direto no componente com async/await. Use cache() e revalidate para controle de cache.
+Server Actions: funcoes "use server" para mutations (criar, atualizar, deletar). Substitui API Routes para operacoes de escrita.
+Route Handlers (app/api/): para webhooks, integracao com servicos externos, e endpoints que nao sao mutations de UI.
+
+Otimizacoes Next.js:
+next/image: SEMPRE use para imagens. Otimizacao automatica, lazy loading, WebP, responsive.
+next/font: carregue fontes localmente para eliminar FOUT e requests externos.
+next/link: SEMPRE use para navegacao interna. Prefetch automatico.
+Metadata API: use generateMetadata() para SEO dinamico. Defina metadata em cada layout e page.
+generateStaticParams: pre-renderize paginas dinamicas no build. Ideal para blogs, produtos, documentacao.
+Middleware: protecao de rotas, redirects, A/B testing. Executa no edge — rapido e sem cold start.
+
+Patterns avancados:
+Parallel Routes: renderize multiplas paginas na mesma tela (@modal, @sidebar).
+Intercepting Routes: modais que funcionam como paginas ((..)photo/[id]).
+Loading UI: loading.tsx para skeleton loaders automaticos por rota.
+Error UI: error.tsx para error boundaries automaticos por rota.`,
+
+      nuxt: `Nuxt.js — Fullstack Vue Framework:
+Auto-imports: Nuxt importa automaticamente composables, components e utils. Nao faca imports manuais — configure em nuxt.config.ts se necessario.
+
+Data Fetching:
+useFetch() para requests em setup — SSR-friendly, com cache automatico.
+useAsyncData() para logica de fetch mais complexa com transformacao de dados.
+$fetch para requests client-side fora do setup (event handlers).
+Cuidado: useFetch deve ser chamado no top-level do setup, nunca dentro de callbacks ou condicionais.
+
+Server Routes (Nitro):
+Crie endpoints em server/api/ com defineEventHandler.
+Use readBody() para body de POST/PUT.
+Use getQuery() para query parameters.
+Use createError() para erros padronizados.
+Middleware server-side em server/middleware/.
+
+Configuracao de paginas: definePageMeta para titulo, layout, middleware por pagina. Layouts em layouts/ com slot default. NuxtLink para navegacao otimizada com prefetch.
+
+State: useState() para estado compartilhado SSR-safe. Pinia para estado complexo.`,
+
+      svelte: `Svelte e SvelteKit:
+Svelte compila componentes para JavaScript imperativo — sem virtual DOM, sem overhead de runtime. O codigo que voce escreve e o codigo que roda.
+
+Reatividade: variaveis declaradas com let sao automaticamente reativas no template. Use $: para valores derivados e side effects reativos. Stores ($store) para estado global — writable(), readable(), derived().
+
+SvelteKit:
+Load functions (+page.ts/+page.server.ts) para data fetching — roda no server e no client.
+Form actions (+page.server.ts) para mutations — progressive enhancement nativo.
+Hooks (hooks.server.ts) para auth, logging, error handling global.
++layout.svelte e +layout.ts para layouts e dados compartilhados.
++error.svelte para paginas de erro customizadas.
+Routing baseado em filesystem com parametros [param] e rest [...slug].
+
+Transicoes e animacoes: use transition:, in:, out: para animacoes declarativas. animate: para FLIP animations em listas. Svelte tem o melhor sistema de animacao de qualquer framework.`,
+
+      angular: `Angular — Enterprise Framework:
+Use EXCLUSIVAMENTE Standalone Components (sem NgModules). NgModules sao legado desde Angular 14+.
+
+Signals para reatividade: signal() para estado reativo, computed() para valores derivados, effect() para side effects. Signals sao o futuro do Angular — prefira sobre RxJS para estado de componente.
+
+Injecao de Dependencia:
+Services com @Injectable({ providedIn: 'root' }) para singletons.
+inject() function ao inves de constructor injection em componentes standalone.
+Use InjectionToken para abstrair dependencias.
+
+Formularios:
+Reactive Forms para formularios complexos com validacao dinamica.
+FormBuilder para criar FormGroups e FormArrays de forma concisa.
+Validadores customizados e async validators para regras de negocio.
+Typed Forms (FormGroup<T>) para type-safety completo.
+
+Roteamento:
+Lazy loading de rotas com loadComponent e loadChildren.
+Route guards (canActivate, canDeactivate) para protecao.
+Resolvers para pre-carregar dados antes de navegar.
+
+RxJS (quando necessario):
+Use para streams de dados (WebSocket, Server-Sent Events, real-time).
+Operadores essenciais: switchMap, debounceTime, distinctUntilChanged, takeUntilDestroyed.
+Evite memory leaks: use takeUntilDestroyed() ou AsyncPipe no template.
+Para estado simples, prefira Signals sobre BehaviorSubject.`,
+
+      solid: `SolidJS — Reatividade Fina:
+Signals (createSignal) para estado reativo — similar a useState mas sem re-render do componente inteiro. Apenas os DOM nodes que dependem do signal sao atualizados.
+
+createEffect para side effects reativos. createMemo para valores derivados com cache. createResource para data fetching reativo com Suspense.
+
+Controle de fluxo: use Show, For, Switch/Match ao inves de ternarios e map. Sao componentes otimizados que minimizam recriacao de DOM.
+
+Stores (createStore) para estado complexo com nested reactivity. produce() para updates imutaveis.
+
+SolidStart para fullstack: file-based routing, server functions, SSR/SSG.`,
+
+      remix: `Remix — Web Standards Framework:
+Loaders (loader function) para data fetching server-side em cada rota. Retorne dados com json(). Use useLoaderData() no componente.
+
+Actions (action function) para mutations via formularios nativos. Use Form component do Remix ao inves de form HTML. Progressive enhancement: funciona sem JavaScript.
+
+Nested routes: cada rota renderiza dentro do Outlet do pai. Dados de rotas pai disponiveis com useRouteLoaderData().
+
+Error handling: ErrorBoundary por rota. CatchBoundary para erros esperados (404, 403). Nao perca dados do usuario em caso de erro.
+
+Otimizacoes: prefetch de links com Link prefetch="intent". Parallel data loading em rotas aninhadas. defer() para streaming de dados lentos.`,
+    };
+
+    // Deep backend best practices
+    const backendBestPractices = {
+      supabase: `Supabase — Backend as a Service:
+Row Level Security (RLS) e OBRIGATORIO em TODAS as tabelas, sem excecao. Nunca desabilite RLS "para facilitar" — crie policies adequadas. Teste cada policy com diferentes roles (anon, authenticated, service_role).
+
+Chaves de acesso:
+anon key: use no client-side. Segura porque RLS protege os dados.
+service_role key: APENAS no server-side (API routes, Edge Functions, scripts). Essa chave bypassa RLS — NUNCA exponha no frontend.
+
+Auth com PKCE flow: use signInWithOAuth com PKCE para provedores sociais. Configure redirect URLs no dashboard. Use onAuthStateChange para reagir a mudancas de sessao.
+
+Database patterns:
+Funcoes plpgsql para logica complexa (calculos, validacoes, agregacoes no banco).
+Triggers para automacoes: updated_at automatico, audit logs em tabelas criticas, notificacoes.
+Views para queries complexas reutilizaveis. Policies podem ser aplicadas em views.
+Indexes para colunas usadas em WHERE, JOIN, ORDER BY. Analise com EXPLAIN ANALYZE.
+
+Edge Functions: use para logica que precisa de secrets, integracao com APIs externas (pagamento, email, AI), ou processamento que nao deve rodar no client. Deploy isolado, cold start rapido.
+
+Realtime: subscribe apenas nos canais necessarios. Sempre desinscreva no cleanup (useEffect cleanup, onDestroy). Use filtros de canal para reduzir trafego.
+
+Storage: configure politicas de acesso por bucket (publico vs privado). Valide tipo e tamanho de arquivo antes do upload. Use transformacoes de imagem do Storage para thumbnails.`,
+
+      firebase: `Firebase — Google Backend:
+Firestore Security Rules: escreva regras rigorosas para TODA collection. Teste com o emulador local. Nunca use allow read, write: if true em producao.
+
+Estrutura de dados Firestore:
+Desnormalize dados para reads rapidos — Firestore cobra por documento lido.
+Use subcollections para dados 1:N (posts/comments).
+Composite indexes para queries com multiplos filtros.
+Limite queries com limit() e paginacao com startAfter().
+
+Cloud Functions:
+Use para logica server-side, webhooks, processamento em background.
+Funcoes triggered (onCreate, onUpdate, onDelete) para automacoes.
+Funcoes callable para operacoes seguras do client.
+Funcoes HTTP para webhooks e integracao externa.
+Cold start: minimize dependencias, use lazy loading.
+
+Firebase Auth: configure provedores no console. Use custom claims para roles (admin, editor). Verifique claims no server-side e nas security rules.
+
+Batched writes para operacoes em lote (max 500 por batch). Transactions para operacoes atomicas que dependem de leitura previa.`,
+
+      express: `Express.js — Servidor HTTP Node.js:
+Middleware chain OBRIGATORIO nesta ordem: cors() > helmet() > rateLimit() > express.json() > auth middleware > routes. Cada middleware tem responsabilidade unica.
+
+Arquitetura em camadas:
+Routes: definem endpoints e conectam controllers. Agrupados por dominio (/api/users, /api/products).
+Controllers: extraem dados do request (body, params, query), chamam services, retornam response. NUNCA coloque logica de negocio aqui.
+Services: contem TODA a logica de negocio. Testavel isoladamente. Recebem dados limpos dos controllers.
+Repositories: abstracoes de acesso ao banco. Se usar ORM (Prisma, Drizzle), o ORM e seu repository.
+
+Error handling centralizado: crie um middleware de erro global (err, req, res, next). Crie classes de erro customizadas (AppError, NotFoundError, ValidationError). Nunca lance erros genericos — use classes tipadas.
+
+Validacao com Zod em TODOS os endpoints: valide body, query params, e path params. Crie schemas Zod reutilizaveis. Use middleware de validacao generico que recebe o schema.
+
+Graceful shutdown: registre handlers para SIGTERM e SIGINT. Feche conexoes do banco, finalize requests pendentes, pare de aceitar novos requests. Isso evita corrupcao de dados e requests perdidos.
+
+Logging estruturado: use Pino ou Winston. Logue em JSON para facilitar parsing. Inclua correlation IDs para rastreamento de requests. Niveis: error > warn > info > debug.
+
+Seguranca: helmet() para headers de seguranca. CORS configurado com origins especificos (nunca *). Rate limiting por IP e por usuario autenticado. Sanitize inputs para prevenir NoSQL injection.`,
+
+      nestjs: `NestJS — Framework Enterprise Node.js:
+Organizacao modular OBRIGATORIA: cada dominio/feature tem seu modulo (UserModule, AuthModule, PaymentModule, NotificationModule). Modulos encapsulam controllers, services, e providers.
+
+Decorators e padrao NestJS:
+Controllers (@Controller): definem rotas e extraem dados do request. Use @Body(), @Param(), @Query() com DTOs tipados.
+Services (@Injectable): logica de negocio. Injetados nos controllers via constructor. Testavel com mocks.
+Guards (@CanActivate): autorizacao. AuthGuard para verificar JWT, RolesGuard para verificar permissoes. NUNCA cheque roles dentro do controller — use guards.
+Pipes: validacao e transformacao. ValidationPipe global com class-validator para validacao automatica de DTOs. ParseIntPipe, ParseUUIDPipe para path params.
+Interceptors: transformacao de response (envelope padrao), logging, cache, timeout. ClassSerializerInterceptor para excluir campos sensíveis (password).
+Exception Filters: padronize formato de erro da API. Crie filtros para diferentes tipos de excecao.
+
+DTOs (Data Transfer Objects): crie para TODA entrada de dados. CreateUserDto, UpdateUserDto, LoginDto. Use class-validator decorators (@IsEmail, @MinLength, @IsOptional). Use PartialType() e PickType() para derivar DTOs.
+
+Repository Pattern: abstraia acesso ao banco com repositorios. Use TypeORM, Prisma, ou Drizzle. Injete repositories nos services via DI.
+
+Config Module: use @nestjs/config para variaveis de ambiente tipadas. Crie interfaces para cada grupo de config. Valide env vars no startup com Joi ou Zod.
+
+Testing: use @nestjs/testing para criar modulos de teste. Mock providers com useValue ou useFactory. Teste controllers, services e guards isoladamente.`,
+
+      fastify: `Fastify — High Performance Node.js:
+Schema-first development: defina JSON Schema para request (body, querystring, params) e response. Fastify valida automaticamente e gera serialization otimizada com fast-json-stringify.
+
+Plugins para modularizacao: cada feature e um plugin com fastify.register(). Plugins podem ter prefixo de rota, decorators proprios, e encapsulamento. Use fastify-plugin para plugins que devem ser compartilhados.
+
+Hooks lifecycle: onRequest > preParsing > preValidation > preHandler > handler > preSerialization > onSend > onResponse. Use hooks para auth, logging, rate limiting — nao middleware express-style.
+
+Decorators: use decorate() para adicionar propriedades ao fastify instance, request ou reply. Ideal para injectar services, database connections, utils.
+
+Performance: Fastify e 2-5x mais rapido que Express. Use schemas para serialization automatica. Evite plugins que bloqueiam o event loop. Use pino (built-in) para logging.
+
+Tipo seguro: use @fastify/type-provider-typebox ou @fastify/type-provider-zod para type-safety end-to-end (schema -> tipos TypeScript automaticos).`,
+
+      fastapi: `FastAPI — Python Async Web Framework:
+Pydantic models OBRIGATORIO para TODA entrada e saida de dados. Defina BaseModel para request body, response model, e database schemas. Validacao automatica, serializacao, e documentacao OpenAPI.
+
+Dependency Injection: use Depends() para injetar servicos, conexoes de banco, autenticacao. Crie dependencias reutilizaveis (get_db, get_current_user). Dependencias podem ter sub-dependencias.
+
+Async/await para I/O: TODAS as operacoes de I/O (banco, requests HTTP, filesystem) devem ser async. Use httpx para requests HTTP async. Use databases ou SQLAlchemy async para queries.
+
+Routers (APIRouter): organize endpoints por dominio. Cada dominio tem seu router com prefixo e tags. Inclua routers no app principal.
+
+Background Tasks: use BackgroundTasks para operacoes que nao precisam de resposta imediata (envio de email, processamento de imagem, notificacoes).
+
+OpenAPI automatico: FastAPI gera Swagger UI e ReDoc automaticamente. Use response_model, summary, description, e tags para documentacao rica.
+
+Middleware: CORS, Trusted Hosts, GZip. Custom middleware para logging, timing, error handling.
+
+SQLAlchemy + Alembic: models ORM com SQLAlchemy. Migrations com Alembic. Use async sessions para nao bloquear o event loop.`,
+
+      django: `Django — Python Full-Stack Framework:
+Models como fonte da verdade: defina models com campos tipados, validators, e meta options. Use migrations para evoluir o schema. Indexe campos de busca frequente.
+
+Views: prefira Class-Based Views (CBVs) para CRUD padrao (ListView, CreateView, UpdateView, DeleteView). Function-Based Views (FBVs) para logica customizada. Django REST Framework (DRF) para APIs: ModelSerializer, ViewSets, Routers.
+
+QuerySets otimizados: use select_related() para FK (JOIN), prefetch_related() para M2M (queries separadas). Nunca faca queries em loops — use annotate() e aggregate(). Use only() e defer() para carregar apenas campos necessarios.
+
+Middleware: SecurityMiddleware, CsrfViewMiddleware, AuthenticationMiddleware — nao remova. Custom middleware para logging, rate limiting, request timing.
+
+Admin: customize ModelAdmin para cada model importante. list_display, list_filter, search_fields. Inline models para relacoes. Actions customizadas para operacoes em batch.
+
+Settings: separe settings por ambiente (base.py, development.py, production.py). Use django-environ para variaveis de ambiente. NUNCA coloque secrets em settings.py.`,
+
+      go: `Go — Backend de Alta Performance:
+Organize por dominio/feature, nao por tipo. Cada feature tem: handler (HTTP), service (logica), repository (dados), model (tipos). Evite a armadilha de pkg/ com subdiretorios genericos.
+
+Error handling Go idiomatico: retorne erros como segundo valor. Envolva erros com fmt.Errorf("contexto: %w", err). Use errors.Is() e errors.As() para verificacao. Crie tipos de erro customizados para erros de dominio.
+
+Concorrencia: goroutines para operacoes independentes. Channels para comunicacao entre goroutines. sync.WaitGroup para esperar multiplas goroutines. context.Context para cancelamento e timeouts — passe em TODA funcao que faz I/O.
+
+HTTP: use chi ou gin para routing. Middleware chain para logging, recovery, CORS, auth. Handlers recebem (w http.ResponseWriter, r *http.Request). Use encoding/json para serialization.
+
+Interfaces para abstracoes: defina interfaces pequenas (1-3 metodos). Implemente no consumidor, nao no provedor. Use para testar com mocks.`,
+
+      rust: `Rust — Backend Seguro e Performatico:
+Use Actix-web ou Axum como framework web. Axum e mais moderno e integrado ao ecosistema Tokio.
+
+Ownership e borrowing: entenda e respeite o borrow checker. Use references (&, &mut) quando possivel, clone() quando necessario. Lifetimes explicitas apenas quando o compilador nao consegue inferir.
+
+Error handling com Result e thiserror: crie enums de erro por dominio com thiserror. Use anyhow para erros em aplicacoes (nao bibliotecas). Nunca use unwrap() em codigo de producao — use ? ou match.
+
+Async com Tokio: use #[tokio::main] e async/await para I/O. sqlx para queries tipadas (verificadas em compile-time). reqwest para HTTP client async.
+
+Serde para serialization: Serialize e Deserialize em todos os structs de API. Use #[serde(rename_all = "camelCase")] para compatibilidade com frontend.`,
+
+      spring: `Spring Boot — Java Enterprise:
+Use Spring Boot starters para configuracao automatica. application.yml para configuracao por perfil (dev, staging, prod).
+
+Arquitetura em camadas:
+Controller (@RestController): endpoints REST. Use @RequestBody, @PathVariable, @RequestParam com validacao (@Valid).
+Service (@Service): logica de negocio. Transacoes com @Transactional.
+Repository (JpaRepository): acesso ao banco com Spring Data JPA. Use query methods e @Query para consultas customizadas.
+
+Seguranca com Spring Security: configure SecurityFilterChain. JWT para APIs stateless. OAuth2 para provedores sociais. Method-level security com @PreAuthorize.
+
+Validacao com Jakarta Validation: @NotNull, @Email, @Size em DTOs. Crie validators customizados para regras de negocio.
+
+Exception handling global: @ControllerAdvice com @ExceptionHandler. Retorne ResponseEntity com problema padronizado (RFC 7807).`,
+
+      laravel: `Laravel — PHP Framework:
+Eloquent ORM: defina Models com relationships (hasMany, belongsTo, belongsToMany). Use eager loading (with()) para evitar N+1. Scopes para queries reutilizaveis.
+
+Arquitetura:
+Controllers: resource controllers para CRUD (--resource). Form Requests para validacao. API Resources para transformacao de response.
+Services: extraia logica complexa de controllers em Service classes.
+Repositories: opcional — use quando precisar abstrair Eloquent para testabilidade.
+
+Middleware: auth, throttle, verified. Custom middleware para roles, locale, logging.
+
+Migrations e Seeders: uma migration por mudanca de schema. Seeders e Factories para dados de teste. Nunca modifique migrations ja executadas em producao — crie novas.
+
+Queues e Jobs: use para operacoes demoradas (email, PDF, integracao). Configure driver (Redis, database). Retry e backoff para resiliencia.
+
+Artisan: crie commands customizados para tarefas administrativas e scripts.`,
+    };
+
+    const fbp = frontendBestPractices[data.frontend] || 'Siga as melhores praticas da documentacao oficial do framework escolhido. Consulte os guias oficiais de estilo e arquitetura.';
+    const bbp = backendBestPractices[data.backend] || 'Siga as melhores praticas da documentacao oficial da tecnologia escolhida. Consulte os guias oficiais de estilo e arquitetura.';
+
+    // Custom IDE name
+    const customIdeName = document.getElementById('custom-ide-value')?.value || '';
+    const ideLabel = data.ferramenta === 'outro' && customIdeName ? customIdeName : L('ferramenta', data.ferramenta);
+
+    // Skills install instructions
+    const skillsInstallInstructions = selectedSkillsURLs.map(s => {
+      const urlMatch = s.match(/https:\/\/skills\.sh\/(\S+)/);
+      if (urlMatch) {
+        return `Busque na web "skills.sh ${urlMatch[1]}" e baixe o primeiro resultado. Instale com: npx skills add ${urlMatch[1]}`;
+      }
+      return s;
+    });
+
+    // Collect chat context if user added info during pre-gen
+    const chatExtraContext = chatHistory.filter(m => m.role === 'user').map(m => {
+      const clean = m.content.replace(/\[Contexto do wizard:.*?\]\s*/g, '').trim();
+      return clean;
+    }).filter(c => c.length > 10).join('\n');
+
+    promptOutput.value = `REGRA #0 — AGENTLOG OBRIGATORIO
+
+ANTES DE QUALQUER COISA, crie o arquivo agentlog.md na raiz do projeto.
+Este arquivo e o diario de bordo do agente. Registre TUDO: decisoes tecnicas e justificativas, problemas encontrados e solucoes aplicadas, arquivos criados e modificados, e proximos passos planejados.
+Atualize o agentlog.md ao final de CADA task completada. Este arquivo sera sua memoria persistente durante todo o desenvolvimento.
 
 ---
 
-## CONTEXTO DE NEGÓCIO
+IDENTIDADE E CONTEXTO
 
-Você é um Engenheiro de Software ${L('senioridade', data.senioridade)} especialista em ${L('frontend', data.frontend)} e ${L('backend', data.backend)}.
+Voce e um Engenheiro de Software ${L('senioridade', data.senioridade)} especialista em ${L('frontend', data.frontend)} e ${L('backend', data.backend)}.
 
-Estamos construindo: ${data.contexto}
-
-**Escala alvo:** ${L('escala', data.escala)}
-**Tipo:** ${L('tipo', data.tipo)}
-
----
-
-## INSTRUÇÕES DE PERSONALIDADE
-
-- ${isSenior ? 'Seja RIGOROSO com tipos, padrões de projeto (SOLID), testes e segurança.' : 'Foque em SIMPLICIDADE. Priorize time-to-market e manutenibilidade.'}
-- Estilo de código: **${L('codestyle', data.codestyle)}**
-- Tratamento de erros: **${L('erros', data.erros)}**
-- ${L('ferramenta', data.ferramenta)}: ${toolInstructions[data.ferramenta] || toolInstructions.outro}
-- Todas as respostas e comentários de código devem ser em **Português (PT-BR)**
+Projeto: ${data.contexto}
+${chatExtraContext ? `\nInformacoes adicionais do usuario:\n${chatExtraContext}\n` : ''}
+Tipo: ${projectTypeLabel[data.tipo] || data.tipo}
+Escala: ${L('escala', data.escala)} usuarios simultaneos
+IDE: ${ideLabel}
 
 ---
 
-## ARQUITETURA TÉCNICA
+INSTRUCOES DA FERRAMENTA
 
-A stack definida é:
-- **Frontend:** ${L('frontend', data.frontend)}
-- **Backend:** ${L('backend', data.backend)}
-- **Banco de Dados:** ${L('database', data.database)}
-- **Infraestrutura:** ${L('infra', data.infra)}
-- **Persistência:** ${L('persistencia', data.persistencia)}
-- **Autenticação:** ${L('auth', data.auth)}
-${data.realtime !== 'nao' ? `- **Real-time:** ${L('realtime', data.realtime)}` : ''}
-${data.i18n !== 'nao' ? `- **i18n:** ${L('i18n', data.i18n)}` : ''}
-
-### Estrutura de Pastas Sugerida:
-\`\`\`
-src/
-├── ${data.frontend === 'nextjs' || data.frontend === 'nuxt' ? 'app/' : 'pages/'}
-├── components/
-│   ├── ui/
-│   └── features/
-├── ${isSenior ? 'domain/' : 'lib/'}
-${isSenior ? '│   ├── entities/\n│   ├── use-cases/\n│   └── repositories/' : '│   ├── utils/\n│   └── api/'}
-├── ${isSenior ? 'infrastructure/' : 'services/'}
-├── styles/
-├── types/
-└── ${data.i18n !== 'nao' ? 'locales/' : 'config/'}
-\`\`\`
+${toolInstructions[data.ferramenta] || toolInstructions.outro}
 
 ---
 
-## DIRETRIZES DE SEGURANÇA
+PERSONALIDADE E ESTILO DE DESENVOLVIMENTO
+
+${isSenior ? 'Seja RIGOROSO em tudo que fizer. Tipos estritos em TypeScript (zero any ou unknown sem justificativa documentada). Padroes SOLID em toda a arquitetura. Testes obrigatorios para toda logica de negocio. Code review mental antes de cada entrega — se voce nao aprovaria esse codigo em um PR, refatore antes de entregar.' : data.senioridade === 'pleno' ? 'Equilibre qualidade e velocidade. Use TypeScript com tipos bem definidos. Escreva testes para logica critica (auth, pagamentos, calculos). Codigo limpo e organizado, mas sem over-engineering. Pragmatismo acima de perfeccionismo.' : 'Priorize SIMPLICIDADE e time-to-market. Codigo funcional e legivel acima de tudo. Nao se preocupe com abstracoes perfeitas — faca funcionar primeiro, refatore depois se necessario. Foque na experiencia do usuario final.'}
+
+Estilo de codigo: ${L('codestyle', data.codestyle)}
+Tratamento de erros: ${L('erros', data.erros)}
+Lingua: Todas as respostas, comentarios no codigo e documentacao devem ser em Portugues (PT-BR)
+Nunca gere codigo incompleto. Sem "// TODO" ou "// implementar depois" ou placeholders — entregue funcionalidade completa e funcional
+Nao crie abstracoes desnecessarias. Se 3 linhas simples resolvem o problema, nao crie um helper ou utility. Abstraia apenas quando houver repeticao real (3+ vezes)
+Priorize organizacao e clareza acima de complexidade e cleverness
+
+---
+
+STACK TECNICA DO PROJETO
+
+Frontend: ${L('frontend', data.frontend)}
+Backend: ${L('backend', data.backend)}
+Banco de Dados: ${L('database', data.database)}
+Infraestrutura: ${L('infra', data.infra)}
+${data.persistencia ? `Persistencia: ${L('persistencia', data.persistencia)}` : ''}
+${data.auth && data.auth !== 'nenhum' ? `Autenticacao: ${L('auth', data.auth)}` : ''}
+${data.realtime && data.realtime !== 'nao' ? `Real-time: ${L('realtime', data.realtime)}` : ''}
+${data.i18n && data.i18n !== 'nao' ? `Internacionalizacao: ${L('i18n', data.i18n)}` : ''}
+
+---
+
+BOAS PRATICAS TECNICAS — ${L('frontend', data.frontend).toUpperCase()} (FRONTEND)
+
+${fbp}
+
+---
+
+DESIGN SYSTEM — OBRIGATORIO
+
+Antes de criar qualquer componente visual, defina o Design System do projeto. O Design System e o contrato visual entre todas as paginas e componentes.
+
+Tokens de Design:
+Defina variaveis centralizadas para cores (primary, secondary, accent, background, surface, text, border, error, success, warning), tipografia (font-family, font-sizes de xs a 4xl, font-weights, line-heights), espacamentos (escala consistente: 4px, 8px, 12px, 16px, 24px, 32px, 48px, 64px), border-radius (sm, md, lg, full), e shadows (sm, md, lg, xl).
+
+Componentes Base:
+Crie componentes reutilizaveis para Button (variantes: primary, secondary, outline, ghost, destructive; tamanhos: sm, md, lg), Input (com label, helper text, error state), Card, Modal/Dialog, Badge, Avatar, e Dropdown/Select. Cada componente deve ter props tipadas e estados visuais consistentes (default, hover, focus, active, disabled).
+
+Consistencia:
+Use os tokens em TODOS os componentes — nunca hardcode valores de cor, tamanho ou espacamento. Se um novo componente precisa de um valor que nao existe nos tokens, adicione ao Design System primeiro e depois use.
+Espacamento entre elementos deve seguir a escala definida (multiplos de 4px ou 8px).
+Tipografia deve usar a escala definida — nunca invente tamanhos intermediarios.
+
+Responsividade OBRIGATORIA:
+Mobile-first: escreva estilos base para mobile, expanda com breakpoints crescentes.
+Breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px).
+Touch targets: minimo 44x44px para botoes e links em mobile.
+Tipografia: minimo 16px (1rem) para body text, line-height 1.5 para legibilidade.
+Containers fluidos: width 100% com max-width, nunca larguras fixas em pixels.
+Grid e Flexbox para TODOS os layouts — nunca float.
+Imagens responsivas com lazy loading e srcset quando possivel.
+Navegacao: menu hamburger em mobile, horizontal em desktop.
+Teste em: 375px (mobile), 768px (tablet), 1024px (laptop), 1440px (desktop).
+
+---
+
+BOAS PRATICAS TECNICAS — ${L('backend', data.backend).toUpperCase()} (BACKEND)
+
+${bbp}
+
+---
+
+SEGURANCA
 
 ${data.seguranca.length > 0 ? data.seguranca.map(s => {
   const segInst = {
-    https: 'Force HTTPS em todas as rotas. Redirecione HTTP → HTTPS.',
-    sanitizacao: 'Sanitize TODOS os inputs do usuário. Previna XSS e SQL Injection. Use bibliotecas validadas (Zod, DOMPurify).',
-    'rate-limit': 'Implemente Rate Limiting em todas as rotas de API (ex: 100 req/min por IP).',
-    mfa: 'Implemente MFA (Multi-Factor Authentication) para ações sensíveis.',
-    csrf: 'Ative CSRF tokens em todos os formulários.',
-    helmet: 'Configure Security Headers (Helmet): HSTS, CSP, X-Frame-Options.',
+    https: 'Force HTTPS em todas as rotas. Redirect automatico de HTTP para HTTPS. Configure HSTS header.',
+    sanitizacao: 'Sanitize TODOS os inputs do usuario. Use Zod ou Joi para validacao de dados estruturados, DOMPurify para sanitizacao de HTML. Previna XSS (Cross-Site Scripting) e SQL/NoSQL Injection em todos os pontos de entrada.',
+    'rate-limit': 'Rate Limiting em todas as rotas de API: 100 requests/min por IP em rotas publicas, 20 requests/min em rotas de autenticacao (login, register, reset password). Use sliding window algorithm.',
+    mfa: 'Multi-Factor Authentication (MFA) para acoes sensiveis: exclusao de conta, mudanca de role/permissao, operacoes financeiras, alteracao de email/senha.',
+    csrf: 'CSRF tokens em todos os formularios e mutations que alteram estado. Use SameSite cookies. Valide Origin e Referer headers.',
+    helmet: 'Security Headers via Helmet ou equivalente: HSTS (Strict-Transport-Security), CSP (Content-Security-Policy), X-Frame-Options: DENY, X-Content-Type-Options: nosniff, Referrer-Policy.',
   };
-  return `- ${segInst[s] || s}`;
-}).join('\n') : '- Implemente ao mínimo: HTTPS + Sanitização de inputs + Validação de dados.'}
-- Garanta que todas as rotas de API sejam protegidas com ${L('auth', data.auth)}
+  return segInst[s] || s;
+}).join('\n\n') : 'Implemente ao minimo: HTTPS em todas as rotas, sanitizacao e validacao de dados em TODOS os endpoints de entrada, e rate limiting para prevenir abuso.'}
+
+NUNCA exponha API keys, tokens, ou secrets no frontend ou em repositorios publicos.
+Variaveis sensiveis devem existir APENAS em arquivos .env (server-side) e NUNCA ser commitadas no git. Adicione .env ao .gitignore IMEDIATAMENTE.
+${data.auth && data.auth !== 'nenhum' ? `Proteja TODAS as rotas de API que acessam dados privados com ${L('auth', data.auth)}. Nenhuma rota que retorna dados de usuario deve ser acessivel sem autenticacao.` : ''}
 
 ---
 
-## SKILLS TÉCNICAS
+CLEAN CODE — PADROES OBRIGATORIOS
 
-${selectedSkillsURLs.length > 0 ? `Utilize as diretrizes contidas nestas referências:\n${selectedSkillsURLs.join('\n')}` : 'Siga as melhores práticas oficiais de cada tecnologia da stack.'}
+Nomes descritivos: funcoes e variaveis devem explicar o que fazem sem necessidade de comentario. getUserById() e melhor que getUser(), handleFormSubmit() e melhor que handleSubmit().
 
-${data.skills.length > 0 ? `\n### Padrões Exigidos:\n${data.skills.map(s => {
+Funcoes pequenas: maximo 30 linhas por funcao. Se passar, extraia sub-funcoes com nomes descritivos. Cada funcao faz UMA coisa e faz bem.
+
+Single Responsibility: cada arquivo, modulo e funcao tem uma unica responsabilidade. Se voce precisa usar "e" para descrever o que um modulo faz, ele precisa ser dividido.
+
+DRY pragmatico: se o mesmo codigo aparece 2 vezes, tudo bem. Na terceira vez, extraia para uma funcao ou componente reutilizavel. Nao abstraia prematuramente.
+
+TypeScript rigoroso: interfaces para shapes de objetos, types para unions e intersections. Evite any — use unknown quando o tipo e realmente desconhecido e faca narrowing.
+
+Imports organizados: bibliotecas externas primeiro, depois modulos internos, depois imports relativos. Separe grupos com linha em branco.
+
+Sem magic numbers: valores numericos devem ser constantes nomeadas. MAX_RETRIES = 3 e melhor que um 3 solto no codigo.
+
+Early return: valide condicoes e retorne cedo para evitar nesting profundo. if (!user) return null deve vir antes da logica principal.
+${isSenior ? `\nSOLID aplicado com pragmatismo:\nSingle Responsibility: cada classe/modulo tem uma razao para mudar.\nOpen/Closed: extensivel sem modificacao (interfaces, strategy pattern).\nLiskov Substitution: subtipos devem ser substituiveis pelo tipo base.\nInterface Segregation: interfaces pequenas e especificas, nao genericas.\nDependency Inversion: dependa de abstracoes (interfaces), nao de implementacoes concretas.\n\nDesign Patterns quando apropriado: Factory para criacao complexa, Strategy para algoritmos intercambiaveis, Observer para eventos, Repository para acesso a dados. NUNCA force um pattern onde ele nao se encaixa naturalmente.` : ''}
+
+---
+
+SKILLS TECNICAS E INSTALACAO
+
+${skillsInstallInstructions.length > 0 ? `Para cada skill listada abaixo, faca uma busca na web pelo link indicado, baixe e instale seguindo as instrucoes do primeiro resultado:\n\n${skillsInstallInstructions.join('\n\n')}` : 'Siga as melhores praticas oficiais de cada tecnologia da stack. Consulte a documentacao oficial antes de tomar decisoes arquiteturais.'}
+
+${data.skills.length > 0 ? `\nPadroes Exigidos pelo projeto:\n\n${data.skills.map(s => {
   const skillDesc = {
-    'clean-arch': '- **Clean Architecture**: Separe Domain, Application e Infrastructure rigorosamente.',
-    'design-system': '- **Design System**: Crie tokens de design (cores, tipografia, espaçamentos) e componentes reutilizáveis.',
-    'api-design': '- **API Design**: Siga padrões REST. Versione APIs. Documente com OpenAPI/Swagger.',
-    testing: '- **Testing Strategy**: Siga a pirâmide de testes. Unit > Integration > E2E.',
-    security: '- **Security Hardening**: OWASP Top 10 compliance obrigatória.',
-    performance: '- **Web Performance**: Core Web Vitals ≤ bom. Lazy load, code splitting, image optimization.',
-    a11y: '- **Acessibilidade**: WCAG 2.1 AA compliance. Testes com screen reader.',
-    devops: '- **DevOps**: CI/CD pipeline com testes automatizados. Deploy automático em staging.',
+    'clean-arch': 'Clean Architecture: organize o codigo em camadas — Domain (entidades e regras de negocio), Application (use cases e interfaces), Infrastructure (implementacoes concretas, banco, APIs). Dependencias SEMPRE apontam para dentro (Infrastructure depende de Application, que depende de Domain). Domain NUNCA depende de nada externo.',
+    'design-system': 'Design System completo: tokens de design centralizados (cores, tipografia, espacamentos, shadows, border-radius), componentes base reutilizaveis (Button, Input, Card, Modal, Badge), documentacao de uso, e consistencia visual garantida em todo o projeto.',
+    'api-design': 'API Design profissional: REST padrao com versionamento (v1/), OpenAPI/Swagger para documentacao automatica, status codes HTTP corretos (200, 201, 204, 400, 401, 403, 404, 409, 422, 500), paginacao padronizada, e formato de erro consistente.',
+    testing: 'Testing com piramide de testes: Unit tests (70%) para funcoes e logica isolada, Integration tests (20%) para interacao entre modulos e APIs, E2E tests (10%) para fluxos criticos do usuario. Use o framework de teste mais adequado para a stack.',
+    security: 'Security Hardening: compliance com OWASP Top 10, dependency scanning automatico (Snyk/Dependabot), Content Security Policy (CSP) headers, audit de dependencias antes de cada release.',
+    performance: 'Web Performance otimizada: Core Web Vitals no verde (LCP < 2.5s, FID < 100ms, CLS < 0.1), lazy loading de imagens e componentes, code splitting por rota, otimizacao de imagens (WebP, responsive), minificacao e compressao.',
+    a11y: 'Acessibilidade WCAG 2.1 nivel AA: aria-labels em todos os elementos interativos, navegacao completa por teclado (Tab, Enter, Escape), contraste minimo 4.5:1 para texto, semantic HTML, focus indicators visiveis, alt text em imagens.',
+    devops: 'DevOps e CI/CD: pipeline automatizado com testes, linting e build. Ambiente de staging antes de producao. Deploy automatico na main branch. Rollback automatico em caso de falha. Monitoramento de erros em producao.',
   };
-  return skillDesc[s] || `- ${s}`;
-}).join('\n')}` : ''}
+  return skillDesc[s] || s;
+}).join('\n\n')}` : ''}
 
 ---
 
-## TASK INICIAL
+TASK INICIAL — COMECE POR AQUI
 
-Comece estruturando o **setup inicial do projeto** garantindo que:
-
-1. A estrutura de pastas esteja conforme a arquitetura definida acima
-2. A stack (${L('frontend', data.frontend)} + ${L('backend', data.backend)}) esteja configurada e funcionando
-3. ${data.auth !== 'nenhum' ? `O sistema de autenticação (${L('auth', data.auth)}) esteja implementado` : 'A conexão com o banco de dados esteja funcional'}
-4. ${isSenior ? 'Os testes unitários estejam configurados e rodando' : 'Um health check endpoint esteja funcionando'}
-5. O ambiente de desenvolvimento esteja pronto para produtividade máxima
-
-**Após o setup, gere a primeira feature conforme o contexto do projeto.**
+1. Inicialize o projeto com ${L('frontend', data.frontend)}${data.backend ? ' + ' + L('backend', data.backend) : ''}
+2. Instale e configure todas as dependencias da stack definida acima
+3. Defina o Design System: tokens de design (cores, tipografia, espacamentos) e componentes base
+4. ${data.auth && data.auth !== 'nenhum' ? `Implemente autenticacao completa (${L('auth', data.auth)}) com protecao de rotas` : 'Configure a conexao com o banco de dados e crie o schema inicial'}
+5. Crie a pagina inicial com layout responsivo (mobile-first, testado em 375px e 1440px)
+6. ${isSenior ? 'Configure o framework de testes (Vitest/Jest) e escreva o primeiro teste para a logica mais critica' : 'Crie um endpoint de health check que retorna status do servidor e conexao com banco'}
+7. Crie o agentlog.md e registre todas as decisoes tomadas durante o setup
 
 ---
-*Prompt gerado pelo BuildCode AI Engine v2.0 — ${date}*`;
+
+CONTINUACAO — O QUE FAZER APOS O SETUP
+
+Apos completar o setup inicial acima, siga esta sequencia:
+
+1. Implemente a primeira feature core do projeto conforme o contexto descrito. Comece pelo fluxo mais importante para o usuario final.
+2. Garanta que toda nova pagina e componente siga o Design System definido e o padrao responsivo mobile-first.
+3. Mantenha o agentlog.md atualizado a cada task completada — registre decisoes, problemas e solucoes.
+4. Antes de cada commit, verifique: tipos TypeScript corretos, zero erros no console, layout responsivo funcionando em mobile e desktop.
+5. Se encontrar um problema tecnico ou precisar tomar uma decisao arquitetural importante, registre no agentlog.md com a justificativa antes de prosseguir.
+${isSenior ? '6. Rode os testes existentes antes de implementar cada feature nova. Zero regressoes permitidas — se um teste quebrou, corrija antes de continuar.' : ''}
+${data.testes.length > 0 ? `${isSenior ? '7' : '6'}. Implemente testes para cada feature critica: ${data.testes.join(', ')}.` : ''}
+${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}. Configure e utilize esses MCPs conforme a documentacao oficial de cada um.` : ''}`;
+
   }
 
   // ═══════════════════════════════════════════
@@ -1049,6 +1830,19 @@ Comece estruturando o **setup inicial do projeto** garantindo que:
   const tabPrompt = document.getElementById('tab-prompt');
   const outputFilename = document.getElementById('output-filename');
 
+  const downloadPdfBtn = document.getElementById('download-pdf-btn');
+  const downloadDocxBtn = document.getElementById('download-docx-btn');
+  const downloadMdBtn = document.getElementById('download-md-btn');
+
+  function showDownloadBtns(show) {
+    [downloadPdfBtn, downloadDocxBtn, downloadMdBtn].forEach(btn => {
+      if (btn) {
+        if (show) { btn.classList.remove('hidden'); btn.classList.add('flex'); }
+        else { btn.classList.add('hidden'); btn.classList.remove('flex'); }
+      }
+    });
+  }
+
   tabPrd?.addEventListener('click', () => {
     prdOutput.classList.remove('hidden');
     promptOutput.classList.add('hidden');
@@ -1057,6 +1851,9 @@ Comece estruturando o **setup inicial do projeto** garantindo que:
     tabPrompt.classList.remove('bg-primary/10', 'text-primary', 'border-primary/20');
     tabPrompt.classList.add('text-slate-500');
     outputFilename.textContent = 'architecture_prd.md';
+    document.getElementById('prompt-tip')?.classList.add('hidden');
+    document.getElementById('prompt-tip')?.classList.remove('inline');
+    showDownloadBtns(true);
   });
   tabPrompt?.addEventListener('click', () => {
     promptOutput.classList.remove('hidden');
@@ -1066,6 +1863,9 @@ Comece estruturando o **setup inicial do projeto** garantindo que:
     tabPrd.classList.remove('bg-primary/10', 'text-primary', 'border-primary/20');
     tabPrd.classList.add('text-slate-500');
     outputFilename.textContent = 'prompt_base.md';
+    document.getElementById('prompt-tip')?.classList.remove('hidden');
+    document.getElementById('prompt-tip')?.classList.add('inline');
+    showDownloadBtns(false);
   });
 
   // Copy
@@ -1079,6 +1879,96 @@ Comece estruturando o **setup inicial do projeto** garantindo que:
     });
   });
 
+  // PRD Download — build styled HTML for PDF/Word
+  function buildPrdHtml() {
+    const content = prdOutput.value;
+    const date = new Date().toLocaleDateString('pt-BR');
+    const lines = content.split('\n');
+    let html = '';
+    let inTable = false;
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) { if (inTable) { html += '</table>'; inTable = false; } html += '<br/>'; continue; }
+      if (trimmed.startsWith('# ')) { html += '<h1>' + trimmed.slice(2) + '</h1>'; }
+      else if (trimmed.startsWith('## ')) { html += '<h2>' + trimmed.slice(3) + '</h2>'; }
+      else if (trimmed.startsWith('### ')) { html += '<h3>' + trimmed.slice(4) + '</h3>'; }
+      else if (trimmed.startsWith('---')) { html += '<hr/>'; }
+      else if (trimmed.startsWith('| ') && trimmed.endsWith('|')) {
+        const cells = trimmed.split('|').filter(c => c.trim()).map(c => c.trim());
+        if (cells.every(c => /^[-:]+$/.test(c))) continue;
+        if (!inTable) { html += '<table>'; inTable = true; }
+        const tag = !inTable || html.split('<tr>').length <= 2 ? 'th' : 'td';
+        html += '<tr>' + cells.map(c => '<' + tag + '>' + c.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') + '</' + tag + '>').join('') + '</tr>';
+      }
+      else if (trimmed.startsWith('- ')) { html += '<p class="list-item">' + trimmed.slice(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') + '</p>'; }
+      else if (trimmed.startsWith('> ')) { html += '<blockquote>' + trimmed.slice(2) + '</blockquote>'; }
+      else { html += '<p>' + trimmed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') + '</p>'; }
+    }
+    if (inTable) html += '</table>';
+
+    return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>PRD - BuildCode</title><style>' +
+      'body{font-family:"Segoe UI",Helvetica,Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 30px;color:#1a1a2e;line-height:1.7;font-size:14px}' +
+      'h1{font-size:28px;color:#0d1b2a;border-bottom:3px solid #2E748B;padding-bottom:12px;margin-top:40px;letter-spacing:-0.5px}' +
+      'h2{font-size:20px;color:#1b3a4b;border-bottom:2px solid #e2e8f0;padding-bottom:8px;margin-top:32px}' +
+      'h3{font-size:16px;color:#2E748B;margin-top:20px}' +
+      'p{margin:6px 0}' +
+      '.list-item{padding-left:20px;position:relative}.list-item:before{content:"\\2022";position:absolute;left:6px;color:#2E748B;font-weight:bold}' +
+      'table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}' +
+      'th,td{border:1px solid #d1d5db;padding:10px 14px;text-align:left}' +
+      'th{background:#f0f4f8;font-weight:600;color:#1b3a4b}' +
+      'tr:nth-child(even) td{background:#f8fafc}' +
+      'hr{border:none;border-top:1px solid #e2e8f0;margin:28px 0}' +
+      'blockquote{border-left:4px solid #2E748B;padding:10px 16px;margin:12px 0;background:#f0f9ff;color:#334155;font-style:italic;border-radius:0 6px 6px 0}' +
+      'strong{color:#0d1b2a}' +
+      '.header-bar{background:linear-gradient(135deg,#0d1b2a,#1b3a4b);color:white;padding:30px 40px;margin:-40px -30px 30px;border-radius:0 0 12px 12px}' +
+      '.header-bar h1{color:white;border:none;margin:0;font-size:24px;letter-spacing:0.5px}.header-bar p{color:#a8c5d6;margin:4px 0 0;font-size:13px}' +
+      '.footer{text-align:center;margin-top:60px;padding:20px;border-top:2px solid #e2e8f0;color:#94a3b8;font-size:11px}' +
+      '@media print{body{margin:20px;padding:0 20px}.header-bar{margin:-20px -20px 20px;padding:20px 30px}}' +
+      '</style></head><body>' +
+      '<div class="header-bar"><h1>BuildCode AI Engine</h1><p>PRD Tecnico — Gerado em ' + date + '</p></div>' +
+      html +
+      '<div class="footer">Documento gerado automaticamente pelo BuildCode AI Engine v2.1<br/>buildcode.app — ' + date + '</div>' +
+      '</body></html>';
+  }
+
+  // PDF download via print
+  downloadPdfBtn?.addEventListener('click', () => {
+    const htmlContent = buildPrdHtml();
+    const w = window.open('', '_blank');
+    if (!w) return;
+    w.document.write(htmlContent);
+    w.document.close();
+    setTimeout(() => { w.print(); }, 500);
+  });
+
+  // Word (.doc) download
+  downloadDocxBtn?.addEventListener('click', () => {
+    const htmlContent = buildPrdHtml();
+    const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'BuildCode_PRD.doc';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  // Markdown (.md) download
+  downloadMdBtn?.addEventListener('click', () => {
+    const blob = new Blob([prdOutput.value], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'BuildCode_PRD.md';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
   // Restart
   document.querySelectorAll('.restart-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1086,14 +1976,17 @@ Comece estruturando o **setup inicial do projeto** garantindo que:
       currentStep = 1;
       userSeniority = 'junior';
       userTipo = 'hobby';
+      preGenAsked = false;
+      generateBtn.innerHTML = '<span class="material-symbols-outlined">auto_awesome</span><span data-i18n="app.gerar">Gerar PRD & Prompt Base</span>';
+      chatHistory = [];
       insightCost.textContent = '—';
       insightTtm.textContent = '—';
       insightLevel.textContent = '—';
       insightTip.textContent = 'Preencha o formulário para receber sugestões em tempo real.';
-      // clear search block selections
       document.querySelectorAll('.tech-search-results').forEach(el => el.innerHTML = '');
       document.querySelectorAll('.tech-search-results, .tech-search-empty').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.tech-search-input').forEach(el => el.value = '');
+      computeVisibleSteps();
       filterOptionsBySeniority();
       showStep(1);
     });
@@ -1338,7 +2231,316 @@ Comece estruturando o **setup inicial do projeto** garantindo que:
      }
   });
 
+  // ═══════════════════════════════════════════
+  //  IDE "OUTRO" CUSTOM INPUT
+  // ═══════════════════════════════════════════
+  const customIdeBlock = document.getElementById('custom-ide-block');
+  const customIdeInput = document.getElementById('custom-ide-input');
+
+  document.querySelectorAll('input[name="ferramenta"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.value === 'outro') {
+        customIdeBlock.classList.remove('hidden');
+        customIdeInput.focus();
+      } else {
+        customIdeBlock.classList.add('hidden');
+      }
+    });
+  });
+
+  // Save custom IDE name into a hidden field
+  customIdeInput?.addEventListener('input', () => {
+    let hidden = document.getElementById('custom-ide-value');
+    if (!hidden) {
+      hidden = document.createElement('input');
+      hidden.type = 'hidden';
+      hidden.id = 'custom-ide-value';
+      hidden.name = 'ferramenta-custom';
+      form.appendChild(hidden);
+    }
+    hidden.value = customIdeInput.value.trim();
+  });
+
+  // ═══════════════════════════════════════════
+  //  MCP SEARCH + CUSTOM
+  // ═══════════════════════════════════════════
+  const mcpSearchInput = document.getElementById('mcp-search-input');
+  const mcpSearchResults = document.getElementById('mcp-search-results');
+  const mcpCustomToggle = document.getElementById('mcp-custom-toggle');
+  const mcpCustomBlock = document.getElementById('mcp-custom-block');
+  const mcpCustomInput = document.getElementById('mcp-custom-input');
+  const mcpCustomAdd = document.getElementById('mcp-custom-add');
+
+  // Filter existing MCP options by search
+  mcpSearchInput?.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    if (query.length < 2) {
+      mcpSearchResults.classList.add('hidden');
+      mcpSearchResults.innerHTML = '';
+      return;
+    }
+
+    // Search in techDB for MCP-related items
+    const results = availableTechs.filter(t =>
+      (t.name.toLowerCase().includes(query) || (t.tagline && t.tagline.toLowerCase().includes(query))) &&
+      (t.category === 'mcp' || t.name.toLowerCase().includes('mcp') || t.tagline?.toLowerCase().includes('mcp'))
+    ).slice(0, 6);
+
+    // Also search option cards by name
+    const mcpOptions = Array.from(document.querySelectorAll('input[name="mcps"]')).map(input => {
+      const label = input.closest('.option-label');
+      const name = label?.querySelector('h4')?.textContent || '';
+      return { input, label, name };
+    }).filter(item => item.name.toLowerCase().includes(query));
+
+    if (mcpOptions.length === 0 && results.length === 0) {
+      mcpSearchResults.innerHTML = '<p class="col-span-full text-center text-sm text-slate-600 py-3">Nenhum MCP encontrado. Use "Personalizar" para adicionar.</p>';
+      mcpSearchResults.classList.remove('hidden');
+      return;
+    }
+
+    // Highlight matching options
+    document.querySelectorAll('input[name="mcps"]').forEach(input => {
+      const label = input.closest('.option-label');
+      if (!label) return;
+      const name = label.querySelector('h4')?.textContent?.toLowerCase() || '';
+      if (query && name.includes(query)) {
+        label.style.order = '-1';
+        label.classList.add('ring-1', 'ring-primary/40');
+      } else {
+        label.style.order = '';
+        label.classList.remove('ring-1', 'ring-primary/40');
+      }
+    });
+
+    mcpSearchResults.classList.add('hidden');
+  });
+
+  mcpSearchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      mcpSearchInput.value = '';
+      document.querySelectorAll('input[name="mcps"]').forEach(input => {
+        const label = input.closest('.option-label');
+        if (label) {
+          label.style.order = '';
+          label.classList.remove('ring-1', 'ring-primary/40');
+        }
+      });
+    }
+  });
+
+  mcpCustomToggle?.addEventListener('click', () => {
+    mcpCustomBlock.classList.toggle('hidden');
+    mcpCustomBlock.classList.toggle('flex');
+    if (!mcpCustomBlock.classList.contains('hidden')) {
+      mcpCustomInput.focus();
+    }
+  });
+
+  mcpCustomAdd?.addEventListener('click', () => {
+    const value = mcpCustomInput.value.trim();
+    if (!value) return;
+
+    // Add as a new checkbox in the MCPs grid
+    const grid = document.querySelector('input[name="mcps"]')?.closest('.grid');
+    if (!grid) return;
+
+    const label = document.createElement('label');
+    label.className = 'cursor-pointer group option-label';
+    label.innerHTML = `
+      <input type="checkbox" name="mcps" value="${value}" class="peer sr-only" checked />
+      <div class="glass-panel rounded-2xl p-5 flex flex-col gap-3 text-left transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_30px_rgba(46,116,139,0.2)] hover:border-primary/40 h-full">
+        <div class="flex items-start justify-between gap-2">
+          <div class="size-10 rounded-xl bg-cta/10 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-cta text-xl">extension</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider border text-cta border-cta/20 bg-cta/10">Custom</span>
+        </div>
+        <div class="flex-1">
+          <h4 class="font-bold text-white text-sm">${value}</h4>
+          <p class="text-xs text-slate-500 mt-1">MCP personalizado adicionado pelo usuario.</p>
+        </div>
+      </div>
+    `;
+    grid.appendChild(label);
+
+    mcpCustomInput.value = '';
+    mcpCustomBlock.classList.add('hidden');
+    mcpCustomBlock.classList.remove('flex');
+
+    // Feedback
+    const prev = mcpCustomAdd.innerHTML;
+    mcpCustomAdd.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Adicionado!';
+    setTimeout(() => { mcpCustomAdd.innerHTML = prev; }, 1500);
+  });
+
+  // ═══════════════════════════════════════════
+  //  CHAT WIDGET (OpenAI gpt-4o-mini + Agent)
+  // ═══════════════════════════════════════════
+  const chatToggle = document.getElementById('chat-toggle');
+  const chatPanel = document.getElementById('chat-panel');
+  const chatClose = document.getElementById('chat-close');
+  const chatInput = document.getElementById('chat-input');
+  const chatSend = document.getElementById('chat-send');
+  const chatMessages = document.getElementById('chat-messages');
+  const chatToggleAvatar = document.getElementById('chat-toggle-avatar');
+
+  let chatHistory = [];
+
+  // Agent configuration
+  const agentConfig = {
+    theboss: { name: 'The Boss', icon: '/agentes/Thebossicon.png', color: '#C0392B', greeting: 'Fala. Sou o The Boss, seu arquiteto. Nao vou te dar resposta bonita — vou te dar a resposta certa. O que precisa?' },
+    azrael: { name: 'Azrael', icon: '/agentes/Azraelicon.png', color: '#8E44AD', greeting: 'Ola, visionario! Sou o Azrael. Vamos construir algo que o mercado nunca viu? Me conta seu projeto.' },
+    rizler: { name: 'Rizler', icon: '/agentes/Rizlericon.png', color: '#27AE60', greeting: 'Hmm... mais um sistema pra eu auditar. Sou o Rizler. Antes de comecar, me diz: voce ja sanitizou seus inputs?' },
+    anastasia: { name: 'Anastasia', icon: '/agentes/Anastasiaicon.png', color: '#E91E63', greeting: 'Oi, amor! Sou a Anastasia. Vamos deixar seu projeto lindo e funcional ao mesmo tempo? Me conta tudo.' },
+  };
+
+  const selectedAgent = localStorage.getItem('bc-agent') || 'theboss';
+  const agent = agentConfig[selectedAgent] || agentConfig.theboss;
+
+  // Set agent avatar/name in chat header
+  const chatAgentAvatar = document.getElementById('chat-agent-avatar');
+  const chatAgentName = document.getElementById('chat-agent-name');
+  if (chatAgentAvatar) chatAgentAvatar.src = agent.icon;
+  if (chatAgentName) chatAgentName.textContent = agent.name;
+  if (chatToggleAvatar) chatToggleAvatar.src = agent.icon;
+
+  // Initial greeting message
+  if (chatMessages) {
+    const greetDiv = document.createElement('div');
+    greetDiv.className = 'flex gap-2';
+    greetDiv.innerHTML = `
+      <img src="${agent.icon}" alt="${agent.name}" class="size-6 rounded-full object-cover border border-white/20 shrink-0" />
+      <div class="bg-surface-dark/80 rounded-xl rounded-tl-sm px-3 py-2 text-slate-300 text-xs leading-relaxed max-w-[85%]">${agent.greeting.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`;
+    chatMessages.appendChild(greetDiv);
+  }
+
+  // Build context string from wizard selections
+  function getWizardContext() {
+    const selections = [];
+    const fields = [
+      { name: 'senioridade', label: 'Senioridade' },
+      { name: 'escala', label: 'Escala' },
+      { name: 'tipo', label: 'Tipo de Projeto' },
+      { name: 'ferramenta', label: 'IDE' },
+      { name: 'frontend', label: 'Frontend' },
+      { name: 'backend', label: 'Backend' },
+      { name: 'database', label: 'Banco de Dados' },
+      { name: 'infra', label: 'Infra' },
+      { name: 'auth', label: 'Auth' },
+    ];
+    fields.forEach(f => {
+      const val = getFormValue(f.name);
+      if (val) selections.push(`${f.label}: ${val}`);
+    });
+    const ctx = getTextValue('contexto');
+    if (ctx) selections.unshift(`Projeto: ${ctx.substring(0, 150)}`);
+    return selections.length > 0 ? selections.join(' | ') : '';
+  }
+
+  // Strip markdown formatting for clean chat display
+  function cleanMarkdown(text) {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/\*(.*?)\*/g, '$1')
+      .replace(/#{1,6}\s/g, '')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/```[\s\S]*?```/g, (match) => match.replace(/```\w*\n?/g, '').trim());
+  }
+
+  function openChat() {
+    chatPanel.classList.remove('hidden');
+    chatPanel.classList.add('flex');
+    chatInput?.focus();
+  }
+  function closeChat() {
+    chatPanel.classList.add('hidden');
+    chatPanel.classList.remove('flex');
+  }
+
+  chatToggle?.addEventListener('click', () => {
+    const isOpen = !chatPanel.classList.contains('hidden');
+    if (isOpen) closeChat();
+    else openChat();
+  });
+
+  chatClose?.addEventListener('click', closeChat);
+
+  function appendChatMsg(role, text) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'flex gap-2' + (role === 'user' ? ' justify-end' : '');
+
+    // Escape HTML to prevent XSS
+    const safe = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    if (role === 'user') {
+      wrapper.innerHTML = `<div class="bg-primary/20 rounded-xl rounded-tr-sm px-3 py-2 text-white text-xs leading-relaxed max-w-[85%]">${safe}</div>`;
+    } else {
+      wrapper.innerHTML = `
+        <img src="${agent.icon}" alt="${agent.name}" class="size-6 rounded-full object-cover border border-white/20 shrink-0" />
+        <div class="bg-surface-dark/80 rounded-xl rounded-tl-sm px-3 py-2 text-slate-300 text-xs leading-relaxed max-w-[85%]">${safe}</div>`;
+    }
+    chatMessages.appendChild(wrapper);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  async function sendChatMessage(overrideMsg) {
+    const msg = overrideMsg || chatInput.value.trim();
+    if (!msg) return;
+
+    if (!overrideMsg) chatInput.value = '';
+    appendChatMsg('user', msg);
+
+    // Always inject wizard context in every message
+    const contextStr = getWizardContext();
+    const fullMsg = contextStr ? `[Contexto do wizard: ${contextStr}] ${msg}` : msg;
+    chatHistory.push({ role: 'user', content: fullMsg });
+
+    // Show typing indicator
+    const typing = document.createElement('div');
+    typing.className = 'flex gap-2 chat-typing';
+    typing.innerHTML = `<img src="${agent.icon}" alt="${agent.name}" class="size-6 rounded-full object-cover border border-white/20 shrink-0 animate-pulse" /><div class="bg-surface-dark/80 rounded-xl rounded-tl-sm px-3 py-2 text-slate-500 text-xs">Digitando...</div>`;
+    chatMessages.appendChild(typing);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory, agentId: selectedAgent }),
+      });
+      const data = await res.json();
+      typing.remove();
+
+      const rawReply = data.reply || data.error || 'Erro ao obter resposta.';
+      const reply = cleanMarkdown(rawReply);
+      chatHistory.push({ role: 'assistant', content: rawReply });
+      appendChatMsg('assistant', reply);
+
+      // Detect if assistant wants to proceed with generation
+      if (preGenAsked && rawReply.includes('iniciar a geracao')) {
+        setTimeout(() => {
+          closeChat();
+          showStep(22);
+          triggerGeneration();
+        }, 1500);
+      }
+    } catch (err) {
+      typing.remove();
+      appendChatMsg('assistant', 'Erro de conexao. Tente novamente.');
+    }
+  }
+
+  chatSend?.addEventListener('click', () => sendChatMessage());
+  chatInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendChatMessage();
+    }
+  });
+
   // Init
+  computeVisibleSteps();
   showStep(1);
   updateInsights();
 });

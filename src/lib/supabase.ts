@@ -42,6 +42,8 @@ export interface Profile {
   seniority: 'junior' | 'pleno' | 'senior';
   theme: 'dark' | 'light';
   role: 'master' | 'admin' | 'user';
+  agent?: string;
+  llm_model?: string;
 }
 
 export async function getProfile(userId: string): Promise<Profile | null> {

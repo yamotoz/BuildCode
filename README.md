@@ -21,7 +21,7 @@ Selecione stacks, mitigue riscos e escale com integridade — tudo em um único 
 
 <br />
 
-<img src="public/img/Buildcodeprint.png" alt="BuildCode — Software Architecture Engine" width="100%" style="border-radius: 16px; border: 1px solid #2A3135;" />
+<img src="Img/Buildcodeprint.png" alt="BuildCode — Software Architecture Engine" width="100%" style="border-radius: 16px; border: 1px solid #2A3135;" />
 
 <br />
 
