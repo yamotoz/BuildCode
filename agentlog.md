@@ -1,5 +1,5 @@
 # BuildCode — Guia Completo para Agentes de IA
-
+# aqui é seu diario pessoal ia, o seu diario de bordo do projeto.
 > **Leia este documento INTEIRO antes de fazer qualquer alteracao.**
 > Ultima atualizacao: 2026-03-07
 

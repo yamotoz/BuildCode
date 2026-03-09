@@ -26,6 +26,7 @@ export interface QuestionOption {
     minLevel?: number;
     difficulty?: Difficulty;
     recommendedFor?: SeniorityLevel[];
+    notRecommendedFor?: ProjectType[];
     website?: string;
 }
 
@@ -217,14 +218,14 @@ export const questions: WizardQuestion[] = [
         titlePre: 'Selecione', titleHighlight: 'Skills Tecnicas', titlePost: 'extras.',
         subtitle: 'Boas praticas injetadas no Prompt Base.',
         options: [
-            { value: 'clean-arch', label: 'Clean Architecture', icon: 'account_tree', desc: 'Separacao de camadas: domain, application, infra.', difficulty: 'hard', recommendedFor: ['senior'] },
+            { value: 'clean-arch', label: 'Clean Architecture', icon: 'account_tree', desc: 'Separacao de camadas: domain, application, infra.', difficulty: 'hard', recommendedFor: ['senior'], notRecommendedFor: ['hobby'] },
             { value: 'design-system', label: 'Design System', icon: 'palette', desc: 'Tokens, componentes reutilizaveis, guidelines visuais.', difficulty: 'easy', recommendedFor: ['junior', 'pleno', 'senior'] },
             { value: 'api-design', label: 'API Design (REST)', icon: 'api', desc: 'Contratos OpenAPI, versionamento, paginacao.', difficulty: 'medium', recommendedFor: ['pleno', 'senior'] },
             { value: 'testing', label: 'Testing Strategy', icon: 'bug_report', desc: 'Piramide de testes, mocks, fixtures, coverage.', difficulty: 'medium', recommendedFor: ['pleno', 'senior'] },
-            { value: 'security', label: 'Security Hardening', icon: 'shield', desc: 'OWASP Top 10, headers, sanitization, secrets.', difficulty: 'hard', recommendedFor: ['senior'] },
+            { value: 'security', label: 'Security Hardening', icon: 'shield', desc: 'OWASP Top 10, headers, sanitization, secrets.', difficulty: 'hard', recommendedFor: ['senior'], notRecommendedFor: ['hobby'] },
             { value: 'performance', label: 'Web Performance', icon: 'speed', desc: 'Core Web Vitals, lazy loading, bundle optimization.', difficulty: 'easy', recommendedFor: ['junior', 'pleno', 'senior'] },
             { value: 'a11y', label: 'Acessibilidade (A11y)', icon: 'accessibility', desc: 'WCAG compliance, screen readers, navegacao por teclado.', difficulty: 'medium', recommendedFor: ['pleno'] },
-            { value: 'devops', label: 'DevOps & CI/CD', icon: 'settings', desc: 'Pipelines, deploys automatizados, monitoramento.', difficulty: 'hard', recommendedFor: ['senior'] },
+            { value: 'devops', label: 'DevOps & CI/CD', icon: 'settings', desc: 'Pipelines, deploys automatizados, monitoramento.', difficulty: 'hard', recommendedFor: ['senior'], notRecommendedFor: ['hobby'] },
         ],
     },
     {

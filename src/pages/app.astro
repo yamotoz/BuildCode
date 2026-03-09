@@ -369,6 +369,11 @@ const techDB = technologies.map(t => ({
                               <span class="material-symbols-outlined text-[10px]">thumb_up</span> Recomendado
                             </span>
                           )}
+                          {opt.notRecommendedFor && opt.notRecommendedFor.length > 0 && (
+                            <span class="not-rec-badge hidden items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 text-[9px] font-bold uppercase tracking-wider border border-red-500/20 w-fit" data-not-rec-for={JSON.stringify(opt.notRecommendedFor)}>
+                              <span class="material-symbols-outlined text-[10px]">warning</span> Nao recomendado p/ Portfolio
+                            </span>
+                          )}
                         </div>
                       </label>
                     );})}
@@ -797,6 +802,18 @@ document.addEventListener('DOMContentLoaded', () => {
         badge.classList.toggle('inline-flex', show);
       } catch(e) {}
     });
+
+    // Not recommended badges (based on project type)
+    document.querySelectorAll('.not-rec-badge').forEach(badge => {
+      const notRecFor = badge.getAttribute('data-not-rec-for');
+      if (!notRecFor) return;
+      try {
+        const types = JSON.parse(notRecFor);
+        const show = Array.isArray(types) && types.includes(userTipo);
+        badge.classList.toggle('hidden', !show);
+        badge.classList.toggle('inline-flex', show);
+      } catch(e) {}
+    });
   }
 
   // Seniority-based option filtering
@@ -974,14 +991,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Open chat panel
         openChat();
 
-        const contextStr = getWizardContext();
-        const preGenMsg = `Antes de gerar seu PRD e Prompt Base, gostaria de saber se voce tem algo a mais para informar ou contemplar no projeto.\n\nSuas selecoes atuais: ${contextStr || 'Nenhuma selecao detectada.'}\n\nPode me contar detalhes extras, requisitos especificos ou preferencias. Quando estiver pronto, e so me dizer que quer prosseguir!`;
-        appendChatMsg('assistant', preGenMsg);
+        const contextFormatted = getWizardContextFormatted();
+        const preGenMsg = `Antes de gerar seu PRD e Prompt Base, quero saber se voce tem algo a mais pra adicionar no projeto.\n\nSuas selecoes ate agora:\n\n${contextFormatted || 'Nenhuma selecao detectada.'}\n\nTem algum detalhe extra, requisito especifico ou preferencia? Quando estiver pronto, e so me dizer que quer prosseguir!`;
+        appendChatMsg('assistant', preGenMsg, { skipAudio: true });
         return;
       }
 
-      // Open chat and let user add context — don't generate yet
-      return;
+      // Second click (or more): go straight to generation
+      closeChat();
+      showStep(22);
+      triggerGeneration();
     });
   }
 
@@ -1068,7 +1087,7 @@ document.addEventListener('DOMContentLoaded', () => {
       seo: { 'seo-full': 'SEO Completo', 'seo-none': 'App Privado', 'seo-partial': 'Parcial' },
     };
 
-    const L = (cat, val) => lbl[cat]?.[val] || val || 'Não definido';
+    const L = (cat, val) => lbl[cat]?.[val] || val || '';
     const date = new Date().toLocaleDateString('pt-BR');
     const isSenior = data.senioridade === 'senior';
 
@@ -1102,7 +1121,6 @@ Gerado em: ${date} | v2.1
 **Descricao do Projeto:**
 ${data.contexto}
 
-**Classificacao:** ${projectTypeLabel[data.tipo] || data.tipo}
 **Escala Alvo:** ${L('escala', data.escala)} usuarios simultaneos
 **Nivel do Desenvolvedor:** ${L('senioridade', data.senioridade)}
 **IDE / Ferramenta:** ${L('ferramenta', data.ferramenta)}
@@ -1127,8 +1145,8 @@ ${data.persistencia ? `| **Persistencia** | ${L('persistencia', data.persistenci
 
 **Padrao Arquitetural:** ${isSenior ? 'Clean Architecture + SOLID + Domain-Driven Design (DDD)' : data.tipo === 'saas' ? 'MVC + Service Layer + Repository Pattern' : 'MVC Simplificado — Monolito Modular'}
 **Protocolo de Comunicacao:** ${data.realtime && data.realtime !== 'nao' ? 'REST API + ' + L('realtime', data.realtime) + ' (Real-time bidirecional)' : 'REST API (HTTP/HTTPS)'}
-**Estilo de Codigo:** ${L('codestyle', data.codestyle)}
-**Tratamento de Erros:** ${L('erros', data.erros)}
+${data.codestyle ? `**Estilo de Codigo:** ${L('codestyle', data.codestyle)}` : ''}
+${data.erros ? `**Tratamento de Erros:** ${L('erros', data.erros)}` : ''}
 ${data.i18n && data.i18n !== 'nao' ? `**Internacionalizacao:** ${L('i18n', data.i18n)}` : ''}
 
 ---
@@ -1200,7 +1218,7 @@ ${data.mcps.length > 0 ? `\n## 9. MCPs (Model Context Protocol)\n\nMCPs conectad
 
 ## 10. SEO E ACESSIBILIDADE
 
-**Estrategia SEO:** ${L('seo', data.seo) || 'Nao definido'}
+**Estrategia SEO:** ${L('seo', data.seo)}
 ${data.seo === 'seo-full' ? `- Meta tags dinamicas (title, description, og:image)
 - Sitemap.xml automatico
 - Schema.org / JSON-LD para rich snippets
@@ -1637,12 +1655,6 @@ Artisan: crie commands customizados para tarefas administrativas e scripts.`,
       return s;
     });
 
-    // Collect chat context if user added info during pre-gen
-    const chatExtraContext = chatHistory.filter(m => m.role === 'user').map(m => {
-      const clean = m.content.replace(/\[Contexto do wizard:.*?\]\s*/g, '').trim();
-      return clean;
-    }).filter(c => c.length > 10).join('\n');
-
     promptOutput.value = `REGRA #0 — AGENTLOG OBRIGATORIO
 
 ANTES DE QUALQUER COISA, crie o arquivo agentlog.md na raiz do projeto.
@@ -1656,8 +1668,6 @@ IDENTIDADE E CONTEXTO
 Voce e um Engenheiro de Software ${L('senioridade', data.senioridade)} especialista em ${L('frontend', data.frontend)} e ${L('backend', data.backend)}.
 
 Projeto: ${data.contexto}
-${chatExtraContext ? `\nInformacoes adicionais do usuario:\n${chatExtraContext}\n` : ''}
-Tipo: ${projectTypeLabel[data.tipo] || data.tipo}
 Escala: ${L('escala', data.escala)} usuarios simultaneos
 IDE: ${ideLabel}
 
@@ -1673,8 +1683,8 @@ PERSONALIDADE E ESTILO DE DESENVOLVIMENTO
 
 ${isSenior ? 'Seja RIGOROSO em tudo que fizer. Tipos estritos em TypeScript (zero any ou unknown sem justificativa documentada). Padroes SOLID em toda a arquitetura. Testes obrigatorios para toda logica de negocio. Code review mental antes de cada entrega — se voce nao aprovaria esse codigo em um PR, refatore antes de entregar.' : data.senioridade === 'pleno' ? 'Equilibre qualidade e velocidade. Use TypeScript com tipos bem definidos. Escreva testes para logica critica (auth, pagamentos, calculos). Codigo limpo e organizado, mas sem over-engineering. Pragmatismo acima de perfeccionismo.' : 'Priorize SIMPLICIDADE e time-to-market. Codigo funcional e legivel acima de tudo. Nao se preocupe com abstracoes perfeitas — faca funcionar primeiro, refatore depois se necessario. Foque na experiencia do usuario final.'}
 
-Estilo de codigo: ${L('codestyle', data.codestyle)}
-Tratamento de erros: ${L('erros', data.erros)}
+${data.codestyle ? `Estilo de codigo: ${L('codestyle', data.codestyle)}` : ''}
+${data.erros ? `Tratamento de erros: ${L('erros', data.erros)}` : ''}
 Lingua: Todas as respostas, comentarios no codigo e documentacao devem ser em Portugues (PT-BR)
 Nunca gere codigo incompleto. Sem "// TODO" ou "// implementar depois" ou placeholders — entregue funcionalidade completa e funcional
 Nao crie abstracoes desnecessarias. Se 3 linhas simples resolvem o problema, nao crie um helper ou utility. Abstraia apenas quando houver repeticao real (3+ vezes)
@@ -1686,8 +1696,8 @@ STACK TECNICA DO PROJETO
 
 Frontend: ${L('frontend', data.frontend)}
 Backend: ${L('backend', data.backend)}
-Banco de Dados: ${L('database', data.database)}
-Infraestrutura: ${L('infra', data.infra)}
+${data.database ? `Banco de Dados: ${L('database', data.database)}` : ''}
+${data.infra ? `Infraestrutura: ${L('infra', data.infra)}` : ''}
 ${data.persistencia ? `Persistencia: ${L('persistencia', data.persistencia)}` : ''}
 ${data.auth && data.auth !== 'nenhum' ? `Autenticacao: ${L('auth', data.auth)}` : ''}
 ${data.realtime && data.realtime !== 'nao' ? `Real-time: ${L('realtime', data.realtime)}` : ''}
@@ -1735,7 +1745,47 @@ ${bbp}
 
 ---
 
-SEGURANCA
+${data.database ? `BOAS PRATICAS — BANCO DE DADOS (${L('database', data.database).toUpperCase()})
+
+${data.database === 'sql-managed' || data.database === 'sql-raw' ? `Modelagem relacional:
+Normalize ate a 3a forma normal para dados transacionais. Desnormalize apenas quando houver gargalo de performance comprovado com EXPLAIN ANALYZE, nao por conveniencia.
+
+Migrations obrigatorias:
+Toda mudanca de schema deve ser feita via migration versionada. Nunca altere o banco manualmente em producao. Uma migration por alteracao — nao agrupe mudancas nao-relacionadas. Migrations devem ser reversiveis (up e down).
+
+Indexes:
+Crie indexes para TODA coluna usada em WHERE, JOIN e ORDER BY. Indexes compostos para queries frequentes com multiplos filtros. Analise o query plan com EXPLAIN ANALYZE antes e depois. Cuidado: indexes demais degradam performance de escrita.
+
+Queries:
+Use prepared statements SEMPRE — nunca concatene valores em queries SQL. Paginacao com cursor-based (WHERE id > last_id) para tabelas grandes, offset-based apenas para tabelas pequenas. Limite resultados com LIMIT — nunca retorne tabelas inteiras.
+
+Transacoes:
+Use transacoes para operacoes que envolvem multiplas tabelas ou que precisam de atomicidade. Mantenha transacoes curtas — nao faca chamadas externas dentro de uma transacao.` : data.database === 'nosql' ? `Modelagem de documentos:
+Modele dados pensando nos padroes de leitura, nao nos padroes de escrita. Desnormalize dados que sao lidos juntos frequentemente — embedding ao inves de referencing quando o dado e 1:poucos.
+
+Indices:
+Crie indices para TODOS os campos usados em queries. Indices compostos para queries com multiplos filtros. Monitore queries lentas e otimize com explain().
+
+Schema validation:
+Mesmo sem schema rigido, valide a estrutura dos documentos na camada de aplicacao (Zod, Joi). Defina um contrato claro para cada collection.
+
+Queries:
+Use projecao para retornar apenas os campos necessarios. Limite resultados com limit(). Use paginacao cursor-based para collections grandes. Evite queries que escaneiam toda a collection.` : `Banco vetorial:
+Configure dimensoes dos embeddings de acordo com o modelo de IA usado (ex: 1536 para text-embedding-ada-002). Use indices HNSW ou IVFFlat para busca aproximada eficiente. Combine busca vetorial com filtros de metadados para resultados mais precisos.`}
+
+---
+
+` : ''}${data.infra ? `BOAS PRATICAS — INFRAESTRUTURA (${L('infra', data.infra).toUpperCase()})
+
+${data.infra === 'vercel' ? `Vercel:
+Use Edge Functions para logica que precisa de baixa latencia. Configure headers de cache adequados — assets estaticos com cache longo (1 ano), APIs com no-cache ou stale-while-revalidate. Use Environment Variables no dashboard para secrets — nunca hardcode. Configure Preview Deployments para cada PR. Use vercel.json para rewrites, redirects e headers customizados. Monitore com Vercel Analytics e Speed Insights.` : data.infra === 'railway' ? `Railway:
+Configure healthchecks para seus servicos. Use Railway Volumes para dados persistentes. Configure auto-scaling quando disponivel. Use Railway CLI para deploys e logs locais. Separe servicos (web, worker, cron) em services distintos. Configure variaveies de ambiente por environment (production, staging).` : data.infra === 'aws' ? `AWS:
+Use o principio de menor privilegio em IAM — cada servico tem apenas as permissoes que precisa. Configure VPC com subnets publicas e privadas. Use Security Groups como firewall. Habilite CloudTrail para auditoria. Use Parameter Store ou Secrets Manager para secrets — nunca hardcode. Configure Auto Scaling Groups para escalabilidade. Use CloudFront como CDN. Configure alarmes no CloudWatch para metricas criticas.` : data.infra === 'docker-vps' ? `Docker + VPS:
+Use multi-stage builds para imagens menores. Docker Compose para desenvolvimento local. Nunca rode containers como root — use USER directive. Configure health checks no Dockerfile. Use .dockerignore para excluir node_modules, .git, .env. Volumes para dados persistentes. Configure restart policies (unless-stopped). Use nginx como reverse proxy com SSL (Let's Encrypt/Certbot).` : `Configure deploys automaticos via Git. Use variaveies de ambiente para secrets. Configure dominio customizado com SSL. Monitore performance e erros. Configure backups automaticos quando disponivel.`}
+
+---
+
+` : ''}SEGURANCA
 
 ${data.seguranca.length > 0 ? data.seguranca.map(s => {
   const segInst = {
@@ -1820,6 +1870,10 @@ Apos completar o setup inicial acima, siga esta sequencia:
 ${isSenior ? '6. Rode os testes existentes antes de implementar cada feature nova. Zero regressoes permitidas — se um teste quebrou, corrija antes de continuar.' : ''}
 ${data.testes.length > 0 ? `${isSenior ? '7' : '6'}. Implemente testes para cada feature critica: ${data.testes.join(', ')}.` : ''}
 ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}. Configure e utilize esses MCPs conforme a documentacao oficial de cada um.` : ''}`;
+
+    // Clean up: remove excess blank lines (3+ consecutive newlines → 2)
+    promptOutput.value = promptOutput.value.replace(/\n{3,}/g, '\n\n').trim();
+    prdOutput.value = prdOutput.value.replace(/\n{3,}/g, '\n\n').trim();
 
   }
 
@@ -2438,6 +2492,30 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     return selections.length > 0 ? selections.join(' | ') : '';
   }
 
+  // Formatted context for pre-generation message (human-readable, no pipes)
+  function getWizardContextFormatted() {
+    const ctx = getTextValue('contexto');
+    const fields = [
+      { name: 'senioridade', label: 'Senioridade' },
+      { name: 'escala', label: 'Escala' },
+      { name: 'tipo', label: 'Tipo' },
+      { name: 'ferramenta', label: 'IDE' },
+      { name: 'frontend', label: 'Frontend' },
+      { name: 'backend', label: 'Backend' },
+      { name: 'database', label: 'Banco de Dados' },
+      { name: 'infra', label: 'Infra' },
+      { name: 'auth', label: 'Auth' },
+    ];
+    let lines = [];
+    if (ctx) lines.push('Projeto: ' + ctx.substring(0, 200));
+    lines.push('');
+    fields.forEach(f => {
+      const val = getFormValue(f.name);
+      if (val) lines.push('  ' + f.label + ': ' + val);
+    });
+    return lines.join('\n');
+  }
+
   // Strip markdown formatting for clean chat display
   function cleanMarkdown(text) {
     return text
@@ -2466,7 +2544,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
 
   chatClose?.addEventListener('click', closeChat);
 
-  function appendChatMsg(role, text) {
+  function appendChatMsg(role, text, opts) {
     const wrapper = document.createElement('div');
     wrapper.className = 'flex gap-2' + (role === 'user' ? ' justify-end' : '');
 
@@ -2482,6 +2560,75 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     }
     chatMessages.appendChild(wrapper);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // TTS audio for long assistant responses (> 780 chars)
+    if (role === 'assistant' && text.length > 780 && !(opts && opts.skipAudio)) {
+      generateTTSAudio(text, wrapper);
+    }
+  }
+
+  async function generateTTSAudio(text, parentWrapper) {
+    // Create audio placeholder
+    const audioWrapper = document.createElement('div');
+    audioWrapper.className = 'flex gap-2 ml-8';
+    audioWrapper.innerHTML = `
+      <div class="bg-surface-dark/60 rounded-xl px-3 py-2 flex items-center gap-2 text-slate-500 text-[10px]">
+        <span class="material-symbols-outlined text-xs animate-pulse">graphic_eq</span>
+        Gerando audio...
+      </div>`;
+    chatMessages.appendChild(audioWrapper);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try {
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text.substring(0, 300), agentId: selectedAgent }),
+      });
+
+      if (!res.ok) {
+        audioWrapper.remove();
+        return;
+      }
+
+      const audioBlob = await res.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+
+      audioWrapper.innerHTML = `
+        <div class="bg-surface-dark/60 rounded-xl px-3 py-2 flex items-center gap-2">
+          <button type="button" class="tts-play-btn flex items-center gap-2 text-primary hover:text-primary-light transition-colors text-[10px] font-bold">
+            <span class="material-symbols-outlined text-sm">play_circle</span>
+            Ouvir resumo
+          </button>
+          <audio src="${audioUrl}" class="hidden"></audio>
+        </div>`;
+
+      const playBtn = audioWrapper.querySelector('.tts-play-btn');
+      const audioEl = audioWrapper.querySelector('audio');
+      let isPlaying = false;
+
+      playBtn.addEventListener('click', () => {
+        if (isPlaying) {
+          audioEl.pause();
+          audioEl.currentTime = 0;
+          playBtn.querySelector('.material-symbols-outlined').textContent = 'play_circle';
+          isPlaying = false;
+        } else {
+          audioEl.play();
+          playBtn.querySelector('.material-symbols-outlined').textContent = 'stop_circle';
+          isPlaying = true;
+        }
+      });
+
+      audioEl.addEventListener('ended', () => {
+        playBtn.querySelector('.material-symbols-outlined').textContent = 'play_circle';
+        isPlaying = false;
+      });
+
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    } catch {
+      audioWrapper.remove();
+    }
   }
 
   async function sendChatMessage(overrideMsg) {
@@ -2518,12 +2665,14 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       appendChatMsg('assistant', reply);
 
       // Detect if assistant wants to proceed with generation
-      if (preGenAsked && rawReply.includes('iniciar a geracao')) {
+      const proceedPhrases = ['iniciar a geracao', 'iniciar a geração', 'gerar seu PRD', 'gerar o PRD', 'Vou fechar o chat', 'vou fechar o chat'];
+      const shouldProceed = preGenAsked && proceedPhrases.some(p => rawReply.toLowerCase().includes(p.toLowerCase()));
+      if (shouldProceed) {
         setTimeout(() => {
           closeChat();
           showStep(22);
           triggerGeneration();
-        }, 1500);
+        }, 2000);
       }
     } catch (err) {
       typing.remove();
