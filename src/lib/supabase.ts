@@ -44,6 +44,7 @@ export interface Profile {
   role: 'master' | 'admin' | 'user';
   agent?: string;
   llm_model?: string;
+  preferred_language?: string;
 }
 
 export async function getProfile(userId: string): Promise<Profile | null> {
@@ -124,4 +125,36 @@ export async function inviteUser(email: string, fullName: string, role: 'user' |
   }
 
   return { data: result, error: null };
+}
+
+// ══════════════════════════════
+//  SUBSCRIPTION & USAGE
+// ══════════════════════════════
+
+export interface Subscription {
+  id: string;
+  user_id: string;
+  plan: 'explorador' | 'consultor' | 'arquiteto';
+  billing_cycle: 'monthly' | 'yearly';
+  status: 'active' | 'canceled' | 'past_due' | 'trialing';
+  current_period_end: string;
+}
+
+export async function getUserSubscription(userId: string): Promise<Subscription | null> {
+  const { data } = await supabase
+    .from('subscriptions')
+    .select('*')
+    .eq('user_id', userId)
+    .single();
+  return data;
+}
+
+export async function getUserUsageStats(userId: string) {
+  const { data } = await supabase
+    .from('usage_logs')
+    .select('action, llm_model, tokens_used, cost_usd, created_at')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(500);
+  return data || [];
 }

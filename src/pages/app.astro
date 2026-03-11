@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { questions, phases, testesOptions, llmModels, difficultyConfig } from '../data/wizard-config';
+import { questions, phases, testesOptions, llmModels, difficultyConfig, promptLanguageOptions } from '../data/wizard-config';
 import { tooltips } from '../data/tooltips';
 import { skillsMap } from '../data/skills-map';
 import { technologies } from '../data/technologies';
@@ -418,8 +418,41 @@ const techDB = technologies.map(t => ({
             </div>
           ))}
 
-          <!-- STEP 21: LLM Selection -->
+          <!-- STEP 21: Prompt Language Selection -->
           <div class="step hidden flex flex-col items-center gap-8" data-step="21" data-phase="4">
+            <div class="text-center max-w-2xl space-y-3">
+              <h2 class="font-display text-3xl lg:text-5xl font-black text-white tracking-tight">
+                Em qual <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Idioma</span> gerar o Prompt?
+              </h2>
+              <p class="text-slate-400 text-lg font-medium">Escolha o idioma em que o PRD e Prompt Base serão escritos.</p>
+            </div>
+            <div class="w-full grid grid-cols-2 md:grid-cols-5 gap-3">
+              {promptLanguageOptions.map(opt => (
+                <label class="cursor-pointer group option-label">
+                  <input type="radio" name="prompt-language" value={opt.value} class="peer sr-only" />
+                  <div class="glass-panel rounded-2xl p-4 flex flex-col items-center gap-2 text-center transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:shadow-[0_0_20px_rgba(46,116,139,0.2)] hover:scale-[1.02] hover:border-primary/40 h-full">
+                    <span class="material-symbols-outlined text-primary text-xl">{opt.icon}</span>
+                    <h4 class="font-bold text-white text-sm">{opt.label}</h4>
+                    <p class="text-[10px] text-slate-500 leading-relaxed">{opt.desc}</p>
+                  </div>
+                </label>
+              ))}
+            </div>
+            <!-- Custom language input (shown when "custom" is selected) -->
+            <div id="custom-lang-input" class="hidden w-full max-w-md">
+              <input type="text" id="custom-lang-value" placeholder="Digite o idioma (ex: Árabe, Hindi, Turco...)" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all text-center" />
+            </div>
+            <div class="flex items-center gap-6 mt-4">
+              <button type="button" class="prev-btn px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-colors">Voltar</button>
+              <button type="button" class="next-btn flex items-center gap-2 px-8 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary-dark transition-colors shadow-[0_0_15px_rgba(46,116,139,0.3)]">
+                Próxima Etapa
+                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 22: LLM Selection -->
+          <div class="step hidden flex flex-col items-center gap-8" data-step="22" data-phase="4">
             <div class="text-center max-w-2xl space-y-3">
               <h2 class="font-display text-3xl lg:text-5xl font-black text-white tracking-tight">
                 Escolha o <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Modelo LLM</span> para Geração
@@ -463,8 +496,8 @@ const techDB = technologies.map(t => ({
             </div>
           </div>
 
-          <!-- STEP 22: Loading -->
-          <div class="step hidden flex flex-col items-center justify-center gap-6 py-16 text-center" data-step="22" data-phase="4">
+          <!-- STEP 23: Loading -->
+          <div class="step hidden flex flex-col items-center justify-center gap-6 py-16 text-center" data-step="23" data-phase="4">
             <div class="relative">
               <div class="size-24 rounded-full border-4 border-surface-dark border-t-primary animate-spin"></div>
               <span class="material-symbols-outlined text-primary text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse">auto_awesome</span>
@@ -478,8 +511,8 @@ const techDB = technologies.map(t => ({
             </div>
           </div>
 
-          <!-- STEP 23: Result (PRD + Prompt Base Tabs) -->
-          <div class="step hidden flex flex-col gap-6 w-full" data-step="23" data-phase="4">
+          <!-- STEP 24: Result (PRD + Prompt Base Tabs) -->
+          <div class="step hidden flex flex-col gap-6 w-full" data-step="24" data-phase="4">
             <!-- Tab Switcher -->
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div class="flex items-center gap-2">
@@ -742,7 +775,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function isLastWizardStep(step) {
-    // The last wizard question step before LLM selection (step 21)
+    // The last wizard question step before prompt language selection (step 21)
     const wizardSteps = visibleSteps.filter(s => s <= 20);
     return wizardSteps.length > 0 && wizardSteps[wizardSteps.length - 1] === step;
   }
@@ -755,7 +788,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateProgress(step) {
-    const wizardSteps = visibleSteps.filter(s => s <= 21);
+    const wizardSteps = visibleSteps.filter(s => s <= 22);
     const idx = wizardSteps.indexOf(step);
     const pct = idx >= 0 ? Math.min((idx / Math.max(wizardSteps.length - 1, 1)) * 100, 100) : 100;
     progressBar.style.width = `${pct}%`;
@@ -871,8 +904,11 @@ document.addEventListener('DOMContentLoaded', () => {
       let nextStep;
 
       if (isLastWizardStep(currentStep)) {
-        // Jump to LLM selection (step 21)
+        // Jump to prompt language selection (step 21)
         nextStep = 21;
+      } else if (currentStep === 21) {
+        // From language selection → LLM selection (step 22)
+        nextStep = 22;
       } else {
         nextStep = getNextVisibleStep(currentStep);
       }
@@ -893,11 +929,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.prev-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const prevStep = getPrevVisibleStep(currentStep);
+      let prevStep;
+      if (currentStep === 22) {
+        // LLM selection → back to prompt language
+        prevStep = 21;
+      } else if (currentStep === 21) {
+        // Prompt language → back to last wizard step
+        const wizardSteps = visibleSteps.filter(s => s <= 20);
+        prevStep = wizardSteps.length > 0 ? wizardSteps[wizardSteps.length - 1] : 20;
+      } else {
+        prevStep = getPrevVisibleStep(currentStep);
+      }
       if (prevStep) {
         currentStep = prevStep;
         showStep(currentStep);
         updateInsights();
+      }
+    });
+  });
+
+  // Prompt language: show/hide custom input
+  document.querySelectorAll('input[name="prompt-language"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      const customInput = document.getElementById('custom-lang-input');
+      if (customInput) {
+        customInput.classList.toggle('hidden', e.target.value !== 'custom');
       }
     });
   });
@@ -999,7 +1055,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Second click (or more): go straight to generation
       closeChat();
-      showStep(22);
+      showStep(23);
       triggerGeneration();
     });
   }
@@ -1022,7 +1078,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(interval);
         setTimeout(() => {
           generateOutputs();
-          showStep(23);
+          showStep(24);
           progressBar.style.width = '100%';
           showDownloadBtns(true);
         }, 500);
@@ -2670,7 +2726,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       if (shouldProceed) {
         setTimeout(() => {
           closeChat();
-          showStep(22);
+          showStep(23);
           triggerGeneration();
         }, 2000);
       }

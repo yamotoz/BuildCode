@@ -142,6 +142,81 @@ export const prerender = false;
                   </button>
                 </div>
               </div>
+
+              <!-- Language -->
+              <div>
+                <div class="flex items-center gap-1.5 mb-2">
+                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500">Idioma</label>
+                  <div class="relative group/tip">
+                    <span class="material-symbols-outlined text-slate-600 text-xs cursor-help">info</span>
+                    <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 p-2.5 rounded-lg text-[11px] text-slate-300 leading-relaxed opacity-0 invisible group-hover/tip:opacity-100 group-hover/tip:visible transition-all z-20 pointer-events-none" style="background: #1a1a1a; border: 1px solid #2A3135;">
+                      Este idioma será usado na interface do sistema. O idioma do prompt gerado é configurado separadamente no wizard.
+                      <div class="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 rotate-45" style="background: #1a1a1a; border-right: 1px solid #2A3135; border-bottom: 1px solid #2A3135;"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <button data-lang="pt" class="lang-btn py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer border flex items-center justify-center gap-2">
+                    <span class="text-base">🇧🇷</span> Português
+                  </button>
+                  <button data-lang="en" class="lang-btn py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer border flex items-center justify-center gap-2">
+                    <span class="text-base">🇺🇸</span> English
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- USAGE TAB -->
+        <!-- ══════════════════════════════════════════════ -->
+        <div class="rounded-2xl p-6 space-y-5 relative overflow-hidden" style="background: #121212; border: 1px solid #2A3135;">
+          <div class="absolute -top-20 -left-20 w-60 h-60 bg-primary/5 rounded-full blur-[80px] pointer-events-none"></div>
+          <div class="flex items-center gap-2 mb-2 relative z-10">
+            <span class="material-symbols-outlined text-primary text-lg">monitoring</span>
+            <h3 class="text-lg font-bold text-white">Uso & Consumo</h3>
+          </div>
+
+          <!-- Plan card -->
+          <div class="relative z-10 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style="background: rgba(46,116,139,0.06); border: 1px solid rgba(46,116,139,0.15);">
+            <div>
+              <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1">Plano Atual</p>
+              <div class="flex items-center gap-2">
+                <span id="usage-plan-name" class="text-xl font-bold text-white">Explorador</span>
+                <span id="usage-plan-badge" class="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">Free</span>
+              </div>
+              <p id="usage-plan-period" class="text-xs text-slate-500 mt-1"></p>
+            </div>
+            <a href="/precos" class="px-4 py-2 rounded-xl bg-primary/10 text-primary border border-primary/20 text-sm font-semibold hover:bg-primary/20 transition-all">
+              Ver Planos
+            </a>
+          </div>
+
+          <!-- Stats grid -->
+          <div class="grid grid-cols-3 gap-3 relative z-10">
+            <div class="rounded-xl p-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px solid #2A3135;">
+              <span class="material-symbols-outlined text-primary text-xl mb-1">description</span>
+              <p id="usage-prd-count" class="text-2xl font-bold text-white">0</p>
+              <p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Gerações PRD</p>
+            </div>
+            <div class="rounded-xl p-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px solid #2A3135;">
+              <span class="material-symbols-outlined text-cta text-xl mb-1">chat</span>
+              <p id="usage-chat-count" class="text-2xl font-bold text-white">0</p>
+              <p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Chats</p>
+            </div>
+            <div class="rounded-xl p-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px solid #2A3135;">
+              <span class="material-symbols-outlined text-purple-400 text-xl mb-1">volume_up</span>
+              <p id="usage-tts-count" class="text-2xl font-bold text-white">0</p>
+              <p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Áudios TTS</p>
+            </div>
+          </div>
+
+          <!-- Usage by model -->
+          <div class="relative z-10">
+            <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-3">Uso por Modelo</p>
+            <div id="usage-model-bars" class="space-y-2">
+              <p class="text-xs text-slate-600 italic">Nenhum uso registrado ainda.</p>
             </div>
           </div>
         </div>
@@ -465,6 +540,26 @@ export const prerender = false;
         <!-- PAINEL DE GESTÃO DE USUÁRIOS (Master only) -->
         <!-- ══════════════════════════════════════════════ -->
         <div id="admin-panel" class="hidden space-y-6">
+          <!-- Admin Dashboard Access -->
+          <div class="rounded-2xl p-6 relative overflow-hidden" style="background: #121212; border: 1px solid #2A3135;">
+            <div class="absolute -top-20 -right-20 w-60 h-60 bg-purple-500/5 rounded-full blur-[80px] pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center border border-purple-500/20">
+                  <span class="material-symbols-outlined text-purple-400 text-2xl">analytics</span>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-white">Dashboard Administrativo</h3>
+                  <p class="text-xs text-slate-500">MRR, Churn, ARPU, LTV, custos de API e mais</p>
+                </div>
+              </div>
+              <a href="/admin" class="px-5 py-2.5 rounded-xl bg-purple-500/15 text-purple-400 border border-purple-500/25 font-semibold text-sm hover:bg-purple-500/25 transition-all flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">open_in_new</span>
+                Abrir Dashboard
+              </a>
+            </div>
+          </div>
+
           <div class="rounded-2xl p-6 space-y-5" style="background: #121212; border: 1px solid #2A3135;">
             <div class="flex items-center justify-between mb-2">
               <div class="flex items-center gap-2">
@@ -545,8 +640,8 @@ export const prerender = false;
 </Layout>
 
 <script>
-  import { supabase, getProfile, updateProfile, uploadAvatar, signOut, updatePassword, listAllProfiles, setUserRole, deleteUserProfile, inviteUser } from '../lib/supabase';
-  import type { Profile } from '../lib/supabase';
+  import { supabase, getProfile, updateProfile, uploadAvatar, signOut, updatePassword, listAllProfiles, setUserRole, deleteUserProfile, inviteUser, getUserSubscription, getUserUsageStats } from '../lib/supabase';
+  import type { Profile, Subscription } from '../lib/supabase';
 
   const loadingEl = document.getElementById('profile-loading')!;
   const unauthEl = document.getElementById('profile-unauth')!;
@@ -642,6 +737,17 @@ export const prerender = false;
     });
 
     applyThemeToPage(profile.theme);
+
+    // Language buttons
+    const savedLang = (profile as any).preferred_language || localStorage.getItem('bc-lang') || 'pt';
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      const val = (btn as HTMLElement).dataset.lang;
+      if (val === savedLang) {
+        btn.className = 'lang-btn py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer border flex items-center justify-center gap-2 bg-primary/15 text-primary border-primary/30';
+      } else {
+        btn.className = 'lang-btn py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer border flex items-center justify-center gap-2 text-slate-500 border-border-color hover:text-white hover:bg-surface-light';
+      }
+    });
 
     // Show admin panel for master
     const adminPanel = document.getElementById('admin-panel')!;
@@ -769,8 +875,80 @@ export const prerender = false;
     renderProfile(profile, currentUserEmail);
     initAgentSelection();
     initLlmSelection();
+    loadUsageData();
     loadingEl.classList.add('hidden');
     contentEl.classList.remove('hidden');
+  }
+
+  async function loadUsageData() {
+    try {
+      // Load subscription
+      const sub = await getUserSubscription(currentUserId);
+      const planNames: Record<string, string> = { explorador: 'Explorador', consultor: 'Consultor', arquiteto: 'Arquiteto' };
+      const planColors: Record<string, { bg: string; text: string; border: string; label: string }> = {
+        explorador: { bg: 'bg-emerald-500/15', text: 'text-emerald-400', border: 'border-emerald-500/20', label: 'Free' },
+        consultor: { bg: 'bg-primary/15', text: 'text-primary', border: 'border-primary/20', label: 'Pro' },
+        arquiteto: { bg: 'bg-cta/15', text: 'text-cta', border: 'border-cta/20', label: 'Elite' },
+      };
+      const plan = sub?.plan || 'explorador';
+      const pc = planColors[plan] || planColors.explorador;
+      const nameEl = document.getElementById('usage-plan-name');
+      const badgeEl = document.getElementById('usage-plan-badge');
+      const periodEl = document.getElementById('usage-plan-period');
+      if (nameEl) nameEl.textContent = planNames[plan] || 'Explorador';
+      if (badgeEl) {
+        badgeEl.textContent = pc.label;
+        badgeEl.className = `text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${pc.bg} ${pc.text} border ${pc.border}`;
+      }
+      if (periodEl && sub?.current_period_end) {
+        const end = new Date(sub.current_period_end);
+        periodEl.textContent = `Válido até ${end.toLocaleDateString('pt-BR')}`;
+      }
+
+      // Load usage stats
+      const logs = await getUserUsageStats(currentUserId);
+      const prdCount = logs.filter(l => l.action === 'prd_generation').length;
+      const chatCount = logs.filter(l => l.action === 'chat_message').length;
+      const ttsCount = logs.filter(l => l.action === 'tts_audio').length;
+
+      const prdEl = document.getElementById('usage-prd-count');
+      const chatEl = document.getElementById('usage-chat-count');
+      const ttsEl = document.getElementById('usage-tts-count');
+      if (prdEl) prdEl.textContent = String(prdCount);
+      if (chatEl) chatEl.textContent = String(chatCount);
+      if (ttsEl) ttsEl.textContent = String(ttsCount);
+
+      // Usage by model
+      const modelMap: Record<string, number> = {};
+      logs.forEach(l => {
+        if (l.llm_model) {
+          modelMap[l.llm_model] = (modelMap[l.llm_model] || 0) + 1;
+        }
+      });
+
+      const barsEl = document.getElementById('usage-model-bars');
+      if (barsEl) {
+        const entries = Object.entries(modelMap).sort((a, b) => b[1] - a[1]);
+        if (entries.length === 0) {
+          barsEl.innerHTML = '<p class="text-xs text-slate-600 italic">Nenhum uso registrado ainda.</p>';
+        } else {
+          const max = entries[0][1];
+          barsEl.innerHTML = entries.map(([model, count]) => {
+            const pct = Math.round((count / max) * 100);
+            const shortName = model.split('/').pop()?.replace(':free', '') || model;
+            return `<div class="flex items-center gap-3">
+              <span class="text-xs text-slate-400 w-28 truncate shrink-0">${shortName}</span>
+              <div class="flex-1 h-2 rounded-full bg-white/5 overflow-hidden">
+                <div class="h-full rounded-full bg-primary transition-all" style="width: ${pct}%"></div>
+              </div>
+              <span class="text-xs text-slate-500 w-8 text-right">${count}</span>
+            </div>`;
+          }).join('');
+        }
+      }
+    } catch {
+      // Tables may not exist yet — fail silently
+    }
   }
 
   init();
@@ -814,6 +992,20 @@ export const prerender = false;
         currentProfile.theme = val;
         renderProfile(currentProfile, currentUserEmail);
       }
+      showFeedback();
+    });
+  });
+
+  // Language
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const val = (btn as HTMLElement).dataset.lang!;
+      await updateProfile(currentUserId, { preferred_language: val } as Partial<Profile>);
+      localStorage.setItem('bc-lang', val);
+      if (currentProfile) (currentProfile as any).preferred_language = val;
+      // Apply i18n if available
+      if ((window as any).bcSetLang) (window as any).bcSetLang(val);
+      renderProfile(currentProfile!, currentUserEmail);
       showFeedback();
     });
   });

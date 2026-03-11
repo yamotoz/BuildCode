@@ -1,0 +1,276 @@
+---
+export const prerender = false;
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+---
+
+<Layout title="BuildCode | Preços">
+  <Header />
+
+  <main class="bg-background-dark min-h-screen">
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 px-4 sm:px-6 lg:px-24 text-center max-w-5xl mx-auto">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-6">
+        Arquitete seu <span class="text-primary">Futuro</span>
+      </h1>
+      <p class="text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-12">
+        Software de precisão para o arquiteto técnico moderno. Escolha o plano que escala com sua ambição.
+      </p>
+
+      <!-- Billing Toggle -->
+      <div class="inline-flex items-center gap-3 rounded-full border border-border-color bg-surface-dark p-1.5">
+        <label class="cursor-pointer">
+          <input type="radio" name="billing-cycle" value="monthly" checked class="sr-only peer" />
+          <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-slate-400 transition-all">
+            Mensal
+          </span>
+        </label>
+        <label class="cursor-pointer">
+          <input type="radio" name="billing-cycle" value="yearly" class="sr-only peer" />
+          <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-slate-400 transition-all">
+            Anual <span class="text-xs opacity-80">(-20%)</span>
+          </span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Pricing Cards -->
+    <section class="px-4 sm:px-6 lg:px-24 pb-24 max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-start">
+
+        <!-- Card 1: Explorador (Free) -->
+        <div class="glass-panel rounded-2xl p-8 flex flex-col h-full">
+          <h3 class="text-xl font-bold text-white mb-1">Explorador</h3>
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">Free</p>
+          <div class="mb-4">
+            <span class="text-4xl font-bold text-white" data-price-monthly="R$ 0" data-price-yearly="R$ 0">R$ 0</span>
+            <span class="text-slate-500 text-sm">/mês</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-8">
+            Perfeito para entusiastas e desenvolvedores individuais começando sua jornada.
+          </p>
+          <a href="/app" class="block text-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all mb-8">
+            Começar Grátis
+          </a>
+          <ul class="space-y-4 mt-auto">
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
+              <span class="text-slate-300 text-sm">1 Projeto Ativo</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
+              <span class="text-slate-300 text-sm">Ferramentas Básicas de Arquitetura</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
+              <span class="text-slate-300 text-sm">Compartilhamento Público</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
+              <span class="text-slate-300 text-sm">Suporte da Comunidade</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 2: Consultor (Pro) — Highlighted -->
+        <div class="relative rounded-2xl p-8 flex flex-col h-full border-2 border-primary/40 bg-surface-dark" style="box-shadow: 0 0 40px rgba(46,116,139,0.15), 0 0 80px rgba(46,116,139,0.05);">
+          <h3 class="text-xl font-bold text-white mb-1">Consultor</h3>
+          <p class="text-xs font-semibold text-primary uppercase tracking-widest mb-4">Pro</p>
+          <div class="mb-4">
+            <span class="text-4xl font-bold text-white" data-price-monthly="R$ 35" data-price-yearly="R$ 28">R$ 35</span>
+            <span class="text-slate-500 text-sm">/mês</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-8">
+            Recursos essenciais para desenvolvedores em crescimento e consultores freelance.
+          </p>
+          <a href="/app" class="block text-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-background-dark hover:bg-secondary transition-all shadow-[0_0_20px_rgba(46,116,139,0.3)] mb-8">
+            Upgrade para Pro
+          </a>
+          <ul class="space-y-4 mt-auto">
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
+              <span class="text-slate-300 text-sm">Projetos Ilimitados</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
+              <span class="text-slate-300 text-sm">Biblioteca Avançada de Componentes</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
+              <span class="text-slate-300 text-sm">Sincronização em Nuvem Privada</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
+              <span class="text-slate-300 text-sm">Exportação Multi-Formato</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
+              <span class="text-slate-300 text-sm">Suporte Prioritário por E-mail</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 3: Arquiteto (Elite) -->
+        <div class="relative rounded-2xl p-8 flex flex-col h-full bg-surface-dark border border-cta/20" style="box-shadow: 0 0 40px rgba(242,171,109,0.08);">
+          <!-- Elite badge -->
+          <div class="absolute top-4 right-4 bg-cta/10 border border-cta/30 text-cta text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+            Elite Choice
+          </div>
+          <h3 class="text-xl font-bold text-white mb-1">Arquiteto</h3>
+          <p class="text-xs font-semibold text-cta uppercase tracking-widest mb-4">Elite</p>
+          <div class="mb-4">
+            <span class="text-4xl font-bold text-white" data-price-monthly="R$ 50" data-price-yearly="R$ 40">R$ 50</span>
+            <span class="text-slate-500 text-sm">/mês</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-8">
+            O kit definitivo para arquitetos líderes e sistemas de nível enterprise.
+          </p>
+          <a href="/app" class="block text-center rounded-full px-6 py-3 text-sm font-bold text-background-dark transition-all shadow-[0_0_20px_rgba(242,171,109,0.25)] mb-8" style="background: linear-gradient(135deg, #F2AB6D, #D4894A);">
+            Começar Agora
+          </a>
+          <ul class="space-y-4 mt-auto">
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">stars</span>
+              <span class="text-slate-300 text-sm">Tudo do Consultor</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">psychology</span>
+              <span class="text-slate-300 text-sm">Assistente de Arquitetura IA</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">palette</span>
+              <span class="text-slate-300 text-sm">Design Systems Customizados</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">hub</span>
+              <span class="text-slate-300 text-sm">Colaboração em Tempo Real</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">support_agent</span>
+              <span class="text-slate-300 text-sm">Suporte Concierge 24/7</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">science</span>
+              <span class="text-slate-300 text-sm">Acesso Antecipado a Beta</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Bento Grid: Por que BuildCode? -->
+    <section class="px-4 sm:px-6 lg:px-24 pb-24 max-w-6xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl font-display font-bold text-white text-center mb-12">
+        Por que <span class="text-primary">BuildCode</span>?
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[180px]">
+        <!-- Big card: 2 cols, 2 rows -->
+        <div class="glass-panel rounded-2xl p-8 flex flex-col justify-end sm:col-span-2 sm:row-span-2">
+          <span class="material-symbols-outlined text-primary text-4xl mb-4">dynamic_feed</span>
+          <h3 class="text-xl font-bold text-white mb-2">Precisão Sistêmica</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Arquiteturas modeladas com teoria dos grafos e padrões comprovados. Cada conexão, cada dependência é mapeada com precisão matemática para garantir integridade estrutural do seu sistema.
+          </p>
+        </div>
+        <!-- Speed -->
+        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end">
+          <span class="material-symbols-outlined text-primary text-3xl mb-3">speed</span>
+          <h3 class="text-base font-bold text-white mb-1">Workflow Relâmpago</h3>
+          <p class="text-slate-500 text-xs leading-relaxed">Prototipe e valide arquiteturas em minutos, não semanas.</p>
+        </div>
+        <!-- Security -->
+        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end">
+          <span class="material-symbols-outlined text-primary text-3xl mb-3">security</span>
+          <h3 class="text-base font-bold text-white mb-1">Seguro & Protegido</h3>
+          <p class="text-slate-500 text-xs leading-relaxed">Criptografia de ponta a ponta em todos os seus projetos.</p>
+        </div>
+        <!-- AI Ready -->
+        <div class="rounded-2xl p-6 flex flex-col justify-end bg-surface-dark border border-border-color col-span-1 sm:col-span-2 lg:col-span-2">
+          <span class="material-symbols-outlined text-primary text-3xl mb-3">auto_awesome</span>
+          <h3 class="text-base font-bold text-white mb-1">Pronto para IA</h3>
+          <p class="text-slate-500 text-xs leading-relaxed">Inteligência artificial integrada que sugere padrões, detecta anti-patterns e otimiza sua arquitetura automaticamente.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="px-4 sm:px-6 lg:px-24 pb-24 max-w-3xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl font-display font-bold text-white text-center mb-12">
+        Perguntas Frequentes
+      </h2>
+      <div class="space-y-4">
+        <details class="group glass-panel rounded-xl">
+          <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-white font-semibold text-sm list-none">
+            Posso trocar de plano depois?
+            <span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed">
+            Sim, você pode fazer upgrade ou downgrade a qualquer momento. A cobrança é ajustada proporcionalmente no próximo ciclo de faturamento.
+          </div>
+        </details>
+        <details class="group glass-panel rounded-xl">
+          <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-white font-semibold text-sm list-none">
+            Vocês oferecem desconto educacional?
+            <span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed">
+            Sim, oferecemos 50% de desconto no plano Consultor para estudantes e educadores com e-mail institucional válido (.edu ou equivalente).
+          </div>
+        </details>
+        <details class="group glass-panel rounded-xl">
+          <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-white font-semibold text-sm list-none">
+            Meus dados são criptografados?
+            <span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed">
+            Absolutamente. Utilizamos criptografia AES-256 para dados em repouso e TLS 1.3 para dados em trânsito, garantindo segurança de nível enterprise.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-border-color px-4 sm:px-6 lg:px-24 py-10">
+      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <img src="/logo_backofff.png" alt="BuildCode" class="h-7 w-auto object-contain" />
+          <span class="font-display font-bold text-white text-lg">BuildCode</span>
+        </div>
+        <div class="flex items-center gap-6 text-sm text-slate-500">
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Twitter</a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <a href="#" class="hover:text-primary transition-colors">Privacidade</a>
+          <a href="#" class="hover:text-primary transition-colors">Termos</a>
+        </div>
+        <p class="text-xs text-slate-600">&copy; 2024 BuildCode. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+  </main>
+</Layout>
+
+<script>
+  // Billing toggle: switch prices between monthly and yearly
+  document.addEventListener('DOMContentLoaded', () => {
+    const radios = document.querySelectorAll<HTMLInputElement>('input[name="billing-cycle"]');
+    const priceEls = document.querySelectorAll<HTMLElement>('[data-price-monthly]');
+
+    radios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        const isYearly = radio.value === 'yearly';
+        priceEls.forEach(el => {
+          el.textContent = isYearly
+            ? el.dataset.priceYearly!
+            : el.dataset.priceMonthly!;
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Remove default marker from details/summary */
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

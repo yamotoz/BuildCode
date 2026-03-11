@@ -1,7 +1,7 @@
 # BuildCode — Guia Completo para Agentes de IA
 # aqui é seu diario pessoal ia, o seu diario de bordo do projeto.
 > **Leia este documento INTEIRO antes de fazer qualquer alteracao.**
-> Ultima atualizacao: 2026-03-07
+> Ultima atualizacao: 2026-03-11
 
 ---
 
@@ -14,7 +14,7 @@
 
 **Publico:** Desenvolvedores Junior/Pleno, estudantes, agencias, devs solo.
 
-**Modelo de negocio:** Freemium (3 geracoes gratis, assinatura ~R$15/mes via Stripe).
+**Modelo de negocio:** Freemium com 3 planos — Explorador (gratis), Consultor (R$35/mes), Arquiteto (R$50/mes).
 
 ---
 
@@ -29,8 +29,9 @@
 | **Animacoes** | Framer Motion + Three.js | Framer Motion para transicoes React. Three.js para particulas 3D no `/app`. |
 | **Icones** | Lucide React + Material Symbols + SVGs locais | Lucide React nos componentes React. Material Symbols via CDN. Logos em `public/icons/`. |
 | **Backend** | Supabase | Auth + PostgreSQL + Storage + RLS. Totalmente integrado. |
-| **API Routes** | Astro Server Endpoints | `/api/github.ts`, `/api/chat.ts`, `/api/invite-user`, `/api/skills-search.ts` |
-| **Chat IA** | OpenAI gpt-4o-mini (via OpenRouter) | Chat flutuante com personalidade de agente mentor |
+| **API Routes** | Astro Server Endpoints | `/api/github.ts`, `/api/chat.ts`, `/api/tts.ts`, `/api/invite-user`, `/api/skills-search.ts` |
+| **Chat IA** | OpenAI gpt-4o-mini | Chat flutuante com personalidade de agente mentor. PROIBIDO gerar codigo. |
+| **TTS** | OpenAI tts-1 | Audio de respostas longas (>780 chars) com vozes unicas por agente |
 | **Deploy** | Node adapter | `@astrojs/node` para SSR standalone. |
 
 ---
@@ -40,10 +41,11 @@
 ```
 src/
 ├── components/
-│   ├── Header.astro              # Nav da landing (Problema, Criador, Analytics, Biblioteca)
+│   ├── Header.astro              # Nav da landing (Criador, Precos, Analytics, Biblioteca)
 │   ├── Footer.astro              # Rodape
 │   └── analytics/                # Componentes React do Analytics Dashboard
-│       ├── AnalyticsDashboard.tsx
+│       ├── AnalyticsDashboard.tsx  # Dashboard de comparacao de stacks
+│       ├── AdminDashboard.tsx     # Dashboard SaaS admin (MRR, Churn, ARPU, LTV, burn rate)
 │       ├── MetricCard.tsx
 │       ├── StarsChart.tsx
 │       ├── RadarChart.tsx
@@ -64,7 +66,9 @@ src/
 ├── pages/
 │   ├── index.astro               # Landing page
 │   ├── app.astro                 # Questionario de 20 etapas + chat IA + geracao PRD/Prompt
-│   ├── perfil.astro              # Perfil do usuario (dados, preferencias, agente, modelo LLM, senha, admin)
+│   ├── perfil.astro              # Perfil (dados, prefs, idioma, agente, LLM, uso, senha, admin)
+│   ├── precos.astro              # Pagina de precos (3 planos, toggle mensal/anual, FAQ)
+│   ├── admin.astro               # Dashboard admin (React island, acesso master/admin only)
 │   ├── analytics.astro           # Dashboard de comparacao de stacks (React island)
 │   ├── biblioteca.astro          # Biblioteca de tecnologias (grid + detalhe lateral)
 │   ├── login.astro               # Tela de login (Supabase Auth funcional)
@@ -72,7 +76,8 @@ src/
 │   ├── termos.astro
 │   └── api/
 │       ├── github.ts             # Proxy seguro para GitHub API
-│       ├── chat.ts               # Proxy para OpenAI/OpenRouter com personalidade de agente
+│       ├── chat.ts               # Proxy para OpenAI com personalidade de agente (PROIBIDO gerar codigo)
+│       ├── tts.ts                # Text-to-Speech OpenAI tts-1 (vozes por agente)
 │       ├── invite-user.ts        # Convite de usuario (server-side, service role key)
 │       └── skills-search.ts      # Busca de skills/referencias tecnicas
 ├── styles/
@@ -94,7 +99,7 @@ supabase/
 - Token JWT disponivel via `supabase.auth.getSession()`
 
 ### Perfil (`profiles` table)
-Campos: `id`, `full_name`, `avatar_url`, `seniority` (junior/pleno/senior), `theme` (dark/light), `role` (master/admin/user), `agent` (theboss/azrael/rizler/anastasia), `llm_model` (modelo OpenRouter), `created_at`, `updated_at`
+Campos: `id`, `full_name`, `avatar_url`, `seniority` (junior/pleno/senior), `theme` (dark/light), `role` (master/admin/user), `agent` (theboss/azrael/rizler/anastasia), `llm_model` (modelo OpenRouter), `preferred_language` (pt/en), `created_at`, `updated_at`
 
 ### RLS (Row Level Security)
 - Usuarios veem/editam apenas seu proprio perfil
@@ -139,7 +144,9 @@ OPENAI_API_KEY="sk-..."               # Para o chat proxy
 - **`src/data/agents.ts`** — Interface `Agent` com id, name, title, image, icon, color, quote, description, tips, systemPrompt
 - **Perfil (`/perfil`)** — Cards estilo champion-select do LoL com hover effects e loading screen animada
 - **Chat widget (`/app`)** — Avatar, nome e greeting dinamicos baseados no agente selecionado
-- **API chat (`/api/chat.ts`)** — Combina systemPrompt do agente + regras base, temperature 0.8
+- **API chat (`/api/chat.ts`)** — Combina systemPrompt do agente + regras base, temperature 0.85, max_tokens 400
+- **API TTS (`/api/tts.ts`)** — Vozes unicas por agente: theboss=onyx, azrael=echo, rizler=fable, anastasia=nova
+- **REGRA CRITICA: Agentes NUNCA geram codigo.** Sao mentores — explicam conceitos, dao direcao, tiram duvidas.
 - **Persistencia** — `localStorage('bc-agent')` + coluna `agent` no Supabase profiles
 
 ### Imagens
@@ -164,7 +171,11 @@ O usuario escolhe qual LLM alimenta o chat do agente mentor. 9 modelos disponive
 - **Persistencia:** `localStorage('bc-llm-model')` + coluna `llm_model` no Supabase profiles
 - **Busca:** Campo de pesquisa filtra por nome, provider ou tier
 
-### No Wizard (Step 21 — Modelo para Geracao)
+### No Wizard (Step 21 — Idioma do Prompt)
+9 idiomas pre-definidos (PT-BR, EN, ES, FR, DE, IT, JA, KO, ZH) + opcao "Outro" com input custom.
+Seleciona em qual idioma o PRD e Prompt Base serao escritos.
+
+### No Wizard (Step 22 — Modelo para Geracao)
 Modelo separado selecionado no questionario para gerar o PRD e Prompt Base via OpenRouter.
 
 ---
@@ -179,7 +190,7 @@ Modelo separado selecionado no questionario para gerar o PRD e Prompt Base via O
 | 1. Contexto | Q1-Q5 | Descricao do projeto, senioridade, escala, tipo, ferramenta |
 | 2. Stack Tecnica | Q6-Q12 | Frontend, backend, MCPs, banco, skills, infra, persistencia |
 | 3. Qualidade | Q13-Q20 | Auth, seguranca, realtime, codestyle, erros, i18n, integracoes, SEO, testes |
-| 4. Resultado | Steps 21-23 | Selecao LLM -> Loading -> Resultado (PRD + Prompt Base) |
+| 4. Resultado | Steps 21-24 | Idioma do Prompt -> Selecao LLM -> Loading -> Resultado (PRD + Prompt Base) |
 
 ### Visibilidade Dinamica de Steps
 - Steps tem `visibleFor` (filtra por tipo de projeto: hobby/saas/enterprise)
@@ -217,7 +228,7 @@ Dashboard React de comparacao de stacks via GitHub API:
 
 ## 9. SISTEMA i18n (PT-BR <-> EN)
 
-- **`src/data/i18n.ts`** — 200+ chaves com `{ pt: "...", en: "..." }`
+- **`src/data/i18n.ts`** — 220+ chaves com `{ pt: "...", en: "..." }`
 - **`Layout.astro`** — Script global aplica traducoes via `[data-i18n]`
 - **localStorage:** chave `bc-lang`, padrao `'pt'`
 - **API:** `window.bcGetLang()`, `window.bcSetLang(lang)`, `window.bcApplyTranslations(lang)`
@@ -247,7 +258,7 @@ border-color:    #2A3135    -> border-border-color
 - **Monospace:** `font-mono` para outputs de codigo
 
 ### Padroes de UI
-- **Dark Mode SEMPRE.**
+- **Dark Mode por padrao.** Light Mode disponivel (toggle no perfil, persiste via localStorage + Supabase).
 - **Glass panels:** `glass-panel` para cards flutuantes com backdrop-blur
 - **Transicoes:** `transition-all duration-300` em interacoes
 - **Sombras glow:** `shadow-[0_0_20px_rgba(46,116,139,0.2)]` para elementos ativos
@@ -265,8 +276,14 @@ Contem TUDO necessario para o funcionamento do backend:
 4. Triggers: criacao automatica de perfil, updated_at
 5. Politicas RLS: profiles e projects
 6. Storage: bucket avatars + politicas
-7. Migracoes (comentadas, para bancos existentes)
-8. Reload schema
+7. **Tabelas SaaS:** `subscriptions` (planos), `usage_logs` (consumo), `api_costs` (custos API)
+8. Migracoes (comentadas, para bancos existentes)
+9. Reload schema
+
+### Tabelas SaaS (v2.3)
+- **subscriptions** — Plano do usuario (explorador/consultor/arquiteto), ciclo (monthly/yearly), status, periodo
+- **usage_logs** — Cada acao (prd_generation, chat_message, tts_audio, analytics_compare) com modelo, tokens, custo
+- **api_costs** — Custos agregados por dia/provider/modelo para dashboard admin
 
 ### Trigger de novo usuario
 Ao registrar no Auth, `handle_new_user()` cria automaticamente o perfil com:
@@ -297,10 +314,20 @@ Ao registrar no Auth, `handle_new_user()` cria automaticamente o perfil com:
 - [x] Sistema i18n completo (PT-BR <-> EN) com 200+ chaves
 - [x] Responsive design (breakpoints otimizados)
 - [x] GitHub analytics comparison API
+- [x] TTS audio nas respostas do agente (vozes unicas por agente, >780 chars)
+- [x] Agentes humanizados com regra anti-codigo (mentores only)
+- [x] Pagina de precos com 3 planos (Explorador/Consultor/Arquiteto), toggle mensal/anual, FAQ
+- [x] Seletor de idioma persistente no perfil (PT/EN) com tooltip informativo
+- [x] Selecao de idioma do prompt no wizard (9 idiomas + custom)
+- [x] Aba de Uso no perfil (plano atual, creditos, grafico por modelo)
+- [x] Dashboard administrativo (MRR, Churn, ARPU, LTV, burn rate, graficos Recharts)
+- [x] Tema claro/escuro funcional em todo o site (localStorage + Supabase persist)
+- [x] Tabelas SaaS no banco (subscriptions, usage_logs, api_costs)
+- [x] Badges "nao recomendado" para opcoes inadequadas ao tipo de projeto
 
 ## 13. FUNCIONALIDADES PENDENTES / ROADMAP
 
-- [ ] Sistema de pagamento (Stripe — 3 gratis, assinatura)
+- [ ] Integracao Stripe para pagamento dos planos
 - [ ] Persistencia de respostas (salvar progresso do questionario como projeto)
 - [ ] Historico de geracoes por usuario (tabela projects funcional, UI pendente)
 - [ ] Integracao real com OpenRouter para geracao de PRD/Prompt via LLM
@@ -338,3 +365,6 @@ npm run preview    # Preview do build
 14. **Agente e LLM do perfil** sao para o chat mentor, nao para geracao de PRD/Prompt.
 15. **SQL do banco** esta em `supabase/dataall.sql`. Arquivo unico com tudo.
 16. **Restart do dev server** apos alterar `.env` — Astro/Vite nao faz hot-reload de env vars.
+17. **Nav da landing:** Criador | Precos | Analytics | Biblioteca (nesta ordem).
+18. **Planos:** Explorador (gratis), Consultor (R$35/mes), Arquiteto (R$50/mes, elite).
+19. **Dashboard admin** (`/admin`) — Acesso apenas master/admin. Usa React island com Recharts.

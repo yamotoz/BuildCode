@@ -12,8 +12,8 @@ export const translations: Record<string, Record<string, string>> = {
   // ══════════════════════════════════
   //  HEADER / NAV
   // ══════════════════════════════════
-  "nav.problema": { pt: "Problema", en: "Problem" },
   "nav.criador": { pt: "Criador", en: "Creator" },
+  "nav.precos": { pt: "Preços", en: "Pricing" },
   "nav.analytics": { pt: "Analytics", en: "Analytics" },
   "nav.biblioteca": { pt: "Biblioteca", en: "Library" },
   "nav.login": { pt: "Login", en: "Login" },
@@ -162,6 +162,15 @@ export const translations: Record<string, Record<string, string>> = {
   "perfil.tema.claro": { pt: "Claro", en: "Light" },
   "perfil.sair": { pt: "Sair", en: "Sign Out" },
   "perfil.salvo": { pt: "Salvo com sucesso!", en: "Saved successfully!" },
+  "perfil.idioma": { pt: "Idioma", en: "Language" },
+  "perfil.idioma.tooltip": { pt: "Este idioma será usado na interface do sistema. O idioma do prompt gerado é configurado separadamente no wizard.", en: "This language will be used for the system interface. The generated prompt language is configured separately in the wizard." },
+  "perfil.uso": { pt: "Uso", en: "Usage" },
+  "perfil.uso.plano": { pt: "Plano Atual", en: "Current Plan" },
+  "perfil.uso.creditos": { pt: "Créditos Utilizados", en: "Credits Used" },
+  "perfil.uso.geracoes": { pt: "Gerações PRD", en: "PRD Generations" },
+  "perfil.uso.chats": { pt: "Mensagens de Chat", en: "Chat Messages" },
+  "perfil.uso.audios": { pt: "Áudios TTS", en: "TTS Audio" },
+  "perfil.uso.grafico": { pt: "Uso por Modelo", en: "Usage by Model" },
 
   // ══════════════════════════════════
   //  BIBLIOTECA

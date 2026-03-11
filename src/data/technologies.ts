@@ -11,6 +11,7 @@ export interface Technology {
     role: string;
     logo: string;
     website: string;
+    tags?: string[];
 }
 
 // Helper: Local icons (downloaded SVGs for maximum performance)
@@ -37,6 +38,27 @@ export const technologies: Technology[] = [
     { "name": "Prisma", "category": "data", "tagline": "TypeScript ORM", "description": "ORM moderno NodeJS e TypeScript de extrema fluência para lidar com bases relacionais (e Mongo).", "language": "TypeScript", "pros": ["Typescript puro! Se o tipo quebrar, não roda (Zero-bug inference).", "Prisma Studio incrível."], "cons": ["Performance não nativa para queries imensas / analíticas avançadas.", "Sem suporte nativo para DBs Edges sem drivers remotos."], "useCases": "CRUD rápido com type safety absoluto.", "typeIcon": "data_object", "role": "Modern ORM", "logo": si("prisma"), "website": "https://www.prisma.io" },
     { "name": "VS Code", "category": "devex", "tagline": "Editor Default", "description": "A IDE open-source baseada em Chromium mais usada no planeta.", "language": "TypeScript", "pros": ["Incontáveis extensões para qualquer linguagem de programação e utilitário.", "Extremamente customizável."], "cons": ["Baseado em Electron (come RAM com dezenas de tabs e lógicas em loop)."], "useCases": "Basicamente 85% do mercado global o utiliza diariamente.", "typeIcon": "code", "role": "Market Leader", "logo": si("visualstudiocode"), "website": "https://code.visualstudio.com" },
     { "name": "Cursor", "category": "devex", "tagline": "AI Native Editor", "description": "Um fork imensamente melhorado do VSCode, construído com foco intrínseco em Inteligência Artificial para gerar arquiteturas em cliques.", "language": "Agnostic", "pros": ["Geração de código surreal analisando seu ambiente inteiro.", "Ferramentas avançadas do Copilot já prontas na interface."], "cons": ["Custo da API ou da mensalidade da Pro.", "Ainda baseado no ecossistema (fork) mantido externamente do mainstream."], "useCases": "Maior throughput (velocity) em times ou indies.", "typeIcon": "smart_toy", "role": "Future IDE", "logo": si("cursor"), "website": "https://cursor.com" },
+
+    // ══════════════════════════════
+    //  IA GENERATIVA & LLMs
+    // ══════════════════════════════
+    { "name": "Venice AI", "category": "ai", "tagline": "Uncensored AI", "description": "Plataforma de IA generativa sem censura com foco em privacidade total — sem logs, sem filtros, sem restrições de conteúdo.", "language": "Multi-Model", "pros": ["Privacidade absoluta — zero data retention.", "Modelos sem censura para criação livre.", "Interface limpa e responsiva."], "cons": ["Qualidade varia entre modelos disponíveis.", "Menos integrações corporativas que concorrentes."], "useCases": "Geração de conteúdo criativo sem restrições e brainstorming livre.", "typeIcon": "lock_open", "role": "Privacy First", "logo": si("openai"), "website": "https://venice.ai/chat", "tags": ["IA sem Censura"] },
+    { "name": "Arena AI", "category": "ai", "tagline": "LLM Leaderboard", "description": "Plataforma de ranking e comparação das melhores LLMs do mercado em tempo real — vote, compare e descubra qual modelo lidera.", "language": "Benchmarks", "pros": ["Rankings atualizados pela comunidade em tempo real.", "Comparação side-by-side entre modelos.", "Dados transparentes e open-source."], "cons": ["Focado em benchmarks — não é uma ferramenta de uso direto.", "Rankings podem variar por tipo de tarefa."], "useCases": "Escolher a melhor LLM para seu caso de uso antes de integrar.", "typeIcon": "leaderboard", "role": "AI Compass", "logo": si("openai"), "website": "https://arena.ai/leaderboard/code" },
+    { "name": "Chat Z.AI", "category": "ai", "tagline": "Open-Source AI", "description": "Acesso direto ao GLM e outros modelos open-source de IA generativa para chat, código e análise.", "language": "GLM Models", "pros": ["Modelos open-source de alta qualidade.", "Gratuito para uso básico.", "Sem vendor lock-in."], "cons": ["Menos polish que ChatGPT/Claude.", "Velocidade pode variar sob demanda alta."], "useCases": "Desenvolvimento e testes com modelos open-source sem custos.", "typeIcon": "smart_toy", "role": "Open Source", "logo": si("openai"), "website": "https://chat.z.ai/" },
+
+    // ══════════════════════════════
+    //  DESIGN & INSPIRAÇÃO
+    // ══════════════════════════════
+    { "name": "Spline", "category": "design", "tagline": "3D Design Tool", "description": "Ferramenta de design 3D colaborativa no navegador — crie cenas, animações e experiências interativas sem instalar nada.", "language": "WebGL/3D", "pros": ["Interface intuitiva drag-and-drop para 3D.", "Exporta para React, iframes e vídeo.", "Colaboração em tempo real no browser."], "cons": ["Performance pode cair com cenas muito complexas.", "Plano gratuito limitado em exportações."], "useCases": "Landing pages 3D, elementos interativos para web e protótipos visuais.", "typeIcon": "view_in_ar", "role": "3D Pioneer", "logo": si("threedotjs"), "website": "https://spline.design/" },
+    { "name": "Freepik", "category": "design", "tagline": "Assets & Vetores", "description": "Maior acervo gratuito de vetores, fotos, PSD, ícones e mockups para designers e desenvolvedores.", "language": "Recursos", "pros": ["Milhões de assets gratuitos de alta qualidade.", "IA generativa integrada para criação rápida.", "Filtros avançados por estilo e formato."], "cons": ["Atribuição obrigatória no plano free.", "Muitos assets premium requerem assinatura."], "useCases": "Prototipação rápida, criação de mockups e assets para UI.", "typeIcon": "image", "role": "Asset Library", "logo": si("figma"), "website": "https://br.freepik.com/" },
+    { "name": "Behance", "category": "design", "tagline": "Portfolio Showcase", "description": "Plataforma da Adobe para descoberta e showcase de trabalhos criativos — UI, branding, ilustração e mais.", "language": "Portfólio", "pros": ["Comunidade global de designers profissionais.", "Integração com Adobe Creative Cloud.", "Curadoria de projetos de altíssima qualidade."], "cons": ["Difícil se destacar em meio a milhões de projetos.", "Focado em showcase, não em colaboração ativa."], "useCases": "Buscar inspiração de UI/UX, referências visuais e tendências de design.", "typeIcon": "brush", "role": "Creative Hub", "logo": si("figma"), "website": "https://www.behance.net/" },
+
+    // ══════════════════════════════
+    //  MCP SERVERS
+    // ══════════════════════════════
+    { "name": "Smithery", "category": "mcp", "tagline": "MCP Hub", "description": "Marketplace e buscador de MCP Servers — encontre, instale e configure MCPs com base na sua necessidade sem esforço.", "language": "MCP Protocol", "pros": ["Catálogo centralizado de centenas de MCPs.", "Busca inteligente por caso de uso.", "Instalação simplificada com um clique."], "cons": ["Ainda em crescimento — nem todos os MCPs estão listados.", "Qualidade varia entre MCPs da comunidade."], "useCases": "Descobrir e instalar MCPs para expandir capacidades de agentes de IA.", "typeIcon": "hub", "role": "MCP Marketplace", "logo": si("anthropic"), "website": "https://smithery.ai/" },
+    { "name": "TestSprite", "category": "mcp", "tagline": "Security Testing MCP", "description": "MCP Server focado em testes de segurança automatizados — integre análise de vulnerabilidades diretamente no seu agente de IA.", "language": "Security", "pros": ["Testes de segurança automatizados via MCP.", "Integração direta com IDEs e agentes.", "Relatórios detalhados de vulnerabilidades."], "cons": ["Focado em segurança — escopo limitado.", "Requer configuração inicial do ambiente."], "useCases": "Análise de segurança automatizada durante o desenvolvimento com IA.", "typeIcon": "shield", "role": "Security Guard", "logo": si("anthropic"), "website": "https://www.testsprite.com/" },
+    { "name": "Context7", "category": "mcp", "tagline": "Context MCP", "description": "MCP Server da Upstash que fornece documentação atualizada de bibliotecas e frameworks diretamente para seu agente de IA.", "language": "Docs Engine", "pros": ["Docs sempre atualizadas em tempo real.", "Elimina alucinações de versões antigas.", "Open-source e fácil de instalar."], "cons": ["Cobertura depende das libs indexadas.", "Requer Node.js/npx para rodar."], "useCases": "Garantir que o agente de IA use a documentação mais recente de qualquer lib.", "typeIcon": "menu_book", "role": "Docs Provider", "logo": si("upstash"), "website": "https://github.com/upstash/context7" },
 ];
 
 // --- Logos mapeados para techs secundárias ---
@@ -107,6 +129,29 @@ const logoMap: Record<string, string> = {
     "Trello": si("trello"), "Obsidian": si("obsidian"),
     "V0.dev": si("vercel"), "Replit": si("replit"),
     "Stencil": si("stencil"),
+    // AI & LLMs
+    "Skynet Chat": si("openai"), "DeepHat": si("openai"),
+    "Perplexity": si("perplexity"), "HuggingChat": si("huggingface"),
+    "Poe": si("poe"), "Groq": si("openai"), "Ollama": si("ollama"),
+    "LM Studio": si("openai"), "Mistral Le Chat": si("openai"),
+    "DeepSeek": si("openai"), "Together AI": si("openai"),
+    "Phind": si("openai"), "You.com": si("openai"), "Jan": si("openai"),
+    "Grok (xAI)": si("x"),
+    // Design & Inspiração
+    "Pexels": si("figma"), "Pinterest": si("pinterest"), "Land-book": si("figma"),
+    "Aura": si("figma"), "Dribbble": si("dribbble"), "Awwwards": si("figma"),
+    "Unsplash": si("unsplash"), "Mobbin": si("figma"), "Coolors": si("figma"),
+    "Muzli": si("figma"), "Canva": si("canva"), "Lottiefiles": si("figma"),
+    "CSS Design Awards": si("css3"), "Godly": si("figma"), "SiteInspire": si("figma"),
+    // MCP Servers
+    "Filesystem MCP": si("anthropic"), "GitHub MCP": si("github"),
+    "Puppeteer MCP": si("puppeteer"), "Brave Search MCP": si("brave"),
+    "Slack MCP": si("slack"), "Sequential Thinking MCP": si("anthropic"),
+    "Memory MCP": si("anthropic"), "Supabase MCP": si("supabase"),
+    "Cloudflare MCP": si("cloudflare"), "PostgreSQL MCP": si("postgresql"),
+    "Exa MCP": si("anthropic"), "Sentry MCP": si("sentry"),
+    // DevEx additions
+    "OpenCode": si("openai"), "BrowserAct": si("puppeteer"),
 };
 
 const websiteMap: Record<string, string> = {
@@ -195,6 +240,39 @@ const websiteMap: Record<string, string> = {
     "Replit": "https://replit.com",
     "Phoenix LiveView": "https://www.phoenixframework.org",
     "Blade/Edge": "https://laravel.com/docs/blade",
+    // AI & LLMs
+    "Skynet Chat": "https://skynetchat.net/", "DeepHat": "https://app.deephat.ai/",
+    "Perplexity": "https://www.perplexity.ai/", "HuggingChat": "https://huggingface.co/chat",
+    "Poe": "https://poe.com/", "Groq": "https://groq.com/",
+    "Ollama": "https://ollama.com/", "LM Studio": "https://lmstudio.ai/",
+    "Mistral Le Chat": "https://chat.mistral.ai/", "DeepSeek": "https://chat.deepseek.com/",
+    "Together AI": "https://www.together.ai/", "Phind": "https://www.phind.com/",
+    "You.com": "https://you.com/", "Jan": "https://jan.ai/",
+    "Grok (xAI)": "https://grok.x.ai/",
+    // Design & Inspiração
+    "Pexels": "https://www.pexels.com/", "Pinterest": "https://www.pinterest.com/",
+    "Land-book": "https://land-book.com/", "Aura": "https://www.aura.build/",
+    "Dribbble": "https://dribbble.com/", "Awwwards": "https://www.awwwards.com/",
+    "Unsplash": "https://unsplash.com/", "Mobbin": "https://mobbin.com/",
+    "Coolors": "https://coolors.co/", "Muzli": "https://muz.li/",
+    "Canva": "https://www.canva.com/", "Lottiefiles": "https://lottiefiles.com/",
+    "CSS Design Awards": "https://www.cssdesignawards.com/",
+    "Godly": "https://godly.website/", "SiteInspire": "https://www.siteinspire.com/",
+    // MCP Servers
+    "Filesystem MCP": "https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem",
+    "GitHub MCP": "https://github.com/modelcontextprotocol/servers/tree/main/src/github",
+    "Puppeteer MCP": "https://github.com/modelcontextprotocol/servers/tree/main/src/puppeteer",
+    "Brave Search MCP": "https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search",
+    "Slack MCP": "https://github.com/modelcontextprotocol/servers/tree/main/src/slack",
+    "Sequential Thinking MCP": "https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking",
+    "Memory MCP": "https://github.com/modelcontextprotocol/servers/tree/main/src/memory",
+    "Supabase MCP": "https://github.com/supabase-community/supabase-mcp",
+    "Cloudflare MCP": "https://github.com/cloudflare/mcp-server-cloudflare",
+    "PostgreSQL MCP": "https://github.com/modelcontextprotocol/servers/tree/main/src/postgres",
+    "Exa MCP": "https://github.com/exa-labs/exa-mcp-server",
+    "Sentry MCP": "https://github.com/getsentry/sentry-mcp",
+    // DevEx additions
+    "OpenCode": "https://opencode.ai/", "BrowserAct": "https://www.browseract.com/",
 };
 
 const frontends = ["Nuxt.js", "Svelte", "SvelteKit", "Angular", "SolidJS", "Remix", "React Native", "TanStack Query", "Three.js", "Framer Motion", "Storybook", "Qwik", "RedwoodJS", "Stencil", "HTMX", "Flutter Web", "Alpine.js", "Preact", "Lit", "Gatsby", "Phoenix LiveView", "Expo", "Blade/Edge", "Capacitor", "Playwright", "Vite"];
@@ -202,7 +280,10 @@ const backends = ["Deno", "Rust", "Python", "Fastify", "NestJS", "FastAPI", "Eli
 const datasets = ["MySQL", "SQLite", "Turso", "Pinecone", "Milvus", "Upstash", "PlanetScale", "Convex", "DynamoDB", "Supabase DB", "Drizzle", "ClickHouse", "Meilisearch", "Algolia", "Cassandra", "MariaDB", "InfluxDB", "SurrealDB", "CouchDB", "ScyllaDB", "Neo4j", "PocketBase", "Firebase DB", "DuckDB", "TiDB", "EdgeDB"];
 const infras = ["Google Cloud", "Azure", "Netlify", "Railway", "Render", "DigitalOcean", "Supabase", "Kubernetes", "Fly.io", "Neon", "Hetzner", "Appwrite", "Coolify", "Terraform", "Pulumi", "GitHub Actions", "GitLab CI", "Jenkins", "Sentry", "LogRocket", "Grafana", "Prometheus", "Cloudflare", "Kong", "Akamai", "Nginx", "Traefik"];
 const libris = ["Radix UI", "Zod", "Zustand", "Redux Toolkit", "Jotai", "TanStack Table", "Framer Motion (Lib)", "Panda CSS", "Emotion/Styled", "I18next", "Valibot", "Day.js", "Sharp", "Axios", "Lucide React", "Date-fns", "Lodash", "React Hook Form", "Formik", "Kysely", "Mongoose", "BullMQ", "Resend", "Stripe SDK", "Auth.js (NextAuth)", "Clerk", "Winston", "Puppeteer"];
-const devexs = ["Windsurf", "Copilot", "ChatGPT", "Claude (Anthropic)", "MCP (Model Context Protocol)", "Prettier", "ESLint", "Biome", "Turborepo", "Nx", "Bun Shell", "Git", "Neovim", "Oh My Zsh", "Docker Desktop", "OrbStack", "TablePlus", "Postman", "Insomnia", "Warp", "Raycast", "Figma", "Excalidraw", "Linear", "Trello", "Obsidian", "V0.dev", "Replit"];
+const devexs = ["Windsurf", "Copilot", "ChatGPT", "Claude (Anthropic)", "MCP (Model Context Protocol)", "Prettier", "ESLint", "Biome", "Turborepo", "Nx", "Bun Shell", "Git", "Neovim", "Oh My Zsh", "Docker Desktop", "OrbStack", "TablePlus", "Postman", "Insomnia", "Warp", "Raycast", "Figma", "Excalidraw", "Linear", "Trello", "Obsidian", "V0.dev", "Replit", "OpenCode", "BrowserAct"];
+const ais = ["Skynet Chat", "DeepHat", "Perplexity", "HuggingChat", "Poe", "Groq", "Ollama", "LM Studio", "Mistral Le Chat", "DeepSeek", "Together AI", "Phind", "You.com", "Jan", "Grok (xAI)"];
+const designs = ["Pexels", "Pinterest", "Land-book", "Aura", "Dribbble", "Awwwards", "Unsplash", "Mobbin", "Coolors", "Muzli", "Canva", "Lottiefiles", "CSS Design Awards", "Godly", "SiteInspire"];
+const mcps = ["Filesystem MCP", "GitHub MCP", "Puppeteer MCP", "Brave Search MCP", "Slack MCP", "Sequential Thinking MCP", "Memory MCP", "Supabase MCP", "Cloudflare MCP", "PostgreSQL MCP", "Exa MCP", "Sentry MCP"];
 
 frontends.forEach(f => { technologies.push({ name: f, category: "frontend", tagline: "Frontend Native", description: "Ferramenta moderna voltada para estabilidade ou desempenho do client.", language: "JavaScript/Multi", pros: ["Estabilidade de mercado.", "Funcionalidades robustas da comunidade."], cons: ["Demandam curadoria específica e leitura da doc.", "Risco de obsolescência rápida."], useCases: "Componentização e manipulação do cliente/navegador.", typeIcon: "web", role: "Reliable", logo: logoMap[f] || si("javascript"), website: websiteMap[f] || "#" }); });
 backends.forEach(f => { technologies.push({ name: f, category: "backend", tagline: "Backend Logic", description: "Infraestrutura escalável para gestão de permissão, regras customizadas ou microserviços densos em nuvem nativa.", language: "Agnostic", pros: ["Boa perfomance a longo prazo.", "Ótima adoção empresarial (enterprise-grade)."], cons: ["Escalada íngreme para dominar do zero.", "Configuração manual às vezes incômoda."], useCases: "Regras de negócio isoladas ou arquiteturas de alto rendimento.", typeIcon: "dns", role: "Scalable", logo: logoMap[f] || si("nodedotjs"), website: websiteMap[f] || "#" }); });
@@ -210,4 +291,9 @@ datasets.forEach(f => { technologies.push({ name: f, category: "data", tagline: 
 infras.forEach(f => { technologies.push({ name: f, category: "infra", tagline: "Cloud Infra", description: "Fornecimento de infraestrutura ágil focada em entrega (CI/CD) com menor estresse ou total flexibilidade de servidor.", language: "DevOps", pros: ["Remove abstrações e fricção com OSs crus ou setups falhos.", "Acelera deploys com workflows robustos integrados do dia um."], cons: ["Requer um aprendente pragmático ou custos ocultos para scale up.", "Vendor lock-in para IaaS/PaaS modernos fechados."], useCases: "Manter seu ecosistema acessível à internet 24h sem apagão surpresa.", typeIcon: "cloud", role: "Network Backbone", logo: logoMap[f] || si("amazonaws"), website: websiteMap[f] || "#" }); });
 libris.forEach(f => { technologies.push({ name: f, category: "libs", tagline: "Component Utility", description: "Utilitário minucioso engenhado especificamente para eliminar redundância de códigos base no seu build source natural do frontend ou backend moderno.", language: "NPM Package", pros: ["Velocidade máxima por abster centenas de linhas difíceis em um call API claro.", "Totalmente validadas, testadas em stress publicamente open-source."], cons: ["Empilhamento excessivo acaba com as métricas Web Vitals.", "Dependência frágil em atualizações."], useCases: "Reduzir o boilerplate severo ou manipulações maçantes (datas, tokens).", typeIcon: "extension", role: "Productivity Boost", logo: logoMap[f] || si("npm"), website: websiteMap[f] || "#" }); });
 devexs.forEach(f => { technologies.push({ name: f, category: "devex", tagline: "DevEx Workflow", description: "Auxiliar absoluto na formatação do dia a dia garantindo qualidade de layout ou escrita limpa antes mesmo do build para não estourar a IDE em bugs caóticos.", language: "Terminal/App", pros: ["Extenso arsenal de automação focada.", "Qualidade nativa sem re-esforço repetitivo em todos commits de branch global."], cons: ["Múltiplos terminais pesam a carga mental e tempo de setup para devs juniores.", "Demandam familiaridade com command line prompt ou shells robustas."], useCases: "Produtividade de 10x focados em automação local/remota ou IAs genarativas.", typeIcon: "smart_toy", role: "Quality Ensurance", logo: logoMap[f] || si("windowsterminal"), website: websiteMap[f] || "#" }); });
+
+const uncensoredAIs = ["Skynet Chat", "DeepHat"];
+ais.forEach(f => { technologies.push({ name: f, category: "ai", tagline: "AI Platform", description: "Plataforma de inteligência artificial generativa para chat, geração de código, análise de texto e assistência criativa com modelos de última geração.", language: "Multi-Model", pros: ["Modelos de IA acessíveis via interface web.", "Múltiplas capacidades: texto, código, análise."], cons: ["Limites de uso em planos gratuitos.", "Qualidade de resposta varia entre modelos."], useCases: "Assistência em desenvolvimento, brainstorming, geração de conteúdo e análise.", typeIcon: "psychology", role: "AI Assistant", logo: logoMap[f] || si("openai"), website: websiteMap[f] || "#", ...(uncensoredAIs.includes(f) ? { tags: ["IA sem Censura"] } : {}) }); });
+designs.forEach(f => { technologies.push({ name: f, category: "design", tagline: "Design Resource", description: "Recurso essencial para designers e desenvolvedores frontend — inspiração visual, assets, paletas de cores e referências de UI/UX de altíssima qualidade.", language: "Visual", pros: ["Acervo gigante de referências visuais curadas.", "Inspiração para projetos de UI/UX e branding."], cons: ["Pode consumir tempo excessivo navegando referências.", "Conteúdo premium pode exigir assinatura."], useCases: "Buscar inspiração, referências visuais, paletas de cores e assets para projetos.", typeIcon: "palette", role: "Creative Source", logo: logoMap[f] || si("figma"), website: websiteMap[f] || "#" }); });
+mcps.forEach(f => { technologies.push({ name: f, category: "mcp", tagline: "MCP Server", description: "Servidor MCP (Model Context Protocol) que expande as capacidades de agentes de IA — conecte ferramentas, APIs e serviços diretamente ao seu assistente.", language: "MCP Protocol", pros: ["Integração direta com agentes de IA (Claude, Cursor, etc).", "Protocolo aberto e padronizado."], cons: ["Requer configuração inicial e ambiente Node.js/Python.", "Ainda em fase de adoção — documentação pode ser escassa."], useCases: "Expandir capacidades de agentes de IA com ferramentas e serviços externos.", typeIcon: "hub", role: "AI Extension", logo: logoMap[f] || si("anthropic"), website: websiteMap[f] || "#" }); });
 

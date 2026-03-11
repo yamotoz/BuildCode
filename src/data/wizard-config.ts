@@ -363,6 +363,20 @@ export const questions: WizardQuestion[] = [
     },
 ];
 
+/** Prompt language selection — asked after SEO/Testes, before LLM */
+export const promptLanguageOptions: QuestionOption[] = [
+    { value: 'pt-br', label: 'Português (BR)', icon: 'translate', desc: 'Prompt gerado em Português Brasileiro.' },
+    { value: 'en', label: 'English', icon: 'translate', desc: 'Prompt generated in English.' },
+    { value: 'es', label: 'Español', icon: 'translate', desc: 'Prompt generado en Español.' },
+    { value: 'fr', label: 'Français', icon: 'translate', desc: 'Prompt généré en Français.' },
+    { value: 'de', label: 'Deutsch', icon: 'translate', desc: 'Prompt auf Deutsch generiert.' },
+    { value: 'it', label: 'Italiano', icon: 'translate', desc: 'Prompt generato in Italiano.' },
+    { value: 'ja', label: '日本語', icon: 'translate', desc: 'プロンプトは日本語で生成されます。' },
+    { value: 'ko', label: '한국어', icon: 'translate', desc: '프롬프트가 한국어로 생성됩니다.' },
+    { value: 'zh', label: '中文', icon: 'translate', desc: '提示将以中文生成。' },
+    { value: 'custom', label: 'Outro Idioma', icon: 'edit', desc: 'Digite o idioma desejado manualmente.' },
+];
+
 /** Testes options rendered separately under Q20 */
 export const testesOptions: QuestionOption[] = [
     { value: 'unitarios', label: 'Testes Unitarios', icon: 'check_circle', desc: 'Vitest, Jest. Testa funcoes isoladas.', difficulty: 'medium', recommendedFor: ['pleno', 'senior'] },
