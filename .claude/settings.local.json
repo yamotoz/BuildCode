@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(npx astro check)",
-      "Bash(npm install @astrojs/react react react-dom recharts framer-motion lucide-react)"
+      "Bash(npm install @astrojs/react react react-dom recharts framer-motion lucide-react)",
+      "Bash(find /c/Users/diluc/Desktop/BuildCode -type f -name *theme*)",
+      "Bash(find c:/Users/diluc/Desktop/BuildCode -type f \\\\\\(-name *middleware* -o -name *auth* \\\\\\))",
+      "Bash(npx astro:*)"
     ]
   }
 }

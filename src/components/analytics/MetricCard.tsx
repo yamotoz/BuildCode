@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { TrendingUp, Minus } from 'lucide-react';
+import { useTheme } from './useTheme';
 
 interface MetricCardProps {
   label: string;
@@ -17,6 +18,7 @@ interface MetricCardProps {
 export function MetricCard({
   label, labelKey, icon, valueA, valueB, nameA, nameB, format, accentColor, lowerIsBetter
 }: MetricCardProps) {
+  const t = useTheme();
   const winner = lowerIsBetter
     ? (valueA < valueB ? 'A' : valueA > valueB ? 'B' : 'tie')
     : (valueA > valueB ? 'A' : valueA < valueB ? 'B' : 'tie');
@@ -27,13 +29,14 @@ export function MetricCard({
     <div
       className="p-6 rounded-2xl flex flex-col justify-between group transition-colors hover:border-[#2E748B]/50 h-full"
       style={{
-        background: '#121212',
-        border: '1px solid #2A3135',
+        background: t.cardBg,
+        border: `1px solid ${t.border}`,
       }}
     >
       <div className="flex justify-between items-start">
         <span
-          className="text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-400"
+          className="text-[10px] uppercase tracking-[0.2em] font-semibold"
+          style={{ color: t.textSecondary }}
           data-i18n={labelKey}
         >
           {label}
@@ -46,12 +49,12 @@ export function MetricCard({
         <div className="flex items-baseline gap-3">
           <div>
             <div className="text-[10px] text-[#2E748B] font-bold uppercase tracking-wider mb-0.5">{nameA}</div>
-            <div className="text-2xl font-bold tracking-tight text-white">{format(valueA)}</div>
+            <div className="text-2xl font-bold tracking-tight" style={{ color: t.textPrimary }}>{format(valueA)}</div>
           </div>
-          <div className="text-slate-600 text-xs">vs</div>
+          <div className="text-xs" style={{ color: t.tickFill }}>vs</div>
           <div>
             <div className="text-[10px] text-[#F2AB6D] font-bold uppercase tracking-wider mb-0.5">{nameB}</div>
-            <div className="text-2xl font-bold tracking-tight text-white">{format(valueB)}</div>
+            <div className="text-2xl font-bold tracking-tight" style={{ color: t.textPrimary }}>{format(valueB)}</div>
           </div>
         </div>
         <div className="flex items-center gap-1 text-xs font-medium">
@@ -67,8 +70,8 @@ export function MetricCard({
             </>
           ) : (
             <>
-              <Minus className="w-3 h-3 text-slate-400" />
-              <span className="text-slate-400">Empate</span>
+              <Minus className="w-3 h-3" style={{ color: t.textSecondary }} />
+              <span style={{ color: t.textSecondary }}>Empate</span>
             </>
           )}
         </div>

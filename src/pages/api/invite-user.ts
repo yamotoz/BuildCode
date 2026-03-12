@@ -52,7 +52,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Parse body
-  let body: { email: string; fullName: string; role: string };
+  let body: { email: string; fullName: string; role: string; plan?: string };
   try {
     body = await request.json();
   } catch {
@@ -62,7 +62,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const { email, fullName, role } = body;
+  const { email, fullName, role, plan } = body;
   if (!email || !fullName) {
     return new Response(JSON.stringify({ error: 'email and fullName are required' }), {
       status: 400,
@@ -72,6 +72,9 @@ export const POST: APIRoute = async ({ request }) => {
 
   const validRoles = ['user', 'admin'];
   const safeRole = validRoles.includes(role) ? role : 'user';
+
+  const validPlans = ['explorador', 'consultor', 'arquiteto'];
+  const safePlan = validPlans.includes(plan || '') ? plan! : 'explorador';
 
   // Create user with service role (admin privileges)
   const { data, error } = await adminClient.auth.admin.createUser({
@@ -87,14 +90,30 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  // Set role if not default 'user'
-  if (data.user && safeRole !== 'user') {
+  if (data.user) {
     // Wait for trigger to create profile
     await new Promise(resolve => setTimeout(resolve, 500));
-    await adminClient
-      .from('profiles')
-      .update({ role: safeRole })
-      .eq('id', data.user.id);
+
+    // Set role if not default 'user'
+    if (safeRole !== 'user') {
+      await adminClient
+        .from('profiles')
+        .update({ role: safeRole })
+        .eq('id', data.user.id);
+    }
+
+    // Create subscription for the new user
+    const now = new Date();
+    const periodEnd = new Date(now);
+    periodEnd.setFullYear(periodEnd.getFullYear() + 1);
+
+    await adminClient.from('subscriptions').upsert({
+      user_id: data.user.id,
+      plan: safePlan,
+      billing_cycle: 'monthly',
+      status: 'active',
+      current_period_end: periodEnd.toISOString(),
+    }, { onConflict: 'user_id' });
   }
 
   // Send password reset so the new user can set their own password

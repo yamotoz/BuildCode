@@ -10,18 +10,19 @@
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.2-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Three.js](https://img.shields.io/badge/Three.js-0.183-000000?style=for-the-badge&logo=threedotjs&logoColor=white)](https://threejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com)
 [![Node.js](https://img.shields.io/badge/Node.js-SSR-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org)
 [![License](https://img.shields.io/badge/License-Proprietary-red?style=for-the-badge)](#license)
 
 <br />
 
-**Decisões inteligentes de arquitetura, potencializadas por Inteligência Artificial.**
+**Decisoes inteligentes de arquitetura, potencializadas por Inteligencia Artificial.**
 
-Selecione stacks, mitigue riscos e escale com integridade — tudo em um único sistema.
+Selecione stacks, mitigue riscos e escale com integridade — tudo em um unico sistema.
 
 <br />
 
-<img src="Img/Buildcodeprint.png" alt="BuildCode — Software Architecture Engine" width="100%" style="border-radius: 16px; border: 1px solid #2A3135;" />
+<video src="toursystem.webm" autoplay loop muted playsinline width="100%" style="border-radius: 16px; border: 1px solid #2A3135;"></video>
 
 <br />
 
@@ -31,68 +32,91 @@ Selecione stacks, mitigue riscos e escale com integridade — tudo em um único 
 
 ## Sobre o Projeto
 
-**BuildCode** é um SaaS de engenharia de software que atua como um **arquiteto virtual inteligente**. Através de um wizard interativo de 20 etapas, o sistema conduz o usuário por decisões críticas de arquitetura — desde a escolha de ferramentas e frameworks até estratégias de deploy e infraestrutura — gerando ao final um **PRD (Product Requirements Document)** completo e prompts otimizados para LLMs.
+**BuildCode** e um SaaS de engenharia de software que atua como um **arquiteto virtual inteligente**. Atraves de um wizard interativo de 20 etapas, o sistema conduz o usuario por decisoes criticas de arquitetura — desde a escolha de ferramentas e frameworks ate estrategias de deploy e infraestrutura — gerando ao final um **PRD (Product Requirements Document)** completo e prompts otimizados para LLMs.
 
-O sistema combina uma base de dados proprietária de tecnologias, análise comparativa via GitHub API, e um motor de decisão que considera senioridade, tipo de projeto, escala e restrições técnicas para recomendar a stack ideal.
+O sistema combina uma base de dados proprietaria de 200+ tecnologias, analise comparativa via GitHub API, 4 agentes mentores com personalidades unicas, e um motor de decisao que considera senioridade, tipo de projeto, escala e restricoes tecnicas para recomendar a stack ideal.
 
 ---
 
 ## Funcionalidades Principais
 
-| Funcionalidade | Descrição |
+| Funcionalidade | Descricao |
 |:---|:---|
 | **Wizard de Arquitetura** | 20 etapas guiadas cobrindo ferramenta, frontend, backend, banco de dados, infra, testes, CI/CD e mais |
-| **Motor de Decisão IA** | Análise inteligente baseada em senioridade, escopo, escala e restrições do projeto |
-| **Gerador de PRD** | Documento de requisitos completo gerado automaticamente ao final do wizard |
+| **Motor de Decisao IA** | Analise inteligente baseada em senioridade, escopo, escala e restricoes do projeto |
+| **Gerador de PRD** | Documento de requisitos completo gerado automaticamente via LLM (OpenRouter) |
 | **Prompt Engineering** | Prompts base otimizados para LLMs (Claude, GPT, Gemini) prontos para uso |
-| **Analytics Dashboard** | Comparação lado-a-lado de tecnologias com dados em tempo real do GitHub |
-| **Biblioteca Técnica** | Catálogo curado de 40+ tecnologias com prós, contras, use cases e métricas |
-| **Sistema de Perfis** | Gestão completa de usuário com avatar, senioridade e temas (dark/light) |
+| **4 Agentes Mentores** | The Boss, Azrael, Rizler e Anastasia — cada um com personalidade, voz TTS e estilo unico |
+| **Chat IA Flutuante** | Widget de chat com agente mentor integrado ao wizard, com audio TTS |
+| **Analytics Dashboard** | Comparacao lado-a-lado de tecnologias com dados em tempo real do GitHub (Recharts) |
+| **Admin Dashboard** | Painel SaaS completo com MRR, Churn, ARPU, LTV, burn rate e graficos |
+| **Biblioteca Tecnica** | Catalogo curado de 200+ tecnologias em 9 categorias com busca, filtro e detalhe |
+| **Sistema de Perfis** | Gestao completa de usuario com avatar, senioridade, tema, agente e modelo LLM |
 | **Controle de Acesso** | Hierarquia de roles: Master → Admin → User com RLS no Supabase |
-| **Convite de Usuários** | Sistema seguro de invite via API server-side com service role key |
-| **Internacionalização** | Suporte completo PT-BR ↔ EN com troca instantânea |
-| **Background 3D** | Cena Three.js imersiva no wizard para experiência premium |
+| **Convite de Usuarios** | Sistema seguro de invite via API server-side com service role key |
+| **Internacionalizacao** | Suporte completo PT-BR ↔ EN com 350+ chaves e troca instantanea |
+| **Dark/Light Mode** | Tema claro e escuro global, com logo swap dinamico e persistencia |
+| **Background 3D** | Cena Three.js imersiva no wizard para experiencia premium |
+| **Pagina de Precos** | 3 planos (Explorador/Consultor/Arquiteto), toggle mensal/anual, FAQ |
+| **Termos & Privacidade** | Paginas legais com aceite obrigatorio no primeiro login |
 
 ---
 
-## Stack Tecnológica
+## Stack Tecnologica
 
 ### Core Framework
 
-| Tecnologia | Versão | Papel |
+| Tecnologia | Versao | Papel |
 |:---|:---|:---|
 | **Astro** | 5.17 | Framework principal — SSR com Node adapter, component islands |
-| **React** | 19.2 | Componentes interativos (Analytics Dashboard) |
-| **TypeScript** | Strict | Tipagem estática em todo o codebase |
+| **React** | 19.2 | Componentes interativos (Analytics, Admin Dashboard) |
+| **TypeScript** | Strict | Tipagem estatica em todo o codebase |
+| **Vite** | 6.x | Build tool e dev server (integrado ao Astro) |
 
 ### Backend & Dados
 
-| Tecnologia | Versão | Papel |
+| Tecnologia | Versao | Papel |
 |:---|:---|:---|
 | **Supabase** | 2.98 | Auth, PostgreSQL, Storage (avatars), RLS, RPC functions |
 | **Node.js** | SSR | Adapter Astro para server-side rendering (`@astrojs/node`) |
-| **PostgreSQL** | via Supabase | Banco relacional com Row Level Security e triggers |
+| **PostgreSQL** | via Supabase | Banco relacional com Row Level Security, triggers e functions |
 
 ### Frontend & UI
 
-| Tecnologia | Versão | Papel |
+| Tecnologia | Versao | Papel |
 |:---|:---|:---|
-| **Tailwind CSS** | 4.2 | Utility-first CSS com custom theme (design system proprietário) |
-| **Three.js** | 0.183 | Background 3D interativo no wizard |
-| **Framer Motion** | 12.35 | Animações no React (Analytics) |
-| **Recharts** | 3.7 | Gráficos e visualizações de dados |
-| **Lucide React** | 0.577 | Biblioteca de ícones |
-| **Material Symbols** | CDN | Ícones do sistema principal |
+| **Tailwind CSS** | 4.2 | Utility-first CSS com custom theme (design system proprietario) |
+| **Three.js** | 0.183 | Background 3D interativo no wizard (particulas animadas) |
+| **Framer Motion** | 12.35 | Animacoes e transicoes nos componentes React |
+| **Recharts** | 3.7 | Graficos e visualizacoes de dados (Area, Bar, Line, Radar, Pie) |
+| **Lucide React** | 0.577 | Biblioteca de icones para componentes React |
+| **Material Symbols** | CDN | Icones do sistema principal (Google) |
 | **Google Fonts** | CDN | Inter (body) + Helvetica Now (display) |
 
-### APIs & Integrações
+### APIs & Integracoes
 
-| Serviço | Uso |
+| Servico | Uso |
 |:---|:---|
-| **GitHub API v3** | Dados de repositórios para comparação de tecnologias (stars, forks, commit activity) |
-| **Supabase Auth** | Autenticação email/password, session management, password recovery |
-| **Supabase Storage** | Upload e serving público de avatares de usuário |
-| **Supabase Admin API** | Criação de usuários via service role key (server-side only) |
+| **OpenAI GPT-4o-mini** | Chat IA flutuante com personalidade de agente mentor |
+| **OpenAI TTS (tts-1)** | Text-to-Speech com vozes unicas por agente (onyx, echo, fable, nova) |
+| **OpenRouter** | 9 modelos LLM (3 tiers: Budget/Mid/Pro) para geracao de PRD e Prompt Base |
+| **GitHub API v3** | Dados de repositorios para comparacao de tecnologias (stars, forks, commit activity) |
+| **Supabase Auth** | Autenticacao email/password, session management, password recovery |
+| **Supabase Storage** | Upload e serving publico de avatares de usuario (bucket `avatars`) |
+| **Supabase Admin API** | Criacao/delecao de usuarios via service role key (server-side only) |
+| **Asaas** | Integracao de pagamentos para os planos do SaaS |
+
+### Bibliotecas & Dependencias
+
+| Pacote | Uso |
+|:---|:---|
+| **@supabase/supabase-js** | Cliente Supabase para auth, database e storage |
+| **@astrojs/react** | Integracao React como component islands no Astro |
+| **@astrojs/node** | Adapter SSR para deploy com Node.js |
+| **recharts** | Graficos interativos (AreaChart, BarChart, LineChart, RadarChart, PieChart) |
+| **framer-motion** | Animacoes declarativas para React (fade, slide, scale) |
+| **lucide-react** | +1000 icones SVG como componentes React |
+| **three** | Engine 3D para particulas animadas no background do wizard |
 
 ---
 
@@ -116,10 +140,14 @@ O sistema combina uma base de dados proprietária de tecnologias, análise compa
 ┌─────────────────────────┼────────────────────────────────┐
 │                   SERVIDOR (Astro SSR)                    │
 │                                                          │
-│  ┌──────────────────┐  ┌──────────────────────────────┐  │
-│  │  /api/github.ts   │  │  /api/invite-user.ts         │  │
-│  │  GitHub API proxy │  │  Admin ops (service role key) │  │
-│  └──────────────────┘  └──────────────────────────────┘  │
+│  ┌─────────────┐  ┌──────────────┐  ┌─────────────────┐ │
+│  │ /api/github  │  │ /api/chat    │  │ /api/invite-user│ │
+│  │ GitHub proxy │  │ OpenAI proxy │  │ Admin ops       │ │
+│  └─────────────┘  └──────────────┘  └─────────────────┘ │
+│  ┌─────────────┐  ┌──────────────┐  ┌─────────────────┐ │
+│  │ /api/tts    │  │ /api/signup  │  │ /api/asaas/*    │ │
+│  │ TTS proxy   │  │ User register│  │ Pagamentos      │ │
+│  └─────────────┘  └──────────────┘  └─────────────────┘ │
 └─────────────────────────┬────────────────────────────────┘
                           │
 ┌─────────────────────────┼────────────────────────────────┐
@@ -132,110 +160,42 @@ O sistema combina uma base de dados proprietária de tecnologias, análise compa
 └──────────────────────────────────────────────────────────┘
 ```
 
-### Fluxo de Autenticação
+### Sistema de Roles & Permissoes
 
 ```
-Login → signInWithPassword() → Session (localStorage)
-                                      │
-                     onAuthStateChange(INITIAL_SESSION)
-                                      │
-                              ┌───────┴───────┐
-                              │  session?      │
-                              │  ├─ Yes → Pill │
-                              │  └─ No → Login │
-                              └────────────────┘
-```
-
-### Sistema de Roles & Permissões
-
-```
-Master ─── Pode tudo: gerenciar usuários, alterar roles, deletar perfis
+Master ─── Pode tudo: gerenciar usuarios, alterar roles, deletar perfis
   │
-Admin ──── Pode convidar novos usuários (user/admin)
+Admin ──── Pode convidar novos usuarios (user/admin)
   │
-User ───── Acesso ao wizard, biblioteca, analytics + perfil próprio
+User ───── Acesso ao wizard, biblioteca, analytics + perfil proprio
 ```
 
 Implementado via **Row Level Security (RLS)** no PostgreSQL com `SECURITY DEFINER` functions.
 
 ---
 
-## Estrutura do Projeto
-
-```
-BuildCode/
-├── public/
-│   ├── icons/              # SVGs de tecnologias (local, máxima performance)
-│   ├── img/                # Imagens do projeto
-│   ├── *.mp4               # Vídeos de background (hero)
-│   └── *.png               # Logos e favicons
-│
-├── src/
-│   ├── components/
-│   │   ├── Header.astro         # Header da landing page (auth pill)
-│   │   ├── Footer.astro         # Footer global
-│   │   └── analytics/           # Componentes React do dashboard
-│   │
-│   ├── data/
-│   │   ├── technologies.ts      # Base de 40+ tecnologias curadas
-│   │   ├── wizard-config.ts     # Configuração das 20 etapas do wizard
-│   │   ├── categories.ts        # Categorias da biblioteca
-│   │   ├── tooltips.ts          # Tooltips contextuais do wizard
-│   │   ├── skills-map.ts        # Mapa de skills por tecnologia
-│   │   └── i18n.ts              # Traduções PT-BR ↔ EN
-│   │
-│   ├── layouts/
-│   │   └── Layout.astro         # Layout base (i18n system, theme, fonts)
-│   │
-│   ├── lib/
-│   │   └── supabase.ts          # Cliente Supabase + auth/profile helpers
-│   │
-│   ├── pages/
-│   │   ├── index.astro          # Landing page
-│   │   ├── app.astro            # Wizard de arquitetura (core do sistema)
-│   │   ├── login.astro          # Autenticação
-│   │   ├── perfil.astro         # Perfil do usuário
-│   │   ├── analytics.astro      # Dashboard de analytics
-│   │   ├── biblioteca.astro     # Biblioteca técnica
-│   │   ├── termos.astro         # Termos de uso
-│   │   ├── privacidade.astro    # Política de privacidade
-│   │   └── api/
-│   │       ├── github.ts        # Proxy GitHub API (150+ repos mapeados)
-│   │       └── invite-user.ts   # Convite de usuários (server-side)
-│   │
-│   └── styles/
-│       └── global.css           # Design system + Tailwind config + light theme
-│
-├── astro.config.mjs             # Astro config (Node SSR + React + Tailwind)
-├── supabase_setup.sql           # Setup completo do banco (tabelas, RLS, triggers)
-├── package.json
-└── .env                         # Variáveis de ambiente (não commitado)
-```
-
----
-
 ## Getting Started
 
-### Pré-requisitos
+### Pre-requisitos
 
 - **Node.js** 18+
 - **npm** ou **pnpm**
 - Conta no **Supabase** (projeto criado)
 
-### 1. Clone o repositório
+### 1. Clone o repositorio
 
 ```bash
 git clone https://github.com/seu-usuario/buildcode.git
 cd buildcode
 ```
 
-### 2. Instale as dependências
+### 2. Instale as dependencias
 
 ```bash
 npm install
 ```
 
-### 3. Configure as variáveis de ambiente
+### 3. Configure as variaveis de ambiente
 
 Crie um arquivo `.env` na raiz do projeto:
 
@@ -244,94 +204,90 @@ PUBLIC_SUPABASE_URL="https://seu-projeto.supabase.co"
 PUBLIC_SUPABASE_ANON_KEY="sua-anon-key"
 SUPABASE_SERVICE_ROLE_KEY="sua-service-role-key"
 GITHUB_TOKEN="seu-github-pat"
+OPENAI_API_KEY="sua-openai-key"
 ```
 
-> **Segurança:** `SUPABASE_SERVICE_ROLE_KEY` é server-only (sem prefixo `PUBLIC_`). Nunca exponha no client-side.
+> **Seguranca:** `SUPABASE_SERVICE_ROLE_KEY` e `OPENAI_API_KEY` sao server-only (sem prefixo `PUBLIC_`). Nunca exponha no client-side.
 
 ### 4. Configure o banco de dados
 
-Execute o conteúdo de `supabase_setup.sql` no **Supabase SQL Editor**. Isso cria:
+Execute o conteudo de `supabase/dataall.sql` no **Supabase SQL Editor**. Isso cria:
 
-- Tabela `profiles` com RLS
-- Triggers de auto-criação de perfil no registro
-- Functions de controle de role (master only)
+- Tabelas: `profiles`, `projects`, `subscriptions`, `usage_logs`, `api_costs`
+- Triggers: criacao automatica de perfil, updated_at
+- Functions: `get_my_role()`, `set_user_role()`, `handle_new_user()`
+- Politicas RLS completas
 - Bucket `avatars` no Storage com policies
 
-### 5. Crie o usuário master
-
-No **Supabase Dashboard** → Authentication → Users → Add User:
-- Defina email e senha
-- Marque **Auto Confirm User**
-- O trigger automaticamente atribui `role: 'master'` ao email configurado
-
-### 6. Inicie o servidor de desenvolvimento
+### 5. Inicie o servidor de desenvolvimento
 
 ```bash
 npm run dev
 ```
 
-O sistema estará disponível em `http://localhost:4321`
+O sistema estara disponivel em `http://localhost:4321`
 
 ---
 
 ## Comandos
 
-| Comando | Ação |
+| Comando | Acao |
 |:---|:---|
 | `npm run dev` | Inicia o servidor de desenvolvimento em `localhost:4321` |
-| `npm run build` | Build de produção para `./dist/` |
-| `npm run preview` | Preview do build de produção local |
-| `npm run astro` | CLI do Astro (e.g., `astro add`, `astro check`) |
+| `npm run build` | Build de producao para `./dist/` |
+| `npm run preview` | Preview do build de producao local |
 
 ---
 
 ## Design System
 
-O BuildCode utiliza um design system proprietário construído sobre Tailwind CSS 4.2 com variáveis CSS customizadas:
+O BuildCode utiliza um design system proprietario construido sobre Tailwind CSS 4.2 com variaveis CSS customizadas:
 
 | Token | Valor | Uso |
 |:---|:---|:---|
 | `--color-primary` | `#2E748B` | Cor principal (teal) |
 | `--color-primary-dark` | `#1C4D5E` | Variante escura |
-| `--color-secondary` | `#5A9DB5` | Cor secundária |
+| `--color-secondary` | `#5A9DB5` | Cor secundaria |
 | `--color-cta` | `#F2AB6D` | Call-to-action (amber) |
 | `--color-background-dark` | `#0D0D0D` | Background principal |
-| `--color-surface-dark` | `#121415` | Superfícies elevadas |
+| `--color-surface-dark` | `#121415` | Superficies elevadas |
 | `--color-border-color` | `#2A3135` | Bordas |
 
 ### Utilities Customizadas
 
-- **`glass-panel`** — Glassmorphism com backdrop-blur e borda translúcida
+- **`glass-panel`** — Glassmorphism com backdrop-blur e borda translucida
 - **`glow-border`** — Borda com gradiente luminoso animado
 
 ### Suporte a Temas
 
-- **Dark mode** (padrão) — Tema escuro premium
-- **Light mode** — Tema claro com override de variáveis via `html.light`
-- Persistência via `localStorage` com aplicação instantânea (sem flash)
+- **Dark mode** (padrao) — Tema escuro premium
+- **Light mode** — Tema claro com overrides CSS fora de `@layer` (fix Tailwind v4) com `!important`
+- Persistencia via `localStorage` + coluna `theme` no Supabase profiles
+- Logo swap dinamico: `data-dark`/`data-light` + MutationObserver
 
 ---
 
-## Segurança
+## Seguranca
 
 - **Row Level Security (RLS)** em todas as tabelas do Supabase
 - **Service Role Key** isolada em API routes server-side (nunca no browser)
 - **JWT validation** em endpoints protegidos
-- **Role verification** antes de operações admin
-- **SECURITY DEFINER** functions para operações que bypasam RLS de forma controlada
-- **Storage policies** garantem que cada usuário só modifica seu próprio avatar
+- **Role verification** antes de operacoes admin
+- **SECURITY DEFINER** functions para operacoes que bypasam RLS de forma controlada
+- **Storage policies** garantem que cada usuario so modifica seu proprio avatar
+- **API routes** como proxy para todas as APIs externas (OpenAI, GitHub, Asaas)
 
 ---
 
 ## Roadmap
 
-- [ ] Integração direta com LLMs (Gemini, Claude) para decisão de arquitetura
-- [ ] Sistema de templates de projeto pré-configurados
-- [ ] Exportação de PRD em PDF
-- [ ] Histórico de decisões de arquitetura por projeto
-- [ ] Dashboard de métricas de uso do sistema
+- [ ] Integracao completa Asaas/Stripe para pagamentos
+- [ ] Persistencia de respostas do questionario como projetos
+- [ ] Historico de geracoes por usuario
+- [ ] Sistema de templates de projeto pre-configurados
 - [ ] Modo colaborativo (equipes)
-- [ ] Integração com Vercel/Railway para deploy direto
+- [ ] Integracao com Vercel/Railway para deploy direto
+- [ ] SEO e Open Graph tags
 
 ---
 
@@ -347,11 +303,13 @@ O BuildCode utiliza um design system proprietário construído sobre Tailwind CS
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
 ![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=openai&logoColor=white)
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=flat-square&logo=framer&logoColor=white)
 ![Recharts](https://img.shields.io/badge/Recharts-FF6384?style=flat-square&logo=chart.js&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
 ![GitHub API](https://img.shields.io/badge/GitHub_API-181717?style=flat-square&logo=github&logoColor=white)
-![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+![Lucide](https://img.shields.io/badge/Lucide_React-F56565?style=flat-square&logo=lucide&logoColor=white)
+![Google Fonts](https://img.shields.io/badge/Google_Fonts-4285F4?style=flat-square&logo=googlefonts&logoColor=white)
 
 </div>
 
@@ -359,15 +317,17 @@ O BuildCode utiliza um design system proprietário construído sobre Tailwind CS
 
 ## License
 
-Este projeto é **proprietário** e de uso restrito. Todos os direitos reservados.
+Este projeto e **proprietario** e de uso restrito. Todos os direitos reservados.
+
+CNPJ: 62.829.190/0001-01
 
 ---
 
 <div align="center">
 
-**BuildCode** — Engenharia de Elite para Projetos Visionários
+**BuildCode** — Engenharia de Elite para Projetos Visionarios
 
-*Sistemas de design que transcendem o comum. Sua visão, orquestrada por inteligência artificial.*
+*Sistemas de design que transcendem o comum. Sua visao, orquestrada por inteligencia artificial.*
 
 <br />
 

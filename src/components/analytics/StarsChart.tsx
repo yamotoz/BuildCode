@@ -4,6 +4,7 @@ import {
   XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
 } from 'recharts';
 import { BarChart3, TrendingUp, Layers, Calendar, Clock, Timer } from 'lucide-react';
+import { useTheme } from './useTheme';
 
 interface StarsChartProps {
   dataA: number[];
@@ -40,6 +41,7 @@ function OptionBtn({ active, onClick, children }: OptionBtnProps) {
 }
 
 export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
+  const t = useTheme();
   const [chartType, setChartType] = useState<ChartType>('area');
   const [timeRange, setTimeRange] = useState<TimeRange>('mes');
   const [showDots, setShowDots] = useState(false);
@@ -52,7 +54,6 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
 
   const chartData = useMemo(() => {
     if (timeRange === 'semana') {
-      // Weekly view — show each week individually
       const data = [];
       const weekCount = Math.min(52, totalWeeks);
       for (let i = 0; i < weekCount; i++) {
@@ -67,7 +68,6 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
     }
 
     if (timeRange === 'trimestre') {
-      // Quarterly view — group 13 weeks per quarter
       const data = [];
       const quarterCount = Math.min(4, Math.ceil(totalWeeks / 13));
       for (let q = 0; q < quarterCount; q++) {
@@ -109,10 +109,10 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
   const tickInterval = timeRange === 'semana' ? Math.floor(chartData.length / 10) : undefined;
 
   const tooltipStyle = {
-    background: '#1a1a1a',
-    border: '1px solid #2A3135',
+    background: t.tooltipBg,
+    border: `1px solid ${t.tooltipBorder}`,
     borderRadius: '12px',
-    color: '#fff',
+    color: t.tooltipColor,
     fontSize: '12px',
   };
 
@@ -122,14 +122,14 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
     const commonXAxis = (
       <XAxis
         dataKey="label"
-        tick={{ fill: '#64748B', fontSize: 10 }}
-        axisLine={{ stroke: '#2A3135' }}
+        tick={{ fill: t.tickFill, fontSize: 10 }}
+        axisLine={{ stroke: t.gridStroke }}
         tickLine={false}
         interval={tickInterval}
       />
     );
     const commonYAxis = (
-      <YAxis tick={{ fill: '#64748B', fontSize: 10 }} axisLine={false} tickLine={false} />
+      <YAxis tick={{ fill: t.tickFill, fontSize: 10 }} axisLine={false} tickLine={false} />
     );
     const commonTooltip = (
       <Tooltip
@@ -138,7 +138,7 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
         formatter={(value: number, name: string) => [`${value} commits`, name]}
       />
     );
-    const commonGrid = <CartesianGrid strokeDasharray="3 3" stroke="#2A3135" />;
+    const commonGrid = <CartesianGrid strokeDasharray="3 3" stroke={t.gridStroke} />;
 
     if (chartType === 'bar') {
       return (
@@ -165,16 +165,16 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
             dataKey={nameA}
             stroke="#2E748B"
             strokeWidth={2.5}
-            dot={showDots ? { r: 3, fill: '#2E748B', stroke: '#080808', strokeWidth: 2 } : false}
-            activeDot={{ r: 4, fill: '#2E748B', stroke: '#080808', strokeWidth: 2 }}
+            dot={showDots ? { r: 3, fill: '#2E748B', stroke: t.dotStroke, strokeWidth: 2 } : false}
+            activeDot={{ r: 4, fill: '#2E748B', stroke: t.dotStroke, strokeWidth: 2 }}
           />
           <Line
             type={curveType}
             dataKey={nameB}
             stroke="#F2AB6D"
             strokeWidth={2.5}
-            dot={showDots ? { r: 3, fill: '#F2AB6D', stroke: '#080808', strokeWidth: 2 } : false}
-            activeDot={{ r: 4, fill: '#F2AB6D', stroke: '#080808', strokeWidth: 2 }}
+            dot={showDots ? { r: 3, fill: '#F2AB6D', stroke: t.dotStroke, strokeWidth: 2 } : false}
+            activeDot={{ r: 4, fill: '#F2AB6D', stroke: t.dotStroke, strokeWidth: 2 }}
           />
         </LineChart>
       );
@@ -203,8 +203,8 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
           stroke="#2E748B"
           strokeWidth={2.5}
           fill="url(#gradA)"
-          dot={showDots ? { r: 3, fill: '#2E748B', stroke: '#080808', strokeWidth: 2 } : false}
-          activeDot={{ r: 4, fill: '#2E748B', stroke: '#080808', strokeWidth: 2 }}
+          dot={showDots ? { r: 3, fill: '#2E748B', stroke: t.dotStroke, strokeWidth: 2 } : false}
+          activeDot={{ r: 4, fill: '#2E748B', stroke: t.dotStroke, strokeWidth: 2 }}
         />
         <Area
           type={curveType}
@@ -212,8 +212,8 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
           stroke="#F2AB6D"
           strokeWidth={2.5}
           fill="url(#gradB)"
-          dot={showDots ? { r: 3, fill: '#F2AB6D', stroke: '#080808', strokeWidth: 2 } : false}
-          activeDot={{ r: 4, fill: '#F2AB6D', stroke: '#080808', strokeWidth: 2 }}
+          dot={showDots ? { r: 3, fill: '#F2AB6D', stroke: t.dotStroke, strokeWidth: 2 } : false}
+          activeDot={{ r: 4, fill: '#F2AB6D', stroke: t.dotStroke, strokeWidth: 2 }}
         />
       </AreaChart>
     );
@@ -223,36 +223,35 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
     <div
       className="rounded-2xl overflow-hidden p-8 h-full"
       style={{
-        background: '#121212',
-        border: '1px solid #2A3135',
+        background: t.cardBg,
+        border: `1px solid ${t.border}`,
       }}
     >
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-lg font-bold text-white" data-i18n="analytics.adoption">
+          <h3 className="text-lg font-bold" style={{ color: t.textPrimary }} data-i18n="analytics.adoption">
             Velocidade de Adoção
           </h3>
-          <p className="text-sm text-slate-400" data-i18n="analytics.adoption.sub">
+          <p className="text-sm" style={{ color: t.textSecondary }} data-i18n="analytics.adoption.sub">
             Atividade de commits comparativa por {periodLabel}
           </p>
         </div>
         <div className="flex gap-4">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#2E748B]" />
-            <span className="text-[10px] uppercase tracking-wider font-bold text-slate-400">{nameA}</span>
+            <span className="text-[10px] uppercase tracking-wider font-bold" style={{ color: t.textSecondary }}>{nameA}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#F2AB6D]" />
-            <span className="text-[10px] uppercase tracking-wider font-bold text-slate-400">{nameB}</span>
+            <span className="text-[10px] uppercase tracking-wider font-bold" style={{ color: t.textSecondary }}>{nameB}</span>
           </div>
         </div>
       </div>
 
       {/* Controls */}
       <div className="flex flex-wrap items-center gap-2 mb-6">
-        {/* Chart type */}
-        <div className="flex items-center gap-1 rounded-xl p-1" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="flex items-center gap-1 rounded-xl p-1" style={{ background: t.controlBg, border: `1px solid ${t.controlBorder}` }}>
           <OptionBtn active={chartType === 'area'} onClick={() => setChartType('area')}>
             <Layers className="w-3 h-3" /> Área
           </OptionBtn>
@@ -264,10 +263,9 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
           </OptionBtn>
         </div>
 
-        <div className="w-px h-5 bg-[#2A3135]" />
+        <div className="w-px h-5" style={{ background: t.border }} />
 
-        {/* Time range */}
-        <div className="flex items-center gap-1 rounded-xl p-1" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="flex items-center gap-1 rounded-xl p-1" style={{ background: t.controlBg, border: `1px solid ${t.controlBorder}` }}>
           <OptionBtn active={timeRange === 'semana'} onClick={() => setTimeRange('semana')}>
             <Clock className="w-3 h-3" /> Semana
           </OptionBtn>
@@ -279,10 +277,9 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
           </OptionBtn>
         </div>
 
-        <div className="w-px h-5 bg-[#2A3135]" />
+        <div className="w-px h-5" style={{ background: t.border }} />
 
-        {/* Extra toggles */}
-        <div className="flex items-center gap-1 rounded-xl p-1" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="flex items-center gap-1 rounded-xl p-1" style={{ background: t.controlBg, border: `1px solid ${t.controlBorder}` }}>
           <OptionBtn active={showDots} onClick={() => setShowDots(!showDots)}>
             Pontos {showDots ? 'ON' : 'OFF'}
           </OptionBtn>

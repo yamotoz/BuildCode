@@ -14,14 +14,14 @@ export const prerender = false;
     <header class="sticky top-0 z-40 glass-panel border-b border-border-color px-6 py-4">
       <div class="max-w-5xl mx-auto flex items-center justify-between">
         <a href="/" class="flex items-center gap-3 text-slate-100 hover:opacity-80 transition-opacity">
-          <img src="/logo_backofff.png" alt="BuildCode" class="h-8 w-auto object-contain" />
+          <img id="perfil-logo" src="/logo_backofff.png" data-dark="/logo_backofff.png" data-light="/Logowhitemodeloff.png" alt="BuildCode" class="h-8 w-auto object-contain" />
           <h2 class="font-display text-xl font-bold tracking-tight text-white hidden sm:block">BuildCode</h2>
         </a>
         <div class="flex items-center gap-3">
-          <a href="/app" class="text-sm text-slate-400 hover:text-white transition-colors font-medium">Acessar Sistema</a>
+          <a href="/app" class="text-sm text-slate-400 hover:text-white transition-colors font-medium" data-i18n="nav.acessar">Acessar Sistema</a>
           <button id="btn-logout" type="button" class="flex items-center gap-1.5 px-4 py-2 rounded-full border border-red-500/20 text-red-400 hover:bg-red-500/10 transition-all text-sm font-medium cursor-pointer">
             <span class="material-symbols-outlined text-sm">logout</span>
-            Sair
+            <span data-i18n="perfil.sair">Sair</span>
           </button>
         </div>
       </div>
@@ -31,16 +31,16 @@ export const prerender = false;
     <div id="profile-loading" class="flex items-center justify-center py-32">
       <div class="flex flex-col items-center gap-4">
         <span class="material-symbols-outlined text-4xl text-primary animate-spin">progress_activity</span>
-        <p class="text-slate-400 text-sm">Carregando perfil...</p>
+        <p class="text-slate-400 text-sm" data-i18n="perfil.loading">Carregando perfil...</p>
       </div>
     </div>
 
     <!-- Not authenticated -->
     <div id="profile-unauth" class="hidden flex-col items-center justify-center py-32 text-center">
       <span class="material-symbols-outlined text-6xl text-slate-600 mb-4">lock</span>
-      <h2 class="text-2xl font-bold text-white mb-2">Acesso necessário</h2>
-      <p class="text-slate-400 mb-6">Faça login para acessar seu perfil.</p>
-      <a href="/login" class="px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary-dark transition-colors">Fazer Login</a>
+      <h2 class="text-2xl font-bold text-white mb-2" data-i18n="perfil.unauth.title">Acesso necessário</h2>
+      <p class="text-slate-400 mb-6" data-i18n="perfil.unauth.desc">Faça login para acessar seu perfil.</p>
+      <a href="/login" class="px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary-dark transition-colors" data-i18n="perfil.unauth.login">Fazer Login</a>
     </div>
 
     <!-- Profile content -->
@@ -91,12 +91,12 @@ export const prerender = false;
           <div class="rounded-2xl p-6 space-y-5" style="background: #121212; border: 1px solid #2A3135;">
             <div class="flex items-center gap-2 mb-2">
               <span class="material-symbols-outlined text-primary text-lg">person</span>
-              <h3 class="text-lg font-bold text-white">Dados Pessoais</h3>
+              <h3 class="text-lg font-bold text-white" data-i18n="perfil.dados">Dados Pessoais</h3>
             </div>
 
             <div class="space-y-4">
               <div>
-                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 block">Nome completo</label>
+                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 block" data-i18n="perfil.nome">Nome completo</label>
                 <input id="input-name" type="text" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" placeholder="Seu nome" />
               </div>
 
@@ -107,7 +107,7 @@ export const prerender = false;
 
               <button id="btn-save-name" type="button" class="w-full py-3 rounded-xl bg-primary/10 text-primary border border-primary/20 font-semibold text-sm hover:bg-primary/20 transition-all cursor-pointer flex items-center justify-center gap-2">
                 <span class="material-symbols-outlined text-sm">save</span>
-                Salvar Nome
+                <span data-i18n="perfil.salvar">Salvar Nome</span>
               </button>
             </div>
           </div>
@@ -116,13 +116,13 @@ export const prerender = false;
           <div class="rounded-2xl p-6 space-y-5" style="background: #121212; border: 1px solid #2A3135;">
             <div class="flex items-center gap-2 mb-2">
               <span class="material-symbols-outlined text-cta text-lg">tune</span>
-              <h3 class="text-lg font-bold text-white">Preferências</h3>
+              <h3 class="text-lg font-bold text-white" data-i18n="perfil.prefs">Preferências</h3>
             </div>
 
             <div class="space-y-5">
               <!-- Seniority -->
               <div>
-                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-2 block">Senioridade</label>
+                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-2 block" data-i18n="perfil.senioridade">Senioridade</label>
                 <div class="grid grid-cols-3 gap-2">
                   <button data-seniority="junior" class="seniority-btn py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer border text-center">Junior</button>
                   <button data-seniority="pleno" class="seniority-btn py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer border text-center">Pleno</button>
@@ -132,13 +132,13 @@ export const prerender = false;
 
               <!-- Theme -->
               <div>
-                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-2 block">Tema</label>
+                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-2 block" data-i18n="perfil.tema">Tema</label>
                 <div class="grid grid-cols-2 gap-2">
                   <button data-theme="dark" class="theme-btn py-3 rounded-xl text-sm font-bold transition-all cursor-pointer border flex items-center justify-center gap-2">
-                    <span class="material-symbols-outlined text-sm">dark_mode</span> Escuro
+                    <span class="material-symbols-outlined text-sm">dark_mode</span> <span data-i18n="perfil.tema.escuro">Escuro</span>
                   </button>
                   <button data-theme="light" class="theme-btn py-3 rounded-xl text-sm font-bold transition-all cursor-pointer border flex items-center justify-center gap-2">
-                    <span class="material-symbols-outlined text-sm">light_mode</span> Claro
+                    <span class="material-symbols-outlined text-sm">light_mode</span> <span data-i18n="perfil.tema.claro">Claro</span>
                   </button>
                 </div>
               </div>
@@ -146,11 +146,11 @@ export const prerender = false;
               <!-- Language -->
               <div>
                 <div class="flex items-center gap-1.5 mb-2">
-                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500">Idioma</label>
+                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500" data-i18n="perfil.idioma">Idioma</label>
                   <div class="relative group/tip">
                     <span class="material-symbols-outlined text-slate-600 text-xs cursor-help">info</span>
                     <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 p-2.5 rounded-lg text-[11px] text-slate-300 leading-relaxed opacity-0 invisible group-hover/tip:opacity-100 group-hover/tip:visible transition-all z-20 pointer-events-none" style="background: #1a1a1a; border: 1px solid #2A3135;">
-                      Este idioma será usado na interface do sistema. O idioma do prompt gerado é configurado separadamente no wizard.
+                      <span data-i18n="perfil.idioma.tooltip">Este idioma será usado na interface do sistema. O idioma do prompt gerado é configurado separadamente no wizard.</span>
                       <div class="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 rotate-45" style="background: #1a1a1a; border-right: 1px solid #2A3135; border-bottom: 1px solid #2A3135;"></div>
                     </div>
                   </div>
@@ -175,13 +175,13 @@ export const prerender = false;
           <div class="absolute -top-20 -left-20 w-60 h-60 bg-primary/5 rounded-full blur-[80px] pointer-events-none"></div>
           <div class="flex items-center gap-2 mb-2 relative z-10">
             <span class="material-symbols-outlined text-primary text-lg">monitoring</span>
-            <h3 class="text-lg font-bold text-white">Uso & Consumo</h3>
+            <h3 class="text-lg font-bold text-white" data-i18n="perfil.uso">Uso</h3>
           </div>
 
           <!-- Plan card -->
           <div class="relative z-10 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style="background: rgba(46,116,139,0.06); border: 1px solid rgba(46,116,139,0.15);">
             <div>
-              <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1">Plano Atual</p>
+              <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1" data-i18n="perfil.uso.plano">Plano Atual</p>
               <div class="flex items-center gap-2">
                 <span id="usage-plan-name" class="text-xl font-bold text-white">Explorador</span>
                 <span id="usage-plan-badge" class="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">Free</span>
@@ -198,25 +198,50 @@ export const prerender = false;
             <div class="rounded-xl p-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px solid #2A3135;">
               <span class="material-symbols-outlined text-primary text-xl mb-1">description</span>
               <p id="usage-prd-count" class="text-2xl font-bold text-white">0</p>
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Gerações PRD</p>
+              <p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold" data-i18n="perfil.uso.geracoes">Gerações PRD</p>
             </div>
             <div class="rounded-xl p-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px solid #2A3135;">
               <span class="material-symbols-outlined text-cta text-xl mb-1">chat</span>
               <p id="usage-chat-count" class="text-2xl font-bold text-white">0</p>
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Chats</p>
+              <p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold" data-i18n="perfil.uso.chats">Chats</p>
             </div>
             <div class="rounded-xl p-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px solid #2A3135;">
               <span class="material-symbols-outlined text-purple-400 text-xl mb-1">volume_up</span>
               <p id="usage-tts-count" class="text-2xl font-bold text-white">0</p>
-              <p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Áudios TTS</p>
+              <p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold" data-i18n="perfil.uso.audios">Áudios TTS</p>
             </div>
           </div>
 
           <!-- Usage by model -->
           <div class="relative z-10">
-            <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-3">Uso por Modelo</p>
+            <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-3" data-i18n="perfil.uso.grafico">Uso por Modelo</p>
             <div id="usage-model-bars" class="space-y-2">
               <p class="text-xs text-slate-600 italic">Nenhum uso registrado ainda.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- SAVED PROJECTS -->
+        <!-- ══════════════════════════════════════════════ -->
+        <div class="rounded-2xl p-6 space-y-5 relative overflow-hidden" style="background: #121212; border: 1px solid #2A3135;">
+          <div class="absolute -bottom-20 -right-20 w-60 h-60 bg-violet-500/5 rounded-full blur-[80px] pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-2 relative z-10">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-lg">folder_special</span>
+              <h3 class="text-lg font-bold text-white">Meus Projetos</h3>
+              <span id="projects-count-badge" class="text-[9px] px-2 py-0.5 rounded-full font-bold bg-primary/10 text-primary border border-primary/20 hidden">0</span>
+            </div>
+            <a href="/app" class="flex items-center gap-1 text-xs text-primary hover:text-primary-light transition-colors font-semibold">
+              <span class="material-symbols-outlined text-sm">add</span> Novo
+            </a>
+          </div>
+
+          <div id="projects-list" class="relative z-10 space-y-3">
+            <div class="flex flex-col items-center justify-center py-8 text-center">
+              <span class="material-symbols-outlined text-3xl text-slate-700 mb-2">folder_off</span>
+              <p class="text-sm text-slate-500">Nenhum projeto salvo ainda</p>
+              <p class="text-[10px] text-slate-600 mt-1">Crie um projeto no Arquiteto de Software e salve aqui</p>
             </div>
           </div>
         </div>
@@ -228,8 +253,8 @@ export const prerender = false;
           <div class="absolute -top-20 -right-20 w-60 h-60 bg-primary/5 rounded-full blur-[80px] pointer-events-none"></div>
           <div class="flex items-center gap-2 mb-2 relative z-10">
             <span class="material-symbols-outlined text-primary text-lg">smart_toy</span>
-            <h3 class="text-lg font-bold text-white">Escolha seu Mentor</h3>
-            <span class="text-[10px] text-slate-500 ml-2">Selecione o agente que guiara seu desenvolvimento</span>
+            <h3 class="text-lg font-bold text-white" data-i18n="perfil.agente">Agente</h3>
+            <span class="text-[10px] text-slate-500 ml-2"></span>
           </div>
 
           <div id="agent-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
@@ -293,9 +318,10 @@ export const prerender = false;
           <div class="flex items-end justify-center gap-2 sm:gap-4 w-full max-w-4xl px-4">
             <div data-loading-agent="theboss" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
               <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
-                <img src="/agentes/Theboss.png" alt="The Boss" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold">The Boss</p>
+                <img src="/agentes/Theboss.png" alt="The Boss" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" />
+                <video src="/agentes/vids_agents/theboss_vid.mp4" class="agent-load-vid absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" muted playsinline preload="none"></video>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-[1]"></div>
+                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold z-[2]">The Boss</p>
               </div>
               <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden">
                 <div class="agent-load-bar h-full bg-[#C0392B] rounded-full transition-all duration-[4000ms] ease-out" style="width: 0%"></div>
@@ -303,9 +329,10 @@ export const prerender = false;
             </div>
             <div data-loading-agent="azrael" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
               <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
-                <img src="/agentes/Azrael.png" alt="Azrael" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold">Azrael</p>
+                <img src="/agentes/Azrael.png" alt="Azrael" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" />
+                <video src="/agentes/vids_agents/azraelvid.mp4" class="agent-load-vid absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" muted playsinline preload="none"></video>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-[1]"></div>
+                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold z-[2]">Azrael</p>
               </div>
               <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden">
                 <div class="agent-load-bar h-full bg-[#8E44AD] rounded-full transition-all duration-[4000ms] ease-out" style="width: 0%"></div>
@@ -313,9 +340,10 @@ export const prerender = false;
             </div>
             <div data-loading-agent="rizler" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
               <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
-                <img src="/agentes/Rizler.png" alt="Rizler" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold">Rizler</p>
+                <img src="/agentes/Rizler.png" alt="Rizler" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" />
+                <video src="/agentes/vids_agents/Rizlervid.mp4" class="agent-load-vid absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" muted playsinline preload="none"></video>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-[1]"></div>
+                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold z-[2]">Rizler</p>
               </div>
               <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden">
                 <div class="agent-load-bar h-full bg-[#27AE60] rounded-full transition-all duration-[4000ms] ease-out" style="width: 0%"></div>
@@ -323,9 +351,10 @@ export const prerender = false;
             </div>
             <div data-loading-agent="anastasia" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
               <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
-                <img src="/agentes/Anastasia.png" alt="Anastasia" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold">Anastasia</p>
+                <img src="/agentes/Anastasia.png" alt="Anastasia" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" />
+                <video src="/agentes/vids_agents/anastasia.mp4" class="agent-load-vid absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" muted playsinline preload="none"></video>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-[1]"></div>
+                <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold z-[2]">Anastasia</p>
               </div>
               <div class="w-full h-1 rounded-full bg-white/10 overflow-hidden">
                 <div class="agent-load-bar h-full bg-[#E91E63] rounded-full transition-all duration-[4000ms] ease-out" style="width: 0%"></div>
@@ -345,8 +374,8 @@ export const prerender = false;
           <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-cta/5 rounded-full blur-[80px] pointer-events-none"></div>
           <div class="flex items-center gap-2 mb-2 relative z-10">
             <span class="material-symbols-outlined text-cta text-lg">psychology</span>
-            <h3 class="text-lg font-bold text-white">Modelo do Mentor</h3>
-            <span class="text-[10px] text-slate-500 ml-2">LLM que seu agente usa no chat para conversar com voce</span>
+            <h3 class="text-lg font-bold text-white" data-i18n="perfil.llm">Modelo de LLM</h3>
+            <span class="text-[10px] text-slate-500 ml-2"></span>
           </div>
 
           <!-- Search -->
@@ -549,13 +578,13 @@ export const prerender = false;
                   <span class="material-symbols-outlined text-purple-400 text-2xl">analytics</span>
                 </div>
                 <div>
-                  <h3 class="text-lg font-bold text-white">Dashboard Administrativo</h3>
-                  <p class="text-xs text-slate-500">MRR, Churn, ARPU, LTV, custos de API e mais</p>
+                  <h3 class="text-lg font-bold text-white" data-i18n="perfil.admin.title">Dashboard Admin</h3>
+                  <p class="text-xs text-slate-500" data-i18n="perfil.admin.desc">Acessar painel administrativo completo</p>
                 </div>
               </div>
               <a href="/admin" class="px-5 py-2.5 rounded-xl bg-purple-500/15 text-purple-400 border border-purple-500/25 font-semibold text-sm hover:bg-purple-500/25 transition-all flex items-center gap-2">
                 <span class="material-symbols-outlined text-sm">open_in_new</span>
-                Abrir Dashboard
+                <span data-i18n="perfil.admin.btn">Abrir Dashboard</span>
               </a>
             </div>
           </div>
@@ -564,7 +593,7 @@ export const prerender = false;
             <div class="flex items-center justify-between mb-2">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-purple-400 text-lg">admin_panel_settings</span>
-                <h3 class="text-lg font-bold text-white">Gestão de Usuários</h3>
+                <h3 class="text-lg font-bold text-white" data-i18n="perfil.gestao">Gestão de Usuários</h3>
               </div>
               <button id="btn-add-user" type="button" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 hover:bg-purple-500/20 transition-all text-sm font-semibold cursor-pointer">
                 <span class="material-symbols-outlined text-sm">person_add</span>
@@ -575,7 +604,7 @@ export const prerender = false;
             <!-- Add user form (hidden by default) -->
             <div id="add-user-form" class="hidden rounded-xl p-5 space-y-4" style="background: rgba(168,85,247,0.05); border: 1px solid rgba(168,85,247,0.15);">
               <h4 class="text-sm font-bold text-purple-300">Novo Usuário</h4>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                 <div>
                   <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Nome</label>
                   <input id="new-user-name" type="text" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2.5 text-sm text-white focus:border-purple-500/60 outline-none transition-all" placeholder="Nome completo" />
@@ -591,6 +620,14 @@ export const prerender = false;
                     <option value="admin">Administrador</option>
                   </select>
                 </div>
+                <div>
+                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Plano</label>
+                  <select id="new-user-plan" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2.5 text-sm text-white focus:border-purple-500/60 outline-none transition-all">
+                    <option value="explorador">Explorador (Grátis)</option>
+                    <option value="consultor">Consultor (R$35/mês)</option>
+                    <option value="arquiteto">Arquiteto (R$50/mês)</option>
+                  </select>
+                </div>
               </div>
               <div id="add-user-msg" class="hidden rounded-lg px-3 py-2 text-sm font-medium"></div>
               <div class="flex gap-2">
@@ -604,16 +641,32 @@ export const prerender = false;
               </div>
             </div>
 
+            <!-- Search + Filter -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <div class="relative flex-1">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 text-base">search</span>
+                <input id="user-search-input" type="text" placeholder="Buscar por nome..." class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-white text-sm placeholder:text-slate-600 focus:border-purple-500/40 focus:outline-none focus:ring-1 focus:ring-purple-500/20 transition-all" />
+              </div>
+              <div class="flex items-center gap-2">
+                <button id="filter-admins-btn" type="button" class="user-filter-btn active flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer bg-purple-500/10 text-purple-400 border-purple-500/20">
+                  <span class="material-symbols-outlined text-[14px]">shield_person</span> Admins
+                </button>
+                <button id="filter-all-btn" type="button" class="user-filter-btn flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-slate-500 border-white/[0.06] hover:text-white hover:border-white/[0.12]">
+                  <span class="material-symbols-outlined text-[14px]">group</span> Todos
+                </button>
+              </div>
+            </div>
+
             <!-- Users table -->
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
                 <thead>
                   <tr class="text-left text-[10px] uppercase tracking-widest font-bold text-slate-500 border-b border-border-color">
-                    <th class="pb-3 pr-4">Usuário</th>
+                    <th class="pb-3 pr-4" data-i18n="perfil.gestao.nome">Nome</th>
                     <th class="pb-3 pr-4">E-mail</th>
-                    <th class="pb-3 pr-4">Cargo</th>
-                    <th class="pb-3 pr-4">Senioridade</th>
-                    <th class="pb-3 text-right">Ações</th>
+                    <th class="pb-3 pr-4" data-i18n="perfil.gestao.cargo">Cargo</th>
+                    <th class="pb-3 pr-4" data-i18n="perfil.gestao.senior">Senioridade</th>
+                    <th class="pb-3 text-right" data-i18n="perfil.gestao.acoes">Ações</th>
                   </tr>
                 </thead>
                 <tbody id="users-table-body" class="divide-y divide-border-color">
@@ -624,6 +677,7 @@ export const prerender = false;
                   </tr>
                 </tbody>
               </table>
+              <p id="users-empty-msg" class="hidden text-center text-slate-600 text-xs py-6">Nenhum usuario encontrado.</p>
             </div>
           </div>
         </div>
@@ -640,8 +694,8 @@ export const prerender = false;
 </Layout>
 
 <script>
-  import { supabase, getProfile, updateProfile, uploadAvatar, signOut, updatePassword, listAllProfiles, setUserRole, deleteUserProfile, inviteUser, getUserSubscription, getUserUsageStats } from '../lib/supabase';
-  import type { Profile, Subscription } from '../lib/supabase';
+  import { supabase, getProfile, updateProfile, uploadAvatar, signOut, updatePassword, listAllProfiles, setUserRole, deleteUserProfile, inviteUser, getUserSubscription, getUserUsageStats, getUserProjects, deleteProject } from '../lib/supabase';
+  import type { Profile, Subscription, Project } from '../lib/supabase';
 
   const loadingEl = document.getElementById('profile-loading')!;
   const unauthEl = document.getElementById('profile-unauth')!;
@@ -761,17 +815,65 @@ export const prerender = false;
   //  USER MANAGEMENT
   // ══════════════════════════════
 
-  async function loadUsers() {
-    const tbody = document.getElementById('users-table-body')!;
-    const profiles = await listAllProfiles();
+  let usersLoading = false;
+  let allProfiles: Profile[] = [];
+  let userFilter: 'admins' | 'all' = 'admins'; // default: show admins only
+  let userSearchQuery = '';
 
-    // We need emails — fetch from auth if possible, otherwise show ID
+  async function loadUsers() {
+    if (usersLoading) return;
+    usersLoading = true;
+
+    try {
+      const tbody = document.getElementById('users-table-body')!;
+      const emptyMsg = document.getElementById('users-empty-msg');
+      allProfiles = await listAllProfiles();
+      renderUsersTable();
+      attachUserTableEvents();
+    } catch (err) {
+      console.error('Erro ao carregar usuários:', err);
+    } finally {
+      usersLoading = false;
+    }
+  }
+
+  function getFilteredProfiles(): Profile[] {
+    let filtered = allProfiles;
+
+    // Role filter
+    if (userFilter === 'admins') {
+      filtered = filtered.filter(p => p.role === 'admin' || p.role === 'master');
+    }
+
+    // Search filter
+    if (userSearchQuery.length > 0) {
+      const q = userSearchQuery.toLowerCase();
+      filtered = filtered.filter(p =>
+        (p.full_name || '').toLowerCase().includes(q) ||
+        (p.id || '').toLowerCase().includes(q)
+      );
+    }
+
+    return filtered;
+  }
+
+  function renderUsersTable() {
+    const tbody = document.getElementById('users-table-body')!;
+    const emptyMsg = document.getElementById('users-empty-msg');
+    const profiles = getFilteredProfiles();
+
     tbody.innerHTML = '';
 
     if (profiles.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-slate-500">Nenhum usuário encontrado</td></tr>';
+      tbody.innerHTML = '';
+      if (emptyMsg) {
+        emptyMsg.textContent = userSearchQuery ? `Nenhum usuario encontrado para "${userSearchQuery}"` : (userFilter === 'admins' ? 'Nenhum administrador encontrado.' : 'Nenhum usuario encontrado.');
+        emptyMsg.classList.remove('hidden');
+      }
       return;
     }
+
+    if (emptyMsg) emptyMsg.classList.add('hidden');
 
     profiles.forEach(p => {
       const isSelf = p.id === currentUserId;
@@ -779,6 +881,16 @@ export const prerender = false;
       const roleColor = p.role === 'master' ? 'text-purple-400 bg-purple-500/10 border-purple-500/20'
         : p.role === 'admin' ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
         : 'text-slate-400 bg-white/5 border-border-color';
+
+      // Highlight search match
+      const displayName = p.full_name || 'Sem nome';
+      let nameHtml = displayName;
+      if (userSearchQuery.length > 0) {
+        const idx = displayName.toLowerCase().indexOf(userSearchQuery.toLowerCase());
+        if (idx !== -1) {
+          nameHtml = displayName.substring(0, idx) + '<mark class="bg-purple-500/30 text-white rounded px-0.5">' + displayName.substring(idx, idx + userSearchQuery.length) + '</mark>' + displayName.substring(idx + userSearchQuery.length);
+        }
+      }
 
       const row = document.createElement('tr');
       row.className = 'group';
@@ -791,7 +903,7 @@ export const prerender = false;
                 : `<span>${getInitials(p.full_name || '??')}</span>`
               }
             </div>
-            <span class="text-white font-medium">${p.full_name || 'Sem nome'}${isSelf ? ' <span class="text-slate-500 text-xs">(você)</span>' : ''}</span>
+            <span class="text-white font-medium">${nameHtml}${isSelf ? ' <span class="text-slate-500 text-xs">(você)</span>' : ''}</span>
           </div>
         </td>
         <td class="py-3.5 pr-4 text-slate-400">${p.id.slice(0, 8)}...</td>
@@ -806,7 +918,7 @@ export const prerender = false;
                 <option value="user" ${p.role === 'user' ? 'selected' : ''}>Usuário</option>
                 <option value="admin" ${p.role === 'admin' ? 'selected' : ''}>Admin</option>
               </select>
-              <button data-delete-user="${p.id}" class="p-1.5 rounded-lg text-red-400/60 hover:text-red-400 hover:bg-red-500/10 transition-all cursor-pointer" title="Remover usuário">
+              <button data-delete-user="${p.id}" data-delete-name="${displayName}" class="p-1.5 rounded-lg text-red-400/60 hover:text-red-400 hover:bg-red-500/10 transition-all cursor-pointer" title="Remover ${displayName}">
                 <span class="material-symbols-outlined text-sm">delete</span>
               </button>
             </div>
@@ -815,39 +927,82 @@ export const prerender = false;
       `;
       tbody.appendChild(row);
     });
+  }
 
-    // Role change handlers
-    tbody.querySelectorAll('.role-select').forEach(select => {
-      select.addEventListener('change', async (e) => {
-        const el = e.target as HTMLSelectElement;
-        const userId = el.dataset.userId!;
-        const newRole = el.value;
-        const { error } = await setUserRole(userId, newRole);
-        if (error) {
-          alert('Erro ao alterar cargo: ' + error.message);
-          loadUsers();
-        } else {
-          showFeedback();
-          loadUsers();
-        }
-      });
+  function attachUserTableEvents() {
+    const tbody = document.getElementById('users-table-body')!;
+    // Remove old listeners by replacing node
+    const newTbody = tbody.cloneNode(true) as HTMLElement;
+    tbody.parentNode!.replaceChild(newTbody, tbody);
+
+    newTbody.addEventListener('change', async (e) => {
+      const el = e.target as HTMLSelectElement;
+      if (!el.classList.contains('role-select')) return;
+      const userId = el.dataset.userId!;
+      const newRole = el.value;
+      el.disabled = true;
+      const { error } = await setUserRole(userId, newRole);
+      if (error) {
+        alert('Erro ao alterar cargo: ' + error.message);
+      } else {
+        showFeedback();
+      }
+      await loadUsers();
     });
 
-    // Delete handlers
-    tbody.querySelectorAll('[data-delete-user]').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const userId = (btn as HTMLElement).dataset.deleteUser!;
-        if (!confirm('Tem certeza que deseja remover este usuário?')) return;
-        const { error } = await deleteUserProfile(userId);
-        if (error) {
-          alert('Erro ao remover: ' + error.message);
-        } else {
-          showFeedback();
-          loadUsers();
-        }
-      });
+    newTbody.addEventListener('click', async (e) => {
+      const btn = (e.target as HTMLElement).closest('[data-delete-user]') as HTMLElement;
+      if (!btn) return;
+      const userId = btn.dataset.deleteUser!;
+      const userName = btn.dataset.deleteName || 'este usuario';
+      if (!confirm(`Tem certeza que deseja remover "${userName}"? Esta ação é irreversível.`)) return;
+      const { error } = await deleteUserProfile(userId);
+      if (error) {
+        alert('Erro ao remover: ' + error.message);
+      } else {
+        showFeedback();
+      }
+      await loadUsers();
     });
   }
+
+  // Search input
+  const userSearchInput = document.getElementById('user-search-input') as HTMLInputElement;
+  userSearchInput?.addEventListener('input', () => {
+    userSearchQuery = userSearchInput.value.trim();
+    renderUsersTable();
+    attachUserTableEvents();
+  });
+
+  // Filter buttons
+  const filterAdminsBtn = document.getElementById('filter-admins-btn');
+  const filterAllBtn = document.getElementById('filter-all-btn');
+
+  function updateFilterButtons() {
+    const activeClass = 'bg-purple-500/10 text-purple-400 border-purple-500/20';
+    const inactiveClass = 'text-slate-500 border-white/[0.06] hover:text-white hover:border-white/[0.12]';
+    if (userFilter === 'admins') {
+      filterAdminsBtn!.className = `user-filter-btn active flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${activeClass}`;
+      filterAllBtn!.className = `user-filter-btn flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${inactiveClass}`;
+    } else {
+      filterAllBtn!.className = `user-filter-btn active flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${activeClass}`;
+      filterAdminsBtn!.className = `user-filter-btn flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${inactiveClass}`;
+    }
+  }
+
+  filterAdminsBtn?.addEventListener('click', () => {
+    userFilter = 'admins';
+    updateFilterButtons();
+    renderUsersTable();
+    attachUserTableEvents();
+  });
+
+  filterAllBtn?.addEventListener('click', () => {
+    userFilter = 'all';
+    updateFilterButtons();
+    renderUsersTable();
+    attachUserTableEvents();
+  });
 
   // Init
   async function init() {
@@ -871,11 +1026,18 @@ export const prerender = false;
       return;
     }
 
+    // Redirect to login if terms not accepted (forces terms modal)
+    if (!profile.terms_accepted_at) {
+      window.location.href = '/login';
+      return;
+    }
+
     currentProfile = profile;
     renderProfile(profile, currentUserEmail);
     initAgentSelection();
     initLlmSelection();
     loadUsageData();
+    loadProjects();
     loadingEl.classList.add('hidden');
     contentEl.classList.remove('hidden');
   }
@@ -949,6 +1111,130 @@ export const prerender = false;
     } catch {
       // Tables may not exist yet — fail silently
     }
+  }
+
+  async function loadProjects() {
+    try {
+      const projects = await getUserProjects(currentUserId);
+      const listEl = document.getElementById('projects-list');
+      const countBadge = document.getElementById('projects-count-badge');
+      if (!listEl) return;
+
+      if (countBadge) {
+        countBadge.textContent = String(projects.length);
+        if (projects.length > 0) countBadge.classList.remove('hidden');
+      }
+
+      if (projects.length === 0) {
+        listEl.innerHTML = `
+          <div class="flex flex-col items-center justify-center py-8 text-center">
+            <span class="material-symbols-outlined text-3xl text-slate-700 mb-2">folder_off</span>
+            <p class="text-sm text-slate-500">Nenhum projeto salvo ainda</p>
+            <p class="text-[10px] text-slate-600 mt-1">Crie um projeto no Arquiteto de Software e salve aqui</p>
+          </div>`;
+        return;
+      }
+
+      const scaleLabels: Record<string, string> = { '50': 'Pessoal', '1000': 'Startup', '10000': 'Scale-up', '50000': 'Enterprise' };
+      const natureLabels: Record<string, string> = { hobby: 'Hobby', saas: 'SaaS', enterprise: 'Enterprise' };
+
+      listEl.innerHTML = projects.map((p: Project) => {
+        const date = new Date(p.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+        const hasImage = p.image_url && p.image_url.length > 0;
+        const prdPreview = (p.generated_prd || '').substring(0, 120).replace(/[#*\n]/g, ' ').trim();
+        return `
+          <div class="group rounded-xl p-4 transition-all hover:border-primary/20" style="background: rgba(255,255,255,0.02); border: 1px solid #2A3135;" data-project-id="${p.id}">
+            <div class="flex gap-3">
+              ${hasImage ? `<img src="${p.image_url}" alt="${p.name}" class="size-14 rounded-lg object-cover shrink-0 border border-white/5" />` : `<div class="size-14 rounded-lg bg-primary/5 border border-primary/10 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-xl">code</span></div>`}
+              <div class="flex-1 min-w-0">
+                <div class="flex items-start justify-between gap-2">
+                  <h4 class="text-sm font-bold text-white truncate">${p.name}</h4>
+                  <div class="flex items-center gap-1 shrink-0">
+                    <button type="button" class="project-view-btn p-1 rounded-md text-slate-600 hover:text-primary hover:bg-primary/10 transition-all" title="Ver PRD" data-prd="${encodeURIComponent(p.generated_prd || '')}" data-prompt="${encodeURIComponent(p.generated_prompt || '')}" data-name="${p.name}">
+                      <span class="material-symbols-outlined text-[16px]">visibility</span>
+                    </button>
+                    <button type="button" class="project-delete-btn p-1 rounded-md text-slate-600 hover:text-red-400 hover:bg-red-500/10 transition-all" title="Excluir" data-id="${p.id}">
+                      <span class="material-symbols-outlined text-[16px]">delete</span>
+                    </button>
+                  </div>
+                </div>
+                <p class="text-[10px] text-slate-500 mt-0.5">${date} · ${scaleLabels[p.scale] || p.scale || '-'} · ${natureLabels[p.nature] || p.nature || '-'}</p>
+                ${p.business_context ? `<p class="text-[11px] text-slate-600 mt-1 line-clamp-1">${p.business_context}</p>` : ''}
+                ${prdPreview ? `<p class="text-[10px] text-slate-700 mt-1 line-clamp-1 font-mono">${prdPreview}...</p>` : ''}
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+      // View project modal/expand
+      listEl.querySelectorAll('.project-view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const prd = decodeURIComponent(btn.getAttribute('data-prd') || '');
+          const prompt = decodeURIComponent(btn.getAttribute('data-prompt') || '');
+          const name = btn.getAttribute('data-name') || 'Projeto';
+          // Open in new tab with styled view
+          const htmlContent = buildProjectViewHtml(name, prd, prompt);
+          const w = window.open('', '_blank');
+          if (w) { w.document.write(htmlContent); w.document.close(); }
+        });
+      });
+
+      // Delete project
+      listEl.querySelectorAll('.project-delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          if (!id || !confirm('Deseja excluir este projeto?')) return;
+          await deleteProject(id);
+          const card = btn.closest('[data-project-id]');
+          if (card) card.remove();
+          // Update count
+          const remaining = listEl.querySelectorAll('[data-project-id]').length;
+          if (countBadge) countBadge.textContent = String(remaining);
+          if (remaining === 0) {
+            if (countBadge) countBadge.classList.add('hidden');
+            listEl.innerHTML = `
+              <div class="flex flex-col items-center justify-center py-8 text-center">
+                <span class="material-symbols-outlined text-3xl text-slate-700 mb-2">folder_off</span>
+                <p class="text-sm text-slate-500">Nenhum projeto salvo ainda</p>
+                <p class="text-[10px] text-slate-600 mt-1">Crie um projeto no Arquiteto de Software e salve aqui</p>
+              </div>`;
+          }
+        });
+      });
+    } catch (err) {
+      console.error('[Projects]', err);
+    }
+  }
+
+  function buildProjectViewHtml(name: string, prd: string, prompt: string) {
+    const date = new Date().toLocaleDateString('pt-BR');
+    return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${name} - BuildCode</title>
+    <style>
+      body{font-family:"Segoe UI",Helvetica,sans-serif;max-width:900px;margin:40px auto;padding:0 30px;color:#e2e8f0;background:#0a0a0a;line-height:1.7;font-size:14px}
+      .header{background:linear-gradient(135deg,#0d1b2a,#1b3a4b);padding:30px 40px;margin:-40px -30px 30px;border-radius:0 0 12px 12px}
+      .header h1{color:#fff;font-size:24px;margin:0;letter-spacing:0.5px}.header p{color:#a8c5d6;margin:4px 0 0;font-size:13px}
+      h1{font-size:24px;color:#fff;border-bottom:2px solid #2E748B;padding-bottom:12px;margin-top:40px}
+      h2{font-size:18px;color:#94a3b8;border-bottom:1px solid #1e293b;padding-bottom:8px;margin-top:28px}
+      h3{font-size:15px;color:#2E748B;margin-top:16px}
+      pre{background:#111;border:1px solid #1e293b;border-radius:8px;padding:16px;overflow-x:auto;font-size:13px;color:#a8c5d6}
+      .tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid #1e293b;padding-bottom:0}
+      .tab{padding:10px 20px;cursor:pointer;color:#64748b;font-weight:600;font-size:13px;border-bottom:2px solid transparent;transition:all 0.2s}
+      .tab.active{color:#2E748B;border-bottom-color:#2E748B}
+      .tab:hover{color:#94a3b8}
+      .content{display:none;white-space:pre-wrap;font-family:monospace;font-size:13px;line-height:1.8;color:#cbd5e1}
+      .content.active{display:block}
+      .footer{text-align:center;margin-top:60px;padding:20px;border-top:1px solid #1e293b;color:#475569;font-size:11px}
+    </style></head><body>
+    <div class="header"><h1>${name}</h1><p>BuildCode AI Engine — Gerado em ${date}</p></div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(0)">PRD</div>
+      <div class="tab" onclick="switchTab(1)">Prompt Base</div>
+    </div>
+    <div class="content active" id="tab-0">${prd.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+    <div class="content" id="tab-1">${prompt.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+    <div class="footer">BuildCode AI Engine v2.1 — buildcode.app</div>
+    <script>function switchTab(i){document.querySelectorAll('.content').forEach((e,j)=>{e.classList.toggle('active',j===i)});document.querySelectorAll('.tab').forEach((e,j)=>{e.classList.toggle('active',j===i)})}<\/script>
+    </body></html>`;
   }
 
   init();
@@ -1150,17 +1436,32 @@ export const prerender = false;
     screen.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 
-    // Highlight selected agent
+    // Highlight selected agent + play video
     document.querySelectorAll('.agent-loading-col').forEach(col => {
       const id = (col as HTMLElement).dataset.loadingAgent;
+      const vid = col.querySelector('.agent-load-vid') as HTMLVideoElement | null;
+      const img = col.querySelector('.agent-load-img') as HTMLElement | null;
+
       if (id === selectedId) {
         col.classList.remove('opacity-30', 'grayscale');
         col.classList.add('opacity-100');
         const border = col.querySelector('.relative') as HTMLElement;
         if (border) border.style.borderColor = agentColors[id] || '#2E748B';
+
+        // Play video for selected agent
+        if (vid) {
+          vid.currentTime = 0;
+          vid.play().catch(() => {});
+          vid.style.opacity = '1';
+        }
+        if (img) img.style.opacity = '0';
       } else {
         col.classList.add('opacity-30', 'grayscale');
         col.classList.remove('opacity-100');
+
+        // Keep others as static image
+        if (vid) { vid.pause(); vid.style.opacity = '0'; }
+        if (img) img.style.opacity = '1';
       }
     });
 
@@ -1176,10 +1477,22 @@ export const prerender = false;
       });
     }, 100);
 
-    // Close after 4 seconds
+    // Close after 4 seconds — stop all videos
     setTimeout(() => {
       screen.classList.add('hidden');
       document.body.style.overflow = '';
+      document.querySelectorAll('.agent-load-vid').forEach(v => {
+        const vid = v as HTMLVideoElement;
+        vid.pause();
+        vid.style.opacity = '0';
+      });
+      document.querySelectorAll('.agent-load-img').forEach(img => {
+        (img as HTMLElement).style.opacity = '1';
+      });
+      // Reset progress bars for next time
+      document.querySelectorAll('.agent-load-bar').forEach(bar => {
+        (bar as HTMLElement).style.width = '0%';
+      });
     }, 4200);
   }
 
@@ -1297,6 +1610,7 @@ export const prerender = false;
     const name = (document.getElementById('new-user-name') as HTMLInputElement).value.trim();
     const email = (document.getElementById('new-user-email') as HTMLInputElement).value.trim();
     const role = (document.getElementById('new-user-role') as HTMLSelectElement).value as 'user' | 'admin';
+    const plan = (document.getElementById('new-user-plan') as HTMLSelectElement).value;
     const msgEl = document.getElementById('add-user-msg')!;
 
     if (!name || !email) {
@@ -1308,7 +1622,7 @@ export const prerender = false;
     msgEl.className = 'rounded-lg px-3 py-2 text-sm font-medium bg-primary/10 text-primary border border-primary/20';
     msgEl.textContent = 'Criando usuário...';
 
-    const { error } = await inviteUser(email, name, role);
+    const { error } = await inviteUser(email, name, role, plan);
     if (error) {
       msgEl.className = 'rounded-lg px-3 py-2 text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20';
       msgEl.textContent = 'Erro: ' + error.message;
@@ -1324,4 +1638,14 @@ export const prerender = false;
       }, 3000);
     }
   });
+
+  // Logo swap for light/dark theme
+  function updatePageLogo() {
+    document.querySelectorAll('img[data-dark][data-light]').forEach(el => {
+      const isLight = document.documentElement.classList.contains('light');
+      el.setAttribute('src', isLight ? (el.getAttribute('data-light') || '') : (el.getAttribute('data-dark') || ''));
+    });
+  }
+  updatePageLogo();
+  new MutationObserver(updatePageLogo).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 </script>

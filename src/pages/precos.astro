@@ -11,9 +11,9 @@ import Header from '../components/Header.astro';
     <!-- Hero Section -->
     <section class="pt-24 pb-16 px-4 sm:px-6 lg:px-24 text-center max-w-5xl mx-auto">
       <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-6">
-        Arquitete seu <span class="text-primary">Futuro</span>
+        <span data-i18n="precos.hero.title.1">Arquitete seu </span><span class="text-primary" data-i18n="precos.hero.title.highlight">Futuro</span>
       </h1>
-      <p class="text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-12">
+      <p class="text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-12" data-i18n="precos.hero.subtitle">
         Software de precisão para o arquiteto técnico moderno. Escolha o plano que escala com sua ambição.
       </p>
 
@@ -21,14 +21,14 @@ import Header from '../components/Header.astro';
       <div class="inline-flex items-center gap-3 rounded-full border border-border-color bg-surface-dark p-1.5">
         <label class="cursor-pointer">
           <input type="radio" name="billing-cycle" value="monthly" checked class="sr-only peer" />
-          <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-slate-400 transition-all">
+          <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-slate-400 transition-all" data-i18n="precos.billing.monthly">
             Mensal
           </span>
         </label>
         <label class="cursor-pointer">
           <input type="radio" name="billing-cycle" value="yearly" class="sr-only peer" />
           <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-slate-400 transition-all">
-            Anual <span class="text-xs opacity-80">(-20%)</span>
+            <span data-i18n="precos.billing.yearly">Anual</span> <span class="text-xs opacity-80" data-i18n="precos.billing.discount">(-20%)</span>
           </span>
         </label>
       </div>
@@ -40,72 +40,88 @@ import Header from '../components/Header.astro';
 
         <!-- Card 1: Explorador (Free) -->
         <div class="glass-panel rounded-2xl p-8 flex flex-col h-full">
-          <h3 class="text-xl font-bold text-white mb-1">Explorador</h3>
-          <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">Free</p>
+          <h3 class="text-xl font-bold text-white mb-1" data-i18n="precos.plan.explorer">Explorador</h3>
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4" data-i18n="precos.plan.explorer.tag">Free</p>
           <div class="mb-4">
             <span class="text-4xl font-bold text-white" data-price-monthly="R$ 0" data-price-yearly="R$ 0">R$ 0</span>
             <span class="text-slate-500 text-sm">/mês</span>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-8">
-            Perfeito para entusiastas e desenvolvedores individuais começando sua jornada.
+          <p class="text-slate-400 text-sm leading-relaxed mb-8" data-i18n="precos.plan.explorer.desc">
+            Perfeito para quem quer explorar o sistema e entender o poder da arquitetura assistida por IA.
           </p>
-          <a href="/app" class="block text-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all mb-8">
+          <a href="/app" class="block text-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all mb-8" data-i18n="precos.plan.explorer.cta" id="btn-free">
             Começar Grátis
           </a>
-          <ul class="space-y-4 mt-auto">
+          <ul class="space-y-3 mt-auto">
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
-              <span class="text-slate-300 text-sm">1 Projeto Ativo</span>
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">smart_toy</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.explorer.f1">Apenas agente</span> <strong class="text-white">The Boss</strong></span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
-              <span class="text-slate-300 text-sm">Ferramentas Básicas de Arquitetura</span>
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">save</span>
+              <span class="text-slate-300 text-sm">Até <strong class="text-white">3 PRDs</strong> <span data-i18n="precos.plan.explorer.f2">e Prompt Bases salvos</span></span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
-              <span class="text-slate-300 text-sm">Compartilhamento Público</span>
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">token</span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">50 requisições/mês</strong> <span data-i18n="precos.plan.explorer.f3">de IA gratuita</span></span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
-              <span class="text-slate-300 text-sm">Suporte da Comunidade</span>
+              <span class="material-symbols-outlined text-slate-600 text-lg shrink-0 mt-0.5">block</span>
+              <span class="text-slate-500 text-sm" data-i18n="precos.plan.explorer.f4">LLMs médias e premium bloqueadas</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">short_text</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.explorer.f5">Prompt Base até</span> <strong class="text-white">10.000 caracteres</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-slate-600 text-lg shrink-0 mt-0.5">volume_off</span>
+              <span class="text-slate-500 text-sm" data-i18n="precos.plan.explorer.f6">Sem resumo em áudio</span>
             </li>
           </ul>
         </div>
 
         <!-- Card 2: Consultor (Pro) — Highlighted -->
         <div class="relative rounded-2xl p-8 flex flex-col h-full border-2 border-primary/40 bg-surface-dark" style="box-shadow: 0 0 40px rgba(46,116,139,0.15), 0 0 80px rgba(46,116,139,0.05);">
-          <h3 class="text-xl font-bold text-white mb-1">Consultor</h3>
-          <p class="text-xs font-semibold text-primary uppercase tracking-widest mb-4">Pro</p>
+          <h3 class="text-xl font-bold text-white mb-1" data-i18n="precos.plan.pro">Consultor</h3>
+          <p class="text-xs font-semibold text-primary uppercase tracking-widest mb-4" data-i18n="precos.plan.pro.tag">Pro</p>
           <div class="mb-4">
             <span class="text-4xl font-bold text-white" data-price-monthly="R$ 35" data-price-yearly="R$ 28">R$ 35</span>
             <span class="text-slate-500 text-sm">/mês</span>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-8">
-            Recursos essenciais para desenvolvedores em crescimento e consultores freelance.
+          <p class="text-slate-400 text-sm leading-relaxed mb-8" data-i18n="precos.plan.pro.desc">
+            Ideal para desenvolvedores em crescimento e consultores freelance que precisam de mais poder.
           </p>
-          <a href="/app" class="block text-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-background-dark hover:bg-secondary transition-all shadow-[0_0_20px_rgba(46,116,139,0.3)] mb-8">
+          <button type="button" class="btn-checkout block w-full text-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-background-dark hover:bg-secondary transition-all shadow-[0_0_20px_rgba(46,116,139,0.3)] mb-8 cursor-pointer" data-plan="consultor" data-i18n="precos.plan.pro.cta">
             Upgrade para Pro
-          </a>
-          <ul class="space-y-4 mt-auto">
+          </button>
+          <ul class="space-y-3 mt-auto">
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
-              <span class="text-slate-300 text-sm">Projetos Ilimitados</span>
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">groups</span>
+              <span class="text-slate-300 text-sm"><strong class="text-white" data-i18n="precos.agents.all">Todos os agentes</strong> <span data-i18n="precos.plan.pro.f1">liberados</span></span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
-              <span class="text-slate-300 text-sm">Biblioteca Avançada de Componentes</span>
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">save</span>
+              <span class="text-slate-300 text-sm">Até <strong class="text-white">15 PRDs</strong> <span data-i18n="precos.plan.pro.f2">e Prompt Bases salvos</span></span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
-              <span class="text-slate-300 text-sm">Sincronização em Nuvem Privada</span>
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">all_inclusive</span>
+              <span class="text-slate-300 text-sm">LLMs gratuitas e médias <strong class="text-white" data-i18n="precos.plan.pro.f3">ilimitadas</strong></span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
-              <span class="text-slate-300 text-sm">Exportação Multi-Formato</span>
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">bolt</span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">100 chamadas/mês</strong> <span data-i18n="precos.plan.pro.f4">em LLMs premium</span></span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">check_circle</span>
-              <span class="text-slate-300 text-sm">Suporte Prioritário por E-mail</span>
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">notes</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.pro.f5">Prompt Base até</span> <strong class="text-white">25.000 caracteres</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">upload_file</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.pro.f6">Importação em</span> <strong class="text-white">.md</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">volume_up</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.audio">Resumo em</span> <strong class="text-white" data-i18n="precos.audio.word">áudio</strong> <span data-i18n="precos.plan.pro.f7">da IA</span></span>
             </li>
           </ul>
         </div>
@@ -113,45 +129,57 @@ import Header from '../components/Header.astro';
         <!-- Card 3: Arquiteto (Elite) -->
         <div class="relative rounded-2xl p-8 flex flex-col h-full bg-surface-dark border border-cta/20" style="box-shadow: 0 0 40px rgba(242,171,109,0.08);">
           <!-- Elite badge -->
-          <div class="absolute top-4 right-4 bg-cta/10 border border-cta/30 text-cta text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-            Elite Choice
+          <div class="absolute top-4 right-4 bg-cta/10 border border-cta/30 text-cta text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full" data-i18n="precos.plan.elite.badge">
+            Recomendado
           </div>
-          <h3 class="text-xl font-bold text-white mb-1">Arquiteto</h3>
-          <p class="text-xs font-semibold text-cta uppercase tracking-widest mb-4">Elite</p>
+          <h3 class="text-xl font-bold text-white mb-1" data-i18n="precos.plan.elite">Arquiteto</h3>
+          <p class="text-xs font-semibold text-cta uppercase tracking-widest mb-4" data-i18n="precos.plan.elite.tag">Elite</p>
           <div class="mb-4">
             <span class="text-4xl font-bold text-white" data-price-monthly="R$ 50" data-price-yearly="R$ 40">R$ 50</span>
             <span class="text-slate-500 text-sm">/mês</span>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-8">
-            O kit definitivo para arquitetos líderes e sistemas de nível enterprise.
+          <p class="text-slate-400 text-sm leading-relaxed mb-8" data-i18n="precos.plan.elite.desc">
+            O kit definitivo — poder absoluto para arquitetos que exigem o máximo do sistema.
           </p>
-          <a href="/app" class="block text-center rounded-full px-6 py-3 text-sm font-bold text-background-dark transition-all shadow-[0_0_20px_rgba(242,171,109,0.25)] mb-8" style="background: linear-gradient(135deg, #F2AB6D, #D4894A);">
+          <button type="button" class="btn-checkout block w-full text-center rounded-full px-6 py-3 text-sm font-bold text-background-dark transition-all shadow-[0_0_20px_rgba(242,171,109,0.25)] mb-8 cursor-pointer" style="background: linear-gradient(135deg, #F2AB6D, #D4894A);" data-plan="arquiteto" data-i18n="precos.plan.elite.cta">
             Começar Agora
-          </a>
-          <ul class="space-y-4 mt-auto">
+          </button>
+          <ul class="space-y-3 mt-auto">
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">stars</span>
-              <span class="text-slate-300 text-sm">Tudo do Consultor</span>
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">groups</span>
+              <span class="text-slate-300 text-sm"><strong class="text-white" data-i18n="precos.agents.all">Todos os agentes</strong> <span data-i18n="precos.plan.elite.f1">liberados</span></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">all_inclusive</span>
+              <span class="text-slate-300 text-sm">PRDs e <span data-i18n="precos.promptbases">Prompt Bases</span> <strong class="text-white" data-i18n="precos.plan.elite.f2">ilimitados</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">all_inclusive</span>
+              <span class="text-slate-300 text-sm">LLMs gratuitas e médias <strong class="text-white" data-i18n="precos.plan.elite.f3">ilimitadas</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">bolt</span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">300 chamadas/mês</strong> <span data-i18n="precos.plan.elite.f4">em LLMs premium</span></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">description</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.elite.f5">Prompt Base até</span> <strong class="text-white">80.000 caracteres</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">folder_open</span>
+              <span class="text-slate-300 text-sm">Importação em <strong class="text-white">PDF, .md, Word</strong> <span data-i18n="precos.plan.elite.f6">e mais</span></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">volume_up</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.audio">Resumo em</span> <strong class="text-white" data-i18n="precos.audio.word">áudio</strong> <span data-i18n="precos.plan.elite.f7">da IA</span></span>
             </li>
             <li class="flex items-start gap-3">
               <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">psychology</span>
-              <span class="text-slate-300 text-sm">Assistente de Arquitetura IA</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.responses">Respostas</span> <strong class="text-white" data-i18n="precos.plan.elite.f8">mais inteligentes</strong></span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">palette</span>
-              <span class="text-slate-300 text-sm">Design Systems Customizados</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">hub</span>
-              <span class="text-slate-300 text-sm">Colaboração em Tempo Real</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">support_agent</span>
-              <span class="text-slate-300 text-sm">Suporte Concierge 24/7</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">science</span>
-              <span class="text-slate-300 text-sm">Acesso Antecipado a Beta</span>
+              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">auto_awesome</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.promptbases">Prompt Bases</span> <strong class="text-white" data-i18n="precos.plan.elite.f9">mais detalhados</strong></span>
             </li>
           </ul>
         </div>
@@ -162,68 +190,68 @@ import Header from '../components/Header.astro';
     <!-- Bento Grid: Por que BuildCode? -->
     <section class="px-4 sm:px-6 lg:px-24 pb-24 max-w-6xl mx-auto">
       <h2 class="text-3xl sm:text-4xl font-display font-bold text-white text-center mb-12">
-        Por que <span class="text-primary">BuildCode</span>?
+        <span data-i18n="precos.why.title.1">Por que </span><span class="text-primary" data-i18n="precos.why.title.2">BuildCode</span><span data-i18n="precos.why.title.3">?</span>
       </h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[180px]">
         <!-- Big card: 2 cols, 2 rows -->
         <div class="glass-panel rounded-2xl p-8 flex flex-col justify-end sm:col-span-2 sm:row-span-2">
           <span class="material-symbols-outlined text-primary text-4xl mb-4">dynamic_feed</span>
-          <h3 class="text-xl font-bold text-white mb-2">Precisão Sistêmica</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">
+          <h3 class="text-xl font-bold text-white mb-2" data-i18n="precos.why.precision.title">Precisão Sistêmica</h3>
+          <p class="text-slate-400 text-sm leading-relaxed" data-i18n="precos.why.precision.desc">
             Arquiteturas modeladas com teoria dos grafos e padrões comprovados. Cada conexão, cada dependência é mapeada com precisão matemática para garantir integridade estrutural do seu sistema.
           </p>
         </div>
         <!-- Speed -->
         <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end">
           <span class="material-symbols-outlined text-primary text-3xl mb-3">speed</span>
-          <h3 class="text-base font-bold text-white mb-1">Workflow Relâmpago</h3>
-          <p class="text-slate-500 text-xs leading-relaxed">Prototipe e valide arquiteturas em minutos, não semanas.</p>
+          <h3 class="text-base font-bold text-white mb-1" data-i18n="precos.why.speed.title">Workflow Relâmpago</h3>
+          <p class="text-slate-500 text-xs leading-relaxed" data-i18n="precos.why.speed.desc">Prototipe e valide arquiteturas em minutos, não semanas.</p>
         </div>
         <!-- Security -->
         <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end">
           <span class="material-symbols-outlined text-primary text-3xl mb-3">security</span>
-          <h3 class="text-base font-bold text-white mb-1">Seguro & Protegido</h3>
-          <p class="text-slate-500 text-xs leading-relaxed">Criptografia de ponta a ponta em todos os seus projetos.</p>
+          <h3 class="text-base font-bold text-white mb-1" data-i18n="precos.why.security.title">Seguro & Protegido</h3>
+          <p class="text-slate-500 text-xs leading-relaxed" data-i18n="precos.why.security.desc">Criptografia de ponta a ponta em todos os seus projetos.</p>
         </div>
         <!-- AI Ready -->
         <div class="rounded-2xl p-6 flex flex-col justify-end bg-surface-dark border border-border-color col-span-1 sm:col-span-2 lg:col-span-2">
           <span class="material-symbols-outlined text-primary text-3xl mb-3">auto_awesome</span>
-          <h3 class="text-base font-bold text-white mb-1">Pronto para IA</h3>
-          <p class="text-slate-500 text-xs leading-relaxed">Inteligência artificial integrada que sugere padrões, detecta anti-patterns e otimiza sua arquitetura automaticamente.</p>
+          <h3 class="text-base font-bold text-white mb-1" data-i18n="precos.why.ai.title">Pronto para IA</h3>
+          <p class="text-slate-500 text-xs leading-relaxed" data-i18n="precos.why.ai.desc">Inteligência artificial integrada que sugere padrões, detecta anti-patterns e otimiza sua arquitetura automaticamente.</p>
         </div>
       </div>
     </section>
 
     <!-- FAQ Section -->
     <section class="px-4 sm:px-6 lg:px-24 pb-24 max-w-3xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl font-display font-bold text-white text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-display font-bold text-white text-center mb-12" data-i18n="precos.faq.title">
         Perguntas Frequentes
       </h2>
       <div class="space-y-4">
         <details class="group glass-panel rounded-xl">
           <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-white font-semibold text-sm list-none">
-            Posso trocar de plano depois?
+            <span data-i18n="precos.faq.q1">Posso trocar de plano depois?</span>
             <span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform">expand_more</span>
           </summary>
-          <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed">
+          <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed" data-i18n="precos.faq.a1">
             Sim, você pode fazer upgrade ou downgrade a qualquer momento. A cobrança é ajustada proporcionalmente no próximo ciclo de faturamento.
           </div>
         </details>
         <details class="group glass-panel rounded-xl">
           <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-white font-semibold text-sm list-none">
-            Vocês oferecem desconto educacional?
+            <span data-i18n="precos.faq.q2">Vocês oferecem desconto educacional?</span>
             <span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform">expand_more</span>
           </summary>
-          <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed">
+          <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed" data-i18n="precos.faq.a2">
             Sim, oferecemos 50% de desconto no plano Consultor para estudantes e educadores com e-mail institucional válido (.edu ou equivalente).
           </div>
         </details>
         <details class="group glass-panel rounded-xl">
           <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-white font-semibold text-sm list-none">
-            Meus dados são criptografados?
+            <span data-i18n="precos.faq.q3">Meus dados são criptografados?</span>
             <span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform">expand_more</span>
           </summary>
-          <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed">
+          <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed" data-i18n="precos.faq.a3">
             Absolutamente. Utilizamos criptografia AES-256 para dados em repouso e TLS 1.3 para dados em trânsito, garantindo segurança de nível enterprise.
           </div>
         </details>
@@ -234,7 +262,7 @@ import Header from '../components/Header.astro';
     <footer class="border-t border-border-color px-4 sm:px-6 lg:px-24 py-10">
       <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
         <div class="flex items-center gap-3">
-          <img src="/logo_backofff.png" alt="BuildCode" class="h-7 w-auto object-contain" />
+          <img id="precos-logo" src="/logo_backofff.png" data-dark="/logo_backofff.png" data-light="/Logowhitemodeloff.png" alt="BuildCode" class="h-7 w-auto object-contain" />
           <span class="font-display font-bold text-white text-lg">BuildCode</span>
         </div>
         <div class="flex items-center gap-6 text-sm text-slate-500">
@@ -243,29 +271,142 @@ import Header from '../components/Header.astro';
           <a href="#" class="hover:text-primary transition-colors">Privacidade</a>
           <a href="#" class="hover:text-primary transition-colors">Termos</a>
         </div>
-        <p class="text-xs text-slate-600">&copy; 2024 BuildCode. Todos os direitos reservados.</p>
+        <p class="text-xs text-slate-600">&copy; 2024 BuildCode. <span data-i18n="precos.footer.rights">Todos os direitos reservados.</span></p>
       </div>
     </footer>
   </main>
 </Layout>
 
 <script>
-  // Billing toggle: switch prices between monthly and yearly
+  import { createClient } from '@supabase/supabase-js';
+
+  const supabase = createClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+  );
+
   document.addEventListener('DOMContentLoaded', () => {
+    // ── Billing toggle ──
     const radios = document.querySelectorAll<HTMLInputElement>('input[name="billing-cycle"]');
     const priceEls = document.querySelectorAll<HTMLElement>('[data-price-monthly]');
+
+    function getSelectedCycle(): 'monthly' | 'yearly' {
+      const checked = document.querySelector<HTMLInputElement>('input[name="billing-cycle"]:checked');
+      return (checked?.value === 'yearly') ? 'yearly' : 'monthly';
+    }
 
     radios.forEach(radio => {
       radio.addEventListener('change', () => {
         const isYearly = radio.value === 'yearly';
         priceEls.forEach(el => {
-          el.textContent = isYearly
-            ? el.dataset.priceYearly!
-            : el.dataset.priceMonthly!;
+          el.textContent = isYearly ? el.dataset.priceYearly! : el.dataset.priceMonthly!;
         });
       });
     });
+
+    // ── Checkout buttons ──
+    const checkoutButtons = document.querySelectorAll<HTMLButtonElement>('.btn-checkout');
+
+    checkoutButtons.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const plan = btn.dataset.plan;
+        if (!plan) return;
+
+        // Check auth
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) {
+          // Save desired plan in sessionStorage for after login
+          sessionStorage.setItem('pendingPlan', plan);
+          sessionStorage.setItem('pendingCycle', getSelectedCycle());
+          window.location.href = '/login';
+          return;
+        }
+
+        // Show loading state
+        const originalText = btn.textContent || '';
+        btn.disabled = true;
+        btn.textContent = 'Processando...';
+        btn.style.opacity = '0.7';
+
+        try {
+          const res = await fetch('/api/asaas/create-checkout', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session.access_token}`,
+            },
+            body: JSON.stringify({
+              plan,
+              billingCycle: getSelectedCycle(),
+            }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.error || 'Erro ao processar pagamento');
+          }
+
+          if (data.invoiceUrl) {
+            // Redirect to Asaas payment page
+            window.location.href = data.invoiceUrl;
+          } else {
+            // Fallback: show success message, payment link may arrive by email
+            alert('Assinatura criada! Verifique seu e-mail para o link de pagamento.');
+            btn.textContent = originalText;
+            btn.disabled = false;
+            btn.style.opacity = '1';
+          }
+        } catch (err: any) {
+          alert(err.message || 'Erro ao processar. Tente novamente.');
+          btn.textContent = originalText;
+          btn.disabled = false;
+          btn.style.opacity = '1';
+        }
+      });
+    });
+
+    // ── Resume pending checkout after login redirect ──
+    (async () => {
+      const pendingPlan = sessionStorage.getItem('pendingPlan');
+      const pendingCycle = sessionStorage.getItem('pendingCycle');
+      if (!pendingPlan) return;
+
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      // Clear stored plan
+      sessionStorage.removeItem('pendingPlan');
+      sessionStorage.removeItem('pendingCycle');
+
+      // Auto-trigger checkout
+      const btn = document.querySelector<HTMLButtonElement>(`.btn-checkout[data-plan="${pendingPlan}"]`);
+      if (btn) {
+        // Set the billing cycle first
+        if (pendingCycle === 'yearly') {
+          const yearlyRadio = document.querySelector<HTMLInputElement>('input[name="billing-cycle"][value="yearly"]');
+          if (yearlyRadio) {
+            yearlyRadio.checked = true;
+            yearlyRadio.dispatchEvent(new Event('change'));
+          }
+        }
+        // Small delay then click
+        setTimeout(() => btn.click(), 500);
+      }
+    })();
   });
+</script>
+
+<script>
+  // Logo swap for light/dark theme
+  function updatePageLogo() {
+    document.querySelectorAll('img[data-dark][data-light]').forEach(el => {
+      const isLight = document.documentElement.classList.contains('light');
+      el.setAttribute('src', isLight ? (el.getAttribute('data-light') || '') : (el.getAttribute('data-dark') || ''));
+    });
+  }
+  updatePageLogo();
+  new MutationObserver(updatePageLogo).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 </script>
 
 <style>

@@ -258,4 +258,129 @@ export const translations: Record<string, Record<string, string>> = {
   "app.modal.cons": { pt: "Contras", en: "Cons" },
   "app.modal.ideal": { pt: "Cena Ideal", en: "Ideal Scenario" },
   "app.modal.website": { pt: "Acessar Site Oficial", en: "Visit Official Website" },
+
+  // ══════════════════════════════════
+  //  PREÇOS (Pricing Page)
+  // ══════════════════════════════════
+  "precos.hero.title.1": { pt: "Arquitete seu ", en: "Architect your " },
+  "precos.hero.title.highlight": { pt: "Futuro", en: "Future" },
+  "precos.hero.subtitle": {
+    pt: "Software de precisão para o arquiteto técnico moderno. Escolha o plano que escala com sua ambição.",
+    en: "Precision software for the modern technical architect. Choose the plan that scales with your ambition."
+  },
+  "precos.billing.monthly": { pt: "Mensal", en: "Monthly" },
+  "precos.billing.yearly": { pt: "Anual", en: "Yearly" },
+  "precos.billing.discount": { pt: "(-20%)", en: "(-20%)" },
+  "precos.plan.explorer": { pt: "Explorador", en: "Explorer" },
+  "precos.plan.explorer.tag": { pt: "Free", en: "Free" },
+  "precos.plan.explorer.desc": {
+    pt: "Perfeito para quem quer explorar o sistema e entender o poder da arquitetura assistida por IA.",
+    en: "Perfect for those who want to explore the system and understand the power of AI-assisted architecture."
+  },
+  "precos.plan.explorer.cta": { pt: "Começar Grátis", en: "Start Free" },
+  "precos.plan.explorer.f1": { pt: "Apenas agente", en: "Only agent" },
+  "precos.plan.explorer.f2": { pt: "e Prompt Bases salvos", en: "and Prompt Bases saved" },
+  "precos.plan.explorer.f3": { pt: "de IA gratuita", en: "of free AI" },
+  "precos.plan.explorer.f4": { pt: "LLMs médias e premium bloqueadas", en: "Medium and premium LLMs locked" },
+  "precos.plan.explorer.f5": { pt: "Prompt Base até", en: "Prompt Base up to" },
+  "precos.plan.explorer.f6": { pt: "Sem resumo em áudio", en: "No audio summary" },
+  "precos.plan.pro": { pt: "Consultor", en: "Consultant" },
+  "precos.plan.pro.tag": { pt: "Pro", en: "Pro" },
+  "precos.plan.pro.desc": {
+    pt: "Ideal para desenvolvedores em crescimento e consultores freelance que precisam de mais poder.",
+    en: "Ideal for growing developers and freelance consultants who need more power."
+  },
+  "precos.plan.pro.cta": { pt: "Upgrade para Pro", en: "Upgrade to Pro" },
+  "precos.plan.pro.f1": { pt: "liberados", en: "unlocked" },
+  "precos.plan.pro.f2": { pt: "e Prompt Bases salvos", en: "and Prompt Bases saved" },
+  "precos.plan.pro.f3": { pt: "ilimitadas", en: "unlimited" },
+  "precos.plan.pro.f4": { pt: "em LLMs premium", en: "on premium LLMs" },
+  "precos.plan.pro.f5": { pt: "Prompt Base até", en: "Prompt Base up to" },
+  "precos.plan.pro.f6": { pt: "Importação em", en: "Import in" },
+  "precos.plan.pro.f7": { pt: "da IA", en: "from AI" },
+  "precos.plan.elite": { pt: "Arquiteto", en: "Architect" },
+  "precos.plan.elite.tag": { pt: "Elite", en: "Elite" },
+  "precos.plan.elite.badge": { pt: "Elite Choice", en: "Elite Choice" },
+  "precos.plan.elite.desc": {
+    pt: "O kit definitivo — poder absoluto para arquitetos que exigem o máximo do sistema.",
+    en: "The ultimate kit — absolute power for architects who demand the most from the system."
+  },
+  "precos.plan.elite.cta": { pt: "Começar Agora", en: "Start Now" },
+  "precos.plan.elite.f1": { pt: "liberados", en: "unlocked" },
+  "precos.plan.elite.f2": { pt: "ilimitados", en: "unlimited" },
+  "precos.plan.elite.f3": { pt: "ilimitadas", en: "unlimited" },
+  "precos.plan.elite.f4": { pt: "em LLMs premium", en: "on premium LLMs" },
+  "precos.plan.elite.f5": { pt: "Prompt Base até", en: "Prompt Base up to" },
+  "precos.plan.elite.f6": { pt: "e mais", en: "and more" },
+  "precos.plan.elite.f7": { pt: "da IA", en: "from AI" },
+  "precos.plan.elite.f8": { pt: "mais inteligentes", en: "smarter" },
+  "precos.plan.elite.f9": { pt: "mais detalhados", en: "more detailed" },
+  "precos.agents.all": { pt: "Todos os agentes", en: "All agents" },
+  "precos.audio": { pt: "Resumo em", en: "Summary in" },
+  "precos.audio.word": { pt: "áudio", en: "audio" },
+  "precos.responses": { pt: "Respostas", en: "Responses" },
+  "precos.promptbases": { pt: "Prompt Bases", en: "Prompt Bases" },
+  "precos.why.title.1": { pt: "Por que ", en: "Why " },
+  "precos.why.title.2": { pt: "BuildCode", en: "BuildCode" },
+  "precos.why.title.3": { pt: "?", en: "?" },
+  "precos.why.precision.title": { pt: "Precisão Sistêmica", en: "Systemic Precision" },
+  "precos.why.precision.desc": {
+    pt: "Arquiteturas modeladas com teoria dos grafos e padrões comprovados. Cada conexão, cada dependência é mapeada com precisão matemática para garantir integridade estrutural do seu sistema.",
+    en: "Architectures modeled with graph theory and proven patterns. Every connection, every dependency is mapped with mathematical precision to ensure structural integrity of your system."
+  },
+  "precos.why.speed.title": { pt: "Workflow Relâmpago", en: "Lightning Workflow" },
+  "precos.why.speed.desc": { pt: "Prototipe e valide arquiteturas em minutos, não semanas.", en: "Prototype and validate architectures in minutes, not weeks." },
+  "precos.why.security.title": { pt: "Seguro & Protegido", en: "Secure & Protected" },
+  "precos.why.security.desc": { pt: "Criptografia de ponta a ponta em todos os seus projetos.", en: "End-to-end encryption on all your projects." },
+  "precos.why.ai.title": { pt: "Pronto para IA", en: "AI Ready" },
+  "precos.why.ai.desc": {
+    pt: "Inteligência artificial integrada que sugere padrões, detecta anti-patterns e otimiza sua arquitetura automaticamente.",
+    en: "Integrated artificial intelligence that suggests patterns, detects anti-patterns, and optimizes your architecture automatically."
+  },
+  "precos.faq.title": { pt: "Perguntas Frequentes", en: "Frequently Asked Questions" },
+  "precos.faq.q1": { pt: "Posso trocar de plano depois?", en: "Can I change plans later?" },
+  "precos.faq.a1": {
+    pt: "Sim, você pode fazer upgrade ou downgrade a qualquer momento. A cobrança é ajustada proporcionalmente no próximo ciclo de faturamento.",
+    en: "Yes, you can upgrade or downgrade at any time. Billing is adjusted proportionally in the next billing cycle."
+  },
+  "precos.faq.q2": { pt: "Vocês oferecem desconto educacional?", en: "Do you offer educational discounts?" },
+  "precos.faq.a2": {
+    pt: "Sim, oferecemos 50% de desconto no plano Consultor para estudantes e educadores com e-mail institucional válido (.edu ou equivalente).",
+    en: "Yes, we offer 50% off the Consultant plan for students and educators with a valid institutional email (.edu or equivalent)."
+  },
+  "precos.faq.q3": { pt: "Meus dados são criptografados?", en: "Is my data encrypted?" },
+  "precos.faq.a3": {
+    pt: "Absolutamente. Utilizamos criptografia AES-256 para dados em repouso e TLS 1.3 para dados em trânsito, garantindo segurança de nível enterprise.",
+    en: "Absolutely. We use AES-256 encryption for data at rest and TLS 1.3 for data in transit, ensuring enterprise-level security."
+  },
+  "precos.footer.rights": { pt: "Todos os direitos reservados.", en: "All rights reserved." },
+
+  // ══════════════════════════════════
+  //  ADMIN DASHBOARD
+  // ══════════════════════════════════
+  "admin.badge": { pt: "Admin Dashboard", en: "Admin Dashboard" },
+  "admin.back": { pt: "Voltar ao Perfil", en: "Back to Profile" },
+  "admin.loading": { pt: "Carregando dashboard...", en: "Loading dashboard..." },
+  "admin.unauth.title": { pt: "Acesso Restrito", en: "Restricted Access" },
+  "admin.unauth.desc": { pt: "Apenas administradores podem acessar esta página.", en: "Only administrators can access this page." },
+  "admin.unauth.back": { pt: "Voltar ao Perfil", en: "Back to Profile" },
+
+  // ══════════════════════════════════
+  //  PERFIL (additional)
+  // ══════════════════════════════════
+  "perfil.loading": { pt: "Carregando perfil...", en: "Loading profile..." },
+  "perfil.unauth.title": { pt: "Acesso necessário", en: "Access required" },
+  "perfil.unauth.desc": { pt: "Faça login para acessar seu perfil.", en: "Sign in to access your profile." },
+  "perfil.unauth.login": { pt: "Fazer Login", en: "Sign In" },
+  "perfil.agente": { pt: "Agente", en: "Agent" },
+  "perfil.llm": { pt: "Modelo de LLM", en: "LLM Model" },
+  "perfil.admin.title": { pt: "Dashboard Admin", en: "Admin Dashboard" },
+  "perfil.admin.desc": { pt: "Acessar painel administrativo completo", en: "Access full admin panel" },
+  "perfil.admin.btn": { pt: "Abrir Dashboard", en: "Open Dashboard" },
+  "perfil.gestao": { pt: "Gestão de Usuários", en: "User Management" },
+  "perfil.gestao.nome": { pt: "Nome", en: "Name" },
+  "perfil.gestao.id": { pt: "ID", en: "ID" },
+  "perfil.gestao.cargo": { pt: "Cargo", en: "Role" },
+  "perfil.gestao.senior": { pt: "Senioridade", en: "Seniority" },
+  "perfil.gestao.acoes": { pt: "Ações", en: "Actions" },
 };

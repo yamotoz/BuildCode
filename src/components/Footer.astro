@@ -2,15 +2,64 @@
 // Footer.astro
 ---
 
-<footer class="w-full border-t border-border-color bg-surface-dark px-6 py-12 md:px-12 lg:px-24">
-  <div class="mx-auto max-w-[1440px] flex flex-col md:flex-row justify-between items-center gap-6">
-    <div class="flex items-center gap-3 text-slate-400">
-      <img src="/logo_backofff.png" alt="BuildCode" class="h-6 w-auto opacity-80" />
-      <span class="font-display font-medium text-sm">BuildCode © 2026</span>
+<footer class="w-full border-t border-border-color bg-surface-dark px-6 py-16 md:px-12 lg:px-24">
+  <div class="mx-auto max-w-[1440px] flex flex-col gap-12">
+    <!-- Main footer grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      <!-- Brand column -->
+      <div class="flex flex-col gap-4">
+        <a href="/" class="flex items-center gap-3">
+          <img id="footer-logo" src="/logo_backofff.png" data-dark="/logo_backofff.png" data-light="/Logowhitemodeloff.png" alt="BuildCode" class="h-8 w-auto" />
+          <span class="font-display text-xl font-bold text-white">BuildCode</span>
+        </a>
+        <p class="text-slate-500 text-sm leading-relaxed max-w-[280px]">
+          Engenharia de software guiada por inteligência artificial. Arquitete com certeza, construa com confiança.
+        </p>
+        <p class="text-slate-600 text-xs mt-2">
+          CNPJ: 62.829.190/0001-01
+        </p>
+      </div>
+
+      <!-- Produto -->
+      <div class="flex flex-col gap-3">
+        <h4 class="text-white font-bold text-sm tracking-wide uppercase mb-1">Produto</h4>
+        <a href="/app" class="text-slate-500 hover:text-primary transition-colors text-sm">Wizard de Arquitetura</a>
+        <a href="/biblioteca" class="text-slate-500 hover:text-primary transition-colors text-sm">Biblioteca de Ferramentas</a>
+        <a href="/analytics" class="text-slate-500 hover:text-primary transition-colors text-sm">GitHub Analytics</a>
+        <a href="/precos" class="text-slate-500 hover:text-primary transition-colors text-sm">Planos e Precos</a>
+      </div>
+
+      <!-- Recursos -->
+      <div class="flex flex-col gap-3">
+        <h4 class="text-white font-bold text-sm tracking-wide uppercase mb-1">Recursos</h4>
+        <a href="#solucao" class="text-slate-500 hover:text-primary transition-colors text-sm">Agentes de IA</a>
+        <a href="#cyberdyne" class="text-slate-500 hover:text-primary transition-colors text-sm">Cyberdyne Security</a>
+        <a href="#serenity" class="text-slate-500 hover:text-primary transition-colors text-sm">Serenity QA</a>
+        <a href="https://migueloliveiradev.com.br" target="_blank" rel="noopener noreferrer" class="text-slate-500 hover:text-primary transition-colors text-sm">Sobre o Criador</a>
+      </div>
+
+      <!-- Legal -->
+      <div class="flex flex-col gap-3">
+        <h4 class="text-white font-bold text-sm tracking-wide uppercase mb-1">Legal</h4>
+        <a href="/termos" class="text-slate-500 hover:text-primary transition-colors text-sm">Termos de Uso</a>
+        <a href="/privacidade" class="text-slate-500 hover:text-primary transition-colors text-sm">Politica de Privacidade</a>
+        <a href="/login" class="text-slate-500 hover:text-primary transition-colors text-sm">Login / Criar Conta</a>
+      </div>
     </div>
-    <div class="flex gap-6 text-sm text-slate-500">
-      <a class="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded" href="/termos" data-i18n="footer.termos">Termos de Uso</a>
-      <a class="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded" href="/privacidade" data-i18n="footer.privacidade">Privacidade</a>
+
+    <!-- Divider -->
+    <div class="w-full h-px bg-border-color"></div>
+
+    <!-- Bottom row -->
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-2 text-slate-600 text-xs">
+        <span class="font-display font-medium">BuildCode &copy; 2026</span>
+        <span class="text-slate-700">|</span>
+        <span>Todos os direitos reservados</span>
+      </div>
+      <p class="text-slate-600 text-xs italic text-center md:text-right max-w-md">
+        "O melhor codigo e aquele que nunca precisa ser reescrito." — Arquitetura bem planejada e a raiz de todo software duradouro.
+      </p>
     </div>
   </div>
 </footer>

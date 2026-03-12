@@ -10,30 +10,30 @@ import { technologies } from '../data/technologies';
   
   <div class="flex h-screen overflow-hidden w-full relative bg-background-dark text-slate-200">
     
-    <!-- LEFT SIDEBAR: Nav colapsável -->
-    <aside class="group/sidebar w-[80px] hover:w-[260px] transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] bg-surface-dark/80 backdrop-blur-3xl border-r border-border-color flex flex-col z-40 shrink-0">
-      <div class="p-5 mb-6 flex items-center overflow-hidden shrink-0 mt-2">
+    <!-- LEFT SIDEBAR: Nav colapsável (hidden on mobile, shown via toggle) -->
+    <aside id="sidebar" class="group/sidebar hidden md:flex w-[80px] hover:w-[260px] transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] bg-surface-dark/80 backdrop-blur-3xl border-r border-border-color flex-col z-40 shrink-0">
+      <div class="p-5 mb-4 flex items-center overflow-hidden shrink-0 mt-2">
         <a href="/" class="min-w-[40px] size-10 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 shadow-[0_0_15px_rgba(46,116,139,0.15)] group-hover/sidebar:shadow-[0_0_20px_rgba(46,116,139,0.3)] transition-all">
-          <img src="/logo_backofff.png" alt="BuildCode" class="w-6 h-6 object-contain" />
+          <img id="bib-logo" src="/logo_backofff.png" data-dark="/logo_backofff.png" data-light="/Logowhitemodeloff.png" alt="BuildCode" class="w-6 h-6 object-contain" />
         </a>
         <div class="ml-4 opacity-0 group-hover/sidebar:opacity-100 transition-opacity duration-300 whitespace-nowrap">
           <h1 class="font-display font-bold text-lg text-white tracking-tight">BuildCode</h1>
         </div>
       </div>
-      
-      <nav class="flex-1 px-4 space-y-2 overflow-hidden custom-scrollbar">
-        <button data-cat="all" class="cat-btn active w-full flex items-center gap-4 px-3 py-3 rounded-xl bg-primary/10 text-primary border border-primary/20 cursor-pointer overflow-hidden transition-all shadow-[0_0_10px_rgba(46,116,139,0.05)]">
+
+      <nav class="flex-1 px-4 space-y-1.5 overflow-y-auto custom-scrollbar pb-4">
+        <button data-cat="all" class="cat-btn active w-full flex items-center gap-4 px-3 py-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20 cursor-pointer overflow-hidden transition-all shadow-[0_0_10px_rgba(46,116,139,0.05)]">
           <span class="material-symbols-outlined min-w-[24px]">apps</span>
           <span class="font-bold text-sm opacity-0 group-hover/sidebar:opacity-100 transition-opacity whitespace-nowrap" data-i18n="bib.todas">Todas as Stacks</span>
         </button>
         {categories.map(cat => (
-          <button data-cat={cat.id} class="cat-btn w-full flex items-center gap-4 px-3 py-3 rounded-xl text-slate-400 hover:bg-surface-light hover:text-white border border-transparent transition-all cursor-pointer overflow-hidden">
+          <button data-cat={cat.id} class="cat-btn w-full flex items-center gap-4 px-3 py-2.5 rounded-xl text-slate-400 hover:bg-surface-light hover:text-white border border-transparent transition-all cursor-pointer overflow-hidden">
             <span class="material-symbols-outlined min-w-[24px]">{cat.icon}</span>
             <span class="font-medium text-sm opacity-0 group-hover/sidebar:opacity-100 transition-opacity whitespace-nowrap">{cat.name}</span>
           </button>
         ))}
       </nav>
-      
+
       <div class="p-4 border-t border-border-color shrink-0">
          <a href="/analytics" class="w-full flex items-center gap-4 px-3 py-3 rounded-xl bg-cta/10 text-cta border border-cta/20 hover:bg-cta hover:text-background-dark hover:shadow-[0_0_20px_rgba(242,171,109,0.3)] transition-all duration-300 cursor-pointer overflow-hidden group/cta">
             <span class="material-symbols-outlined min-w-[24px] group-hover/cta:animate-bounce">analytics</span>
@@ -41,6 +41,20 @@ import { technologies } from '../data/technologies';
          </a>
       </div>
     </aside>
+
+    <!-- MOBILE: Bottom category bar -->
+    <div id="mobile-cats" class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface-dark/95 backdrop-blur-xl border-t border-border-color overflow-x-auto custom-scrollbar">
+      <div class="flex gap-2 px-4 py-3 min-w-max">
+        <button data-cat="all" class="cat-btn active shrink-0 flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs font-bold">
+          <span class="material-symbols-outlined text-sm">apps</span> Todas
+        </button>
+        {categories.map(cat => (
+          <button data-cat={cat.id} class="cat-btn shrink-0 flex items-center gap-2 px-4 py-2 rounded-full text-slate-400 border border-transparent text-xs font-medium hover:bg-surface-light hover:text-white">
+            <span class="material-symbols-outlined text-sm">{cat.icon}</span> {cat.name}
+          </button>
+        ))}
+      </div>
+    </div>
 
     <!-- MAIN CONTENT: Search & Grid -->
     <main class="flex-1 flex flex-col h-full overflow-y-auto overflow-x-hidden custom-scrollbar relative bg-[#06070a]">
@@ -78,8 +92,8 @@ import { technologies } from '../data/technologies';
         </div>
       </header>
 
-      <div class="p-8 w-full flex-1 max-w-[1600px] mx-auto">
-        <div id="tech-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+      <div class="p-4 md:p-8 pb-24 md:pb-8 w-full flex-1 max-w-[1600px] mx-auto">
+        <div id="tech-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6">
            {technologies.map((tech, index) => (
              <div class="tech-card p-6 rounded-3xl border border-white/[0.04] bg-gradient-to-b from-[#0D1117] to-[#0A0C12] group cursor-pointer relative flex flex-col h-[260px] hover:-translate-y-1 hover:border-primary/40 hover:from-[#12161E] hover:to-[#0D1117] transition-all duration-300 hover:shadow-[0_10px_40px_rgba(0,0,0,0.5)]" data-index={index} data-name={tech.name.toLowerCase()} data-cat={tech.category}>
                 
@@ -370,4 +384,15 @@ import { technologies } from '../data/technologies';
          searchInput.focus();
       }
    });
+
+   // Logo swap for light/dark theme
+   function updatePageLogo() {
+     document.querySelectorAll('img[data-dark][data-light]').forEach(el => {
+       const img = el;
+       const isLight = document.documentElement.classList.contains('light');
+       img.setAttribute('src', isLight ? (img.getAttribute('data-light') || '') : (img.getAttribute('data-dark') || ''));
+     });
+   }
+   updatePageLogo();
+   new MutationObserver(updatePageLogo).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 </script>

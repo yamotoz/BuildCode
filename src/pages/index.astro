@@ -4,306 +4,793 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="BuildCode - Engenharia de Elite para Projetos Visionários">
+<Layout title="BuildCode - Nunca mais construa software no escuro">
   <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
     <Header />
-    
+
     <main class="flex-1 flex flex-col items-center w-full">
-      <!-- Hero Section -->
-      <section class="relative w-full flex flex-col items-center justify-center min-h-[80vh] px-6 py-20 overflow-hidden">
-        <!-- Video Background with Dark Filter -->
+
+      <!-- ═══════════════════════════════════════════════════════
+           SEÇÃO 1 — HERO
+           A primeira impressão que define tudo.
+      ═══════════════════════════════════════════════════════ -->
+      <section class="relative w-full flex flex-col items-center justify-center min-h-screen px-6 py-24 overflow-hidden">
+        <!-- Video Background -->
         <div class="absolute inset-0 z-0 pointer-events-none">
           <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
             <source src="/code01.mp4" type="video/mp4" />
           </video>
-          <div class="absolute inset-0 bg-background-dark/80 backdrop-blur-[2px]"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
-          <div class="absolute inset-0 flex items-center justify-center opacity-30">
-            <div class="w-[800px] h-[800px] bg-primary/20 rounded-full blur-[120px]"></div>
-            <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary-dark/20 rounded-full blur-[100px]"></div>
-          </div>
+          <div class="absolute inset-0 bg-background-dark/85 backdrop-blur-[3px]"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent"></div>
         </div>
-        
-        <div class="relative z-10 flex flex-col items-center text-center max-w-[900px] gap-8 opacity-0 animate-[fade-in-up_1s_ease-out_forwards]">
-          <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 mb-4">
+
+        <!-- Ambient glow -->
+        <div class="absolute inset-0 pointer-events-none z-[1]">
+          <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-primary/15 rounded-full blur-[150px]"></div>
+          <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary-dark/20 rounded-full blur-[120px]"></div>
+        </div>
+
+        <div class="relative z-10 flex flex-col items-center text-center max-w-[1000px] gap-6 opacity-0 animate-[fade-in-up_1s_ease-out_forwards]">
+          <!-- Badge -->
+          <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-5 py-2 mb-2">
             <span class="flex size-2 rounded-full bg-primary animate-pulse"></span>
-            <span class="text-xs font-semibold tracking-widest text-primary uppercase" data-i18n="hero.badge">IA-Powered Architecture</span>
+            <span class="text-xs font-bold tracking-[0.2em] text-primary uppercase" data-i18n="hero.badge">IA-Powered Architecture</span>
           </div>
-          <h1 class="font-display text-5xl md:text-7xl font-black leading-tight tracking-tighter text-white">
-            <span data-i18n="hero.title.1">Engenharia de </span><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-dark" data-i18n="hero.title.highlight">Elite</span><span data-i18n="hero.title.2"> para Projetos Visionários</span>
+
+          <!-- Headline -->
+          <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tighter text-white">
+            Nunca mais construa<br/>
+            software <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary-dark">no escuro.</span>
           </h1>
-          <p class="text-lg md:text-xl text-slate-400 font-medium leading-relaxed max-w-[700px]" data-i18n="hero.subtitle">
-            A arquitetura perfeita para o seu software começa com decisões inteligentes. Use IA para selecionar stacks, mitigar riscos e escalar com integridade.
+
+          <!-- Sub-headline -->
+          <p class="text-lg md:text-xl text-slate-400 font-medium leading-relaxed max-w-[680px] mt-2">
+            O BuildCode analisa seus requisitos, seleciona a stack ideal e gera documentação profissional completa. Tudo guiado por inteligência artificial em menos de 3 minutos.
           </p>
+
+          <!-- CTAs -->
           <div class="flex flex-col sm:flex-row items-center gap-4 mt-8">
-            <a href="/app" class="flex w-full sm:w-auto cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-primary to-primary-dark text-background-dark hover:opacity-90 transition-opacity px-8 py-4 text-base font-bold tracking-wide shadow-[0_0_20px_rgba(46,116,139,0.4)] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark" data-i18n="hero.cta.primary">
-              Acessar Sistema
+            <a href="/app" class="group flex w-full sm:w-auto cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-primary to-primary-dark text-white hover:shadow-[0_0_40px_rgba(46,116,139,0.5)] transition-all px-10 py-4 text-base font-bold tracking-wide focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark">
+              Criar Meu Projeto Agora
+              <span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </a>
-            <a href="#problema" class="flex w-full sm:w-auto cursor-pointer items-center justify-center rounded-full glass-panel text-white hover:bg-white/5 transition-colors px-8 py-4 text-base font-semibold tracking-wide focus:outline-none focus:ring-2 focus:ring-white">
-              <span class="material-symbols-outlined mr-2 text-primary">play_circle</span>
-              <span data-i18n="hero.cta.secondary">Ver Demonstração</span>
+            <a href="#problema" class="flex w-full sm:w-auto cursor-pointer items-center justify-center rounded-full glass-panel text-white hover:bg-white/5 transition-colors px-8 py-4 text-base font-semibold tracking-wide focus:outline-none focus:ring-2 focus:ring-white/30">
+              Entender o Problema
+              <span class="material-symbols-outlined ml-2 text-primary text-xl">expand_more</span>
             </a>
           </div>
-        </div>
-        
-        <!-- Abstract decorative element below hero -->
-        <div class="mt-20 w-full max-w-[1000px] relative z-10 rounded-2xl glass-panel p-2 glow-border shadow-2xl shadow-primary/10">
-          <div class="w-full h-[300px] md:h-[400px] rounded-xl bg-surface-dark border border-border-color overflow-hidden relative flex items-center justify-center bg-[radial-gradient(circle_at_50%_50%,rgba(46,116,139,0.05)_0%,transparent_50%),linear-gradient(to_bottom,var(--color-surface-dark),var(--color-background-dark))]">
-            <!-- Mock Terminal UI -->
-            <div class="w-full h-full flex flex-col text-left p-6 font-mono text-sm text-slate-400">
-              <div class="flex gap-2 mb-6">
-                <div class="size-3 rounded-full bg-red-500/50"></div>
-                <div class="size-3 rounded-full bg-yellow-500/50"></div>
-                <div class="size-3 rounded-full bg-green-500/50"></div>
-              </div>
-              <div class="space-y-3 opacity-80">
-                <p><span class="text-primary">&gt;</span> Analyzing project requirements...</p>
-                <p><span class="text-primary">&gt;</span> Expected user load: 1M+ active users</p>
-                <p><span class="text-primary">&gt;</span> Data processing: Real-time</p>
-                <p><span class="text-primary">&gt;</span> Evaluating architectural patterns...</p>
-                <p class="text-slate-500 mt-4">Generating optimal tech stack...</p>
-                <div class="mt-4 p-4 rounded bg-white/5 border border-white/10 text-white font-sans max-w-md">
-                  <div class="flex items-center gap-3 mb-2">
-                    <span class="material-symbols-outlined text-green-400">check_circle</span>
-                    <span class="font-bold">Recommended Architecture</span>
-                  </div>
-                  <div class="grid grid-cols-2 gap-2 mt-4 text-xs">
-                    <div class="p-2 rounded bg-surface-light border border-border-color">Frontend: Next.js</div>
-                    <div class="p-2 rounded bg-surface-light border border-border-color">Backend: Go Microservices</div>
-                    <div class="p-2 rounded bg-surface-light border border-border-color">Database: PostgreSQL</div>
-                    <div class="p-2 rounded bg-surface-light border border-border-color">Cache: Redis</div>
-                  </div>
-                </div>
-              </div>
+
+          <!-- Social proof micro -->
+          <div class="flex items-center gap-6 mt-12 text-sm text-slate-500">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-lg">shield</span>
+              <span>LGPD Compliant</span>
+            </div>
+            <div class="w-px h-4 bg-border-color"></div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-lg">smart_toy</span>
+              <span>4 Agentes de IA</span>
+            </div>
+            <div class="w-px h-4 bg-border-color hidden sm:block"></div>
+            <div class="hidden sm:flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-lg">description</span>
+              <span>PRD + Prompt Base</span>
             </div>
           </div>
         </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-50 animate-bounce">
+          <span class="material-symbols-outlined text-primary text-2xl">keyboard_arrow_down</span>
+        </div>
       </section>
 
-      <!-- The Problem -->
-      <section class="w-full px-6 py-24 md:px-12 lg:px-24 bg-surface-dark/50 border-y border-border-color" id="problema">
+
+      <!-- ═══════════════════════════════════════════════════════
+           SEÇÃO 2 — O PROBLEMA
+           Falhas de segurança, má gestão, falta de organização.
+      ═══════════════════════════════════════════════════════ -->
+      <section class="w-full px-6 py-28 md:px-12 lg:px-24 bg-surface-dark/50 border-y border-border-color relative overflow-hidden" id="problema">
+        <!-- Background accent -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-red-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+
         <div class="mx-auto max-w-[1200px] flex flex-col gap-16">
-          <div class="flex flex-col items-center text-center gap-4 max-w-[800px] mx-auto">
-            <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight text-white">
-              <span data-i18n="problema.title.1">O Problema da </span><span class="text-slate-400" data-i18n="problema.title.highlight">Arquitetura</span><span data-i18n="problema.title.2"></span>
+          <!-- Section header -->
+          <div class="flex flex-col items-center text-center gap-5 max-w-[800px] mx-auto">
+            <div class="inline-flex items-center gap-2 rounded-full border border-red-500/20 bg-red-500/5 px-4 py-1.5">
+              <span class="material-symbols-outlined text-red-400 text-sm">warning</span>
+              <span class="text-xs font-bold tracking-[0.15em] text-red-400 uppercase">Alerta Crítico</span>
+            </div>
+            <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
+              Seu software é um alvo.<br/>
+              <span class="text-red-400">Você só não sabe ainda.</span>
             </h2>
-            <p class="text-lg text-slate-400 font-medium" data-i18n="problema.subtitle">
-              Escolher a tecnologia errada custa tempo, dinheiro e sanidade. A falta de visão sistêmica leva ao caos no desenvolvimento.
+            <p class="text-lg text-slate-400 font-medium leading-relaxed">
+              A cada 39 segundos, um ataque cibernético acontece no mundo. E a maioria das vítimas tinha "certeza" de que estava protegida. O problema não é a falta de ferramentas. É a falta de planejamento desde o dia zero.
             </p>
           </div>
-          
+
+          <!-- Problem cards -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-6 hover:-translate-y-1 transition-transform duration-300">
-              <div class="size-14 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
-                <span class="material-symbols-outlined text-3xl">hub</span>
-              </div>
-              <div class="flex flex-col gap-3">
-                <h3 class="font-display text-xl font-bold text-white" data-i18n="problema.card1.title">Decisões Descentralizadas</h3>
-                <p class="text-slate-400 leading-relaxed" data-i18n="problema.card1.desc">Falta de coesão e padronização entre times. Cada equipe escolhe uma tecnologia diferente, criando um Frankenstein arquitetural impossível de manter.</p>
-              </div>
-            </div>
-            
-            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-6 hover:-translate-y-1 transition-transform duration-300">
+            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-6 hover:-translate-y-1 transition-transform duration-300 border-t-2 border-t-red-500/30">
               <div class="size-14 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400">
-                <span class="material-symbols-outlined text-3xl">stacks</span>
+                <span class="material-symbols-outlined text-3xl">lock_open</span>
               </div>
               <div class="flex flex-col gap-3">
-                <h3 class="font-display text-xl font-bold text-white" data-i18n="problema.card2.title">Confusão de Stack</h3>
-                <p class="text-slate-400 leading-relaxed" data-i18n="problema.card2.desc">Excesso de tecnologias sem necessidade clara. Adotar ferramentas apenas porque são 'hype', ignorando os reais requisitos do projeto.</p>
+                <h3 class="font-display text-xl font-bold text-white">Falhas de Segurança Silenciosas</h3>
+                <p class="text-slate-400 leading-relaxed">SQL Injection, XSS, CSRF. Vulnerabilidades que dormem no seu código até alguém explorá-las. Sem uma arquitetura segura desde o início, cada feature nova é uma porta aberta para invasores.</p>
+              </div>
+              <div class="mt-auto pt-4 border-t border-border-color">
+                <span class="text-red-400 text-sm font-semibold">78% das brechas vêm de código mal arquitetado</span>
               </div>
             </div>
-            
-            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-6 hover:-translate-y-1 transition-transform duration-300">
+
+            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-6 hover:-translate-y-1 transition-transform duration-300 border-t-2 border-t-yellow-500/30">
               <div class="size-14 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-400">
-                <span class="material-symbols-outlined text-3xl">trending_down</span>
+                <span class="material-symbols-outlined text-3xl">folder_off</span>
               </div>
               <div class="flex flex-col gap-3">
-                <h3 class="font-display text-xl font-bold text-white" data-i18n="problema.card3.title">Débito de Escalabilidade</h3>
-                <p class="text-slate-400 leading-relaxed" data-i18n="problema.card3.desc">Custos altos e lentidão para escalar o sistema. Quando o sucesso chega, a arquitetura cede e o refatoramento custa meses de trabalho.</p>
+                <h3 class="font-display text-xl font-bold text-white">Projetos Sem Gestão Real</h3>
+                <p class="text-slate-400 leading-relaxed">Sem documentação, sem roadmap técnico, sem PRD. O time avança no escuro, cada dev puxa pra um lado, e o projeto se torna um labirinto que ninguém entende. Nem quem criou.</p>
+              </div>
+              <div class="mt-auto pt-4 border-t border-border-color">
+                <span class="text-yellow-400 text-sm font-semibold">67% dos projetos falham por gestão deficiente</span>
+              </div>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-6 hover:-translate-y-1 transition-transform duration-300 border-t-2 border-t-orange-500/30">
+              <div class="size-14 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400">
+                <span class="material-symbols-outlined text-3xl">whatshot</span>
+              </div>
+              <div class="flex flex-col gap-3">
+                <h3 class="font-display text-xl font-bold text-white">Dívida Técnica Explosiva</h3>
+                <p class="text-slate-400 leading-relaxed">Escolher a stack errada é plantar uma bomba-relógio. Quando o produto precisa escalar, o custo de refatoração não é técnico. É existencial. Startups morrem por isso todos os dias.</p>
+              </div>
+              <div class="mt-auto pt-4 border-t border-border-color">
+                <span class="text-orange-400 text-sm font-semibold">Refatorar custa 10x mais que planejar</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- The Solution & Features -->
-      <section class="w-full px-6 py-24 md:px-12 lg:px-24 relative overflow-hidden" id="solucao">
-        <div class="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary-dark/10 rounded-full blur-[100px] -translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+
+      <!-- ═══════════════════════════════════════════════════════
+           SEÇÃO 3 — A REALIDADE ATUAL DO MERCADO
+           Vibe coding, falsa segurança, amadorismo disfarçado.
+      ═══════════════════════════════════════════════════════ -->
+      <section class="w-full px-6 py-28 md:px-12 lg:px-24 relative overflow-hidden" id="realidade">
+        <div class="absolute bottom-0 left-0 w-[600px] h-[400px] bg-purple-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+
         <div class="mx-auto max-w-[1200px] flex flex-col lg:flex-row gap-16 items-center">
-          <div class="flex flex-1 flex-col gap-8">
-            <div class="inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5">
-              <span class="text-xs font-semibold tracking-widest text-primary uppercase" data-i18n="solucao.badge">Solução Estruturada</span>
+          <!-- Left: Text content -->
+          <div class="flex-1 flex flex-col gap-8">
+            <div class="inline-flex w-fit items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/5 px-4 py-1.5">
+              <span class="text-xs font-bold tracking-[0.15em] text-purple-400 uppercase">Realidade do Mercado</span>
             </div>
-            <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
-              <span data-i18n="solucao.title.1">A stack perfeita, </span><br/><span data-i18n="solucao.title.2">escolhida por IA</span>
+            <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
+              Saber usar IA pra gerar código<br/>
+              <span class="text-purple-400">não te faz engenheiro.</span>
             </h2>
-            <p class="text-lg text-slate-400 font-medium" data-i18n="solucao.subtitle">
-              Nossa IA avalia os requisitos de negócio, restrições técnicas e metas de longo prazo para recomendar a arquitetura ideal, gerando documentação completa em minutos.
+            <p class="text-lg text-slate-400 leading-relaxed">
+              O mercado está inundado de "devs" que copiam e colam código de ChatGPT sem entender o que está por trás. Chamam isso de "vibe coding" e consideram isso programação. Enquanto isso, os sistemas que eles criam são bombas-relógio de segurança esperando pra explodir.
             </p>
-            <div class="flex flex-col gap-6 mt-4">
-              <div class="flex items-start gap-4">
-                <div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0 mt-1">
-                  <span class="material-symbols-outlined text-xl">memory</span>
-                </div>
+
+            <div class="flex flex-col gap-5 mt-2">
+              <div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                <span class="material-symbols-outlined text-red-400 text-2xl mt-0.5 shrink-0">dangerous</span>
                 <div>
-                  <h4 class="text-white font-bold text-lg" data-i18n="solucao.feature1.title">Seleção de Stack via IA</h4>
-                  <p class="text-slate-400 mt-1" data-i18n="solucao.feature1.desc">Algoritmos avançados que analisam trade-offs e mitigam riscos técnicos antes da primeira linha de código.</p>
+                  <h4 class="text-white font-bold">Código sem contexto de segurança</h4>
+                  <p class="text-slate-400 text-sm mt-1">Uma API sem rate limiting, um form sem sanitização, um JWT sem expiração. Erros que uma IA gera em 2 segundos e que um hacker explora em menos.</p>
                 </div>
               </div>
-              <div class="flex items-start gap-4">
-                <div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0 mt-1">
-                  <span class="material-symbols-outlined text-xl">description</span>
-                </div>
+              <div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                <span class="material-symbols-outlined text-red-400 text-2xl mt-0.5 shrink-0">dangerous</span>
                 <div>
-                  <h4 class="text-white font-bold text-lg" data-i18n="solucao.feature2.title">Geração Automatizada de PRD</h4>
-                  <p class="text-slate-400 mt-1" data-i18n="solucao.feature2.desc">Documentos de requisitos detalhados (PRD) gerados instantaneamente, alinhando engenharia e produto.</p>
+                  <h4 class="text-white font-bold">Arquiteturas que não sobrevivem à escala</h4>
+                  <p class="text-slate-400 text-sm mt-1">Monolitos acoplados, banco de dados sem indexação, zero caching. Funciona com 10 usuários. Com 10.000, colapsa.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                <span class="material-symbols-outlined text-red-400 text-2xl mt-0.5 shrink-0">dangerous</span>
+                <div>
+                  <h4 class="text-white font-bold">Falsa confiança, prejuízo real</h4>
+                  <p class="text-slate-400 text-sm mt-1">"Tá funcionando" não significa "tá seguro". A diferença entre um software amador e um profissional está no que acontece quando as coisas dão errado.</p>
                 </div>
               </div>
             </div>
           </div>
-          
-          <div class="flex-1 w-full relative">
-            <div class="relative z-10 w-full aspect-square md:aspect-[4/3] rounded-2xl glass-panel glow-border p-4 flex flex-col gap-4">
-              <div class="flex justify-between items-center border-b border-border-color pb-4">
-                <div class="text-white font-medium">Architecture Overview</div>
-                <div class="flex gap-2">
-                  <span class="size-2.5 rounded-full bg-slate-700"></span>
-                  <span class="size-2.5 rounded-full bg-slate-700"></span>
-                  <span class="size-2.5 rounded-full bg-slate-700"></span>
-                </div>
+
+          <!-- Right: Visual element -->
+          <div class="flex-1 w-full max-w-lg">
+            <div class="relative rounded-2xl glass-panel glow-border p-6 font-mono text-sm">
+              <!-- Terminal header -->
+              <div class="flex items-center gap-2 mb-6 pb-4 border-b border-border-color">
+                <div class="size-3 rounded-full bg-red-500/60"></div>
+                <div class="size-3 rounded-full bg-yellow-500/60"></div>
+                <div class="size-3 rounded-full bg-green-500/60"></div>
+                <span class="ml-3 text-slate-500 text-xs">security-scan.sh</span>
               </div>
-              <div class="flex-1 grid grid-cols-2 gap-4">
-                <div class="rounded-xl border border-primary/30 bg-primary/5 p-4 flex flex-col items-center justify-center gap-3 text-center relative overflow-hidden">
-                  <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none"></div>
-                  <span class="material-symbols-outlined text-4xl text-primary">check_circle</span>
-                  <div>
-                    <div class="text-white font-bold text-sm">Frontend</div>
-                    <div class="text-slate-400 text-xs mt-1">React + Next.js</div>
-                  </div>
-                  <div class="absolute top-2 right-2 flex items-center gap-1 text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                    <span class="material-symbols-outlined text-[10px]">auto_awesome</span> Selected
-                  </div>
-                </div>
-                <div class="rounded-xl border border-border-color bg-surface-dark p-4 flex flex-col items-center justify-center gap-3 text-center opacity-70">
-                  <span class="material-symbols-outlined text-4xl text-slate-500">api</span>
-                  <div>
-                    <div class="text-white font-bold text-sm">API Gateway</div>
-                    <div class="text-slate-500 text-xs mt-1">GraphQL / Apollo</div>
-                  </div>
-                </div>
-                <div class="rounded-xl border border-border-color bg-surface-dark p-4 flex flex-col items-center justify-center gap-3 text-center opacity-70">
-                  <span class="material-symbols-outlined text-4xl text-slate-500">database</span>
-                  <div>
-                    <div class="text-white font-bold text-sm">Database</div>
-                    <div class="text-slate-500 text-xs mt-1">PostgreSQL + Prisma</div>
-                  </div>
-                </div>
-                <div class="rounded-xl border border-primary/30 bg-primary/5 p-4 flex flex-col items-center justify-center gap-3 text-center relative overflow-hidden">
-                  <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none"></div>
-                  <span class="material-symbols-outlined text-4xl text-primary">check_circle</span>
-                  <div>
-                    <div class="text-white font-bold text-sm">Infrastructure</div>
-                    <div class="text-slate-400 text-xs mt-1">AWS / Kubernetes</div>
-                  </div>
-                  <div class="absolute top-2 right-2 flex items-center gap-1 text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                    <span class="material-symbols-outlined text-[10px]">auto_awesome</span> Selected
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="absolute -bottom-8 -right-8 w-48 rounded-xl glass-panel p-4 flex items-center gap-4 z-20 border border-primary/20 shadow-xl shadow-background-dark">
-              <div class="size-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
-                <span class="material-symbols-outlined">description</span>
-              </div>
-              <div>
-                <div class="text-white text-xs font-bold">PRD Generated</div>
-                <div class="text-slate-400 text-[10px]">Just now</div>
+              <!-- Simulated scan output -->
+              <div class="space-y-2 text-slate-400">
+                <p><span class="text-primary">$</span> scanning target application...</p>
+                <p class="text-slate-500">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%</p>
+                <p class="mt-3"><span class="text-red-400 font-bold">CRITICAL</span> SQL Injection in /api/users</p>
+                <p><span class="text-red-400 font-bold">CRITICAL</span> XSS via unsanitized input</p>
+                <p><span class="text-yellow-400 font-bold">HIGH</span> &nbsp;&nbsp;&nbsp;&nbsp;No rate limiting on auth</p>
+                <p><span class="text-yellow-400 font-bold">HIGH</span> &nbsp;&nbsp;&nbsp;&nbsp;JWT without expiration</p>
+                <p><span class="text-orange-400 font-bold">MEDIUM</span> &nbsp;CORS wildcard enabled</p>
+                <p><span class="text-orange-400 font-bold">MEDIUM</span> &nbsp;Missing CSP headers</p>
+                <p class="mt-4 text-slate-500">────────────────────────────────</p>
+                <p class="text-red-400 font-bold">6 vulnerabilities found.</p>
+                <p class="text-red-400">Application status: <span class="animate-pulse">COMPROMISED</span></p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Benefits -->
-      <section class="w-full px-6 py-24 md:px-12 lg:px-24 bg-surface-dark/30 border-t border-border-color" id="beneficios">
+
+      <!-- ═══════════════════════════════════════════════════════
+           SEÇÃO 4 — POR QUE USAR O BUILDCODE
+           Facilidade, segurança, IA 24/7, organização.
+      ═══════════════════════════════════════════════════════ -->
+      <section class="w-full px-6 py-28 md:px-12 lg:px-24 bg-surface-dark/50 border-y border-border-color relative" id="porque">
+        <div class="absolute top-1/2 right-0 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none"></div>
+
         <div class="mx-auto max-w-[1200px] flex flex-col gap-16">
-          <div class="flex flex-col items-center text-center gap-4 max-w-[800px] mx-auto">
-            <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight text-white" data-i18n="beneficios.title">
-              Benefícios a longo prazo
+          <div class="flex flex-col items-center text-center gap-5 max-w-[800px] mx-auto">
+            <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5">
+              <span class="material-symbols-outlined text-primary text-sm">auto_awesome</span>
+              <span class="text-xs font-bold tracking-[0.15em] text-primary uppercase">Por Que BuildCode</span>
+            </div>
+            <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
+              Construa software como um<br/>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">arquiteto sênior.</span>
             </h2>
-            <p class="text-lg text-slate-400 font-medium" data-i18n="beneficios.subtitle">
-              Construa uma base sólida para o futuro. Sistemas que nascem com a arquitetura certa escalam sem fricção.
+            <p class="text-lg text-slate-400 font-medium leading-relaxed">
+              Mesmo que você esteja começando. O BuildCode coloca décadas de experiência em engenharia nas suas mãos, em forma de inteligência artificial que pensa antes de agir.
             </p>
           </div>
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="glass-panel p-6 rounded-2xl flex flex-col gap-4 group hover:bg-surface-light transition-colors">
-              <div class="size-12 rounded-full bg-surface-dark border border-border-color flex items-center justify-center text-white group-hover:text-primary group-hover:border-primary/50 transition-colors">
-                <span class="material-symbols-outlined text-2xl">shield</span>
+
+          <!-- Feature grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-5 group hover:border-primary/30 transition-all duration-300">
+              <div class="flex items-center gap-4">
+                <div class="size-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+                  <span class="material-symbols-outlined text-2xl">rocket_launch</span>
+                </div>
+                <h3 class="font-display text-xl font-bold text-white">Simplicidade Radical</h3>
               </div>
-              <div>
-                <h3 class="font-display text-lg font-bold text-white mb-2" data-i18n="beneficios.seguranca.title">Segurança</h3>
-                <p class="text-slate-400 text-sm leading-relaxed" data-i18n="beneficios.seguranca.desc">Mitigação proativa de vulnerabilidades com escolhas sólidas e validadas pela indústria.</p>
+              <p class="text-slate-400 leading-relaxed">Responda um questionário inteligente de 20 etapas. A IA faz o resto: seleciona a stack, gera o PRD, cria o Prompt Base e entrega tudo documentado. Zero complexidade pra você.</p>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-5 group hover:border-primary/30 transition-all duration-300">
+              <div class="flex items-center gap-4">
+                <div class="size-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+                  <span class="material-symbols-outlined text-2xl">shield_lock</span>
+                </div>
+                <h3 class="font-display text-xl font-bold text-white">Segurança Desde o Dia Zero</h3>
+              </div>
+              <p class="text-slate-400 leading-relaxed">Cada recomendação do BuildCode já considera OWASP Top 10, sanitização de inputs, rate limiting, autenticação robusta e boas práticas de infraestrutura. Segurança não é extra. É o padrão.</p>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-5 group hover:border-primary/30 transition-all duration-300">
+              <div class="flex items-center gap-4">
+                <div class="size-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+                  <span class="material-symbols-outlined text-2xl">smart_toy</span>
+                </div>
+                <h3 class="font-display text-xl font-bold text-white">IA Disponível 24/7</h3>
+              </div>
+              <p class="text-slate-400 leading-relaxed">Dúvidas sobre sua stack? Quer entender por que o sistema recomendou PostgreSQL em vez de MongoDB? Pergunte ao chat integrado. A IA responde com contexto do seu projeto, não com respostas genéricas.</p>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl flex flex-col gap-5 group hover:border-primary/30 transition-all duration-300">
+              <div class="flex items-center gap-4">
+                <div class="size-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+                  <span class="material-symbols-outlined text-2xl">account_tree</span>
+                </div>
+                <h3 class="font-display text-xl font-bold text-white">Organização de Verdade</h3>
+              </div>
+              <p class="text-slate-400 leading-relaxed">PRD profissional, Prompt Base otimizado, insights de complexidade, gráficos de stack e projetos salvos no seu perfil. Tudo que um gestor de projetos precisa, automatizado e em português.</p>
+            </div>
+          </div>
+
+          <!-- CTA inline -->
+          <div class="flex justify-center">
+            <a href="/app" class="group flex items-center gap-3 rounded-full bg-white/[0.03] border border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all px-8 py-4 text-primary font-bold">
+              Experimentar Gratuitamente
+              <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">east</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ═══════════════════════════════════════════════════════
+           SEÇÃO 5 — FUNCIONAMENTOS E DIFERENCIAIS
+           IAs integradas, gráficos, questionário inteligente.
+      ═══════════════════════════════════════════════════════ -->
+      <section class="w-full px-6 py-28 md:px-12 lg:px-24 relative overflow-hidden" id="diferenciais">
+        <div class="mx-auto max-w-[1200px] flex flex-col gap-20">
+          <div class="flex flex-col items-center text-center gap-5 max-w-[800px] mx-auto">
+            <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5">
+              <span class="material-symbols-outlined text-primary text-sm">diamond</span>
+              <span class="text-xs font-bold tracking-[0.15em] text-primary uppercase">Diferenciais</span>
+            </div>
+            <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
+              O que torna o BuildCode<br/>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-dark">insubstituível.</span>
+            </h2>
+          </div>
+
+          <!-- Feature showcase -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="relative rounded-2xl glass-panel p-8 flex flex-col gap-6 overflow-hidden group">
+              <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              <div class="size-14 rounded-xl bg-gradient-to-br from-primary/20 to-primary-dark/20 border border-primary/20 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-3xl">psychology</span>
+              </div>
+              <h3 class="font-display text-xl font-bold text-white">4 Agentes de IA Especializados</h3>
+              <p class="text-slate-400 leading-relaxed">Cada agente tem personalidade, visão técnica e abordagem única. Escolha quem vai guiar seu projeto: do pragmático ao visionário, do especialista em segurança à rainha do fullstack.</p>
+              <div class="flex flex-wrap gap-2 mt-auto pt-4">
+                <span class="text-xs px-3 py-1 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 font-semibold">The Boss</span>
+                <span class="text-xs px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 font-semibold">Azrael</span>
+                <span class="text-xs px-3 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20 font-semibold">Rizler</span>
+                <span class="text-xs px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20 font-semibold">Anastasia</span>
               </div>
             </div>
-            
-            <div class="glass-panel p-6 rounded-2xl flex flex-col gap-4 group hover:bg-surface-light transition-colors">
-              <div class="size-12 rounded-full bg-surface-dark border border-border-color flex items-center justify-center text-white group-hover:text-primary group-hover:border-primary/50 transition-colors">
-                <span class="material-symbols-outlined text-2xl">moving</span>
+
+            <!-- Feature 2 -->
+            <div class="relative rounded-2xl glass-panel p-8 flex flex-col gap-6 overflow-hidden group">
+              <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              <div class="size-14 rounded-xl bg-gradient-to-br from-primary/20 to-primary-dark/20 border border-primary/20 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-3xl">bar_chart</span>
               </div>
-              <div>
-                <h3 class="font-display text-lg font-bold text-white mb-2" data-i18n="beneficios.escala.title">Escalabilidade</h3>
-                <p class="text-slate-400 text-sm leading-relaxed" data-i18n="beneficios.escala.desc">Arquitetura resiliente pronta para suportar de centenas a milhões de usuários simultâneos.</p>
-              </div>
-            </div>
-            
-            <div class="glass-panel p-6 rounded-2xl flex flex-col gap-4 group hover:bg-surface-light transition-colors">
-              <div class="size-12 rounded-full bg-surface-dark border border-border-color flex items-center justify-center text-white group-hover:text-primary group-hover:border-primary/50 transition-colors">
-                <span class="material-symbols-outlined text-2xl">search</span>
-              </div>
-              <div>
-                <h3 class="font-display text-lg font-bold text-white mb-2" data-i18n="beneficios.clareza.title">Clareza</h3>
-                <p class="text-slate-400 text-sm leading-relaxed" data-i18n="beneficios.clareza.desc">Visão cristalina do roadmap técnico, alinhando engenharia com objetivos de negócios.</p>
+              <h3 class="font-display text-xl font-bold text-white">Gráficos de Stack Interativos</h3>
+              <p class="text-slate-400 leading-relaxed">Ao final do questionário, visualize sua arquitetura em gráficos detalhados: distribuição de tecnologias, complexidade por camada, custo estimado e score de segurança. Dados, não achismos.</p>
+              <div class="flex flex-wrap gap-2 mt-auto pt-4">
+                <span class="text-xs px-3 py-1 rounded-full bg-white/5 text-slate-400 border border-white/10">Radar Chart</span>
+                <span class="text-xs px-3 py-1 rounded-full bg-white/5 text-slate-400 border border-white/10">Cost Analysis</span>
+                <span class="text-xs px-3 py-1 rounded-full bg-white/5 text-slate-400 border border-white/10">Security Score</span>
               </div>
             </div>
-            
-            <div class="glass-panel p-6 rounded-2xl flex flex-col gap-4 group hover:bg-surface-light transition-colors">
-              <div class="size-12 rounded-full bg-surface-dark border border-border-color flex items-center justify-center text-white group-hover:text-primary group-hover:border-primary/50 transition-colors">
-                <span class="material-symbols-outlined text-2xl">menu_book</span>
+
+            <!-- Feature 3 -->
+            <div class="relative rounded-2xl glass-panel p-8 flex flex-col gap-6 overflow-hidden group">
+              <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              <div class="size-14 rounded-xl bg-gradient-to-br from-primary/20 to-primary-dark/20 border border-primary/20 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-3xl">description</span>
               </div>
-              <div>
-                <h3 class="font-display text-lg font-bold text-white mb-2" data-i18n="beneficios.educacao.title">Educação</h3>
-                <p class="text-slate-400 text-sm leading-relaxed" data-i18n="beneficios.educacao.desc">Aprenda as melhores práticas de engenharia durante o processo de estruturação.</p>
+              <h3 class="font-display text-xl font-bold text-white">PRD + Prompt Base Profissional</h3>
+              <p class="text-slate-400 leading-relaxed">Documentação completa gerada automaticamente: PRD com justificativa de cada tecnologia, estimativa de custo e arquitetura visual. Prompt Base otimizado com boas práticas de código, responsividade e clean code.</p>
+              <div class="flex flex-wrap gap-2 mt-auto pt-4">
+                <span class="text-xs px-3 py-1 rounded-full bg-white/5 text-slate-400 border border-white/10">PDF Export</span>
+                <span class="text-xs px-3 py-1 rounded-full bg-white/5 text-slate-400 border border-white/10">9 LLMs</span>
+                <span class="text-xs px-3 py-1 rounded-full bg-white/5 text-slate-400 border border-white/10">Salvar Projetos</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional features row -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-primary/20 transition-colors">
+              <span class="material-symbols-outlined text-primary text-3xl mb-3">translate</span>
+              <div class="text-white font-bold text-sm">Multi-idioma</div>
+              <div class="text-slate-500 text-xs mt-1">PT-BR & English</div>
+            </div>
+            <div class="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-primary/20 transition-colors">
+              <span class="material-symbols-outlined text-primary text-3xl mb-3">library_books</span>
+              <div class="text-white font-bold text-sm">Biblioteca 200+</div>
+              <div class="text-slate-500 text-xs mt-1">Ferramentas curadas</div>
+            </div>
+            <div class="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-primary/20 transition-colors">
+              <span class="material-symbols-outlined text-primary text-3xl mb-3">dark_mode</span>
+              <div class="text-white font-bold text-sm">Tema Dark/Light</div>
+              <div class="text-slate-500 text-xs mt-1">Interface adaptável</div>
+            </div>
+            <div class="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-primary/20 transition-colors">
+              <span class="material-symbols-outlined text-primary text-3xl mb-3">analytics</span>
+              <div class="text-white font-bold text-sm">GitHub Analytics</div>
+              <div class="text-slate-500 text-xs mt-1">Compare tecnologias</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ═══════════════════════════════════════════════════════
+           SEÇÃO 6 — A SOLUÇÃO DEFINITIVA + AGENTES DE IA
+           Preparação estratégica + showcase dos 4 agentes.
+      ═══════════════════════════════════════════════════════ -->
+      <section class="w-full px-6 py-28 md:px-12 lg:px-24 bg-surface-dark/50 border-y border-border-color relative overflow-hidden" id="solucao">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/8 rounded-full blur-[150px] pointer-events-none"></div>
+
+        <div class="mx-auto max-w-[1200px] flex flex-col gap-20">
+          <!-- Header -->
+          <div class="flex flex-col items-center text-center gap-5 max-w-[900px] mx-auto">
+            <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5">
+              <span class="material-symbols-outlined text-primary text-sm">verified</span>
+              <span class="text-xs font-bold tracking-[0.15em] text-primary uppercase">A Solução</span>
+            </div>
+            <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
+              Quatro mentes artificiais.<br/>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Uma missão: proteger seu software.</span>
+            </h2>
+            <p class="text-lg text-slate-400 font-medium leading-relaxed">
+              O BuildCode não é só uma ferramenta. É uma equipe de especialistas com inteligência artificial que analisa, questiona e valida cada decisão do seu projeto. Conheça os agentes que vão blindar sua arquitetura.
+            </p>
+          </div>
+
+          <!-- Agents grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- The Boss -->
+            <div class="relative rounded-2xl overflow-hidden group">
+              <div class="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent pointer-events-none"></div>
+              <div class="relative glass-panel p-8 rounded-2xl border-l-4 border-l-red-500/60 flex flex-col gap-5 h-full">
+                <div class="flex items-center gap-4">
+                  <img src="/agentes/Thebossicon.png" alt="The Boss" class="size-14 rounded-full object-cover border-2 border-red-500/30" />
+                  <div>
+                    <h3 class="font-display text-xl font-black text-white">The Boss</h3>
+                    <span class="text-red-400 text-sm font-semibold">O Arquiteto Pragmático</span>
+                  </div>
+                </div>
+                <p class="text-slate-300 leading-relaxed italic border-l-2 border-red-500/30 pl-4">
+                  "Você quer um software ou um brinquedo? Se for pra usar essa stack lenta, nem me faça perder tempo."
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                  Direto, brutal e sem filtro. The Boss exige performance, escalabilidade e decisões técnicas que sobrevivam ao teste do tempo. API com mais de 200ms? Prepare-se pra ouvir.
+                </p>
+                <div class="flex flex-wrap gap-2 mt-auto">
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-red-500/10 text-red-400 font-bold uppercase tracking-wider">Performance</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-red-500/10 text-red-400 font-bold uppercase tracking-wider">Escalabilidade</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-red-500/10 text-red-400 font-bold uppercase tracking-wider">Pragmatismo</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Azrael -->
+            <div class="relative rounded-2xl overflow-hidden group">
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent pointer-events-none"></div>
+              <div class="relative glass-panel p-8 rounded-2xl border-l-4 border-l-purple-500/60 flex flex-col gap-5 h-full">
+                <div class="flex items-center gap-4">
+                  <img src="/agentes/Azraelicon.png" alt="Azrael" class="size-14 rounded-full object-cover border-2 border-purple-500/30" />
+                  <div>
+                    <h3 class="font-display text-xl font-black text-white">Azrael</h3>
+                    <span class="text-purple-400 text-sm font-semibold">O Visionário Obsessivo</span>
+                  </div>
+                </div>
+                <p class="text-slate-300 leading-relaxed italic border-l-2 border-purple-500/30 pl-4">
+                  "Isso é funcional, mas não é revolucionário. Por que não adicionamos uma camada de análise preditiva aqui?"
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                  Pensa três passos à frente. Azrael vê seu MVP como trampolim, não como destino. Se existe uma forma de integrar IA, dados preditivos ou automação, ele vai encontrar.
+                </p>
+                <div class="flex flex-wrap gap-2 mt-auto">
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 font-bold uppercase tracking-wider">Inovação</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 font-bold uppercase tracking-wider">IA Preditiva</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 font-bold uppercase tracking-wider">Visão de Futuro</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rizler -->
+            <div class="relative rounded-2xl overflow-hidden group">
+              <div class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent pointer-events-none"></div>
+              <div class="relative glass-panel p-8 rounded-2xl border-l-4 border-l-green-500/60 flex flex-col gap-5 h-full">
+                <div class="flex items-center gap-4">
+                  <img src="/agentes/Rizlericon.png" alt="Rizler" class="size-14 rounded-full object-cover border-2 border-green-500/30" />
+                  <div>
+                    <h3 class="font-display text-xl font-black text-white">Rizler</h3>
+                    <span class="text-green-400 text-sm font-semibold">O Fantasma do Red Team</span>
+                  </div>
+                </div>
+                <p class="text-slate-300 leading-relaxed italic border-l-2 border-green-500/30 pl-4">
+                  "Bonito seu front-end. Uma pena que eu levaria 12 segundos para derrubar sua DB com um SQL Injection básico nesse setup."
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                  Paranoico por natureza, brilhante por mérito. Rizler pensa como um hacker pra proteger como um engenheiro. Portas abertas, .env exposto, MFA ausente. Nada escapa.
+                </p>
+                <div class="flex flex-wrap gap-2 mt-auto">
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-green-500/10 text-green-400 font-bold uppercase tracking-wider">Red Team</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-green-500/10 text-green-400 font-bold uppercase tracking-wider">Segurança</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-green-500/10 text-green-400 font-bold uppercase tracking-wider">Pentest</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Anastasia -->
+            <div class="relative rounded-2xl overflow-hidden group">
+              <div class="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-transparent pointer-events-none"></div>
+              <div class="relative glass-panel p-8 rounded-2xl border-l-4 border-l-pink-500/60 flex flex-col gap-5 h-full">
+                <div class="flex items-center gap-4">
+                  <img src="/agentes/Anastasiaicon.png" alt="Anastasia" class="size-14 rounded-full object-cover border-2 border-pink-500/30" />
+                  <div>
+                    <h3 class="font-display text-xl font-black text-white">Anastasia</h3>
+                    <span class="text-pink-400 text-sm font-semibold">A Rainha do Fullstack</span>
+                  </div>
+                </div>
+                <p class="text-slate-300 leading-relaxed italic border-l-2 border-pink-500/30 pl-4">
+                  "Calma, baby. Vamos escolher uma stack que deixe seu backend tão atraente quanto o seu front."
+                </p>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                  Técnica, confiante e elegante. Anastasia garante que frontend e backend conversem em harmonia. Design system primeiro, TypeScript obrigatório, componentes enxutos. Padrão de rainha.
+                </p>
+                <div class="flex flex-wrap gap-2 mt-auto">
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-pink-500/10 text-pink-400 font-bold uppercase tracking-wider">Fullstack</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-pink-500/10 text-pink-400 font-bold uppercase tracking-wider">Design System</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-pink-500/10 text-pink-400 font-bold uppercase tracking-wider">TypeScript</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="flex flex-col items-center gap-4 text-center">
+            <p class="text-slate-400 text-lg">Escolha seu mentor. Construa com confiança.</p>
+            <a href="/app" class="group flex items-center gap-3 rounded-full bg-gradient-to-r from-primary to-primary-dark text-white hover:shadow-[0_0_40px_rgba(46,116,139,0.4)] transition-all px-10 py-4 text-base font-bold tracking-wide">
+              Escolher Meu Agente
+              <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ═══════════════════════════════════════════════════════
+           SEÇÃO 7 — CYBERDYNE
+           Script ofensivo de segurança. Tema: preto + vermelho.
+      ═══════════════════════════════════════════════════════ -->
+      <section class="cyberdyne-section w-full relative overflow-hidden" id="cyberdyne">
+        <!-- Dark aggressive background -->
+        <div class="absolute inset-0 bg-[#080808]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(220,38,38,0.08)_0%,transparent_60%)] pointer-events-none"></div>
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-500/40 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-500/40 to-transparent"></div>
+        <!-- Grid pattern overlay -->
+        <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(rgba(220,38,38,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(220,38,38,0.3) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+        <div class="relative z-10 px-6 py-28 md:px-12 lg:px-24">
+          <div class="mx-auto max-w-[1200px] flex flex-col lg:flex-row gap-16 items-center">
+            <!-- Left content -->
+            <div class="flex-1 flex flex-col gap-8">
+              <div class="inline-flex w-fit items-center gap-3 rounded-full border border-red-500/30 bg-red-500/5 px-5 py-2">
+                <span class="flex size-2 rounded-full bg-red-500 animate-pulse"></span>
+                <span class="text-xs font-black tracking-[0.2em] text-red-400 uppercase">Em Desenvolvimento</span>
+              </div>
+
+              <div class="flex items-end gap-4">
+                <h2 class="font-display text-5xl md:text-7xl font-black tracking-tighter text-white leading-none">
+                  CYBER<span class="text-red-500">DYNE</span>
+                </h2>
+              </div>
+
+              <p class="text-xl text-red-400/80 font-semibold">
+                Encontre as falhas antes que elas encontrem você.
+              </p>
+
+              <p class="text-slate-400 leading-relaxed text-lg">
+                Cyberdyne é um script de segurança ofensiva projetado para varrer, identificar e documentar vulnerabilidades em aplicações web e sistemas locais. Ele não pergunta permissão. Ele testa tudo. XSS, SQL Injection, LFI, IDOR, SSRF, DDoS surface, e muito mais.
+              </p>
+
+              <div class="grid grid-cols-2 gap-3 mt-2">
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
+                  <span class="material-symbols-outlined text-red-400">bug_report</span>
+                  <span class="text-sm text-slate-300 font-medium">XSS Detection</span>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
+                  <span class="material-symbols-outlined text-red-400">database</span>
+                  <span class="text-sm text-slate-300 font-medium">SQL Injection</span>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
+                  <span class="material-symbols-outlined text-red-400">folder_open</span>
+                  <span class="text-sm text-slate-300 font-medium">LFI / Path Traversal</span>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
+                  <span class="material-symbols-outlined text-red-400">vpn_key</span>
+                  <span class="text-sm text-slate-300 font-medium">IDOR & Auth Bypass</span>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
+                  <span class="material-symbols-outlined text-red-400">cloud_off</span>
+                  <span class="text-sm text-slate-300 font-medium">DDoS Surface</span>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-red-500/5 border border-red-500/10">
+                  <span class="material-symbols-outlined text-red-400">link</span>
+                  <span class="text-sm text-slate-300 font-medium">SSRF Analysis</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Terminal visual -->
+            <div class="flex-1 w-full max-w-lg">
+              <div class="relative rounded-2xl bg-[#0a0a0a] border border-red-500/15 p-6 font-mono text-sm shadow-[0_0_60px_rgba(220,38,38,0.08)]">
+                <!-- Scan line effect -->
+                <div class="absolute top-0 left-0 w-full h-full overflow-hidden rounded-2xl pointer-events-none">
+                  <div class="absolute w-full h-[2px] bg-gradient-to-r from-transparent via-red-500/20 to-transparent animate-[scanline_4s_linear_infinite]"></div>
+                </div>
+                <!-- Terminal header -->
+                <div class="flex items-center gap-2 mb-5 pb-3 border-b border-red-500/10">
+                  <div class="size-3 rounded-full bg-red-500/60"></div>
+                  <div class="size-3 rounded-full bg-red-500/30"></div>
+                  <div class="size-3 rounded-full bg-red-500/15"></div>
+                  <span class="ml-3 text-red-500/40 text-xs font-bold">cyberdyne v0.1-alpha</span>
+                </div>
+                <div class="space-y-2">
+                  <p class="text-red-500/70"><span class="text-red-400">root@cyberdyne</span>:<span class="text-slate-500">~</span>$ ./scan --target app.example.com --deep</p>
+                  <p class="text-slate-600 text-xs mt-1">[*] Initializing attack vectors...</p>
+                  <p class="text-slate-600 text-xs">[*] Loading 847 payloads...</p>
+                  <p class="text-slate-600 text-xs">[*] Scanning 23 endpoints...</p>
+                  <p class="text-red-500/50 text-xs mt-3">━━━━━━━━━━━━━━━━━━━━━ 100%</p>
+                  <p class="mt-3 text-xs"><span class="text-red-400">[CRITICAL]</span> <span class="text-slate-400">Reflected XSS in /search?q=</span></p>
+                  <p class="text-xs"><span class="text-red-400">[CRITICAL]</span> <span class="text-slate-400">Blind SQLi in /api/users/:id</span></p>
+                  <p class="text-xs"><span class="text-yellow-500">[HIGH]</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-slate-400">IDOR on /api/orders</span></p>
+                  <p class="text-xs"><span class="text-yellow-500">[HIGH]</span> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-slate-400">Missing rate limit on /auth</span></p>
+                  <p class="text-xs"><span class="text-orange-400">[MEDIUM]</span> &nbsp;<span class="text-slate-400">Directory listing enabled</span></p>
+                  <p class="mt-4 text-xs text-slate-600">────────────────────────────────</p>
+                  <p class="text-xs text-red-400 font-bold">Report: 5 vulns | 2 critical | 2 high | 1 medium</p>
+                  <p class="text-xs text-red-500/50">[*] Full report saved to ./reports/scan_2026-03-12.pdf</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Final CTA -->
-      <section class="w-full px-6 py-32 md:px-12 lg:px-24">
+
+      <!-- ═══════════════════════════════════════════════════════
+           SEÇÃO 8 — SERENITY
+           Script de QA automatizado. Tema: branco, ouro, mármore, luxo.
+      ═══════════════════════════════════════════════════════ -->
+      <section class="serenity-section w-full relative overflow-hidden" id="serenity">
+        <!-- Luxury marble/gold background -->
+        <div class="absolute inset-0 bg-[#f0ede8]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)] pointer-events-none"></div>
+        <!-- Subtle marble texture -->
+        <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;200&quot; height=&quot;200&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cfilter id=&quot;n&quot;%3E%3CfeTurbulence baseFrequency=&quot;0.65&quot; numOctaves=&quot;3&quot; stitchTiles=&quot;stitch&quot;/%3E%3C/filter%3E%3Crect width=&quot;100%25&quot; height=&quot;100%25&quot; filter=&quot;url(%23n)&quot; opacity=&quot;0.5&quot;/%3E%3C/svg%3E');"></div>
+        <!-- Gold borders top/bottom -->
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4af37]/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4af37]/30 to-transparent"></div>
+
+        <div class="relative z-10 px-6 py-28 md:px-12 lg:px-24">
+          <div class="mx-auto max-w-[1200px] flex flex-col lg:flex-row-reverse gap-16 items-center">
+            <!-- Left content (reversed) -->
+            <div class="flex-1 flex flex-col gap-8">
+              <div class="inline-flex w-fit items-center gap-3 rounded-full border border-[#d4af37]/30 bg-[#d4af37]/5 px-5 py-2">
+                <span class="flex size-2 rounded-full bg-[#d4af37] animate-pulse"></span>
+                <span class="text-xs font-black tracking-[0.2em] text-[#b8960c] uppercase">Em Desenvolvimento</span>
+              </div>
+
+              <h2 class="font-display text-5xl md:text-7xl font-black tracking-tighter leading-none" style="color: #1a1a2e;">
+                SERE<span style="color: #d4af37;">NITY</span>
+              </h2>
+
+              <p class="text-xl font-semibold" style="color: #b8960c;">
+                Qualidade não se discute. Se comprova.
+              </p>
+
+              <p class="text-lg leading-relaxed" style="color: #5a5a6e;">
+                Serenity é um motor de QA automatizado que testa cada funcionalidade do seu sistema com a precisão de um relojoeiro suíço. Integrado com IA, ele não só encontra falhas. Ele explica o porquê, sugere correções e gera um relatório executivo completo.
+              </p>
+
+              <div class="grid grid-cols-2 gap-3 mt-2">
+                <div class="flex items-center gap-3 p-3 rounded-lg border" style="background: rgba(212,175,55,0.04); border-color: rgba(212,175,55,0.15);">
+                  <span class="material-symbols-outlined" style="color: #d4af37;">play_circle</span>
+                  <span class="text-sm font-medium" style="color: #3a3a4e;">Testes E2E</span>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg border" style="background: rgba(212,175,55,0.04); border-color: rgba(212,175,55,0.15);">
+                  <span class="material-symbols-outlined" style="color: #d4af37;">speed</span>
+                  <span class="text-sm font-medium" style="color: #3a3a4e;">Performance Audit</span>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg border" style="background: rgba(212,175,55,0.04); border-color: rgba(212,175,55,0.15);">
+                  <span class="material-symbols-outlined" style="color: #d4af37;">accessibility_new</span>
+                  <span class="text-sm font-medium" style="color: #3a3a4e;">Acessibilidade</span>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg border" style="background: rgba(212,175,55,0.04); border-color: rgba(212,175,55,0.15);">
+                  <span class="material-symbols-outlined" style="color: #d4af37;">analytics</span>
+                  <span class="text-sm font-medium" style="color: #3a3a4e;">Relatório com IA</span>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg border" style="background: rgba(212,175,55,0.04); border-color: rgba(212,175,55,0.15);">
+                  <span class="material-symbols-outlined" style="color: #d4af37;">smartphone</span>
+                  <span class="text-sm font-medium" style="color: #3a3a4e;">Responsividade</span>
+                </div>
+                <div class="flex items-center gap-3 p-3 rounded-lg border" style="background: rgba(212,175,55,0.04); border-color: rgba(212,175,55,0.15);">
+                  <span class="material-symbols-outlined" style="color: #d4af37;">integration_instructions</span>
+                  <span class="text-sm font-medium" style="color: #3a3a4e;">API Testing</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Elegant report visual -->
+            <div class="flex-1 w-full max-w-lg">
+              <div class="relative rounded-2xl p-8 font-mono text-sm shadow-[0_20px_60px_rgba(0,0,0,0.08)]" style="background: linear-gradient(135deg, #f5f2eb, #ebe8e0); border: 1px solid rgba(212,175,55,0.2);">
+                <!-- Gold corner accents -->
+                <div class="absolute top-3 left-3 w-8 h-8 border-t-2 border-l-2 rounded-tl-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+                <div class="absolute top-3 right-3 w-8 h-8 border-t-2 border-r-2 rounded-tr-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+                <div class="absolute bottom-3 left-3 w-8 h-8 border-b-2 border-l-2 rounded-bl-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+                <div class="absolute bottom-3 right-3 w-8 h-8 border-b-2 border-r-2 rounded-br-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+
+                <!-- Report header -->
+                <div class="text-center mb-6 pb-4" style="border-bottom: 1px solid rgba(212,175,55,0.2);">
+                  <div class="text-xs font-black tracking-[0.3em] uppercase mb-1" style="color: #d4af37;">Serenity QA</div>
+                  <div class="text-lg font-bold" style="color: #1a1a2e;">Quality Report</div>
+                  <div class="text-xs mt-1" style="color: #9a9aae;">12/03/2026 | app.example.com</div>
+                </div>
+                <!-- Score -->
+                <div class="flex justify-center mb-6">
+                  <div class="relative size-28 flex items-center justify-center">
+                    <svg class="absolute inset-0" viewBox="0 0 120 120">
+                      <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(212,175,55,0.1)" stroke-width="8"/>
+                      <circle cx="60" cy="60" r="52" fill="none" stroke="#d4af37" stroke-width="8" stroke-dasharray="295" stroke-dashoffset="30" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+                    </svg>
+                    <div class="text-center">
+                      <div class="text-3xl font-black" style="color: #d4af37;">92</div>
+                      <div class="text-[10px] font-bold uppercase tracking-wider" style="color: #9a9aae;">Score</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Results -->
+                <div class="space-y-3 font-sans">
+                  <div class="flex items-center justify-between p-2 rounded" style="background: rgba(34,197,94,0.05);">
+                    <span class="text-xs font-semibold" style="color: #3a3a4e;">Funcionalidade</span>
+                    <span class="text-xs font-bold" style="color: #22c55e;">48/50 passed</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2 rounded" style="background: rgba(34,197,94,0.05);">
+                    <span class="text-xs font-semibold" style="color: #3a3a4e;">Performance</span>
+                    <span class="text-xs font-bold" style="color: #22c55e;">LCP 1.2s</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2 rounded" style="background: rgba(212,175,55,0.05);">
+                    <span class="text-xs font-semibold" style="color: #3a3a4e;">Acessibilidade</span>
+                    <span class="text-xs font-bold" style="color: #d4af37;">3 warnings</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2 rounded" style="background: rgba(34,197,94,0.05);">
+                    <span class="text-xs font-semibold" style="color: #3a3a4e;">Responsividade</span>
+                    <span class="text-xs font-bold" style="color: #22c55e;">All breakpoints OK</span>
+                  </div>
+                </div>
+                <div class="mt-5 pt-4 text-center" style="border-top: 1px solid rgba(212,175,55,0.15);">
+                  <span class="text-[10px] font-bold uppercase tracking-[0.2em]" style="color: #b8960c;">Quality Certified</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ═══════════════════════════════════════════════════════
+           SEÇÃO 9 — CTA FINAL
+           Chamada para ação definitiva.
+      ═══════════════════════════════════════════════════════ -->
+      <section class="w-full px-6 py-32 md:px-12 lg:px-24 relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-primary/10 rounded-full blur-[150px]"></div>
+        </div>
+
         <div class="mx-auto max-w-[1000px] relative">
-          <div class="absolute -inset-[2px] rounded-[2rem] bg-gradient-to-r from-primary to-primary-dark opacity-30 blur-lg"></div>
-          <div class="absolute -inset-[1px] rounded-[2rem] bg-gradient-to-r from-primary to-primary-dark opacity-50"></div>
-          <div class="relative bg-background-dark rounded-[2rem] p-12 md:p-20 flex flex-col items-center text-center gap-8 overflow-hidden">
-            <div class="absolute inset-0 bg-[url('https://placeholder.pics/svg/800x400')] opacity-5 bg-cover bg-center pointer-events-none"></div>
+          <div class="absolute -inset-[2px] rounded-[2rem] bg-gradient-to-r from-primary via-secondary to-primary-dark opacity-30 blur-lg"></div>
+          <div class="absolute -inset-[1px] rounded-[2rem] bg-gradient-to-r from-primary via-secondary to-primary-dark opacity-50"></div>
+          <div class="cta-card-dark relative bg-background-dark rounded-[2rem] p-12 md:p-20 flex flex-col items-center text-center gap-8 overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px]"></div>
-            <h2 class="font-display text-4xl md:text-6xl font-black tracking-tight text-white relative z-10">
-              <span data-i18n="cta.title.1">O futuro do seu código </span><br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-dark" data-i18n="cta.title.highlight">começa agora.</span>
+            <div class="absolute bottom-0 left-0 w-48 h-48 bg-primary-dark/15 rounded-full blur-[60px]"></div>
+
+            <h2 class="font-display text-4xl md:text-6xl font-black tracking-tight text-white relative z-10 leading-tight">
+              O código que você escreve hoje<br/>
+              define o software de <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary-dark">amanhã.</span>
             </h2>
-            <p class="text-xl text-slate-400 max-w-[600px] relative z-10" data-i18n="cta.subtitle">
-              Pare de adivinhar sua stack. Comece a construir com certeza e escala desde o dia zero.
+            <p class="text-xl text-slate-400 max-w-[600px] relative z-10">
+              Pare de improvisar. Pare de adivinhar. Comece cada projeto com a clareza, a segurança e a inteligência que ele merece.
             </p>
-            <a href="/app" class="relative z-10 mt-4 flex cursor-pointer items-center justify-center rounded-full bg-white text-background-dark hover:bg-slate-200 transition-colors px-10 py-5 text-lg font-bold tracking-wide shadow-[0_0_30px_rgba(255,255,255,0.2)] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark">
-              <span data-i18n="cta.button">Começar meu Projeto</span>
-              <span class="material-symbols-outlined ml-2">arrow_forward</span>
+            <a href="/app" class="relative z-10 mt-4 group flex cursor-pointer items-center justify-center rounded-full bg-white text-background-dark hover:bg-slate-100 transition-colors px-10 py-5 text-lg font-black tracking-wide shadow-[0_0_40px_rgba(255,255,255,0.15)] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark">
+              Criar Meu Projeto Agora
+              <span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </a>
+            <p class="text-slate-500 text-sm relative z-10">Gratuito. Sem cartão de crédito. Sem pegadinha.</p>
           </div>
         </div>
       </section>
     </main>
-    
+
     <Footer />
   </div>
 </Layout>
@@ -312,5 +799,9 @@ import Footer from '../components/Footer.astro';
   @keyframes fade-in-up {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scanline {
+    0% { top: -2px; }
+    100% { top: 100%; }
   }
 </style>

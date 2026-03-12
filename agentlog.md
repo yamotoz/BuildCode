@@ -1,7 +1,7 @@
 # BuildCode — Guia Completo para Agentes de IA
 # aqui é seu diario pessoal ia, o seu diario de bordo do projeto.
 > **Leia este documento INTEIRO antes de fazer qualquer alteracao.**
-> Ultima atualizacao: 2026-03-11
+> Ultima atualizacao: 2026-03-12
 
 ---
 
@@ -24,7 +24,7 @@
 |--------|-----------|----------|
 | **Framework** | Astro 5.x | SSG + SSR (`prerender = false` em `/app`, `/perfil`, `/api/*`). Zero-JS por padrao. |
 | **React Islands** | React 18 + @astrojs/react | Componentes interativos via `client:load`. Usado na pagina Analytics. |
-| **CSS** | Tailwind CSS 4.x | Tokens customizados em `global.css`. Utilitarios: `glass-panel`, `glow-border`. |
+| **CSS** | Tailwind CSS 4.x | Tokens customizados em `global.css`. Utilitarios: `glass-panel`, `glow-border`. Light theme overrides FORA de @layer (com !important) para vencer utilities. |
 | **Charts** | Recharts | Graficos React (Area, Bar, Line, Radar). Usado no Analytics dashboard. |
 | **Animacoes** | Framer Motion + Three.js | Framer Motion para transicoes React. Three.js para particulas 3D no `/app`. |
 | **Icones** | Lucide React + Material Symbols + SVGs locais | Lucide React nos componentes React. Material Symbols via CDN. Logos em `public/icons/`. |
@@ -54,11 +54,11 @@ src/
 ├── data/
 │   ├── wizard-config.ts          # 20 perguntas + 9 modelos LLM (budget/mid/pro)
 │   ├── technologies.ts           # 150+ tecnologias (nome, logo, pros, cons, website)
-│   ├── categories.ts             # Categorias: frontend, backend, data, infra, libs, devex
+│   ├── categories.ts             # Categorias: frontend, backend, data, infra, libs, devex, ai, design, mcp
 │   ├── skills-map.ts             # URLs de referencia tecnica por tecnologia
 │   ├── tooltips.ts               # Glossario de termos tecnicos (hover tooltips)
 │   ├── agents.ts                 # 4 agentes mentores (The Boss, Azrael, Rizler, Anastasia)
-│   └── i18n.ts                   # Traducoes PT-BR <-> EN (200+ chaves)
+│   └── i18n.ts                   # Traducoes PT-BR <-> EN (350+ chaves)
 ├── layouts/
 │   └── Layout.astro              # Layout base (dark mode, fonts, meta, i18n script global)
 ├── lib/
@@ -228,7 +228,7 @@ Dashboard React de comparacao de stacks via GitHub API:
 
 ## 9. SISTEMA i18n (PT-BR <-> EN)
 
-- **`src/data/i18n.ts`** — 220+ chaves com `{ pt: "...", en: "..." }`
+- **`src/data/i18n.ts`** — 350+ chaves com `{ pt: "...", en: "..." }`
 - **`Layout.astro`** — Script global aplica traducoes via `[data-i18n]`
 - **localStorage:** chave `bc-lang`, padrao `'pt'`
 - **API:** `window.bcGetLang()`, `window.bcSetLang(lang)`, `window.bcApplyTranslations(lang)`
@@ -308,10 +308,10 @@ Ao registrar no Auth, `handle_new_user()` cria automaticamente o perfil com:
 - [x] Sistema de roles (master/admin/user) com RLS
 - [x] Painel de gestao de usuarios (master only): listar, alterar role, convidar, deletar
 - [x] Busca de tecnologias no questionario (filtra por categoria)
-- [x] Biblioteca com 150+ tecnologias, busca, filtro, detalhe lateral
+- [x] Biblioteca com 200+ tecnologias em 9 categorias, busca, filtro, detalhe lateral, mobile bottom nav
 - [x] Three.js particulas animadas no background do `/app`
 - [x] Analytics Dashboard: comparacao de stacks via GitHub API
-- [x] Sistema i18n completo (PT-BR <-> EN) com 200+ chaves
+- [x] Sistema i18n completo (PT-BR <-> EN) com 350+ chaves em todas as paginas
 - [x] Responsive design (breakpoints otimizados)
 - [x] GitHub analytics comparison API
 - [x] TTS audio nas respostas do agente (vozes unicas por agente, >780 chars)
@@ -324,14 +324,43 @@ Ao registrar no Auth, `handle_new_user()` cria automaticamente o perfil com:
 - [x] Tema claro/escuro funcional em todo o site (localStorage + Supabase persist)
 - [x] Tabelas SaaS no banco (subscriptions, usage_logs, api_costs)
 - [x] Badges "nao recomendado" para opcoes inadequadas ao tipo de projeto
+- [x] Biblioteca: 3 novas categorias (IA Generativa, Design & Inspiracao, MCP Servers) com 40+ ferramentas
+- [x] Biblioteca: tags especiais (ex: "IA sem Censura" com badge pulsante vermelho)
+- [x] Biblioteca: barra de categorias mobile (bottom nav com scroll horizontal)
+- [x] Precos: permissoes reais por plano (agentes, PRDs, LLMs, caracteres, import, audio)
+- [x] SQL idempotente: DROP IF EXISTS antes de CREATE TRIGGER/POLICY no dataall.sql
+- [x] Dark/Light mode: CSS overrides movidos para fora de @layer com !important (fix Tailwind v4)
+- [x] User management: guard `usersLoading` + event delegation com `{ once: true }` (fix loop infinito)
+- [x] i18n global: data-i18n em precos.astro (56), perfil.astro (32), admin.astro (6)
+- [x] 13 novos SVGs de logos em public/icons/ (perplexity, huggingface, poe, ollama, etc)
+- [x] Landing page redesign completo: 9 secoes (Hero, O Problema, Realidade do Mercado, Por Que BuildCode, Diferenciais, A Solucao, Cyberdyne Security, Serenity QA, CTA Final)
+- [x] Footer profissional: 4 colunas (Brand+CNPJ, Produto, Recursos, Legal) + frase inspiracional
+- [x] Cyberdyne Section: tema dark permanente (preto + vermelho), preservado em light mode via CSS scoped
+- [x] Serenity Section: tema claro/dourado/marmore, preservado em ambos os temas
+- [x] CTA Card: classe `.cta-card-dark` para manter fundo escuro em light mode
+- [x] Avatares dos agentes na landing: imagens reais (Thebossicon.png, etc) em vez de iniciais texto
+- [x] Remocao de todos os em dashes " — " dos textos visiveis
+- [x] Fix: aceite de termos travando — fallback direto via Supabase client + alert() para erros
+- [x] Light mode global: CSS overrides completos para todas as paginas (60+ regras)
+- [x] Logo swap dinamico: `data-dark`/`data-light` + MutationObserver em TODAS as paginas
+- [x] Logo Logowhitemodeloff.png para tema claro, logo_backofff.png para tema escuro
+- [x] Biblioteca light mode: `.tech-card .bg-black` preserva fundo escuro para icones SVG brancos
+- [x] Admin Dashboard light mode: classe `.admin-dashboard` + CSS overrides para React inline styles
+- [x] Analytics Dashboard theme-aware: hook `useTheme()` reativo em todos os 6 componentes React
+- [x] Analytics: cores de graficos, grids, tooltips, eixos, dots, controles — todos adaptam ao tema
+- [x] Wizard tip text visivel em light mode (override `bg-surface-dark/70`)
+- [x] Hero subtitle mais escuro em light mode (`text-slate-400` → `#4b5563`)
+- [x] API `/api/accept-terms.ts` para registrar aceite de termos com IP
+- [x] API `/api/signup.ts` para registro de novos usuarios
+- [x] Integracao Asaas (pasta `/api/asaas/`) para pagamentos
 
 ## 13. FUNCIONALIDADES PENDENTES / ROADMAP
 
-- [ ] Integracao Stripe para pagamento dos planos
+- [ ] Integracao Stripe/Asaas para pagamento dos planos (em andamento)
 - [ ] Persistencia de respostas (salvar progresso do questionario como projeto)
 - [ ] Historico de geracoes por usuario (tabela projects funcional, UI pendente)
 - [ ] Integracao real com OpenRouter para geracao de PRD/Prompt via LLM
-- [ ] Mobile responsiveness avancado (algumas telas precisam ajuste fino)
+- [ ] Mobile responsiveness avancado (biblioteca OK, outras telas podem precisar ajuste)
 - [ ] SEO e Open Graph tags
 - [ ] Animacoes de transicao entre fases (Three.js camera dive)
 
@@ -368,3 +397,14 @@ npm run preview    # Preview do build
 17. **Nav da landing:** Criador | Precos | Analytics | Biblioteca (nesta ordem).
 18. **Planos:** Explorador (gratis), Consultor (R$35/mes), Arquiteto (R$50/mes, elite).
 19. **Dashboard admin** (`/admin`) — Acesso apenas master/admin. Usa React island com Recharts.
+20. **Tailwind v4 cascade layers:** Light theme overrides DEVEM ficar FORA de `@layer base` e usar `!important`, pois utilities tem prioridade maior que base layer no Tailwind v4.
+21. **Event listeners em listas dinamicas:** Use event delegation no container (tbody, ul) em vez de listeners por elemento. Use `{ once: true }` ou guarda booleana para evitar stacking/loops.
+22. **SQL idempotente:** Sempre use `DROP ... IF EXISTS` antes de `CREATE TRIGGER/POLICY` no dataall.sql para que o arquivo possa ser executado multiplas vezes.
+23. **Simple Icons:** Slug correto e `authdotjs` (nao `authjs`). CDN fallback: `cdn.jsdelivr.net/npm/simple-icons@latest/icons/`.
+24. **Biblioteca mobile:** Sidebar escondida em mobile (`hidden md:flex`), barra de categorias fixa no bottom (`fixed bottom-0`).
+25. **Technologies tags:** Interface `Technology` suporta `tags?: string[]` para badges especiais (ex: "IA sem Censura").
+26. **Light mode logo swap:** Toda pagina que exibe o logo deve ter `data-dark="/logo_backofff.png"` e `data-light="/Logowhitemodeloff.png"` no `<img>`, com script `updatePageLogo()` + MutationObserver.
+27. **React theme-aware components:** Componentes React com inline styles devem usar o hook `useTheme()` de `src/components/analytics/useTheme.ts` para adaptar cores ao tema claro/escuro.
+28. **CSS [style*=] selectors:** Para override de inline styles em server-rendered HTML, use seletores `html.light [style*="background: #xxx"]` no global.css. Nao e confiavel para React (browser normaliza cores).
+29. **Secoes com tema fixo:** Cyberdyne (`.cyberdyne-section`) sempre dark, Serenity (`.serenity-section`) sempre claro, CTA (`.cta-card-dark`) sempre escuro — scoped overrides no CSS.
+30. **Footer CNPJ:** 62.829.190/0001-01 — deve aparecer no footer de toda pagina que usa Footer.astro.

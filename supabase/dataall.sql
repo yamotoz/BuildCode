@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS public.projects (
   generated_prompt TEXT,
   agent_used TEXT DEFAULT 'theboss',
   llm_model TEXT,
+  image_url TEXT NOT NULL DEFAULT '',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
@@ -104,17 +105,37 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 -- Criar perfil automaticamente ao registrar novo usuario
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
+DECLARE
+  _role TEXT;
+  _plan TEXT;
 BEGIN
+  -- Determine role and plan
+  IF NEW.email = 'miguel@steniomello.com.br' THEN
+    _role := 'master';
+    _plan := 'arquiteto';
+  ELSE
+    _role := 'user';
+    _plan := 'explorador';
+  END IF;
+
+  -- Create profile
   INSERT INTO public.profiles (id, full_name, avatar_url, role)
   VALUES (
     NEW.id,
     COALESCE(NEW.raw_user_meta_data ->> 'full_name', NEW.raw_user_meta_data ->> 'name', ''),
     COALESCE(NEW.raw_user_meta_data ->> 'avatar_url', NEW.raw_user_meta_data ->> 'picture', ''),
-    CASE
-      WHEN NEW.email = 'miguel@steniomello.com.br' THEN 'master'
-      ELSE 'user'
-    END
+    _role
   );
+
+  -- Create subscription
+  INSERT INTO public.subscriptions (user_id, plan, status, current_period_end)
+  VALUES (
+    NEW.id,
+    _plan,
+    'active',
+    NOW() + INTERVAL '100 years'
+  );
+
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
@@ -257,20 +278,57 @@ CREATE POLICY "Users can delete own avatar"
   );
 
 
+-- Bucket de imagens de projetos (publico para leitura)
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('project-images', 'project-images', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Imagens de projetos sao publicamente acessiveis (leitura)
+DROP POLICY IF EXISTS "Project images are publicly accessible" ON storage.objects;
+CREATE POLICY "Project images are publicly accessible"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'project-images');
+
+-- Usuarios podem fazer upload de imagens de projetos
+DROP POLICY IF EXISTS "Users can upload project images" ON storage.objects;
+CREATE POLICY "Users can upload project images"
+  ON storage.objects FOR INSERT
+  WITH CHECK (
+    bucket_id = 'project-images'
+    AND auth.role() = 'authenticated'
+    AND (storage.foldername(name))[1] = auth.uid()::TEXT
+  );
+
+-- Usuarios podem deletar suas imagens de projetos
+DROP POLICY IF EXISTS "Users can delete project images" ON storage.objects;
+CREATE POLICY "Users can delete project images"
+  ON storage.objects FOR DELETE
+  USING (
+    bucket_id = 'project-images'
+    AND auth.role() = 'authenticated'
+    AND (storage.foldername(name))[1] = auth.uid()::TEXT
+  );
+
+
 -- ╔═══════════════════════════════════════════════════════╗
 -- ║  7. TABELAS DE ASSINATURA E USO (SaaS)              ║
 -- ╚═══════════════════════════════════════════════════════╝
 
 -- Planos: explorador (free), consultor (R$35/mes), arquiteto (R$50/mes)
+-- Integrado com Asaas para pagamentos (PIX, boleto, cartao)
 CREATE TABLE IF NOT EXISTS public.subscriptions (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL UNIQUE,
   plan TEXT NOT NULL DEFAULT 'explorador' CHECK (plan IN ('explorador', 'consultor', 'arquiteto')),
   billing_cycle TEXT NOT NULL DEFAULT 'monthly' CHECK (billing_cycle IN ('monthly', 'yearly')),
-  status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'canceled', 'past_due', 'trialing')),
+  status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'canceled', 'past_due', 'trialing', 'pending')),
   current_period_start TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   current_period_end TIMESTAMPTZ NOT NULL DEFAULT (NOW() + INTERVAL '30 days'),
   cancel_at_period_end BOOLEAN NOT NULL DEFAULT FALSE,
+  -- Asaas payment gateway
+  asaas_subscription_id TEXT,
+  asaas_customer_id TEXT,
+  last_payment_date TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -360,25 +418,49 @@ CREATE TRIGGER on_subscription_updated
   BEFORE UPDATE ON public.subscriptions
   FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
 
--- Indexes para performance
+-- ╔═══════════════════════════════════════════════════════╗
+-- ║  8. MIGRACOES (rodam sempre — ADD COLUMN IF NOT      ║
+-- ║     EXISTS é seguro em bancos novos e existentes)     ║
+-- ╚═══════════════════════════════════════════════════════╝
+
+-- Coluna de idioma preferido
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS preferred_language TEXT NOT NULL DEFAULT 'pt';
+
+-- Coluna de imagem do projeto
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS image_url TEXT NOT NULL DEFAULT '';
+
+-- Colunas Asaas (payment gateway)
+ALTER TABLE public.subscriptions ADD COLUMN IF NOT EXISTS asaas_subscription_id TEXT;
+ALTER TABLE public.subscriptions ADD COLUMN IF NOT EXISTS asaas_customer_id TEXT;
+ALTER TABLE public.subscriptions ADD COLUMN IF NOT EXISTS last_payment_date TIMESTAMPTZ;
+
+-- Atualizar CHECK constraint para incluir status 'pending'
+ALTER TABLE public.subscriptions DROP CONSTRAINT IF EXISTS subscriptions_status_check;
+ALTER TABLE public.subscriptions ADD CONSTRAINT subscriptions_status_check
+  CHECK (status IN ('active', 'canceled', 'past_due', 'trialing', 'pending'));
+
+-- Termos de uso aceitos pelo usuario
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS terms_accepted_at TIMESTAMPTZ;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS terms_version TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS terms_ip TEXT;
+
+-- Tabela de rate-limit para criacao de contas por IP
+CREATE TABLE IF NOT EXISTS public.signup_rate_limit (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  ip_address TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_signup_rate_ip ON public.signup_rate_limit(ip_address, created_at);
+
+-- Indexes para performance (rodam DEPOIS dos ALTERs para garantir que colunas existem)
 CREATE INDEX IF NOT EXISTS idx_usage_logs_user_id ON public.usage_logs(user_id);
 CREATE INDEX IF NOT EXISTS idx_usage_logs_created_at ON public.usage_logs(created_at);
 CREATE INDEX IF NOT EXISTS idx_usage_logs_action ON public.usage_logs(action);
 CREATE INDEX IF NOT EXISTS idx_api_costs_period ON public.api_costs(period_date);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_plan ON public.subscriptions(plan);
-
--- Adicionar coluna de idioma preferido ao perfil
-ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS preferred_language TEXT NOT NULL DEFAULT 'pt';
-
-
--- ╔═══════════════════════════════════════════════════════╗
--- ║  8. MIGRACOES (para bancos ja existentes)            ║
--- ╚═══════════════════════════════════════════════════════╝
-
--- Se o banco ja existe, rode estas linhas para adicionar colunas novas:
--- ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS agent TEXT NOT NULL DEFAULT 'theboss';
--- ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS llm_model TEXT NOT NULL DEFAULT 'google/gemma-3-4b-it:free';
--- ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS preferred_language TEXT NOT NULL DEFAULT 'pt';
+CREATE INDEX IF NOT EXISTS idx_subscriptions_asaas_id ON public.subscriptions(asaas_subscription_id);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_asaas_customer ON public.subscriptions(asaas_customer_id);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON public.subscriptions(status);
 
 
 -- ╔═══════════════════════════════════════════════════════╗

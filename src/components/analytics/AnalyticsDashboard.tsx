@@ -9,6 +9,7 @@ import { RadarChart } from './RadarChart';
 import { PulseGrid } from './PulseGrid';
 import { MetricCard } from './MetricCard';
 import { AIInsight } from './AIInsight';
+import { useTheme } from './useTheme';
 
 interface RepoData {
   name: string;
@@ -222,12 +223,15 @@ function AutocompleteInput({ value, onChange, onKeyDown, placeholder, color, lab
     }
   };
 
+  const th = useTheme();
+
   return (
     <div className="flex-1 relative" ref={containerRef}>
-      <div className="flex items-center bg-white/5 rounded-xl px-4 py-3 gap-3">
+      <div className="flex items-center rounded-xl px-4 py-3 gap-3" style={{ background: th.controlBg }}>
         <span className="text-sm font-bold" style={{ color }}>{label}</span>
         <input
-          className="bg-transparent border-none focus:ring-0 p-0 text-sm font-medium w-full outline-none text-white placeholder-slate-500"
+          className="bg-transparent border-none focus:ring-0 p-0 text-sm font-medium w-full outline-none placeholder-slate-500"
+          style={{ color: th.textPrimary }}
           type="text"
           value={value}
           onChange={e => { onChange(e.target.value); setOpen(true); }}
@@ -248,9 +252,9 @@ function AutocompleteInput({ value, onChange, onKeyDown, placeholder, color, lab
             transition={{ duration: 0.15 }}
             className="absolute z-50 top-full mt-2 w-full max-h-[320px] overflow-y-auto rounded-xl py-2"
             style={{
-              background: '#1a1a1a',
-              border: '1px solid #2A3135',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
+              background: th.tooltipBg,
+              border: `1px solid ${th.border}`,
+              boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
             }}
           >
             {Object.entries(grouped).map(([category, items]) => (
@@ -335,7 +339,7 @@ export default function AnalyticsDashboard() {
   };
 
   return (
-    <div className="max-w-[1400px] mx-auto px-6 py-8">
+    <div className="analytics-dashboard max-w-[1400px] mx-auto px-6 py-8">
       {/* Search Bar */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

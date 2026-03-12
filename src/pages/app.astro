@@ -68,7 +68,7 @@ const techDB = technologies.map(t => ({
     <!-- TOP NAV -->
     <header class="relative z-20 flex items-center justify-between px-4 sm:px-8 py-3 sm:py-4 border-b border-border-color glass-panel">
       <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-        <img src="/logo_backofff.png" alt="BuildCode" class="h-8 w-auto object-contain" />
+        <img id="app-logo" src="/logo_backofff.png" data-dark="/logo_backofff.png" data-light="/Logowhitemodeloff.png" alt="BuildCode" class="h-8 w-auto object-contain" />
         <span class="font-display text-lg font-bold text-white tracking-tight hidden sm:block">BuildCode</span>
       </a>
 
@@ -353,7 +353,7 @@ const techDB = technologies.map(t => ({
                                   data-tech-name={opt.label}
                                   data-tech-url={opt.website}
                                   title={`Saber mais sobre ${opt.label}`}
-                                  onclick="event.preventDefault(); event.stopPropagation();"
+                                  onclick="event.preventDefault(); event.stopPropagation(); window._openInfoModal && window._openInfoModal(this.getAttribute('data-tech-name'), this.getAttribute('data-tech-url'));"
                                 >
                                   <span class="material-symbols-outlined text-[16px] pointer-events-none">info</span>
                                 </button>
@@ -511,43 +511,222 @@ const techDB = technologies.map(t => ({
             </div>
           </div>
 
-          <!-- STEP 24: Result (PRD + Prompt Base Tabs) -->
-          <div class="step hidden flex flex-col gap-6 w-full" data-step="24" data-phase="4">
-            <!-- Tab Switcher -->
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <div class="flex items-center gap-2">
-                <button type="button" id="tab-prd" class="result-tab px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-bold bg-primary/10 text-primary border border-primary/20 transition-all">PRD</button>
-                <button type="button" id="tab-prompt" class="result-tab px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-bold text-slate-500 border border-transparent hover:text-white transition-all">Prompt Base</button>
-                <span id="prompt-tip" class="hidden text-[9px] text-cta/80 max-w-[200px] leading-tight">Recomendamos a leitura completa e melhorias manuais para maior precisao.</span>
+          <!-- STEP 24: Result (PRD + Prompt Base Tabs + Insights + Save) -->
+          <div class="step hidden flex flex-col gap-0 w-full" data-step="24" data-phase="4">
+
+            <!-- ── Result Header ── -->
+            <div class="relative rounded-t-2xl overflow-hidden" style="background: linear-gradient(135deg, #0A1628 0%, #0D1B2A 50%, #112240 100%); border: 1px solid rgba(46,116,139,0.15); border-bottom: none;">
+              <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(circle at 80% 20%, rgba(46,116,139,0.15) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(139,92,246,0.08) 0%, transparent 50%);"></div>
+              <div class="relative px-5 sm:px-8 pt-6 pb-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <div class="size-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                  <span class="text-[10px] text-emerald-400/80 uppercase tracking-[0.2em] font-semibold">Gerado com sucesso</span>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-display font-bold text-white tracking-tight">Sua Arquitetura</h2>
+                <p class="text-xs text-slate-500 mt-1">Documentacao tecnica gerada pela IA</p>
               </div>
-              <div class="flex items-center gap-2">
-                <button type="button" id="copy-btn" class="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg border border-border-color bg-surface-dark text-xs text-slate-300 hover:text-white hover:bg-surface-light transition-colors">
-                  <span class="material-symbols-outlined text-sm">content_copy</span> <span data-i18n="app.copiar">COPIAR</span>
+              <!-- Tab Navigation -->
+              <div class="relative px-5 sm:px-8 flex items-end gap-1">
+                <button type="button" id="tab-prd" class="result-tab relative px-4 sm:px-5 py-2.5 text-xs sm:text-[13px] font-semibold text-primary bg-[#080C14] rounded-t-xl border border-b-0 border-primary/20 transition-all">
+                  <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">description</span> PRD</span>
                 </button>
-                <button type="button" id="download-pdf-btn" class="hidden flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg border border-primary/30 bg-primary/10 text-xs text-primary hover:text-white hover:bg-primary/20 transition-colors">
-                  <span class="material-symbols-outlined text-sm">picture_as_pdf</span> PDF
+                <button type="button" id="tab-prompt" class="result-tab relative px-4 sm:px-5 py-2.5 text-xs sm:text-[13px] font-semibold text-slate-500 hover:text-slate-300 rounded-t-xl border border-b-0 border-transparent hover:border-white/5 hover:bg-white/[0.02] transition-all">
+                  <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">terminal</span> Prompt Base</span>
                 </button>
-                <button type="button" id="download-docx-btn" class="hidden flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg border border-primary/30 bg-primary/10 text-xs text-primary hover:text-white hover:bg-primary/20 transition-colors">
-                  <span class="material-symbols-outlined text-sm">description</span> Word
+                <button type="button" id="tab-insights" class="result-tab relative px-4 sm:px-5 py-2.5 text-xs sm:text-[13px] font-semibold text-slate-500 hover:text-slate-300 rounded-t-xl border border-b-0 border-transparent hover:border-white/5 hover:bg-white/[0.02] transition-all">
+                  <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">insights</span> Insights</span>
                 </button>
-                <button type="button" id="download-md-btn" class="hidden flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg border border-border-color bg-surface-dark text-xs text-slate-300 hover:text-white hover:bg-surface-light transition-colors">
-                  <span class="material-symbols-outlined text-sm">code</span> .md
-                </button>
+                <div class="ml-auto flex items-center gap-1 pb-1">
+                  <span id="prompt-limit-badge" class="hidden text-[9px] px-2 py-0.5 rounded-full font-bold"></span>
+                  <span id="prompt-tip" class="hidden text-[9px] text-cta/80 max-w-[180px] leading-tight"></span>
+                </div>
               </div>
             </div>
-            <!-- Output Area -->
-            <div class="relative bg-[#05080A] rounded-2xl border border-primary/20 overflow-hidden">
-              <div class="flex items-center gap-2 px-4 py-3 border-b border-border-color bg-surface-dark">
-                <span class="size-3 rounded-full bg-red-500/80"></span>
-                <span class="size-3 rounded-full bg-yellow-500/80"></span>
-                <span class="size-3 rounded-full bg-green-500/80"></span>
-                <span id="output-filename" class="font-mono text-[10px] text-slate-500 ml-2">architecture_prd.md</span>
+
+            <!-- ── Save Project Bar (visible, above output) ── -->
+            <div id="save-bar" class="px-4 sm:px-6 py-3" style="background: rgba(46,116,139,0.04); border-left: 1px solid rgba(46,116,139,0.15); border-right: 1px solid rgba(46,116,139,0.15); border-bottom: 1px solid rgba(255,255,255,0.03);">
+              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <div class="flex items-center gap-2 flex-1 min-w-0">
+                  <span class="material-symbols-outlined text-primary text-base shrink-0">bookmark_add</span>
+                  <input type="text" id="save-project-title" placeholder="Nome do projeto para salvar..." maxlength="100" class="flex-1 min-w-0 px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-white text-sm placeholder:text-slate-600 focus:border-primary/40 focus:outline-none transition-all" />
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <label class="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/[0.06] text-slate-500 hover:text-white hover:border-white/[0.12] cursor-pointer transition-all text-[11px] bg-white/[0.02]" title="Adicionar imagem de capa">
+                    <span class="material-symbols-outlined text-[14px]">add_photo_alternate</span>
+                    <span id="save-image-label" class="hidden sm:inline">Capa</span>
+                    <input type="file" id="save-project-image" accept="image/*" class="hidden" />
+                  </label>
+                  <button type="button" id="save-expand-btn" class="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/[0.06] text-slate-500 hover:text-white hover:border-white/[0.12] transition-all text-[11px] bg-white/[0.02]" title="Mais opcoes">
+                    <span class="material-symbols-outlined text-[14px]">tune</span>
+                  </button>
+                  <button type="button" id="save-project-btn" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/15 border border-primary/25 text-primary text-xs font-bold hover:bg-primary/25 hover:border-primary/40 transition-all">
+                    <span class="material-symbols-outlined text-sm">save</span>
+                    Salvar
+                  </button>
+                </div>
               </div>
-              <textarea id="prd-output" readonly class="w-full min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] bg-transparent text-slate-300 font-mono text-[10px] sm:text-xs md:text-sm p-3 sm:p-4 lg:p-6 resize-none focus:outline-none" style="scrollbar-color: #1C4D5E transparent;"></textarea>
-              <textarea id="prompt-output" readonly class="hidden w-full min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] bg-transparent text-slate-300 font-mono text-[10px] sm:text-xs md:text-sm p-3 sm:p-4 lg:p-6 resize-none focus:outline-none" style="scrollbar-color: #1C4D5E transparent;"></textarea>
+              <!-- Expanded details (hidden by default) -->
+              <div id="save-project-expanded" class="hidden mt-3 space-y-3">
+                <textarea id="save-project-desc" placeholder="Descricao breve (opcional)" maxlength="500" rows="2" class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-white text-sm placeholder:text-slate-600 focus:border-primary/40 focus:outline-none transition-all resize-none"></textarea>
+                <div id="save-image-preview-wrap" class="hidden flex items-center gap-3">
+                  <img id="save-project-preview" class="h-16 w-24 rounded-lg object-cover border border-white/[0.08]" />
+                  <button type="button" id="save-remove-image" class="text-[10px] text-red-400 hover:text-red-300 transition-colors">Remover</button>
+                </div>
+              </div>
+              <p id="save-project-feedback" class="text-[10px] text-center mt-2 hidden"></p>
             </div>
-            <div class="flex justify-center gap-4">
-              <button type="button" class="restart-btn px-8 py-3 rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-colors">Iniciar Novo Projeto</button>
+
+            <!-- ── Output Area ── -->
+            <div id="output-area" class="relative bg-[#080C14] overflow-hidden" style="border-left: 1px solid rgba(46,116,139,0.15); border-right: 1px solid rgba(46,116,139,0.15);">
+              <!-- Toolbar -->
+              <div class="flex items-center justify-between px-4 sm:px-6 py-2.5 border-b border-white/[0.04] bg-white/[0.01]">
+                <div class="flex items-center gap-3">
+                  <span id="output-filename" class="font-mono text-[10px] text-slate-600">architecture_prd.md</span>
+                  <span id="char-count" class="font-mono text-[10px] text-slate-700"></span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <button type="button" id="copy-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] text-slate-400 hover:text-white hover:bg-white/5 transition-all" title="Copiar">
+                    <span class="material-symbols-outlined text-[14px]">content_copy</span> <span data-i18n="app.copiar" class="hidden sm:inline">Copiar</span>
+                  </button>
+                  <div class="w-px h-4 bg-white/[0.06] mx-1"></div>
+                  <button type="button" id="download-md-btn" class="hidden items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] text-slate-400 hover:text-white hover:bg-white/5 transition-all" title=".md">
+                    <span class="material-symbols-outlined text-[13px]">code</span> .md
+                  </button>
+                  <button type="button" id="download-pdf-btn" class="hidden items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] text-slate-400 hover:text-white hover:bg-white/5 transition-all" title="PDF">
+                    <span class="material-symbols-outlined text-[13px]">picture_as_pdf</span> PDF
+                  </button>
+                  <button type="button" id="download-docx-btn" class="hidden items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] text-slate-400 hover:text-white hover:bg-white/5 transition-all" title="Word">
+                    <span class="material-symbols-outlined text-[13px]">description</span> Word
+                  </button>
+                  <button type="button" id="download-txt-btn" class="hidden items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] text-slate-400 hover:text-white hover:bg-white/5 transition-all" title=".txt">
+                    <span class="material-symbols-outlined text-[13px]">text_snippet</span> .txt
+                  </button>
+                  <button type="button" id="download-json-btn" class="hidden items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] text-slate-400 hover:text-white hover:bg-white/5 transition-all" title="JSON">
+                    <span class="material-symbols-outlined text-[13px]">data_object</span> JSON
+                  </button>
+                </div>
+              </div>
+              <!-- Text Content -->
+              <textarea id="prd-output" readonly class="w-full min-h-[350px] sm:min-h-[450px] lg:min-h-[550px] bg-transparent text-slate-300 font-mono text-[11px] sm:text-xs md:text-[13px] leading-relaxed p-4 sm:p-6 lg:p-8 resize-none focus:outline-none" style="scrollbar-color: #1C4D5E transparent;"></textarea>
+              <textarea id="prompt-output" readonly class="hidden w-full min-h-[350px] sm:min-h-[450px] lg:min-h-[550px] bg-transparent text-slate-300 font-mono text-[11px] sm:text-xs md:text-[13px] leading-relaxed p-4 sm:p-6 lg:p-8 resize-none focus:outline-none" style="scrollbar-color: #1C4D5E transparent;"></textarea>
+            </div>
+
+            <!-- ── Insights Panel (hidden by default, replaces output area) ── -->
+            <div id="insights-panel" class="hidden" style="border-left: 1px solid rgba(46,116,139,0.15); border-right: 1px solid rgba(46,116,139,0.15); background: #080C14;">
+              <div class="p-5 sm:p-8 space-y-6">
+                <!-- Agent Opinion -->
+                <div id="agent-opinion-card" class="flex items-start gap-3 rounded-xl p-4 border border-white/[0.04] bg-white/[0.02]">
+                  <img id="agent-opinion-avatar" src="/agentes/Thebossicon.png" alt="Agent" class="size-10 rounded-full object-cover border-2 border-white/10 shrink-0" />
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1">
+                      <span id="agent-opinion-name" class="text-xs font-bold text-white">The Boss</span>
+                      <span class="text-[9px] text-slate-600">· Opiniao do agente</span>
+                    </div>
+                    <p id="agent-opinion-text" class="text-[12px] text-slate-400 leading-relaxed italic">"Carregando opiniao..."</p>
+                  </div>
+                </div>
+
+                <!-- Summary Metrics -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                  <div class="group relative rounded-xl p-4 bg-white/[0.02] border border-white/[0.04] hover:border-primary/20 transition-all">
+                    <div class="flex items-center gap-2 mb-2">
+                      <div class="size-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-base text-primary">layers</span>
+                      </div>
+                    </div>
+                    <p id="insight-stack-count" class="text-2xl font-bold text-white tracking-tight">0</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Tecnologias</p>
+                  </div>
+                  <div class="group relative rounded-xl p-4 bg-white/[0.02] border border-white/[0.04] hover:border-emerald-500/20 transition-all">
+                    <div class="flex items-center gap-2 mb-2">
+                      <div class="size-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-base text-emerald-400">shield</span>
+                      </div>
+                    </div>
+                    <p id="insight-security-count" class="text-2xl font-bold text-white tracking-tight">0</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Camadas Seguranca</p>
+                  </div>
+                  <div class="group relative rounded-xl p-4 bg-white/[0.02] border border-white/[0.04] hover:border-amber-500/20 transition-all">
+                    <div class="flex items-center gap-2 mb-2">
+                      <div class="size-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-base text-amber-400">science</span>
+                      </div>
+                    </div>
+                    <p id="insight-complexity" class="text-2xl font-bold text-white tracking-tight">-</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Complexidade</p>
+                  </div>
+                  <div class="group relative rounded-xl p-4 bg-white/[0.02] border border-white/[0.04] hover:border-violet-500/20 transition-all">
+                    <div class="flex items-center gap-2 mb-2">
+                      <div class="size-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-base text-violet-400">payments</span>
+                      </div>
+                    </div>
+                    <p id="insight-cost-est" class="text-2xl font-bold text-white tracking-tight">-</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">Custo Estimado</p>
+                  </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div class="rounded-xl p-5 bg-white/[0.02] border border-white/[0.04]">
+                    <div class="flex items-center gap-2 mb-4">
+                      <span class="material-symbols-outlined text-sm text-primary">stacked_bar_chart</span>
+                      <h3 class="text-[13px] font-semibold text-white">Distribuicao da Stack</h3>
+                    </div>
+                    <div id="insight-stack-bars" class="space-y-3"></div>
+                  </div>
+                  <div class="rounded-xl p-5 bg-white/[0.02] border border-white/[0.04]">
+                    <div class="flex items-center gap-2 mb-4">
+                      <span class="material-symbols-outlined text-sm text-emerald-400">verified_user</span>
+                      <h3 class="text-[13px] font-semibold text-white">Camadas de Seguranca</h3>
+                    </div>
+                    <div id="insight-security-list" class="space-y-2"></div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div class="rounded-xl p-5 bg-white/[0.02] border border-white/[0.04]">
+                    <div class="flex items-center gap-2 mb-3">
+                      <span class="material-symbols-outlined text-sm text-sky-400">architecture</span>
+                      <h3 class="text-[13px] font-semibold text-white">Perfil da Arquitetura</h3>
+                    </div>
+                    <div id="insight-arch-profile" class="space-y-2.5"></div>
+                  </div>
+                  <div class="rounded-xl p-5 bg-white/[0.02] border border-white/[0.04]">
+                    <div class="flex items-center gap-2 mb-3">
+                      <span class="material-symbols-outlined text-sm text-violet-400">bug_report</span>
+                      <h3 class="text-[13px] font-semibold text-white">Cobertura de Testes</h3>
+                    </div>
+                    <div id="insight-tests" class="space-y-2"></div>
+                  </div>
+                  <div class="rounded-xl p-5 bg-white/[0.02] border border-white/[0.04]">
+                    <div class="flex items-center gap-2 mb-3">
+                      <span class="material-symbols-outlined text-sm text-amber-400">extension</span>
+                      <h3 class="text-[13px] font-semibold text-white">Integracoes & Features</h3>
+                    </div>
+                    <div id="insight-features" class="space-y-2"></div>
+                  </div>
+                </div>
+
+                <!-- Difficulty Radar -->
+                <div class="rounded-xl p-5 bg-white/[0.02] border border-white/[0.04]">
+                  <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-sm text-cyan-400">radar</span>
+                    <h3 class="text-[13px] font-semibold text-white">Radar de Complexidade</h3>
+                  </div>
+                  <div id="insight-radar" class="grid grid-cols-3 sm:grid-cols-6 gap-3"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── Bottom Bar ── -->
+            <div class="rounded-b-2xl overflow-hidden" style="background: #080C14; border: 1px solid rgba(46,116,139,0.15); border-top: 1px solid rgba(255,255,255,0.03);">
+              <div class="flex items-center justify-center gap-3 px-5 sm:px-8 py-4">
+                <button type="button" class="restart-btn flex items-center gap-2 px-6 py-2.5 rounded-xl border border-white/[0.06] text-slate-400 text-xs font-semibold hover:text-white hover:border-white/[0.12] hover:bg-white/[0.03] transition-all">
+                  <span class="material-symbols-outlined text-[14px]">refresh</span>
+                  Novo Projeto
+                </button>
+              </div>
             </div>
           </div>
 
@@ -898,6 +1077,15 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
         ctx.classList.remove('border-red-500', 'ring-1', 'ring-red-500/50');
+
+        // Block unauthenticated users from advancing past step 1
+        const auth = window.__bcAuth;
+        if (auth && auth.ready && !auth.session) {
+          if (typeof window.__bcShowAuthGate === 'function') {
+            window.__bcShowAuthGate();
+          }
+          return;
+        }
       }
 
       const prevPhase = getPhase(currentStep);
@@ -1078,9 +1266,14 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(interval);
         setTimeout(() => {
           generateOutputs();
+          enforcePromptLimit();
+          buildInsights();
           showStep(24);
           progressBar.style.width = '100%';
           showDownloadBtns(true);
+          updateCharCount();
+          // Log PRD generation usage
+          logUsage('prd_generation', getFormValue('llm-model'));
         }, 500);
       }
     }, 600);
@@ -1831,16 +2024,6 @@ Configure dimensoes dos embeddings de acordo com o modelo de IA usado (ex: 1536 
 
 ---
 
-` : ''}${data.infra ? `BOAS PRATICAS — INFRAESTRUTURA (${L('infra', data.infra).toUpperCase()})
-
-${data.infra === 'vercel' ? `Vercel:
-Use Edge Functions para logica que precisa de baixa latencia. Configure headers de cache adequados — assets estaticos com cache longo (1 ano), APIs com no-cache ou stale-while-revalidate. Use Environment Variables no dashboard para secrets — nunca hardcode. Configure Preview Deployments para cada PR. Use vercel.json para rewrites, redirects e headers customizados. Monitore com Vercel Analytics e Speed Insights.` : data.infra === 'railway' ? `Railway:
-Configure healthchecks para seus servicos. Use Railway Volumes para dados persistentes. Configure auto-scaling quando disponivel. Use Railway CLI para deploys e logs locais. Separe servicos (web, worker, cron) em services distintos. Configure variaveies de ambiente por environment (production, staging).` : data.infra === 'aws' ? `AWS:
-Use o principio de menor privilegio em IAM — cada servico tem apenas as permissoes que precisa. Configure VPC com subnets publicas e privadas. Use Security Groups como firewall. Habilite CloudTrail para auditoria. Use Parameter Store ou Secrets Manager para secrets — nunca hardcode. Configure Auto Scaling Groups para escalabilidade. Use CloudFront como CDN. Configure alarmes no CloudWatch para metricas criticas.` : data.infra === 'docker-vps' ? `Docker + VPS:
-Use multi-stage builds para imagens menores. Docker Compose para desenvolvimento local. Nunca rode containers como root — use USER directive. Configure health checks no Dockerfile. Use .dockerignore para excluir node_modules, .git, .env. Volumes para dados persistentes. Configure restart policies (unless-stopped). Use nginx como reverse proxy com SSL (Let's Encrypt/Certbot).` : `Configure deploys automaticos via Git. Use variaveies de ambiente para secrets. Configure dominio customizado com SSL. Monitore performance e erros. Configure backups automaticos quando disponivel.`}
-
----
-
 ` : ''}SEGURANCA
 
 ${data.seguranca.length > 0 ? data.seguranca.map(s => {
@@ -1934,18 +2117,91 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
   }
 
   // ═══════════════════════════════════════════
-  //  RESULT TABS
+  //  RESULT TABS + DOWNLOADS + INSIGHTS + SAVE
   // ═══════════════════════════════════════════
   const tabPrd = document.getElementById('tab-prd');
   const tabPrompt = document.getElementById('tab-prompt');
+  const tabInsights = document.getElementById('tab-insights');
   const outputFilename = document.getElementById('output-filename');
+  const charCount = document.getElementById('char-count');
+  const outputArea = document.getElementById('output-area');
+  const insightsPanel = document.getElementById('insights-panel');
+  const promptLimitBadge = document.getElementById('prompt-limit-badge');
 
   const downloadPdfBtn = document.getElementById('download-pdf-btn');
   const downloadDocxBtn = document.getElementById('download-docx-btn');
   const downloadMdBtn = document.getElementById('download-md-btn');
+  const downloadTxtBtn = document.getElementById('download-txt-btn');
+  const downloadJsonBtn = document.getElementById('download-json-btn');
+  const allDownloadBtns = [downloadPdfBtn, downloadDocxBtn, downloadMdBtn, downloadTxtBtn, downloadJsonBtn];
+
+  // Plan-based character limits for Prompt Base
+  const PLAN_LIMITS = { explorador: 10000, consultor: 25000, arquiteto: 80000 };
+
+  function getUserPlan() {
+    return window.__bcAuth?.subscription?.plan || 'explorador';
+  }
+
+  function getPromptLimit() {
+    return PLAN_LIMITS[getUserPlan()] || 10000;
+  }
+
+  function updateCharCount() {
+    const isPrompt = prdOutput.classList.contains('hidden') && !promptOutput.classList.contains('hidden');
+    if (!isPrompt) {
+      if (charCount) charCount.textContent = `${prdOutput.value.length.toLocaleString()} caracteres`;
+      if (promptLimitBadge) promptLimitBadge.classList.add('hidden');
+      return;
+    }
+    const len = promptOutput.value.length;
+    const limit = getPromptLimit();
+    const plan = getUserPlan();
+    const planLabel = { explorador: 'Explorador', consultor: 'Consultor', arquiteto: 'Arquiteto' }[plan] || plan;
+    if (charCount) charCount.textContent = `${len.toLocaleString()} / ${limit.toLocaleString()} caracteres`;
+    if (promptLimitBadge) {
+      promptLimitBadge.classList.remove('hidden');
+      if (len > limit) {
+        promptLimitBadge.textContent = `Limite excedido (${planLabel})`;
+        promptLimitBadge.style.cssText = 'background:#EF444420;color:#EF4444;border:1px solid #EF444440';
+      } else if (len > limit * 0.8) {
+        promptLimitBadge.textContent = `${Math.round((len / limit) * 100)}% do limite (${planLabel})`;
+        promptLimitBadge.style.cssText = 'background:#F59E0B20;color:#F59E0B;border:1px solid #F59E0B40';
+      } else {
+        promptLimitBadge.textContent = `Plano ${planLabel}`;
+        promptLimitBadge.style.cssText = 'background:#10B98120;color:#10B981;border:1px solid #10B98140';
+      }
+    }
+  }
+
+  // Log usage to Supabase via REST API
+  function logUsage(action, llmModel) {
+    try {
+      var auth = window.__bcAuth;
+      if (!auth || !auth.session) return;
+      var sbUrl = window.__bcSupabaseUrl;
+      var sbKey = window.__bcSupabaseKey;
+      var token = auth.session.access_token;
+      fetch(sbUrl + '/rest/v1/usage_logs', {
+        method: 'POST',
+        headers: {
+          'apikey': sbKey,
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          user_id: auth.session.user.id,
+          action: action,
+          llm_model: llmModel || '',
+          tokens_used: 0,
+          cost_usd: 0
+        })
+      }).catch(function(e) { console.warn('[UsageLog]', e); });
+    } catch (e) { console.warn('[UsageLog]', e); }
+  }
 
   function showDownloadBtns(show) {
-    [downloadPdfBtn, downloadDocxBtn, downloadMdBtn].forEach(btn => {
+    allDownloadBtns.forEach(btn => {
       if (btn) {
         if (show) { btn.classList.remove('hidden'); btn.classList.add('flex'); }
         else { btn.classList.add('hidden'); btn.classList.remove('flex'); }
@@ -1953,29 +2209,53 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     });
   }
 
+  function setActiveTab(tab) {
+    const allTabs = [tabPrd, tabPrompt, tabInsights];
+    allTabs.forEach(t => {
+      if (!t) return;
+      t.classList.remove('text-primary', 'bg-[#080C14]', 'border-primary/20');
+      t.classList.add('text-slate-500', 'border-transparent');
+      t.style.removeProperty('border-bottom-color');
+    });
+    if (tab) {
+      tab.classList.add('text-primary', 'bg-[#080C14]', 'border-primary/20');
+      tab.classList.remove('text-slate-500', 'border-transparent');
+    }
+  }
+
   tabPrd?.addEventListener('click', () => {
+    setActiveTab(tabPrd);
     prdOutput.classList.remove('hidden');
     promptOutput.classList.add('hidden');
-    tabPrd.classList.add('bg-primary/10', 'text-primary', 'border-primary/20');
-    tabPrd.classList.remove('text-slate-500');
-    tabPrompt.classList.remove('bg-primary/10', 'text-primary', 'border-primary/20');
-    tabPrompt.classList.add('text-slate-500');
+    if (outputArea) outputArea.classList.remove('hidden');
+    if (insightsPanel) insightsPanel.classList.add('hidden');
     outputFilename.textContent = 'architecture_prd.md';
     document.getElementById('prompt-tip')?.classList.add('hidden');
-    document.getElementById('prompt-tip')?.classList.remove('inline');
     showDownloadBtns(true);
+    updateCharCount();
   });
+
   tabPrompt?.addEventListener('click', () => {
+    setActiveTab(tabPrompt);
     promptOutput.classList.remove('hidden');
     prdOutput.classList.add('hidden');
-    tabPrompt.classList.add('bg-primary/10', 'text-primary', 'border-primary/20');
-    tabPrompt.classList.remove('text-slate-500');
-    tabPrd.classList.remove('bg-primary/10', 'text-primary', 'border-primary/20');
-    tabPrd.classList.add('text-slate-500');
+    if (outputArea) outputArea.classList.remove('hidden');
+    if (insightsPanel) insightsPanel.classList.add('hidden');
     outputFilename.textContent = 'prompt_base.md';
     document.getElementById('prompt-tip')?.classList.remove('hidden');
     document.getElementById('prompt-tip')?.classList.add('inline');
+    showDownloadBtns(true);
+    updateCharCount();
+  });
+
+  tabInsights?.addEventListener('click', () => {
+    setActiveTab(tabInsights);
+    if (outputArea) outputArea.classList.add('hidden');
+    if (insightsPanel) insightsPanel.classList.remove('hidden');
     showDownloadBtns(false);
+    if (promptLimitBadge) promptLimitBadge.classList.add('hidden');
+    if (charCount) charCount.textContent = '';
+    document.getElementById('prompt-tip')?.classList.add('hidden');
   });
 
   // Copy
@@ -1989,9 +2269,25 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     });
   });
 
-  // PRD Download — build styled HTML for PDF/Word
-  function buildPrdHtml() {
-    const content = prdOutput.value;
+  // Helper: get active content for downloads
+  function getActiveContent() {
+    const isPrompt = !promptOutput.classList.contains('hidden') && prdOutput.classList.contains('hidden');
+    return { text: isPrompt ? promptOutput.value : prdOutput.value, isPrompt };
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // Build styled HTML for PDF/Word
+  function buildStyledHtml(content, title) {
     const date = new Date().toLocaleDateString('pt-BR');
     const lines = content.split('\n');
     let html = '';
@@ -2017,7 +2313,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     }
     if (inTable) html += '</table>';
 
-    return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>PRD - BuildCode</title><style>' +
+    return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + title + ' - BuildCode</title><style>' +
       'body{font-family:"Segoe UI",Helvetica,Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 30px;color:#1a1a2e;line-height:1.7;font-size:14px}' +
       'h1{font-size:28px;color:#0d1b2a;border-bottom:3px solid #2E748B;padding-bottom:12px;margin-top:40px;letter-spacing:-0.5px}' +
       'h2{font-size:20px;color:#1b3a4b;border-bottom:2px solid #e2e8f0;padding-bottom:8px;margin-top:32px}' +
@@ -2036,47 +2332,455 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       '.footer{text-align:center;margin-top:60px;padding:20px;border-top:2px solid #e2e8f0;color:#94a3b8;font-size:11px}' +
       '@media print{body{margin:20px;padding:0 20px}.header-bar{margin:-20px -20px 20px;padding:20px 30px}}' +
       '</style></head><body>' +
-      '<div class="header-bar"><h1>BuildCode AI Engine</h1><p>PRD Tecnico — Gerado em ' + date + '</p></div>' +
+      '<div class="header-bar"><h1>BuildCode AI Engine</h1><p>' + title + ' — Gerado em ' + date + '</p></div>' +
       html +
       '<div class="footer">Documento gerado automaticamente pelo BuildCode AI Engine v2.1<br/>buildcode.app — ' + date + '</div>' +
       '</body></html>';
   }
 
-  // PDF download via print
-  downloadPdfBtn?.addEventListener('click', () => {
-    const htmlContent = buildPrdHtml();
-    const w = window.open('', '_blank');
-    if (!w) return;
-    w.document.write(htmlContent);
-    w.document.close();
-    setTimeout(() => { w.print(); }, 500);
+  // PDF auto-download via hidden iframe + print-to-PDF fallback
+  downloadPdfBtn?.addEventListener('click', async () => {
+    const { text, isPrompt } = getActiveContent();
+    const title = isPrompt ? 'Prompt Base' : 'PRD Tecnico';
+    const filename = isPrompt ? 'BuildCode_PromptBase.pdf' : 'BuildCode_PRD.pdf';
+    const htmlContent = buildStyledHtml(text, title);
+
+    // Try html2pdf.js (loaded on demand from CDN)
+    try {
+      if (!window.html2pdf) {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js';
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      }
+      const container = document.createElement('div');
+      container.innerHTML = htmlContent;
+      // Extract just the body content for html2pdf
+      const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+      const styleMatch = htmlContent.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+      const wrapper = document.createElement('div');
+      if (styleMatch) {
+        const styleEl = document.createElement('style');
+        styleEl.textContent = styleMatch[1];
+        wrapper.appendChild(styleEl);
+      }
+      const bodyDiv = document.createElement('div');
+      bodyDiv.innerHTML = bodyMatch ? bodyMatch[1] : text;
+      wrapper.appendChild(bodyDiv);
+
+      await window.html2pdf().set({
+        margin: [10, 10, 10, 10],
+        filename: filename,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+      }).from(wrapper).save();
+    } catch (err) {
+      console.warn('[PDF] html2pdf failed, falling back to print:', err);
+      const w = window.open('', '_blank');
+      if (!w) return;
+      w.document.write(htmlContent);
+      w.document.close();
+      setTimeout(() => { w.print(); }, 500);
+    }
   });
 
   // Word (.doc) download
   downloadDocxBtn?.addEventListener('click', () => {
-    const htmlContent = buildPrdHtml();
+    const { text, isPrompt } = getActiveContent();
+    const htmlContent = buildStyledHtml(text, isPrompt ? 'Prompt Base' : 'PRD Tecnico');
     const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'BuildCode_PRD.doc';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, isPrompt ? 'BuildCode_PromptBase.doc' : 'BuildCode_PRD.doc');
   });
 
   // Markdown (.md) download
   downloadMdBtn?.addEventListener('click', () => {
-    const blob = new Blob([prdOutput.value], { type: 'text/markdown;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'BuildCode_PRD.md';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const { text, isPrompt } = getActiveContent();
+    const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
+    downloadBlob(blob, isPrompt ? 'BuildCode_PromptBase.md' : 'BuildCode_PRD.md');
+  });
+
+  // Plain Text (.txt) download
+  downloadTxtBtn?.addEventListener('click', () => {
+    const { text, isPrompt } = getActiveContent();
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    downloadBlob(blob, isPrompt ? 'BuildCode_PromptBase.txt' : 'BuildCode_PRD.txt');
+  });
+
+  // JSON download (structured)
+  downloadJsonBtn?.addEventListener('click', () => {
+    const data = {
+      version: '2.1',
+      generated_at: new Date().toISOString(),
+      prd: prdOutput.value,
+      prompt_base: promptOutput.value,
+      plan: getUserPlan(),
+      prompt_chars: promptOutput.value.length,
+      prompt_limit: getPromptLimit(),
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+    downloadBlob(blob, 'BuildCode_Project.json');
+  });
+
+  // ═══════════════════════════════════════════
+  //  PROMPT BASE CHARACTER LIMIT ENFORCEMENT
+  // ═══════════════════════════════════════════
+  function enforcePromptLimit() {
+    const limit = getPromptLimit();
+    const text = promptOutput.value;
+    if (text.length > limit) {
+      promptOutput.value = text.substring(0, limit);
+      const plan = getUserPlan();
+      const planLabels = { explorador: 'Explorador (10.000)', consultor: 'Consultor (25.000)', arquiteto: 'Arquiteto (80.000)' };
+      const nextPlan = plan === 'explorador' ? 'Consultor' : plan === 'consultor' ? 'Arquiteto' : null;
+      const upgradeMsg = nextPlan ? ` Faça upgrade para o plano ${nextPlan} para mais caracteres.` : '';
+      console.warn(`[BuildCode] Prompt Base truncado para ${limit} caracteres (Plano ${planLabels[plan]}).${upgradeMsg}`);
+    }
+    updateCharCount();
+  }
+
+  // ═══════════════════════════════════════════
+  //  INSIGHTS — Build charts from wizard data
+  // ═══════════════════════════════════════════
+  function buildInsights() {
+    const data = {
+      contexto: getTextValue('contexto'),
+      senioridade: getFormValue('senioridade'),
+      escala: getFormValue('escala'),
+      tipo: getFormValue('tipo'),
+      ferramenta: getFormValue('ferramenta'),
+      frontend: getFormValue('frontend'),
+      backend: getFormValue('backend'),
+      mcps: getFormValues('mcps'),
+      database: getFormValue('database'),
+      skills: getFormValues('skills'),
+      infra: getFormValue('infra'),
+      persistencia: getFormValue('persistencia'),
+      auth: getFormValue('auth'),
+      seguranca: getFormValues('seguranca'),
+      realtime: getFormValue('realtime'),
+      codestyle: getFormValue('codestyle'),
+      erros: getFormValue('erros'),
+      i18n: getFormValue('i18n'),
+      integracoes: getFormValues('integracoes'),
+      seo: getFormValue('seo'),
+      testes: getFormValues('testes'),
+    };
+
+    // Count technologies
+    const techs = [data.frontend, data.backend, data.database, data.infra, data.auth, data.persistencia, data.realtime, data.codestyle].filter(Boolean);
+    const allTechs = [...techs, ...data.mcps, ...data.skills, ...data.integracoes, ...data.testes];
+    document.getElementById('insight-stack-count').textContent = allTechs.length.toString();
+    document.getElementById('insight-security-count').textContent = data.seguranca.length.toString();
+
+    // Complexity score
+    const complexityScore = allTechs.length + data.seguranca.length * 2 + (data.auth === 'enterprise' ? 5 : data.auth === 'rbac' ? 3 : 1) + (data.realtime !== 'nao' ? 3 : 0) + (data.i18n === 'global' ? 3 : data.i18n === 'poucos' ? 1 : 0);
+    const complexityLabel = complexityScore > 25 ? 'Alta' : complexityScore > 15 ? 'Media' : 'Baixa';
+    const complexityColor = complexityScore > 25 ? '#EF4444' : complexityScore > 15 ? '#F59E0B' : '#10B981';
+    document.getElementById('insight-complexity').textContent = complexityLabel;
+    document.getElementById('insight-complexity').style.color = complexityColor;
+
+    // Agent opinion
+    var agentId = localStorage.getItem('bc-agent') || 'theboss';
+    var agentOpinions = {
+      theboss: {
+        icon: '/agentes/Thebossicon.png', name: 'The Boss',
+        low: '"Stack enxuta, sem frescura. Esse projeto e viavel — so nao complique o que e simples. Bora executar."',
+        mid: '"Projeto solido, mas presta atencao na seguranca e nos testes. Nao e pra ficar bonito no papel — e pra funcionar em producao."',
+        high: '"Ambicioso. Gosto disso. Mas com essa complexidade, ou voce planeja direito ou vai reescrever tudo em 3 meses. Foco total."'
+      },
+      azrael: {
+        icon: '/agentes/Azraelicon.png', name: 'Azrael',
+        low: '"Simples e elegante — exatamente como deveria ser. Esse projeto tem espaco pra crescer organicamente. Me empolga!"',
+        mid: '"Vejo potencial de mercado aqui. A stack ta coerente, e com as integracoes certas isso pode virar algo grande. Vamos nessa!"',
+        high: '"Visionario! Esse e o tipo de projeto que muda o jogo. Vai exigir disciplina e arquitetura firme, mas o resultado vai ser insano."'
+      },
+      rizler: {
+        icon: '/agentes/Rizlericon.png', name: 'Rizler',
+        low: '"Hmm... parece seguro. Poucas superficies de ataque. Mas nao relaxe — ate projetos pequenos precisam de input validation."',
+        mid: '"Varias camadas envolvidas. Recomendo auditar cada endpoint antes do deploy. Rate limiting e obrigatorio nesse nivel."',
+        high: '"Alto risco, muitas dependencias. Cada integracao e uma porta de entrada. Vou precisar de testes de penetracao e logging completo."'
+      },
+      anastasia: {
+        icon: '/agentes/Anastasiaicon.png', name: 'Anastasia',
+        low: '"Amei! Projeto leve, perfeito pra deixar com uma UI impecavel. Foco na experiencia do usuario e vai ficar lindo!"',
+        mid: '"Que projeto bacana! Com esse nivel de features, a gente consegue criar uma experiencia rica e envolvente. Vai arrasar!"',
+        high: '"Uau, ambicioso! Vai precisar de um design system robusto pra manter tudo consistente. Mas o resultado vai ser espetacular!"'
+      }
+    };
+    var agentOp = agentOpinions[agentId] || agentOpinions.theboss;
+    var opinionText = complexityScore > 25 ? agentOp.high : complexityScore > 15 ? agentOp.mid : agentOp.low;
+    var opAvatar = document.getElementById('agent-opinion-avatar');
+    var opName = document.getElementById('agent-opinion-name');
+    var opText = document.getElementById('agent-opinion-text');
+    if (opAvatar) opAvatar.src = agentOp.icon;
+    if (opName) opName.textContent = agentOp.name;
+    if (opText) opText.textContent = opinionText;
+
+    // Cost estimation
+    const costBase = { '50': 0, '1000': 30, '10000': 150, '50000': 800 };
+    const costInfra = { vercel: 0, railway: 5, supabase: 0, netlify: 0, cloudflare: 5, digitalocean: 12, aws: 50, 'docker-vps': 15 };
+    const costAuth = { nenhum: 0, basico: 0, oauth: 0, rbac: 10, enterprise: 50 };
+    const est = (costBase[data.escala] || 0) + (costInfra[data.infra] || 0) + (costAuth[data.auth] || 0);
+    document.getElementById('insight-cost-est').textContent = est === 0 ? 'Gratis' : `$${est}/mes`;
+
+    // Stack distribution bars
+    const categories = [
+      { label: 'Frontend', value: data.frontend, color: '#2E748B' },
+      { label: 'Backend', value: data.backend, color: '#F2AB6D' },
+      { label: 'Database', value: data.database, color: '#10B981' },
+      { label: 'Infra', value: data.infra, color: '#8B5CF6' },
+      { label: 'Auth', value: data.auth, color: '#EF4444' },
+      { label: 'MCPs', value: data.mcps.length > 0 ? data.mcps.join(', ') : '', color: '#06B6D4' },
+      { label: 'Skills', value: data.skills.length > 0 ? `${data.skills.length} selecionadas` : '', color: '#EC4899' },
+    ].filter(c => c.value);
+
+    const stackBars = document.getElementById('insight-stack-bars');
+    if (stackBars) {
+      stackBars.innerHTML = categories.map(c => `
+        <div>
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-medium text-slate-300">${c.label}</span>
+            <span class="text-slate-400 text-[10px]">${c.value}</span>
+          </div>
+          <div class="h-2 w-full rounded-full overflow-hidden" style="background:#1E1E1E">
+            <div class="h-full rounded-full transition-all duration-1000" style="width:100%;background:${c.color}"></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Security layers
+    const secLabels = {
+      https: 'HTTPS/TLS', helmet: 'Helmet Headers', ratelimit: 'Rate Limiting',
+      cors: 'CORS Config', csrf: 'CSRF Protection', sanitize: 'Input Sanitization',
+      waf: 'WAF', audit: 'Audit Logging', encryption: 'Encryption at Rest',
+    };
+    const secList = document.getElementById('insight-security-list');
+    if (secList) {
+      if (data.seguranca.length === 0) {
+        secList.innerHTML = '<p class="text-xs text-slate-600 text-center py-4">Nenhuma camada de seguranca selecionada</p>';
+      } else {
+        secList.innerHTML = data.seguranca.map(s => `
+          <div class="flex items-center gap-2 px-3 py-2 rounded-lg" style="background:#10B98110;border:1px solid #10B98120">
+            <span class="material-symbols-outlined text-sm text-[#10B981]">verified_user</span>
+            <span class="text-xs text-slate-200">${secLabels[s] || s}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Architecture profile
+    const archProfile = document.getElementById('insight-arch-profile');
+    if (archProfile) {
+      const items = [
+        { icon: 'code', label: 'Estilo', value: { functional: 'Funcional', oop: 'OOP', misto: 'Misto' }[data.codestyle] || '-' },
+        { icon: 'error', label: 'Erros', value: { graceful: 'Graceful', strict: 'Strict', hibrido: 'Hibrido' }[data.erros] || '-' },
+        { icon: 'sync', label: 'Real-time', value: { nao: 'Nao', websocket: 'WebSocket', sse: 'SSE', polling: 'Polling' }[data.realtime] || '-' },
+        { icon: 'translate', label: 'i18n', value: { nao: 'Nao', poucos: '2-3 idiomas', global: 'Global' }[data.i18n] || '-' },
+        { icon: 'search', label: 'SEO', value: { 'seo-full': 'Completo', 'seo-none': 'Privado', 'seo-partial': 'Parcial' }[data.seo] || '-' },
+        { icon: 'storage', label: 'Dados', value: { relacional: 'Relacional', documentos: 'Documentos', hibrido: 'Hibrido' }[data.persistencia] || '-' },
+      ];
+      archProfile.innerHTML = items.map(i => `
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm text-slate-500">${i.icon}</span>
+          <span class="text-xs text-slate-400">${i.label}:</span>
+          <span class="text-xs text-white font-medium">${i.value}</span>
+        </div>
+      `).join('');
+    }
+
+    // Tests
+    const testLabels = { unit: 'Unit Tests', integration: 'Integracao', e2e: 'End-to-End', visual: 'Visual Regression', performance: 'Performance', accessibility: 'Acessibilidade' };
+    const testEl = document.getElementById('insight-tests');
+    if (testEl) {
+      if (data.testes.length === 0) {
+        testEl.innerHTML = '<p class="text-xs text-slate-600 text-center py-4">Sem testes configurados</p>';
+      } else {
+        testEl.innerHTML = data.testes.map(t => `
+          <div class="flex items-center gap-2 px-3 py-2 rounded-lg" style="background:#8B5CF610;border:1px solid #8B5CF620">
+            <span class="material-symbols-outlined text-sm text-[#8B5CF6]">check_circle</span>
+            <span class="text-xs text-slate-200">${testLabels[t] || t}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Features/Integrations
+    const intLabels = { stripe: 'Stripe', paypal: 'PayPal', asaas: 'Asaas', email: 'Email Service', sms: 'SMS', webhook: 'Webhooks', analytics: 'Analytics', maps: 'Maps', ai: 'AI/ML' };
+    const featEl = document.getElementById('insight-features');
+    if (featEl) {
+      const items = [...data.integracoes.map(i => intLabels[i] || i)];
+      if (data.mcps.length > 0) items.push(`${data.mcps.length} MCPs`);
+      if (items.length === 0) {
+        featEl.innerHTML = '<p class="text-xs text-slate-600 text-center py-4">Nenhuma integracao selecionada</p>';
+      } else {
+        featEl.innerHTML = items.map(i => `
+          <div class="flex items-center gap-2 px-3 py-2 rounded-lg" style="background:#F2AB6D10;border:1px solid #F2AB6D20">
+            <span class="material-symbols-outlined text-sm text-[#F2AB6D]">extension</span>
+            <span class="text-xs text-slate-200">${i}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Complexity radar
+    const radarEl = document.getElementById('insight-radar');
+    if (radarEl) {
+      const dims = [
+        { label: 'Frontend', score: data.frontend ? 60 : 0, color: '#2E748B' },
+        { label: 'Backend', score: data.backend ? 70 : 0, color: '#F2AB6D' },
+        { label: 'Seguranca', score: Math.min(data.seguranca.length * 15, 100), color: '#10B981' },
+        { label: 'Testes', score: Math.min(data.testes.length * 20, 100), color: '#8B5CF6' },
+        { label: 'Integracao', score: Math.min((data.integracoes.length + data.mcps.length) * 15, 100), color: '#EC4899' },
+        { label: 'Escala', score: { '50': 20, '1000': 40, '10000': 70, '50000': 100 }[data.escala] || 20, color: '#06B6D4' },
+      ];
+      radarEl.innerHTML = dims.map(d => `
+        <div class="flex flex-col items-center gap-2 p-3 rounded-xl" style="background:#0A0A0A;border:1px solid #2A3135">
+          <div class="relative size-16">
+            <svg viewBox="0 0 36 36" class="size-16 -rotate-90">
+              <path d="M18 2.0845a 15.9155 15.9155 0 0 1 0 31.831 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#1E1E1E" stroke-width="3" />
+              <path d="M18 2.0845a 15.9155 15.9155 0 0 1 0 31.831 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="${d.color}" stroke-width="3" stroke-dasharray="${d.score}, 100" stroke-linecap="round" class="transition-all duration-1000" />
+            </svg>
+            <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">${d.score}%</span>
+          </div>
+          <span class="text-[10px] text-slate-400 text-center">${d.label}</span>
+        </div>
+      `).join('');
+    }
+  }
+
+  // ═══════════════════════════════════════════
+  //  SAVE PROJECT
+  // ═══════════════════════════════════════════
+  const saveProjectBtn = document.getElementById('save-project-btn');
+  const saveProjectFeedback = document.getElementById('save-project-feedback');
+  const saveProjectImage = document.getElementById('save-project-image');
+  const saveProjectPreview = document.getElementById('save-project-preview');
+
+
+
+  saveProjectBtn?.addEventListener('click', async () => {
+    const auth = window.__bcAuth;
+    if (!auth?.session) {
+      showFeedback('Faca login para salvar projetos.', false);
+      return;
+    }
+
+    const title = document.getElementById('save-project-title')?.value?.trim();
+    if (!title) {
+      showFeedback('Informe um titulo para o projeto.', false);
+      return;
+    }
+
+    saveProjectBtn.setAttribute('disabled', 'true');
+    saveProjectBtn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">progress_activity</span> Salvando...';
+
+    try {
+      const sbUrl = window.__bcSupabaseUrl;
+      const sbKey = window.__bcSupabaseKey;
+      const token = auth.session.access_token;
+      const userId = auth.session.user.id;
+      const desc = document.getElementById('save-project-desc')?.value?.trim() || '';
+      const headers = { 'apikey': sbKey, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' };
+
+      // Upload image if provided
+      let imageUrl = '';
+      const file = saveProjectImage?.files?.[0];
+      if (file) {
+        const ext = file.name.split('.').pop();
+        const path = userId + '/' + Date.now() + '.' + ext;
+        const uploadRes = await fetch(sbUrl + '/storage/v1/object/project-images/' + path, {
+          method: 'POST',
+          headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + token, 'Content-Type': file.type },
+          body: file,
+        });
+        if (uploadRes.ok) {
+          imageUrl = sbUrl + '/storage/v1/object/public/project-images/' + path;
+        }
+      }
+
+      // Insert project via REST
+      const insertRes = await fetch(sbUrl + '/rest/v1/projects', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          user_id: userId,
+          name: title,
+          business_context: desc,
+          scale: getFormValue('escala'),
+          nature: getFormValue('tipo'),
+          generated_prd: prdOutput.value,
+          generated_prompt: promptOutput.value,
+          agent_used: localStorage.getItem('bc-agent') || 'theboss',
+          llm_model: getFormValue('llm-model'),
+          image_url: imageUrl,
+        }),
+      });
+
+      if (!insertRes.ok) {
+        const errBody = await insertRes.json().catch(() => ({}));
+        throw new Error(errBody.message || 'Erro ao salvar');
+      }
+
+      showFeedback('Projeto salvo com sucesso!', true);
+      document.getElementById('save-project-title').value = '';
+      document.getElementById('save-project-desc').value = '';
+    } catch (err) {
+      console.error('[SaveProject]', err);
+      showFeedback('Erro ao salvar projeto. Tente novamente.', false);
+    }
+
+    saveProjectBtn.removeAttribute('disabled');
+    saveProjectBtn.innerHTML = '<span class="material-symbols-outlined text-sm">save</span> Salvar no meu painel';
+  });
+
+  function showFeedback(msg, success) {
+    if (!saveProjectFeedback) return;
+    saveProjectFeedback.textContent = msg;
+    saveProjectFeedback.style.color = success ? '#10B981' : '#EF4444';
+    saveProjectFeedback.classList.remove('hidden');
+    setTimeout(() => saveProjectFeedback.classList.add('hidden'), 4000);
+  }
+
+  // Save expand (more options)
+  var saveExpandBtn = document.getElementById('save-expand-btn');
+  var saveExpanded = document.getElementById('save-project-expanded');
+  saveExpandBtn?.addEventListener('click', function() {
+    var isOpen = !saveExpanded.classList.contains('hidden');
+    if (isOpen) {
+      saveExpanded.classList.add('hidden');
+    } else {
+      saveExpanded.classList.remove('hidden');
+    }
+  });
+
+  // Image preview with proper sizing
+  var saveImagePreviewWrap = document.getElementById('save-image-preview-wrap');
+  var saveRemoveImage = document.getElementById('save-remove-image');
+  var saveImageLabel = document.getElementById('save-image-label');
+  saveProjectImage?.addEventListener('change', function() {
+    var file = saveProjectImage.files && saveProjectImage.files[0];
+    if (file && saveProjectPreview) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        saveProjectPreview.src = e.target.result;
+        if (saveImagePreviewWrap) saveImagePreviewWrap.classList.remove('hidden');
+        if (saveImagePreviewWrap) saveImagePreviewWrap.classList.add('flex');
+        if (saveExpanded) saveExpanded.classList.remove('hidden');
+        if (saveImageLabel) saveImageLabel.textContent = 'Trocar';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  saveRemoveImage?.addEventListener('click', function() {
+    saveProjectImage.value = '';
+    if (saveImagePreviewWrap) { saveImagePreviewWrap.classList.add('hidden'); saveImagePreviewWrap.classList.remove('flex'); }
+    if (saveImageLabel) saveImageLabel.textContent = 'Capa';
   });
 
   // Restart
@@ -2178,7 +2882,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
                   data-tech-name="${tech.name}"
                   data-tech-url="${tech.website}"
                   title="Saber mais sobre ${tech.name}"
-                  onclick="event.preventDefault(); event.stopPropagation();"
+                  onclick="event.preventDefault(); event.stopPropagation(); window._openInfoModal && window._openInfoModal(this.getAttribute('data-tech-name'), this.getAttribute('data-tech-url'));"
                 >
                   <span class="material-symbols-outlined text-[16px] pointer-events-none">info</span>
                 </button>
@@ -2272,6 +2976,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
   const modalPanel = document.getElementById('tech-modal-panel');
   const closeModalBtn = document.getElementById('close-tech-modal');
   
+  window._openInfoModal = openInfoModal;
   function openInfoModal(techName, techUrl) {
      // match by url first (more accurate), then by name
      let tech = availableTechs.find(t => t.website && techUrl && t.website === techUrl);
@@ -2688,6 +3393,13 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
   }
 
   async function sendChatMessage(overrideMsg) {
+    // Block guests from sending messages
+    const auth = window.__bcAuth;
+    if (auth && auth.ready && !auth.session) {
+      if (typeof window.__bcShowAuthGate === 'function') window.__bcShowAuthGate();
+      return;
+    }
+
     const msg = overrideMsg || chatInput.value.trim();
     if (!msg) return;
 
@@ -2719,6 +3431,8 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       const reply = cleanMarkdown(rawReply);
       chatHistory.push({ role: 'assistant', content: rawReply });
       appendChatMsg('assistant', reply);
+      // Log chat usage
+      logUsage('chat_message', '');
 
       // Detect if assistant wants to proceed with generation
       const proceedPhrases = ['iniciar a geracao', 'iniciar a geração', 'gerar seu PRD', 'gerar o PRD', 'Vou fechar o chat', 'vou fechar o chat'];
@@ -2756,8 +3470,13 @@ window.techDB = techDB;
 
 <!-- App Auth: User pill + Profile dropdown -->
 <script>
-import { supabase, getProfile, signOut } from '../lib/supabase';
+import { supabase, getProfile, signOut, getUserSubscription } from '../lib/supabase';
 import type { Session } from '@supabase/supabase-js';
+
+// Global auth state accessible by wizard script
+(window as any).__bcAuth = { session: null, profile: null, subscription: null, ready: false };
+(window as any).__bcSupabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+(window as any).__bcSupabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
 async function applyAuthUI(session: Session | null) {
   const loginBtn = document.getElementById('app-login-btn');
@@ -2782,7 +3501,22 @@ async function applyAuthUI(session: Session | null) {
     userBtn.style.display = 'flex';
 
     let profile = null;
+    let subscription = null;
     try { profile = await getProfile(session.user.id); } catch (_) {}
+    try { subscription = await getUserSubscription(session.user.id); } catch (_) {}
+
+    // Redirect to login if terms not accepted
+    if (profile && !profile.terms_accepted_at) {
+      window.location.href = '/login';
+      return;
+    }
+
+    // Store auth state globally
+    (window as any).__bcAuth = { session, profile, subscription, ready: true };
+
+    // Unlock chat widget for authenticated users
+    const chatLock = document.getElementById('chat-lock-overlay');
+    if (chatLock) chatLock.remove();
 
     const displayName = profile?.full_name || session.user.email?.split('@')[0] || 'Usuário';
     const initials = displayName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2);
@@ -2832,8 +3566,74 @@ async function applyAuthUI(session: Session | null) {
     // Not authenticated — show login, hide user pill
     loginBtn.style.display = 'flex';
     userBtn.style.display = 'none';
+
+    // Store guest auth state
+    (window as any).__bcAuth = { session: null, profile: null, subscription: null, ready: true };
+
+    // Lock chat widget for guests
+    const chatWidget = document.getElementById('chat-widget');
+    if (chatWidget && !document.getElementById('chat-lock-overlay')) {
+      // Hide the real chat panel
+      const chatPanel = document.getElementById('chat-panel');
+      if (chatPanel) { chatPanel.classList.add('hidden'); chatPanel.classList.remove('flex'); }
+
+      // Add lock overlay on toggle button
+      const toggle = document.getElementById('chat-toggle');
+      if (toggle) {
+        toggle.style.position = 'relative';
+        const lockOverlay = document.createElement('div');
+        lockOverlay.id = 'chat-lock-overlay';
+        lockOverlay.className = 'absolute inset-0 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center z-10';
+        lockOverlay.innerHTML = '<span class="material-symbols-outlined text-slate-400 text-xl">lock</span>';
+        toggle.appendChild(lockOverlay);
+
+        // Override toggle click for guests — show login prompt
+        toggle.addEventListener('click', (e) => {
+          if (!(window as any).__bcAuth?.session) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            showAuthGate();
+          }
+        }, true);
+      }
+    }
   }
 }
+
+// Auth gate modal
+function showAuthGate() {
+  const existing = document.getElementById('auth-gate-modal');
+  if (existing) { existing.classList.remove('hidden'); return; }
+
+  const modal = document.createElement('div');
+  modal.id = 'auth-gate-modal';
+  modal.className = 'fixed inset-0 z-[99999] flex items-center justify-center px-4';
+  modal.innerHTML = `
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="auth-gate-backdrop"></div>
+    <div class="relative bg-surface-dark rounded-2xl border border-primary/20 p-8 max-w-sm w-full text-center shadow-[0_8px_40px_rgba(0,0,0,0.6)]">
+      <div class="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-5">
+        <span class="material-symbols-outlined text-3xl text-primary">lock</span>
+      </div>
+      <h3 class="text-xl font-bold text-white mb-2">Crie sua conta gratuita</h3>
+      <p class="text-slate-400 text-sm mb-6 leading-relaxed">Para acessar o questionario, os agentes de IA e gerar seu PRD, voce precisa estar logado.</p>
+      <div class="flex flex-col gap-3">
+        <a href="/login" class="w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-primary-dark transition-colors flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-lg">login</span>
+          Entrar ou Criar Conta
+        </a>
+        <button type="button" id="auth-gate-close" class="w-full py-3 rounded-xl border border-border-color text-slate-400 font-medium text-sm hover:text-white hover:border-slate-500 transition-colors cursor-pointer">
+          Voltar
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+
+  document.getElementById('auth-gate-backdrop')?.addEventListener('click', () => modal.classList.add('hidden'));
+  document.getElementById('auth-gate-close')?.addEventListener('click', () => modal.classList.add('hidden'));
+}
+
+// Expose globally so wizard script can use it
+(window as any).__bcShowAuthGate = showAuthGate;
 
 // Use onAuthStateChange as the PRIMARY auth mechanism.
 // It fires INITIAL_SESSION on subscribe (after client reads localStorage),
@@ -2986,4 +3786,16 @@ if (canvas) {
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 }
+</script>
+
+<script>
+  // Logo swap for light/dark theme
+  function updatePageLogo() {
+    document.querySelectorAll('img[data-dark][data-light]').forEach(el => {
+      const isLight = document.documentElement.classList.contains('light');
+      el.setAttribute('src', isLight ? (el.getAttribute('data-light') || '') : (el.getAttribute('data-dark') || ''));
+    });
+  }
+  updatePageLogo();
+  new MutationObserver(updatePageLogo).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 </script>

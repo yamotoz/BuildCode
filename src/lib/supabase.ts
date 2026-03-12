@@ -13,6 +13,19 @@ export async function signInWithEmail(email: string, password: string) {
   return supabase.auth.signInWithPassword({ email, password });
 }
 
+export async function signInWithGoogle() {
+  return supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${window.location.origin}/perfil`,
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent',
+      },
+    },
+  });
+}
+
 export async function signOut() {
   return supabase.auth.signOut();
 }
@@ -45,6 +58,9 @@ export interface Profile {
   agent?: string;
   llm_model?: string;
   preferred_language?: string;
+  terms_accepted_at?: string | null;
+  terms_version?: string | null;
+  terms_ip?: string | null;
 }
 
 export async function getProfile(userId: string): Promise<Profile | null> {
@@ -105,7 +121,7 @@ export async function deleteUserProfile(targetUserId: string) {
     .eq('id', targetUserId);
 }
 
-export async function inviteUser(email: string, fullName: string, role: 'user' | 'admin') {
+export async function inviteUser(email: string, fullName: string, role: 'user' | 'admin', plan?: string) {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) return { data: null, error: { message: 'Not authenticated' } };
 
@@ -115,7 +131,7 @@ export async function inviteUser(email: string, fullName: string, role: 'user' |
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${session.access_token}`,
     },
-    body: JSON.stringify({ email, fullName, role }),
+    body: JSON.stringify({ email, fullName, role, plan: plan || 'explorador' }),
   });
 
   const result = await res.json();
@@ -136,8 +152,11 @@ export interface Subscription {
   user_id: string;
   plan: 'explorador' | 'consultor' | 'arquiteto';
   billing_cycle: 'monthly' | 'yearly';
-  status: 'active' | 'canceled' | 'past_due' | 'trialing';
+  status: 'active' | 'canceled' | 'past_due' | 'trialing' | 'pending';
   current_period_end: string;
+  asaas_subscription_id?: string;
+  asaas_customer_id?: string;
+  last_payment_date?: string;
 }
 
 export async function getUserSubscription(userId: string): Promise<Subscription | null> {
@@ -157,4 +176,37 @@ export async function getUserUsageStats(userId: string) {
     .order('created_at', { ascending: false })
     .limit(500);
   return data || [];
+}
+
+// ══════════════════════════════
+//  PROJECTS
+// ══════════════════════════════
+
+export interface Project {
+  id: string;
+  user_id: string;
+  name: string;
+  business_context: string;
+  scale: string;
+  nature: string;
+  generated_prd: string;
+  generated_prompt: string;
+  agent_used: string;
+  llm_model: string;
+  image_url: string;
+  created_at: string;
+}
+
+export async function getUserProjects(userId: string): Promise<Project[]> {
+  const { data } = await supabase
+    .from('projects')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(50);
+  return (data as Project[]) || [];
+}
+
+export async function deleteProject(projectId: string) {
+  return supabase.from('projects').delete().eq('id', projectId);
 }

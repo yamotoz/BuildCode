@@ -112,7 +112,7 @@ const logoMap: Record<string, string> = {
     "Axios": si("axios"), "Lucide React": si("lucide"),
     "Lodash": si("lodash"), "React Hook Form": si("reacthookform"),
     "Mongoose": si("mongoose"), "Resend": si("resend"),
-    "Stripe SDK": si("stripe"), "Auth.js (NextAuth)": si("authjs"),
+    "Stripe SDK": si("stripe"), "Auth.js (NextAuth)": si("authdotjs"),
     "Clerk": si("clerk"), "Puppeteer": si("puppeteer"),
     "Sharp": si("sharp"), "BullMQ": si("bull"),
     // DevEx
