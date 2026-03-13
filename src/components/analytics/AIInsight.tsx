@@ -108,14 +108,14 @@ export function AIInsight({ dataA, dataB, nameA, nameB }: AIInsightProps) {
       className="rounded-2xl p-6 relative overflow-hidden h-full flex flex-col"
       style={{ background: t.cardBg, border: `1px solid ${t.border}` }}
     >
-      {/* Glow */}
+      {/* Brilho de fundo */}
       <div
         className="absolute -top-16 -right-16 w-44 h-44 rounded-full pointer-events-none"
         style={{ background: `radial-gradient(circle, ${getScoreColor(winnerScore)}15 0%, transparent 70%)` }}
       />
 
       <div className="relative z-10 flex flex-col h-full gap-5">
-        {/* Header */}
+        {/* Cabeçalho */}
         <div className="flex items-center justify-between">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
             style={{ background: 'rgba(46, 116, 139, 0.1)', color: '#2E748B', border: '1px solid rgba(46, 116, 139, 0.2)' }}
@@ -126,7 +126,7 @@ export function AIInsight({ dataA, dataB, nameA, nameB }: AIInsightProps) {
           <Trophy className="w-4 h-4 text-[#F2AB6D]/40" />
         </div>
 
-        {/* Score circles */}
+        {/* Círculos de pontuação */}
         <div className="flex items-center justify-center gap-6">
           {[
             { name: nameA, score: scoreA, color: '#2E748B' },
@@ -160,14 +160,14 @@ export function AIInsight({ dataA, dataB, nameA, nameB }: AIInsightProps) {
           ))}
         </div>
 
-        {/* Metric bars */}
+        {/* Barras de métricas */}
         <div className="space-y-3 flex-1">
           <CompareBar label="Popularidade" valA={dataA.stars} valB={dataB.stars} nameA={nameA} nameB={nameB} trackBg={t.trackBg} />
           <CompareBar label="Atividade" valA={dataA.commitsLast30Days} valB={dataB.commitsLast30Days} nameA={nameA} nameB={nameB} trackBg={t.trackBg} />
           <CompareBar label="Comunidade" valA={dataA.forks} valB={dataB.forks} nameA={nameA} nameB={nameB} trackBg={t.trackBg} />
         </div>
 
-        {/* Quick facts */}
+        {/* Dados rápidos */}
         <div className="grid grid-cols-2 gap-2 pt-4" style={{ borderTop: `1px solid ${t.border}` }}>
           {[
             { icon: <Code2 className="w-3 h-3" />, label: dataA.language || '—', sub: nameA },
@@ -185,7 +185,7 @@ export function AIInsight({ dataA, dataB, nameA, nameB }: AIInsightProps) {
           ))}
         </div>
 
-        {/* Verdict */}
+        {/* Veredito */}
         <div
           className="flex items-center justify-between px-3 py-2 rounded-xl text-xs"
           style={{ background: t.controlBg, border: `1px solid ${t.controlBorder}` }}

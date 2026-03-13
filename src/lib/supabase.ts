@@ -6,7 +6,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // ══════════════════════════════
-//  AUTH HELPERS
+//  HELPERS DE AUTENTICAÇÃO
 // ══════════════════════════════
 
 export async function signInWithEmail(email: string, password: string) {
@@ -45,7 +45,7 @@ export async function updatePassword(newPassword: string) {
 }
 
 // ══════════════════════════════
-//  PROFILE HELPERS
+//  HELPERS DE PERFIL
 // ══════════════════════════════
 
 export interface Profile {
@@ -96,7 +96,7 @@ export async function uploadAvatar(userId: string, file: File): Promise<string |
 }
 
 // ══════════════════════════════
-//  USER MANAGEMENT (Master only)
+//  GESTÃO DE USUÁRIOS (somente Master)
 // ══════════════════════════════
 
 export async function listAllProfiles(): Promise<Profile[]> {
@@ -144,7 +144,7 @@ export async function inviteUser(email: string, fullName: string, role: 'user' |
 }
 
 // ══════════════════════════════
-//  SUBSCRIPTION & USAGE
+//  ASSINATURA & USO
 // ══════════════════════════════
 
 export interface Subscription {
@@ -179,7 +179,7 @@ export async function getUserUsageStats(userId: string) {
 }
 
 // ══════════════════════════════
-//  PROJECTS
+//  PROJETOS
 // ══════════════════════════════
 
 export interface Project {
@@ -191,6 +191,8 @@ export interface Project {
   nature: string;
   generated_prd: string;
   generated_prompt: string;
+  prd_storage_path: string | null;
+  prompt_storage_path: string | null;
   agent_used: string;
   llm_model: string;
   image_url: string;

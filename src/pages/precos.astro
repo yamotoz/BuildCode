@@ -36,150 +36,151 @@ import Header from '../components/Header.astro';
 
     <!-- Pricing Cards -->
     <section class="px-4 sm:px-6 lg:px-24 pb-24 max-w-6xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-start">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
 
         <!-- Card 1: Explorador (Free) -->
-        <div class="glass-panel rounded-2xl p-8 flex flex-col h-full">
-          <h3 class="text-xl font-bold text-white mb-1" data-i18n="precos.plan.explorer">Explorador</h3>
-          <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4" data-i18n="precos.plan.explorer.tag">Free</p>
-          <div class="mb-4">
-            <span class="text-4xl font-bold text-white" data-price-monthly="R$ 0" data-price-yearly="R$ 0">R$ 0</span>
-            <span class="text-slate-500 text-sm">/mês</span>
+        <div class="glass-panel rounded-2xl p-8 flex flex-col">
+          <div class="mb-6">
+            <h3 class="text-xl font-bold text-white mb-1" data-i18n="precos.plan.explorer">Explorador</h3>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest" data-i18n="precos.plan.explorer.tag">Free</p>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-8" data-i18n="precos.plan.explorer.desc">
+          <div class="mb-4">
+            <span class="text-5xl font-bold text-white" data-price-monthly="R$ 0" data-price-yearly="R$ 0">R$ 0</span>
+            <span class="text-slate-500 text-sm ml-1">/mês</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-6 min-h-[48px]" data-i18n="precos.plan.explorer.desc">
             Perfeito para quem quer explorar o sistema e entender o poder da arquitetura assistida por IA.
           </p>
-          <a href="/app" class="block text-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all mb-8" data-i18n="precos.plan.explorer.cta" id="btn-free">
+          <a href="/app" class="block text-center rounded-full border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all mb-8" data-i18n="precos.plan.explorer.cta" id="btn-free">
             Começar Grátis
           </a>
-          <ul class="space-y-3 mt-auto">
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">smart_toy</span>
+          <ul class="space-y-4 mt-auto">
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0">smart_toy</span>
               <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.explorer.f1">Apenas agente</span> <strong class="text-white">The Boss</strong></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">save</span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0">save</span>
               <span class="text-slate-300 text-sm">Até <strong class="text-white">3 PRDs</strong> <span data-i18n="precos.plan.explorer.f2">e Prompt Bases salvos</span></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">token</span>
-              <span class="text-slate-300 text-sm"><strong class="text-white">50 requisições/mês</strong> <span data-i18n="precos.plan.explorer.f3">de IA gratuita</span></span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0">token</span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">50 requisições/mês</strong> <span data-i18n="precos.plan.explorer.f3">de IA econômica</span></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-slate-600 text-lg shrink-0 mt-0.5">block</span>
-              <span class="text-slate-500 text-sm" data-i18n="precos.plan.explorer.f4">LLMs médias e premium bloqueadas</span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-slate-600 text-lg shrink-0">block</span>
+              <span class="text-slate-500 text-sm" data-i18n="precos.plan.explorer.f4">LLMs médias e Elites bloqueadas</span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">short_text</span>
-              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.explorer.f5">Prompt Base até</span> <strong class="text-white">10.000 caracteres</strong></span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0">short_text</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.explorer.f5">Prompt Base até</span> <strong class="text-white">10.000 chars</strong></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-slate-600 text-lg shrink-0 mt-0.5">volume_off</span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-slate-600 text-lg shrink-0">volume_off</span>
               <span class="text-slate-500 text-sm" data-i18n="precos.plan.explorer.f6">Sem resumo em áudio</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-slate-600 text-lg shrink-0">block</span>
+              <span class="text-slate-500 text-sm" data-i18n="precos.plan.explorer.f7">Sem exportação de arquivos</span>
             </li>
           </ul>
         </div>
 
         <!-- Card 2: Consultor (Pro) — Highlighted -->
-        <div class="relative rounded-2xl p-8 flex flex-col h-full border-2 border-primary/40 bg-surface-dark" style="box-shadow: 0 0 40px rgba(46,116,139,0.15), 0 0 80px rgba(46,116,139,0.05);">
-          <h3 class="text-xl font-bold text-white mb-1" data-i18n="precos.plan.pro">Consultor</h3>
-          <p class="text-xs font-semibold text-primary uppercase tracking-widest mb-4" data-i18n="precos.plan.pro.tag">Pro</p>
-          <div class="mb-4">
-            <span class="text-4xl font-bold text-white" data-price-monthly="R$ 35" data-price-yearly="R$ 28">R$ 35</span>
-            <span class="text-slate-500 text-sm">/mês</span>
+        <div class="relative rounded-2xl p-8 flex flex-col border-2 border-primary/40 bg-surface-dark" style="box-shadow: 0 0 40px rgba(46,116,139,0.15), 0 0 80px rgba(46,116,139,0.05);">
+          <div class="mb-6">
+            <h3 class="text-xl font-bold text-white mb-1" data-i18n="precos.plan.pro">Consultor</h3>
+            <p class="text-xs font-semibold text-primary uppercase tracking-widest" data-i18n="precos.plan.pro.tag">Pro</p>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-8" data-i18n="precos.plan.pro.desc">
+          <div class="mb-4">
+            <span class="text-5xl font-bold text-white" data-price-monthly="R$ 35" data-price-yearly="R$ 28">R$ 35</span>
+            <span class="text-slate-500 text-sm ml-1">/mês</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-6 min-h-[48px]" data-i18n="precos.plan.pro.desc">
             Ideal para desenvolvedores em crescimento e consultores freelance que precisam de mais poder.
           </p>
-          <button type="button" class="btn-checkout block w-full text-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-background-dark hover:bg-secondary transition-all shadow-[0_0_20px_rgba(46,116,139,0.3)] mb-8 cursor-pointer" data-plan="consultor" data-i18n="precos.plan.pro.cta">
+          <button type="button" class="btn-checkout block w-full text-center rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-background-dark hover:bg-secondary transition-all shadow-[0_0_20px_rgba(46,116,139,0.3)] mb-8 cursor-pointer" data-plan="consultor" data-i18n="precos.plan.pro.cta">
             Upgrade para Pro
           </button>
-          <ul class="space-y-3 mt-auto">
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">groups</span>
+          <ul class="space-y-4 mt-auto">
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0">groups</span>
               <span class="text-slate-300 text-sm"><strong class="text-white" data-i18n="precos.agents.all">Todos os agentes</strong> <span data-i18n="precos.plan.pro.f1">liberados</span></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">save</span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0">save</span>
               <span class="text-slate-300 text-sm">Até <strong class="text-white">15 PRDs</strong> <span data-i18n="precos.plan.pro.f2">e Prompt Bases salvos</span></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">all_inclusive</span>
-              <span class="text-slate-300 text-sm">LLMs gratuitas e médias <strong class="text-white" data-i18n="precos.plan.pro.f3">ilimitadas</strong></span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0">all_inclusive</span>
+              <span class="text-slate-300 text-sm">LLMs econômicas e médias <strong class="text-white" data-i18n="precos.plan.pro.f3">ilimitadas</strong></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">bolt</span>
-              <span class="text-slate-300 text-sm"><strong class="text-white">100 chamadas/mês</strong> <span data-i18n="precos.plan.pro.f4">em LLMs premium</span></span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0">bolt</span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">20 chamadas/mês</strong> <span data-i18n="precos.plan.pro.f4">em LLMs de Elite</span></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">notes</span>
-              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.pro.f5">Prompt Base até</span> <strong class="text-white">25.000 caracteres</strong></span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0">notes</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.pro.f5">Prompt Base até</span> <strong class="text-white">25.000 chars</strong></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">upload_file</span>
-              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.pro.f6">Importação em</span> <strong class="text-white">.md</strong></span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0">download</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.pro.f6">Exportação em</span> <strong class="text-white">.md</strong></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-primary text-lg shrink-0 mt-0.5">volume_up</span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-lg shrink-0">volume_up</span>
               <span class="text-slate-300 text-sm"><span data-i18n="precos.audio">Resumo em</span> <strong class="text-white" data-i18n="precos.audio.word">áudio</strong> <span data-i18n="precos.plan.pro.f7">da IA</span></span>
             </li>
           </ul>
         </div>
 
         <!-- Card 3: Arquiteto (Elite) -->
-        <div class="relative rounded-2xl p-8 flex flex-col h-full bg-surface-dark border border-cta/20" style="box-shadow: 0 0 40px rgba(242,171,109,0.08);">
-          <!-- Elite badge -->
+        <div class="relative rounded-2xl p-8 flex flex-col bg-surface-dark border border-cta/20" style="box-shadow: 0 0 40px rgba(242,171,109,0.08);">
           <div class="absolute top-4 right-4 bg-cta/10 border border-cta/30 text-cta text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full" data-i18n="precos.plan.elite.badge">
             Recomendado
           </div>
-          <h3 class="text-xl font-bold text-white mb-1" data-i18n="precos.plan.elite">Arquiteto</h3>
-          <p class="text-xs font-semibold text-cta uppercase tracking-widest mb-4" data-i18n="precos.plan.elite.tag">Elite</p>
-          <div class="mb-4">
-            <span class="text-4xl font-bold text-white" data-price-monthly="R$ 50" data-price-yearly="R$ 40">R$ 50</span>
-            <span class="text-slate-500 text-sm">/mês</span>
+          <div class="mb-6">
+            <h3 class="text-xl font-bold text-white mb-1" data-i18n="precos.plan.elite">Arquiteto</h3>
+            <p class="text-xs font-semibold text-cta uppercase tracking-widest" data-i18n="precos.plan.elite.tag">Elite</p>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-8" data-i18n="precos.plan.elite.desc">
-            O kit definitivo — poder absoluto para arquitetos que exigem o máximo do sistema.
+          <div class="mb-4">
+            <span class="text-5xl font-bold text-white" data-price-monthly="R$ 50" data-price-yearly="R$ 40">R$ 50</span>
+            <span class="text-slate-500 text-sm ml-1">/mês</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-6 min-h-[48px]" data-i18n="precos.plan.elite.desc">
+            O kit definitivo poder absoluto para arquitetos que exigem o máximo do sistema.
           </p>
-          <button type="button" class="btn-checkout block w-full text-center rounded-full px-6 py-3 text-sm font-bold text-background-dark transition-all shadow-[0_0_20px_rgba(242,171,109,0.25)] mb-8 cursor-pointer" style="background: linear-gradient(135deg, #F2AB6D, #D4894A);" data-plan="arquiteto" data-i18n="precos.plan.elite.cta">
+          <button type="button" class="btn-checkout block w-full text-center rounded-full px-6 py-3.5 text-sm font-bold text-background-dark transition-all shadow-[0_0_20px_rgba(242,171,109,0.25)] mb-8 cursor-pointer" style="background: linear-gradient(135deg, #F2AB6D, #D4894A);" data-plan="arquiteto" data-i18n="precos.plan.elite.cta">
             Começar Agora
           </button>
-          <ul class="space-y-3 mt-auto">
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">groups</span>
+          <ul class="space-y-4 mt-auto">
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0">groups</span>
               <span class="text-slate-300 text-sm"><strong class="text-white" data-i18n="precos.agents.all">Todos os agentes</strong> <span data-i18n="precos.plan.elite.f1">liberados</span></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">all_inclusive</span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0">all_inclusive</span>
               <span class="text-slate-300 text-sm">PRDs e <span data-i18n="precos.promptbases">Prompt Bases</span> <strong class="text-white" data-i18n="precos.plan.elite.f2">ilimitados</strong></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">all_inclusive</span>
-              <span class="text-slate-300 text-sm">LLMs gratuitas e médias <strong class="text-white" data-i18n="precos.plan.elite.f3">ilimitadas</strong></span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0">all_inclusive</span>
+              <span class="text-slate-300 text-sm">LLMs econômicas e médias <strong class="text-white" data-i18n="precos.plan.elite.f3">ilimitadas</strong></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">bolt</span>
-              <span class="text-slate-300 text-sm"><strong class="text-white">300 chamadas/mês</strong> <span data-i18n="precos.plan.elite.f4">em LLMs premium</span></span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0">bolt</span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">50 chamadas/mês</strong> <span data-i18n="precos.plan.elite.f4">em LLMs de Elite</span></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">description</span>
-              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.elite.f5">Prompt Base até</span> <strong class="text-white">80.000 caracteres</strong></span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0">description</span>
+              <span class="text-slate-300 text-sm"><span data-i18n="precos.plan.elite.f5">Prompt Base até</span> <strong class="text-white">80.000 chars</strong></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">folder_open</span>
-              <span class="text-slate-300 text-sm">Importação em <strong class="text-white">PDF, .md, Word</strong> <span data-i18n="precos.plan.elite.f6">e mais</span></span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0">download</span>
+              <span class="text-slate-300 text-sm">Exportação em <strong class="text-white">PDF, .md, Word</strong> <span data-i18n="precos.plan.elite.f6">e mais</span></span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">volume_up</span>
+            <li class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-cta text-lg shrink-0">volume_up</span>
               <span class="text-slate-300 text-sm"><span data-i18n="precos.audio">Resumo em</span> <strong class="text-white" data-i18n="precos.audio.word">áudio</strong> <span data-i18n="precos.plan.elite.f7">da IA</span></span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">psychology</span>
-              <span class="text-slate-300 text-sm"><span data-i18n="precos.responses">Respostas</span> <strong class="text-white" data-i18n="precos.plan.elite.f8">mais inteligentes</strong></span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="material-symbols-outlined text-cta text-lg shrink-0 mt-0.5">auto_awesome</span>
-              <span class="text-slate-300 text-sm"><span data-i18n="precos.promptbases">Prompt Bases</span> <strong class="text-white" data-i18n="precos.plan.elite.f9">mais detalhados</strong></span>
             </li>
           </ul>
         </div>
@@ -187,38 +188,260 @@ import Header from '../components/Header.astro';
       </div>
     </section>
 
-    <!-- Bento Grid: Por que BuildCode? -->
-    <section class="px-4 sm:px-6 lg:px-24 pb-24 max-w-6xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl font-display font-bold text-white text-center mb-12">
-        <span data-i18n="precos.why.title.1">Por que </span><span class="text-primary" data-i18n="precos.why.title.2">BuildCode</span><span data-i18n="precos.why.title.3">?</span>
-      </h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[180px]">
-        <!-- Big card: 2 cols, 2 rows -->
-        <div class="glass-panel rounded-2xl p-8 flex flex-col justify-end sm:col-span-2 sm:row-span-2">
-          <span class="material-symbols-outlined text-primary text-4xl mb-4">dynamic_feed</span>
-          <h3 class="text-xl font-bold text-white mb-2" data-i18n="precos.why.precision.title">Precisão Sistêmica</h3>
-          <p class="text-slate-400 text-sm leading-relaxed" data-i18n="precos.why.precision.desc">
-            Arquiteturas modeladas com teoria dos grafos e padrões comprovados. Cada conexão, cada dependência é mapeada com precisão matemática para garantir integridade estrutural do seu sistema.
-          </p>
+    <!-- Por que BuildCode? — Marketing Heavy -->
+    <section class="px-4 sm:px-6 lg:px-24 pb-16 max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-white mb-6">
+          <span data-i18n="precos.why.title.1">Por que </span><span class="text-primary" data-i18n="precos.why.title.2">BuildCode</span><span data-i18n="precos.why.title.3">?</span>
+        </h2>
+        <p class="text-slate-400 text-lg max-w-2xl mx-auto" data-i18n="precos.why.subtitle">
+          Porque escolher a stack errada no início custa meses de retrabalho. BuildCode elimina esse risco antes da primeira linha de código.
+        </p>
+      </div>
+
+      <!-- Stat bar -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+        <div class="glass-panel rounded-2xl p-6 text-center">
+          <p class="text-3xl sm:text-4xl font-bold text-primary mb-1">200+</p>
+          <p class="text-slate-400 text-xs sm:text-sm" data-i18n="precos.why.stat1">Tecnologias mapeadas</p>
         </div>
+        <div class="glass-panel rounded-2xl p-6 text-center">
+          <p class="text-3xl sm:text-4xl font-bold text-primary mb-1">&lt; 3 min</p>
+          <p class="text-slate-400 text-xs sm:text-sm" data-i18n="precos.why.stat2">Para gerar um PRD completo</p>
+        </div>
+        <div class="glass-panel rounded-2xl p-6 text-center">
+          <p class="text-3xl sm:text-4xl font-bold text-primary mb-1">9</p>
+          <p class="text-slate-400 text-xs sm:text-sm" data-i18n="precos.why.stat3">Modelos de IA disponíveis</p>
+        </div>
+        <div class="glass-panel rounded-2xl p-6 text-center">
+          <p class="text-3xl sm:text-4xl font-bold text-primary mb-1">20</p>
+          <p class="text-slate-400 text-xs sm:text-sm" data-i18n="precos.why.stat4">Decisões críticas cobertas</p>
+        </div>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Big card: Problem → Solution -->
+        <div class="glass-panel rounded-2xl p-8 flex flex-col justify-between sm:col-span-2 lg:col-span-2 min-h-[240px]" style="background: linear-gradient(135deg, rgba(46,116,139,0.08), transparent);">
+          <div>
+            <span class="material-symbols-outlined text-primary text-4xl mb-4">dynamic_feed</span>
+            <h3 class="text-xl font-bold text-white mb-3" data-i18n="precos.why.precision.title">Decisões Fundamentadas, Não Opiniões</h3>
+            <p class="text-slate-400 text-sm leading-relaxed" data-i18n="precos.why.precision.desc">
+              Consultorias de arquitetura cobram R$ 15.000 a R$ 80.000 por projeto — e ainda dependem da experiência subjetiva de quem está na sala. BuildCode analisa dados reais do GitHub, cruza com 200+ tecnologias mapeadas e gera recomendações com justificativa técnica. Sem achismo. Sem viés. Só dados.
+            </p>
+          </div>
+        </div>
+
+        <!-- PRD -->
+        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end min-h-[240px]">
+          <span class="material-symbols-outlined text-primary text-3xl mb-3">description</span>
+          <h3 class="text-base font-bold text-white mb-2" data-i18n="precos.why.prd.title">PRD Profissional em Minutos</h3>
+          <p class="text-slate-400 text-xs leading-relaxed" data-i18n="precos.why.prd.desc">Documento de requisitos com diagrama de arquitetura, estimativa de custos e justificativa por tecnologia escolhida. Pronto para levar ao time ou ao investidor.</p>
+        </div>
+
+        <!-- Agents -->
+        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end min-h-[200px]">
+          <span class="material-symbols-outlined text-primary text-3xl mb-3">smart_toy</span>
+          <h3 class="text-base font-bold text-white mb-2" data-i18n="precos.why.agents.title">4 Mentores de IA ao seu Lado</h3>
+          <p class="text-slate-400 text-xs leading-relaxed" data-i18n="precos.why.agents.desc">Agentes com personalidade e voz própria que te guiam em cada decisão. Como ter 4 arquitetos seniores disponíveis 24 horas por dia.</p>
+        </div>
+
         <!-- Speed -->
-        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end">
+        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end min-h-[200px]">
           <span class="material-symbols-outlined text-primary text-3xl mb-3">speed</span>
-          <h3 class="text-base font-bold text-white mb-1" data-i18n="precos.why.speed.title">Workflow Relâmpago</h3>
-          <p class="text-slate-500 text-xs leading-relaxed" data-i18n="precos.why.speed.desc">Prototipe e valide arquiteturas em minutos, não semanas.</p>
+          <h3 class="text-base font-bold text-white mb-2" data-i18n="precos.why.speed.title">De Semanas para Minutos</h3>
+          <p class="text-slate-400 text-xs leading-relaxed" data-i18n="precos.why.speed.desc">O que leva semanas avaliando ferramentas, BuildCode resolve em minutos. Seu time para de debater stacks e começa a construir.</p>
         </div>
-        <!-- Security -->
-        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end">
-          <span class="material-symbols-outlined text-primary text-3xl mb-3">security</span>
-          <h3 class="text-base font-bold text-white mb-1" data-i18n="precos.why.security.title">Seguro & Protegido</h3>
-          <p class="text-slate-500 text-xs leading-relaxed" data-i18n="precos.why.security.desc">Criptografia de ponta a ponta em todos os seus projetos.</p>
+
+        <!-- Prompt Base -->
+        <div class="glass-panel rounded-2xl p-6 flex flex-col justify-end min-h-[200px]">
+          <span class="material-symbols-outlined text-primary text-3xl mb-3">code</span>
+          <h3 class="text-base font-bold text-white mb-2" data-i18n="precos.why.prompt.title">Prompt Base Otimizado</h3>
+          <p class="text-slate-400 text-xs leading-relaxed" data-i18n="precos.why.prompt.desc">Prompts prontos para Claude, GPT e Gemini com boas práticas por tecnologia. Comece a codar com instruções perfeitas desde o primeiro minuto.</p>
         </div>
-        <!-- AI Ready -->
-        <div class="rounded-2xl p-6 flex flex-col justify-end bg-surface-dark border border-border-color col-span-1 sm:col-span-2 lg:col-span-2">
-          <span class="material-symbols-outlined text-primary text-3xl mb-3">auto_awesome</span>
-          <h3 class="text-base font-bold text-white mb-1" data-i18n="precos.why.ai.title">Pronto para IA</h3>
-          <p class="text-slate-500 text-xs leading-relaxed" data-i18n="precos.why.ai.desc">Inteligência artificial integrada que sugere padrões, detecta anti-patterns e otimiza sua arquitetura automaticamente.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- RECARGA REBELDE — Créditos avulsos com tom roxo    -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="px-4 sm:px-6 lg:px-24 pb-24 max-w-6xl mx-auto" id="recarga">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
+          <span class="material-symbols-outlined text-sm">bolt</span>
+          Exclusivo
         </div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-white mb-4">
+          Recarga <span class="text-purple-400">Rebelde</span>
+        </h2>
+        <p class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">
+          Créditos avulsos que não expiram. Compre quando quiser, use quando precisar. Acumulam com os créditos do seu plano.
+        </p>
+      </div>
+
+      <!-- Combos Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+        <!-- Combo Starter R$10 -->
+        <div class="recharge-combo relative rounded-2xl p-6 flex flex-col border border-purple-500/15 bg-surface-dark cursor-pointer transition-all hover:border-purple-500/40 hover:shadow-[0_0_30px_rgba(168,85,247,0.08)]" data-combo="starter" data-price="10" data-eco="20" data-mid="5" data-elite="2">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-purple-300 text-xs font-bold uppercase tracking-widest">Starter</span>
+            <span class="text-2xl font-bold text-white">R$ 10</span>
+          </div>
+          <ul class="space-y-2.5 mb-5 flex-1">
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">20</strong> econômicas</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">5</strong> médias</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">2</strong> elite</span>
+            </li>
+          </ul>
+          <button type="button" class="btn-recharge w-full text-center rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2.5 text-xs font-bold text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer" data-combo="starter">
+            Recarregar
+          </button>
+        </div>
+
+        <!-- Combo Turbo R$20 -->
+        <div class="recharge-combo relative rounded-2xl p-6 flex flex-col border border-purple-500/15 bg-surface-dark cursor-pointer transition-all hover:border-purple-500/40 hover:shadow-[0_0_30px_rgba(168,85,247,0.08)]" data-combo="turbo" data-price="20" data-eco="50" data-mid="12" data-elite="5">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-purple-300 text-xs font-bold uppercase tracking-widest">Turbo</span>
+            <span class="text-2xl font-bold text-white">R$ 20</span>
+          </div>
+          <ul class="space-y-2.5 mb-5 flex-1">
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">50</strong> econômicas</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">12</strong> médias</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">5</strong> elite</span>
+            </li>
+          </ul>
+          <button type="button" class="btn-recharge w-full text-center rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2.5 text-xs font-bold text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer" data-combo="turbo">
+            Recarregar
+          </button>
+        </div>
+
+        <!-- Combo Mega R$30 -->
+        <div class="recharge-combo relative rounded-2xl p-6 flex flex-col border border-purple-500/15 bg-surface-dark cursor-pointer transition-all hover:border-purple-500/40 hover:shadow-[0_0_30px_rgba(168,85,247,0.08)]" data-combo="mega" data-price="30" data-eco="90" data-mid="25" data-elite="8">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-purple-300 text-xs font-bold uppercase tracking-widest">Mega</span>
+            <span class="text-2xl font-bold text-white">R$ 30</span>
+          </div>
+          <ul class="space-y-2.5 mb-5 flex-1">
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">90</strong> econômicas</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">25</strong> médias</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">8</strong> elite</span>
+            </li>
+          </ul>
+          <button type="button" class="btn-recharge w-full text-center rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2.5 text-xs font-bold text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer" data-combo="mega">
+            Recarregar
+          </button>
+        </div>
+
+        <!-- Combo Ultra R$50 -->
+        <div class="recharge-combo relative rounded-2xl p-6 flex flex-col border-2 border-purple-500/30 bg-surface-dark cursor-pointer transition-all hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(168,85,247,0.12)]" data-combo="ultra" data-price="50" data-eco="200" data-mid="60" data-elite="15" style="box-shadow: 0 0 30px rgba(168,85,247,0.06);">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-purple-500 text-white text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-[0_0_12px_rgba(168,85,247,0.4)]">Melhor valor</span>
+          <div class="flex items-center justify-between mb-4 mt-1">
+            <span class="text-purple-300 text-xs font-bold uppercase tracking-widest">Ultra</span>
+            <span class="text-2xl font-bold text-white">R$ 50</span>
+          </div>
+          <ul class="space-y-2.5 mb-5 flex-1">
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">200</strong> econômicas</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">60</strong> médias</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+              <span class="text-slate-300 text-sm"><strong class="text-white">15</strong> elite</span>
+            </li>
+          </ul>
+          <button type="button" class="btn-recharge w-full text-center rounded-full text-xs font-bold text-background-dark py-2.5 transition-all cursor-pointer" style="background: linear-gradient(135deg, #A855F7, #7C3AED);" data-combo="ultra">
+            Recarregar
+          </button>
+        </div>
+      </div>
+
+      <!-- Recarga Personalizada -->
+      <div class="rounded-2xl p-8 sm:p-10 border border-purple-500/15 bg-surface-dark" style="box-shadow: 0 0 40px rgba(168,85,247,0.04);">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <h3 class="text-xl font-bold text-white mb-1">Monte sua Recarga</h3>
+            <p class="text-slate-500 text-sm">Escolha exatamente quantas consultas você precisa de cada tipo.</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-slate-500 uppercase tracking-widest mb-1">Total</p>
+            <p class="text-3xl font-bold text-purple-400" id="custom-total">R$ 0,00</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+          <!-- Econômicas slider -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                <span class="text-sm font-semibold text-white">Econômicas</span>
+              </div>
+              <span class="text-sm font-bold text-emerald-400" id="custom-eco-count">0</span>
+            </div>
+            <input type="range" id="custom-eco" min="0" max="500" step="10" value="0" class="recharge-slider w-full accent-emerald-400" />
+            <p class="text-[10px] text-slate-600 mt-1">R$ 0,055 cada</p>
+          </div>
+          <!-- Médias slider -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                <span class="text-sm font-semibold text-white">Médias</span>
+              </div>
+              <span class="text-sm font-bold text-amber-400" id="custom-mid-count">0</span>
+            </div>
+            <input type="range" id="custom-mid" min="0" max="200" step="5" value="0" class="recharge-slider w-full accent-amber-400" />
+            <p class="text-[10px] text-slate-600 mt-1">R$ 0,55 cada</p>
+          </div>
+          <!-- Elite slider -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+                <span class="text-sm font-semibold text-white">Elite</span>
+              </div>
+              <span class="text-sm font-bold text-purple-400" id="custom-elite-count">0</span>
+            </div>
+            <input type="range" id="custom-elite" min="0" max="50" step="1" value="0" class="recharge-slider w-full accent-purple-400" />
+            <p class="text-[10px] text-slate-600 mt-1">R$ 3,85 cada</p>
+          </div>
+        </div>
+
+        <button type="button" id="btn-custom-recharge" class="w-full sm:w-auto sm:min-w-[240px] mx-auto block text-center rounded-full px-8 py-3.5 text-sm font-bold text-white transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed" style="background: linear-gradient(135deg, #A855F7, #7C3AED); box-shadow: 0 0 20px rgba(168,85,247,0.25);" disabled>
+          Recarregar Personalizado
+        </button>
+
+        <p class="text-center text-slate-500 text-xs mt-6 max-w-lg mx-auto leading-relaxed">
+          <span class="text-slate-400 font-medium">"O que mais define a qualidade do resultado final não é o modelo de IA é o nível de detalhe que você fornece no sistema."</span>
+        </p>
       </div>
     </section>
 
@@ -239,11 +462,11 @@ import Header from '../components/Header.astro';
         </details>
         <details class="group glass-panel rounded-xl">
           <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-white font-semibold text-sm list-none">
-            <span data-i18n="precos.faq.q2">Vocês oferecem desconto educacional?</span>
+            <span data-i18n="precos.faq.q2">O que é o PRD gerado pelo sistema?</span>
             <span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform">expand_more</span>
           </summary>
           <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed" data-i18n="precos.faq.a2">
-            Sim, oferecemos 50% de desconto no plano Consultor para estudantes e educadores com e-mail institucional válido (.edu ou equivalente).
+            O PRD (Product Requirements Document) é um documento completo de arquitetura que inclui justificativa técnica para cada tecnologia escolhida, diagrama de arquitetura, estimativa de custos e links para documentação oficial. É o tipo de documento que consultorias cobram milhares de reais para produzir.
           </div>
         </details>
         <details class="group glass-panel rounded-xl">
@@ -253,6 +476,24 @@ import Header from '../components/Header.astro';
           </summary>
           <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed" data-i18n="precos.faq.a3">
             Absolutamente. Utilizamos criptografia AES-256 para dados em repouso e TLS 1.3 para dados em trânsito, garantindo segurança de nível enterprise.
+          </div>
+        </details>
+        <details class="group glass-panel rounded-xl">
+          <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-white font-semibold text-sm list-none">
+            <span data-i18n="precos.faq.q4">Quais modelos de IA o BuildCode utiliza?</span>
+            <span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed" data-i18n="precos.faq.a4">
+            O sistema oferece 9 modelos de IA em 3 tiers: Budget (Gemini Flash, Llama, Mistral), Mid (GPT-4o-mini, Claude Haiku, DeepSeek) e Pro (GPT-4o, Claude Sonnet, Gemini Pro). Planos pagos desbloqueiam acesso a modelos mais avançados e com maior profundidade de análise.
+          </div>
+        </details>
+        <details class="group glass-panel rounded-xl">
+          <summary class="flex items-center justify-between cursor-pointer px-6 py-5 text-white font-semibold text-sm list-none">
+            <span data-i18n="precos.faq.q5">Como funciona o Prompt Base gerado?</span>
+            <span class="material-symbols-outlined text-slate-500 group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="px-6 pb-5 text-slate-400 text-sm leading-relaxed" data-i18n="precos.faq.a5">
+            O Prompt Base é um prompt de engenharia otimizado e pronto para usar com qualquer LLM (Claude, GPT, Gemini). Ele inclui boas práticas específicas para cada tecnologia da sua stack, regras de clean code, diretrizes de responsividade e estrutura de projeto. Basta copiar e colar no seu assistente de IA favorito para começar a codar com instruções perfeitas.
           </div>
         </details>
       </div>
@@ -398,6 +639,145 @@ import Header from '../components/Header.astro';
 </script>
 
 <script>
+  // ── Recarga Rebelde: calculadora personalizada ──
+  import { createClient as createRechargeClient } from '@supabase/supabase-js';
+
+  const rechargeSupabase = createRechargeClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+  );
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const PRICE_ECO = 0.055;
+    const PRICE_MID = 0.55;
+    const PRICE_ELITE = 3.85;
+
+    // Sliders
+    const ecoSlider = document.getElementById('custom-eco') as HTMLInputElement;
+    const midSlider = document.getElementById('custom-mid') as HTMLInputElement;
+    const eliteSlider = document.getElementById('custom-elite') as HTMLInputElement;
+    const ecoCount = document.getElementById('custom-eco-count')!;
+    const midCount = document.getElementById('custom-mid-count')!;
+    const eliteCount = document.getElementById('custom-elite-count')!;
+    const totalEl = document.getElementById('custom-total')!;
+    const btnCustom = document.getElementById('btn-custom-recharge') as HTMLButtonElement;
+
+    function updateCustomTotal() {
+      const eco = parseInt(ecoSlider.value) || 0;
+      const mid = parseInt(midSlider.value) || 0;
+      const elite = parseInt(eliteSlider.value) || 0;
+      const total = (eco * PRICE_ECO) + (mid * PRICE_MID) + (elite * PRICE_ELITE);
+
+      ecoCount.textContent = String(eco);
+      midCount.textContent = String(mid);
+      eliteCount.textContent = String(elite);
+      totalEl.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+      btnCustom.disabled = total <= 0;
+    }
+
+    [ecoSlider, midSlider, eliteSlider].forEach(s => {
+      if (s) s.addEventListener('input', updateCustomTotal);
+    });
+
+    // Processar recarga (combo ou custom)
+    async function processRecharge(type: 'combo' | 'custom', comboName: string | null, eco: number, mid: number, elite: number, amount: number) {
+      const { data: { session } } = await rechargeSupabase.auth.getSession();
+      if (!session) {
+        sessionStorage.setItem('pendingRecharge', JSON.stringify({ type, comboName, eco, mid, elite, amount }));
+        window.location.href = '/login';
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/asaas/create-recharge', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({
+            rechargeType: type,
+            comboName,
+            creditsEconomy: eco,
+            creditsMid: mid,
+            creditsElite: elite,
+            amountBrl: amount,
+          }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Erro ao processar recarga');
+
+        if (data.invoiceUrl) {
+          window.location.href = data.invoiceUrl;
+        } else {
+          alert('Recarga solicitada! Verifique seu e-mail para o link de pagamento.');
+        }
+      } catch (err: any) {
+        alert(err.message || 'Erro ao processar recarga.');
+      }
+    }
+
+    // Botões de combo
+    document.querySelectorAll<HTMLButtonElement>('.btn-recharge').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const combo = btn.closest<HTMLElement>('.recharge-combo') || btn;
+        const comboData = combo.dataset.combo ? combo.closest<HTMLElement>('[data-combo]') : combo;
+        const parent = btn.closest<HTMLElement>('[data-combo]');
+        if (!parent) return;
+
+        const name = parent.dataset.combo!;
+        const price = parseFloat(parent.dataset.price || '0');
+        const eco = parseInt(parent.dataset.eco || '0');
+        const mid = parseInt(parent.dataset.mid || '0');
+        const elite = parseInt(parent.dataset.elite || '0');
+
+        const originalText = btn.textContent || '';
+        btn.disabled = true;
+        btn.textContent = 'Processando...';
+
+        await processRecharge('combo', name, eco, mid, elite, price);
+
+        btn.textContent = originalText;
+        btn.disabled = false;
+      });
+    });
+
+    // Botão custom
+    if (btnCustom) {
+      btnCustom.addEventListener('click', async () => {
+        const eco = parseInt(ecoSlider.value) || 0;
+        const mid = parseInt(midSlider.value) || 0;
+        const elite = parseInt(eliteSlider.value) || 0;
+        const total = (eco * PRICE_ECO) + (mid * PRICE_MID) + (elite * PRICE_ELITE);
+        if (total <= 0) return;
+
+        const originalText = btnCustom.textContent || '';
+        btnCustom.disabled = true;
+        btnCustom.textContent = 'Processando...';
+
+        await processRecharge('custom', null, eco, mid, elite, parseFloat(total.toFixed(2)));
+
+        btnCustom.textContent = originalText;
+        btnCustom.disabled = false;
+      });
+    }
+
+    // Retomar recarga pendente após login
+    const pendingRecharge = sessionStorage.getItem('pendingRecharge');
+    if (pendingRecharge) {
+      sessionStorage.removeItem('pendingRecharge');
+      (async () => {
+        const { data: { session } } = await rechargeSupabase.auth.getSession();
+        if (!session) return;
+        const r = JSON.parse(pendingRecharge);
+        await processRecharge(r.type, r.comboName, r.eco, r.mid, r.elite, r.amount);
+      })();
+    }
+  });
+</script>
+
+<script>
   // Logo swap for light/dark theme
   function updatePageLogo() {
     document.querySelectorAll('img[data-dark][data-light]').forEach(el => {
@@ -414,4 +794,37 @@ import Header from '../components/Header.astro';
   details summary::-webkit-details-marker {
     display: none;
   }
+
+  /* Sliders da recarga personalizada */
+  .recharge-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #1e1e22;
+    outline: none;
+  }
+  .recharge-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.1);
+  }
+  #custom-eco::-webkit-slider-thumb { background: #34d399; }
+  #custom-mid::-webkit-slider-thumb { background: #fbbf24; }
+  #custom-elite::-webkit-slider-thumb { background: #a855f7; }
+
+  .recharge-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.1);
+  }
+  #custom-eco::-moz-range-thumb { background: #34d399; }
+  #custom-mid::-moz-range-thumb { background: #fbbf24; }
+  #custom-elite::-moz-range-thumb { background: #a855f7; }
 </style>

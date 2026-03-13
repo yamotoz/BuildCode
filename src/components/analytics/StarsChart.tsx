@@ -86,7 +86,7 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
       return data;
     }
 
-    // Monthly view (default)
+    // Visão mensal (padrão)
     const data = [];
     const monthCount = Math.min(12, Math.ceil(totalWeeks / 4));
     for (let m = 0; m < monthCount; m++) {
@@ -180,7 +180,7 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
       );
     }
 
-    // Area (default)
+    // Área (padrão)
     return (
       <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
         <defs>
@@ -227,7 +227,7 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
         border: `1px solid ${t.border}`,
       }}
     >
-      {/* Header */}
+      {/* Cabeçalho */}
       <div className="flex justify-between items-start mb-4">
         <div>
           <h3 className="text-lg font-bold" style={{ color: t.textPrimary }} data-i18n="analytics.adoption">
@@ -249,7 +249,7 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
         </div>
       </div>
 
-      {/* Controls */}
+      {/* Controles */}
       <div className="flex flex-wrap items-center gap-2 mb-6">
         <div className="flex items-center gap-1 rounded-xl p-1" style={{ background: t.controlBg, border: `1px solid ${t.controlBorder}` }}>
           <OptionBtn active={chartType === 'area'} onClick={() => setChartType('area')}>
@@ -289,7 +289,7 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
         </div>
       </div>
 
-      {/* Chart */}
+      {/* Gráfico */}
       <div className="h-[280px]">
         <ResponsiveContainer width="100%" height="100%">
           {renderChart()}

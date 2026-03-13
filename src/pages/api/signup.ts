@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
 
+export const prerender = false;
+
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 const serviceRoleKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -14,7 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'E-mail e senha sao obrigatorios.' }), { status: 400, headers });
     }
 
-    // Validate password strength server-side
+    // Valida força da senha no servidor
     if (password.length < 8) {
       return new Response(JSON.stringify({ error: 'Senha deve ter no minimo 8 caracteres.' }), { status: 400, headers });
     }
@@ -31,7 +33,7 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'Senha deve conter pelo menos um simbolo especial.' }), { status: 400, headers });
     }
 
-    // Get client IP
+    // Obtém IP do cliente
     const forwarded = request.headers.get('x-forwarded-for');
     const ip = forwarded ? forwarded.split(',')[0].trim() : request.headers.get('x-real-ip') || 'unknown';
 
@@ -39,7 +41,7 @@ export const POST: APIRoute = async ({ request }) => {
       auth: { autoRefreshToken: false, persistSession: false }
     });
 
-    // Check IP rate limit: max 2 signups per day
+    // Limite de taxa por IP: máximo 2 cadastros por dia
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
     const { data: recentSignups, error: rlError } = await supabaseAdmin
       .from('signup_rate_limit')
@@ -57,11 +59,11 @@ export const POST: APIRoute = async ({ request }) => {
       }), { status: 429, headers });
     }
 
-    // Create user via Supabase Auth
+    // Cria usuário via Supabase Auth
     const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password,
-      email_confirm: true, // auto-confirm email
+      email_confirm: true, // confirma e-mail automaticamente
     });
 
     if (authError) {
@@ -76,18 +78,15 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'Erro interno ao criar usuario.' }), { status: 500, headers });
     }
 
-    // Create profile
-    await supabaseAdmin.from('profiles').upsert({
-      id: userId,
+    // O trigger handle_new_user já cria o profile automaticamente.
+    // Apenas garantimos que campos extras estejam preenchidos.
+    await supabaseAdmin.from('profiles').update({
       full_name: email.split('@')[0],
-      role: 'user',
-      seniority: 'junior',
-      theme: 'dark',
       agent: 'theboss',
       llm_model: 'google/gemma-3-4b-it:free',
-    });
+    }).eq('id', userId);
 
-    // Record signup for rate limiting
+    // Registra cadastro para controle de taxa
     await supabaseAdmin.from('signup_rate_limit').insert({ ip_address: ip });
 
     return new Response(JSON.stringify({ success: true, userId }), { status: 200, headers });

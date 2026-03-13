@@ -5,7 +5,7 @@ import {
   BarChart, Bar, ComposedChart, Area,
 } from 'recharts';
 
-// ── Types ────────────────────────────────────────────────────────────────────
+// ── Tipos ────────────────────────────────────────────────────────────────────
 
 interface UsageLog {
   user_id: string;
@@ -65,7 +65,7 @@ interface Metrics {
   usersList?: UserProfile[];
 }
 
-// ── Colors & Helpers ─────────────────────────────────────────────────────────
+// ── Cores & Helpers ──────────────────────────────────────────────────────────
 
 const PLAN_COLORS: Record<string, string> = {
   Explorador: '#10B981',
@@ -89,7 +89,7 @@ function formatBRL(value: number): string {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-// ── Info Tooltip ─────────────────────────────────────────────────────────────
+// ── Tooltip Informativo ──────────────────────────────────────────────────────
 
 const METRIC_INFO: Record<string, string> = {
   MRR: 'Monthly Recurring Revenue — Receita recorrente mensal. Soma de todas as assinaturas ativas.',
@@ -125,7 +125,7 @@ function InfoBadge({ term }: { term: string }) {
   );
 }
 
-// ── Stat Card ────────────────────────────────────────────────────────────────
+// ── Card de Estatística ──────────────────────────────────────────────────────
 
 function StatCard({ icon, label, value, sub }: {
   icon: string; label: string; value: string; sub?: string;
@@ -150,7 +150,7 @@ function StatCard({ icon, label, value, sub }: {
   );
 }
 
-// ── Mini Chart Switcher ──────────────────────────────────────────────────────
+// ── Alternador de Mini Gráfico ───────────────────────────────────────────────
 
 type MiniChartType = 'donut' | 'bar' | 'table';
 const miniChartIcons: Record<MiniChartType, string> = { donut: 'donut_large', bar: 'bar_chart', table: 'table_rows' };
@@ -173,7 +173,7 @@ function ChartSwitcher({ active, onChange }: { active: MiniChartType; onChange: 
   );
 }
 
-// ── Period Switcher ──────────────────────────────────────────────────────────
+// ── Alternador de Período ────────────────────────────────────────────────────
 
 type Period = 'month' | 'day';
 
@@ -194,14 +194,14 @@ function PeriodSwitcher({ active, onChange }: { active: Period; onChange: (p: Pe
   );
 }
 
-// ── Tooltip style ────────────────────────────────────────────────────────────
+// ── Estilo do Tooltip ────────────────────────────────────────────────────────
 
 const tooltipStyle = {
   contentStyle: { background: '#1E1E1E', border: '1px solid #2A3135', borderRadius: 8, fontSize: 12, color: '#e2e8f0' },
   itemStyle: { color: '#e2e8f0' },
 };
 
-// ── Chart Tabs ───────────────────────────────────────────────────────────────
+// ── Abas de Gráficos ─────────────────────────────────────────────────────────
 
 type ChartTab = 'overview' | 'mrr' | 'churn' | 'arpu' | 'ltv' | 'costs';
 
@@ -214,7 +214,7 @@ const chartTabs: { key: ChartTab; label: string; icon: string }[] = [
   { key: 'churn', label: 'Churn', icon: 'trending_down' },
 ];
 
-// ── Data Table ───────────────────────────────────────────────────────────────
+// ── Tabela de Dados ──────────────────────────────────────────────────────────
 
 function DataTable({ data, nameKey, valueKey, colors }: {
   data: { [key: string]: any }[];
@@ -250,7 +250,7 @@ function DataTable({ data, nameKey, valueKey, colors }: {
   );
 }
 
-// ── Vertical Bar Chart for mini sections ─────────────────────────────────────
+// ── Gráfico de Barras Vertical para mini seções ─────────────────────────────
 
 function VerticalBarMini({ data, nameKey, valueKey, colors }: {
   data: { [key: string]: any }[];
@@ -277,7 +277,7 @@ function VerticalBarMini({ data, nameKey, valueKey, colors }: {
   );
 }
 
-// ── User Analytics Modal ─────────────────────────────────────────────────────
+// ── Modal de Analytics do Usuário ────────────────────────────────────────────
 
 const MONTH_NAMES_M = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 const ACTION_LABELS: Record<string, string> = {
@@ -458,7 +458,7 @@ function UserAnalyticsModal({ user, onClose }: { user: UserProfile; onClose: () 
   );
 }
 
-// ── Main Component ───────────────────────────────────────────────────────────
+// ── Componente Principal ─────────────────────────────────────────────────────
 
 export default function AdminDashboard({ metrics }: { metrics: Metrics }) {
   const [activeChart, setActiveChart] = useState<ChartTab>('overview');

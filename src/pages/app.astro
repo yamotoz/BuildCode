@@ -8,7 +8,7 @@ export const prerender = false;
 
 const totalSteps = 20;
 
-// Logo map for wizard static options (local SVGs)
+// Mapa de logos para opções estáticas do wizard (SVGs locais)
 const si = (slug: string) => `/icons/${slug}.svg`;
 const optionLogoMap: Record<string, string> = {
   // Ferramentas
@@ -28,7 +28,7 @@ const optionLogoMap: Record<string, string> = {
   digitalocean: si('digitalocean'), aws: si('amazonaws'), 'docker-vps': si('docker'),
 };
 
-// Serialize tech DB for client-side search (only the fields we need)
+// Serializa banco de tecnologias para busca client-side (apenas campos necessários)
 const techDB = technologies.map(t => ({
   name: t.name,
   category: t.category,
@@ -462,7 +462,7 @@ const techDB = technologies.map(t => ({
             <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
               {llmModels.map(m => {
                 const tierConfig = {
-                  budget: { label: 'Gratuito', color: 'text-emerald-400', border: 'border-emerald-500/20', bg: 'bg-emerald-500/10' },
+                  budget: { label: 'Econômico', color: 'text-emerald-400', border: 'border-emerald-500/20', bg: 'bg-emerald-500/10' },
                   mid: { label: 'Intermediario', color: 'text-amber-400', border: 'border-amber-500/20', bg: 'bg-amber-500/10' },
                   pro: { label: 'Profissional', color: 'text-purple-400', border: 'border-purple-500/20', bg: 'bg-purple-500/10' },
                 };
@@ -768,7 +768,7 @@ const techDB = technologies.map(t => ({
 
     <!-- FOOTER -->
     <footer class="relative z-10 px-4 sm:px-8 py-3 sm:py-4 text-center border-t border-border-color bg-background-dark/30">
-      <p class="text-[10px] text-slate-600 uppercase tracking-widest font-semibold">BuildCode AI Engine v2.0 — © 2026</p>
+      <p class="text-[10px] text-slate-600 uppercase tracking-widest font-semibold">BuildCode AI Engine © 2026</p>
     </footer>
     
     <!-- TECH INFO MODAL -->
@@ -879,7 +879,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const prdOutput = document.getElementById('prd-output');
   const promptOutput = document.getElementById('prompt-output');
 
-  // Insight refs
+  // Refs dos insights
   const insightCost = document.getElementById('insight-cost');
   const insightComplexity = document.getElementById('insight-complexity');
   const insightTtm = document.getElementById('insight-ttm');
@@ -893,11 +893,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const phaseNames = ['Contexto', 'Stack Técnica', 'Qualidade', 'Final'];
 
   // ═══════════════════════════════════════════
-  //  STEP VISIBILITY & NAVIGATION
+  //  VISIBILIDADE & NAVEGAÇÃO DOS PASSOS
   // ═══════════════════════════════════════════
   function computeVisibleSteps() {
     visibleSteps = [];
-    // Wizard question steps (1-20)
+    // Passos de pergunta do wizard (1-20)
     document.querySelectorAll('.step[data-step]').forEach(el => {
       const stepNum = parseInt(el.getAttribute('data-step'));
       const vf = el.getAttribute('data-visible-for');
@@ -905,7 +905,7 @@ document.addEventListener('DOMContentLoaded', () => {
         visibleSteps.push(stepNum);
         return;
       }
-      // Steps 21+ (LLM, loading, result) are always visible
+      // Passos 21+ (LLM, loading, resultado) são sempre visíveis
       if (stepNum > 20) {
         visibleSteps.push(stepNum);
         return;
@@ -921,7 +921,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     visibleSteps.sort((a, b) => a - b);
 
-    // Update optional badges
+    // Atualiza badges de passos opcionais
     document.querySelectorAll('.step[data-step]').forEach(el => {
       const stepNum = parseInt(el.getAttribute('data-step'));
       const optFor = el.getAttribute('data-optional-for');
@@ -954,7 +954,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function isLastWizardStep(step) {
-    // The last wizard question step before prompt language selection (step 21)
+    // Último passo do wizard antes da seleção de idioma do prompt (passo 21)
     const wizardSteps = visibleSteps.filter(s => s <= 20);
     return wizardSteps.length > 0 && wizardSteps[wizardSteps.length - 1] === step;
   }
@@ -974,7 +974,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const phase = getPhase(step);
     stepPhaseName.textContent = phaseNames[phase - 1] || 'Resultado';
 
-    // Update phase labels
+    // Atualiza labels das fases
     for (let i = 1; i <= 4; i++) {
       const phLbl = document.getElementById(`phase-lbl-${i}`);
       if (!phLbl) continue;
@@ -1001,7 +1001,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════════
-  //  RECOMMENDATION BADGES
+  //  BADGES DE RECOMENDAÇÃO
   // ═══════════════════════════════════════════
   function updateRecommendedBadges() {
     document.querySelectorAll('.rec-badge').forEach(badge => {
@@ -1015,7 +1015,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch(e) {}
     });
 
-    // Not recommended badges (based on project type)
+    // Badges de não recomendado (baseado no tipo de projeto)
     document.querySelectorAll('.not-rec-badge').forEach(badge => {
       const notRecFor = badge.getAttribute('data-not-rec-for');
       if (!notRecFor) return;
@@ -1028,7 +1028,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Seniority-based option filtering
+  // Filtragem de opções baseada em senioridade
   function filterOptionsBySeniority() {
     const levelMap = { 'junior': 1, 'pleno': 2, 'senior': 3 };
     const level = levelMap[userSeniority] || 1;
@@ -1048,7 +1048,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateRecommendedBadges();
   }
 
-  // Listen for seniority change
+  // Escuta mudança de senioridade
   document.querySelectorAll('input[name="senioridade"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
       userSeniority = e.target.value;
@@ -1065,10 +1065,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Next / Prev buttons
+  // Botões Próximo / Anterior
   document.querySelectorAll('.next-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      // Validate current step
+      // Valida passo atual
       if (currentStep === 1) {
         const ctx = document.getElementById('contexto');
         if (!ctx.value.trim()) {
@@ -1078,9 +1078,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         ctx.classList.remove('border-red-500', 'ring-1', 'ring-red-500/50');
 
-        // Block unauthenticated users from advancing past step 1
+        // Bloqueia usuários não autenticados de avançar além do passo 1
+        // Só bloqueia se auth state já foi resolvido e confirma que é guest
         const auth = window.__bcAuth;
-        if (auth && auth.ready && !auth.session) {
+        if (auth && auth.ready === true && auth.session === null) {
           if (typeof window.__bcShowAuthGate === 'function') {
             window.__bcShowAuthGate();
           }
@@ -1092,10 +1093,10 @@ document.addEventListener('DOMContentLoaded', () => {
       let nextStep;
 
       if (isLastWizardStep(currentStep)) {
-        // Jump to prompt language selection (step 21)
+        // Pula para seleção de idioma do prompt (passo 21)
         nextStep = 21;
       } else if (currentStep === 21) {
-        // From language selection → LLM selection (step 22)
+        // Da seleção de idioma → seleção de LLM (passo 22)
         nextStep = 22;
       } else {
         nextStep = getNextVisibleStep(currentStep);
@@ -1107,7 +1108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showStep(currentStep);
         updateInsights();
 
-        // Three.js camera dive on phase 1 → phase 2
+        // Mergulho da câmera Three.js na transição fase 1 → fase 2
         if (prevPhase === 1 && newPhase === 2 && typeof window.__bcDive === 'function') {
           window.__bcDive();
         }
@@ -1119,10 +1120,10 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => {
       let prevStep;
       if (currentStep === 22) {
-        // LLM selection → back to prompt language
+        // Seleção de LLM → volta para idioma do prompt
         prevStep = 21;
       } else if (currentStep === 21) {
-        // Prompt language → back to last wizard step
+        // Idioma do prompt → volta para último passo do wizard
         const wizardSteps = visibleSteps.filter(s => s <= 20);
         prevStep = wizardSteps.length > 0 ? wizardSteps[wizardSteps.length - 1] : 20;
       } else {
@@ -1136,7 +1137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Prompt language: show/hide custom input
+  // Idioma do prompt: mostra/esconde input customizado
   document.querySelectorAll('input[name="prompt-language"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
       const customInput = document.getElementById('custom-lang-input');
@@ -1147,17 +1148,17 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ═══════════════════════════════════════════
-  //  LIVE INSIGHTS ENGINE
+  //  MOTOR DE INSIGHTS AO VIVO
   // ═══════════════════════════════════════════
   function updateInsights() {
     const escala = form.querySelector('input[name="escala"]:checked')?.value;
     const tipo = form.querySelector('input[name="tipo"]:checked')?.value;
 
-    // Cost
+    // Custo estimado
     const costMap = { '50': '$0 – $20/mês', '1000': '$20 – $100/mês', '10000': '$100 – $500/mês', '50000': '$500 – $5k+/mês' };
     insightCost.textContent = costMap[escala] || '—';
 
-    // Complexity stars
+    // Estrelas de complexidade
     const compMap = { '50': 1, '1000': 2, '10000': 3, '50000': 5 };
     const levelComp = { 'hobby': 0, 'saas': 1, 'enterprise': 2 };
     let stars = (compMap[escala] || 0) + (levelComp[tipo] || 0);
@@ -1171,11 +1172,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const ttmMap = { '50': '2–4 semanas', '1000': '1–3 meses', '10000': '3–6 meses', '50000': '6–12 meses' };
     insightTtm.textContent = ttmMap[escala] || '—';
 
-    // Level
+    // Nível
     const levelLbl = { 'junior': '🟢 Júnior', 'pleno': '🟡 Pleno', 'senior': '🔴 Sênior' };
     insightLevel.textContent = levelLbl[userSeniority] || '—';
 
-    // Tips
+    // Dicas por passo
     const tips = {
       1: 'Descreva seu projeto com o máximo de detalhes para uma arquitetura precisa.',
       2: 'Sua senioridade adapta as recomendações automaticamente.',
@@ -1202,7 +1203,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ═══════════════════════════════════════════
-  //  TOOLTIP SYSTEM
+  //  SISTEMA DE TOOLTIPS
   // ═══════════════════════════════════════════
   document.addEventListener('mouseover', (e) => {
     const target = e.target.closest('[data-tip]');
@@ -1223,16 +1224,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ═══════════════════════════════════════════
-  //  GENERATE PRD + PROMPT BASE
+  //  GERAÇÃO DO PRD + PROMPT BASE
   // ═══════════════════════════════════════════
   const generateBtn = document.getElementById('generate-btn');
   let preGenAsked = false;
   if (generateBtn) {
     generateBtn.addEventListener('click', () => {
-      // First click: open chat and ask if user wants to add context
+      // Primeiro clique: abre chat e pergunta se quer adicionar contexto
       if (!preGenAsked) {
         preGenAsked = true;
-        // Open chat panel
+        // Abre painel de chat
         openChat();
 
         const contextFormatted = getWizardContextFormatted();
@@ -1241,7 +1242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Second click (or more): go straight to generation
+      // Segundo clique (ou mais): vai direto para geração
       closeChat();
       showStep(23);
       triggerGeneration();
@@ -1260,23 +1261,87 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     let i = 0;
     const loadingMsg = document.getElementById('loading-msg');
+
+    // Gera PRD local (template) como fallback imediato
+    generateOutputs();
+
+    // Dispara chamada LLM em paralelo com a animação
+    const selectedModel = getFormValue('llm-model');
+    let llmPromise = null;
+
+    if (selectedModel && window.__bcAuth?.session) {
+      const wizardContext = buildWizardContext();
+      llmPromise = fetch('/api/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${window.__bcAuth.session.access_token}`,
+        },
+        body: JSON.stringify({
+          model: selectedModel,
+          systemPrompt: `Voce e o BuildCode AI Engine, um arquiteto de software de elite. Gere um PRD (Product Requirements Document) tecnico completo em portugues (PT-BR) baseado nas selecoes do wizard abaixo. Use formatacao markdown. Inclua: sumario executivo, decisao de stack com justificativa tecnica, arquitetura do sistema, seguranca, escalabilidade, estimativa financeira, integracoes, estrategia de testes, SEO. Seja detalhado e profissional. Nao invente dados — use apenas as informacoes fornecidas.`,
+          userPrompt: wizardContext,
+        }),
+      }).then(r => r.json()).catch(() => null);
+    }
+
     const interval = setInterval(() => {
       if (i < msgs.length) { loadingMsg.textContent = msgs[i]; i++; }
       else {
         clearInterval(interval);
-        setTimeout(() => {
-          generateOutputs();
+        const finalize = (llmResult) => {
+          // Se a LLM retornou conteúdo, substitui o PRD template
+          if (llmResult?.result) {
+            prdOutput.value = llmResult.result;
+          }
           enforcePromptLimit();
           buildInsights();
           showStep(24);
           progressBar.style.width = '100%';
           showDownloadBtns(true);
           updateCharCount();
-          // Log PRD generation usage
-          logUsage('prd_generation', getFormValue('llm-model'));
-        }, 500);
+          logUsage('prd_generation', selectedModel);
+        };
+
+        if (llmPromise) {
+          // Aguarda resposta da LLM (com timeout de 30s)
+          const timeout = new Promise(resolve => setTimeout(() => resolve(null), 30000));
+          Promise.race([llmPromise, timeout]).then(result => {
+            setTimeout(() => finalize(result), 300);
+          });
+        } else {
+          setTimeout(() => finalize(null), 500);
+        }
       }
     }, 600);
+  }
+
+  // Monta contexto do wizard para enviar à LLM
+  function buildWizardContext() {
+    const fields = [
+      ['Contexto/Descricao do Projeto', getTextValue('contexto')],
+      ['Senioridade', getFormValue('senioridade')],
+      ['Escala (usuarios)', getFormValue('escala')],
+      ['Tipo de Projeto', getFormValue('tipo')],
+      ['IDE/Ferramenta', getFormValue('ferramenta')],
+      ['Frontend', getFormValues('frontend').join(', ')],
+      ['Backend', getFormValue('backend')],
+      ['MCPs', getFormValues('mcps').join(', ')],
+      ['Banco de Dados', getFormValue('database')],
+      ['Skills', getFormValues('skills').join(', ')],
+      ['Infraestrutura', getFormValue('infra')],
+      ['Persistencia', getFormValue('persistencia')],
+      ['Autenticacao', getFormValues('auth').join(', ')],
+      ['Seguranca', getFormValues('seguranca').join(', ')],
+      ['Realtime', getFormValue('realtime')],
+      ['Estilo de Codigo', getFormValue('codestyle')],
+      ['Tratamento de Erros', getFormValue('erros')],
+      ['i18n', getFormValue('i18n')],
+      ['Integracoes', getFormValues('integracoes').join(', ')],
+      ['SEO', getFormValue('seo')],
+      ['Testes', getFormValues('testes').join(', ')],
+    ];
+    return fields.filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join('\n');
   }
 
   function getFormValue(name) {
@@ -1317,7 +1382,7 @@ document.addEventListener('DOMContentLoaded', () => {
       llmModel: getFormValue('llm-model'),
     };
 
-    // Label maps for display
+    // Mapas de labels para exibição
     const lbl = {
       senioridade: { junior: 'Júnior', pleno: 'Pleno', senior: 'Sênior' },
       escala: { '50': 'Até 50 MAC', '1000': 'Até 1.000 MAC', '10000': 'Até 10.000 MAC', '50000': '50.000+ MAC' },
@@ -1341,11 +1406,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const date = new Date().toLocaleDateString('pt-BR');
     const isSenior = data.senioridade === 'senior';
 
-    // Derived labels for arrays
+    // Labels derivados para arrays
     const frontendLabel = LA('frontend', data.frontend) || 'Nenhum selecionado';
     const authLabel = LA('auth', data.auth) || 'Sem Auth';
 
-    // Cost estimation
+    // Estimativa de custo
     const costBase = { '50': 0, '1000': 30, '10000': 150, '50000': 800 };
     const costInfra = { vercel: 0, railway: 5, supabase: 0, netlify: 0, cloudflare: 5, digitalocean: 12, aws: 50, 'docker-vps': 15 };
     const costAuth = { nenhum: 0, basico: 0, oauth: 0, rbac: 10, enterprise: 50 };
@@ -1353,7 +1418,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const estimatedCost = (costBase[data.escala] || 0) + (costInfra[data.infra] || 0) + authCostMax;
     const costRange = `$${estimatedCost} – $${Math.round(estimatedCost * 2.5)}/mês`;
 
-    // Collect skills URLs
+    // Coleta URLs de skills
     const selectedSkillsURLs = [];
     const techNames = [...data.frontend.map(f => L('frontend', f)), L('backend', data.backend)];
     techNames.forEach(tn => {
@@ -1448,7 +1513,7 @@ ${isSenior ? `### Recomendacoes Enterprise (Senior):
 |------|----------------------|
 | **Infraestrutura (${L('infra', data.infra)})** | ${costRange} |
 | **Banco de Dados** | ${data.database === 'sql-managed' ? '$0 – $25 (free tier + managed)' : '$20 – $100'} |
-| **Autenticacao** | ${data.auth.some(a => a === 'rbac' || a === 'enterprise') ? '$10 – $50' : 'Gratuito (tier free)'} |
+| **Autenticacao** | ${data.auth.some(a => a === 'rbac' || a === 'enterprise') ? '$10 – $50' : 'Econômico (tier free)'} |
 | **CDN / Dominio** | $0 – $20 |
 | **Total Estimado** | **${costRange}** |
 
@@ -1519,7 +1584,7 @@ Siga os padroes da comunidade para cada tecnologia utilizada.
 Priorize legibilidade e manutencao acima de cleverness.`,
     };
 
-    // Deep frontend best practices per technology
+    // Boas práticas profundas de frontend por tecnologia
     const frontendBestPractices = {
       'html-css': `Fundamentos HTML e CSS:
 Use HTML semantico em todas as paginas: header, main, nav, section, article, aside, footer. Cada pagina deve ter exatamente um main. Use heading hierarchy correto (h1 > h2 > h3, sem pular niveis).
@@ -1717,7 +1782,7 @@ Error handling: ErrorBoundary por rota. CatchBoundary para erros esperados (404,
 Otimizacoes: prefetch de links com Link prefetch="intent". Parallel data loading em rotas aninhadas. defer() para streaming de dados lentos.`,
     };
 
-    // Deep backend best practices
+    // Boas práticas profundas de backend
     const backendBestPractices = {
       supabase: `Supabase — Backend as a Service:
 Row Level Security (RLS) e OBRIGATORIO em TODAS as tabelas, sem excecao. Nunca desabilite RLS "para facilitar" — crie policies adequadas. Teste cada policy com diferentes roles (anon, authenticated, service_role).
@@ -1897,11 +1962,11 @@ Artisan: crie commands customizados para tarefas administrativas e scripts.`,
     const fbp = data.frontend.map(f => frontendBestPractices[f]).filter(Boolean).join('\n\n---\n\n') || 'Siga as melhores praticas da documentacao oficial do framework escolhido. Consulte os guias oficiais de estilo e arquitetura.';
     const bbp = backendBestPractices[data.backend] || 'Siga as melhores praticas da documentacao oficial da tecnologia escolhida. Consulte os guias oficiais de estilo e arquitetura.';
 
-    // Custom IDE name
+    // Nome personalizado da IDE
     const customIdeName = document.getElementById('custom-ide-value')?.value || '';
     const ideLabel = data.ferramenta === 'outro' && customIdeName ? customIdeName : L('ferramenta', data.ferramenta);
 
-    // Skills install instructions
+    // Instruções de instalação de skills
     const skillsInstallInstructions = selectedSkillsURLs.map(s => {
       const urlMatch = s.match(/https:\/\/skills\.sh\/(\S+)/);
       if (urlMatch) {
@@ -2116,7 +2181,7 @@ ${isSenior ? '6. Rode os testes existentes antes de implementar cada feature nov
 ${data.testes.length > 0 ? `${isSenior ? '7' : '6'}. Implemente testes para cada feature critica: ${data.testes.join(', ')}.` : ''}
 ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}. Configure e utilize esses MCPs conforme a documentacao oficial de cada um.` : ''}`;
 
-    // Clean up: remove excess blank lines (3+ consecutive newlines → 2)
+    // Limpeza: remove linhas em branco excessivas (3+ quebras consecutivas → 2)
     promptOutput.value = promptOutput.value.replace(/\n{3,}/g, '\n\n').trim();
     prdOutput.value = prdOutput.value.replace(/\n{3,}/g, '\n\n').trim();
 
@@ -2141,7 +2206,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
   const downloadJsonBtn = document.getElementById('download-json-btn');
   const allDownloadBtns = [downloadPdfBtn, downloadDocxBtn, downloadMdBtn, downloadTxtBtn, downloadJsonBtn];
 
-  // Plan-based character limits for Prompt Base
+  // Limites de caracteres por plano para o Prompt Base
   const PLAN_LIMITS = { explorador: 10000, consultor: 25000, arquiteto: 80000 };
 
   function getUserPlan() {
@@ -2179,7 +2244,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     }
   }
 
-  // Log usage to Supabase via REST API
+  // Registra uso no Supabase via REST API
   function logUsage(action, llmModel) {
     try {
       var auth = window.__bcAuth;
@@ -2207,12 +2272,26 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
   }
 
   function showDownloadBtns(show) {
-    allDownloadBtns.forEach(btn => {
-      if (btn) {
-        if (show) { btn.classList.remove('hidden'); btn.classList.add('flex'); }
-        else { btn.classList.add('hidden'); btn.classList.remove('flex'); }
-      }
+    var plan = getUserPlan();
+    // Explorador: só copiar (nenhum botão de download)
+    // Consultor: apenas .md
+    // Arquiteto: todos (PDF, .md, Word, .txt, JSON)
+    var allowedBtns = [];
+    if (plan === 'arquiteto') {
+      allowedBtns = allDownloadBtns;
+    } else if (plan === 'consultor') {
+      allowedBtns = [downloadMdBtn];
+    }
+    // Esconde todos primeiro
+    allDownloadBtns.forEach(function(btn) {
+      if (btn) { btn.classList.add('hidden'); btn.classList.remove('flex'); }
     });
+    // Mostra os permitidos
+    if (show) {
+      allowedBtns.forEach(function(btn) {
+        if (btn) { btn.classList.remove('hidden'); btn.classList.add('flex'); }
+      });
+    }
   }
 
   function setActiveTab(tab) {
@@ -2264,7 +2343,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     document.getElementById('prompt-tip')?.classList.add('hidden');
   });
 
-  // Copy
+  // Copiar
   const copyBtn = document.getElementById('copy-btn');
   copyBtn?.addEventListener('click', () => {
     const activeOutput = promptOutput.classList.contains('hidden') ? prdOutput : promptOutput;
@@ -2275,7 +2354,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     });
   });
 
-  // Helper: get active content for downloads
+  // Helper: obtém conteúdo ativo para downloads
   function getActiveContent() {
     const isPrompt = !promptOutput.classList.contains('hidden') && prdOutput.classList.contains('hidden');
     return { text: isPrompt ? promptOutput.value : prdOutput.value, isPrompt };
@@ -2292,7 +2371,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     URL.revokeObjectURL(url);
   }
 
-  // Build styled HTML for PDF/Word
+  // Constrói HTML estilizado para PDF/Word
   function buildStyledHtml(content, title) {
     const date = new Date().toLocaleDateString('pt-BR');
     const lines = content.split('\n');
@@ -2351,7 +2430,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     const filename = isPrompt ? 'BuildCode_PromptBase.pdf' : 'BuildCode_PRD.pdf';
     const htmlContent = buildStyledHtml(text, title);
 
-    // Try html2pdf.js (loaded on demand from CDN)
+    // Tenta html2pdf.js (carregado sob demanda via CDN)
     try {
       if (!window.html2pdf) {
         await new Promise((resolve, reject) => {
@@ -2364,7 +2443,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       }
       const container = document.createElement('div');
       container.innerHTML = htmlContent;
-      // Extract just the body content for html2pdf
+      // Extrai apenas o conteúdo do body para html2pdf
       const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
       const styleMatch = htmlContent.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
       const wrapper = document.createElement('div');
@@ -2395,7 +2474,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     }
   });
 
-  // Word (.doc) download
+  // Download Word (.doc)
   downloadDocxBtn?.addEventListener('click', () => {
     const { text, isPrompt } = getActiveContent();
     const htmlContent = buildStyledHtml(text, isPrompt ? 'Prompt Base' : 'PRD Tecnico');
@@ -2403,14 +2482,14 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     downloadBlob(blob, isPrompt ? 'BuildCode_PromptBase.doc' : 'BuildCode_PRD.doc');
   });
 
-  // Markdown (.md) download
+  // Download Markdown (.md)
   downloadMdBtn?.addEventListener('click', () => {
     const { text, isPrompt } = getActiveContent();
     const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
     downloadBlob(blob, isPrompt ? 'BuildCode_PromptBase.md' : 'BuildCode_PRD.md');
   });
 
-  // Plain Text (.txt) download
+  // Download Texto Plano (.txt)
   downloadTxtBtn?.addEventListener('click', () => {
     const { text, isPrompt } = getActiveContent();
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
@@ -2477,13 +2556,13 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       testes: getFormValues('testes'),
     };
 
-    // Count technologies
+    // Conta tecnologias
     const techs = [...data.frontend, data.backend, data.database, data.infra, ...data.auth, data.persistencia, data.realtime, data.codestyle].filter(Boolean);
     const allTechs = [...techs, ...data.mcps, ...data.skills, ...data.integracoes, ...data.testes];
     document.getElementById('insight-stack-count').textContent = allTechs.length.toString();
     document.getElementById('insight-security-count').textContent = data.seguranca.length.toString();
 
-    // Complexity score
+    // Pontuação de complexidade
     const authComplexity = data.auth.includes('enterprise') ? 5 : data.auth.includes('rbac') ? 3 : 1;
     const complexityScore = allTechs.length + data.seguranca.length * 2 + authComplexity + (data.realtime !== 'nao' ? 3 : 0) + (data.i18n === 'global' ? 3 : data.i18n === 'poucos' ? 1 : 0);
     const complexityLabel = complexityScore > 25 ? 'Alta' : complexityScore > 15 ? 'Media' : 'Baixa';
@@ -2491,7 +2570,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     document.getElementById('insight-complexity').textContent = complexityLabel;
     document.getElementById('insight-complexity').style.color = complexityColor;
 
-    // Agent opinion
+    // Opinião do agente
     var agentId = localStorage.getItem('bc-agent') || 'theboss';
     var agentOpinions = {
       theboss: {
@@ -2528,7 +2607,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     if (opName) opName.textContent = agentOp.name;
     if (opText) opText.textContent = opinionText;
 
-    // Cost estimation
+    // Estimativa de custo
     const costBase = { '50': 0, '1000': 30, '10000': 150, '50000': 800 };
     const costInfra = { vercel: 0, railway: 5, supabase: 0, netlify: 0, cloudflare: 5, digitalocean: 12, aws: 50, 'docker-vps': 15 };
     const costAuth = { nenhum: 0, basico: 0, oauth: 0, rbac: 10, enterprise: 50 };
@@ -2536,7 +2615,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     const est = (costBase[data.escala] || 0) + (costInfra[data.infra] || 0) + authCMax;
     document.getElementById('insight-cost-est').textContent = est === 0 ? 'Gratis' : `$${est}/mes`;
 
-    // Stack distribution bars
+    // Barras de distribuição da stack
     const categories = [
       { label: 'Frontend', value: data.frontend.join(', '), color: '#2E748B' },
       { label: 'Backend', value: data.backend, color: '#F2AB6D' },
@@ -2562,7 +2641,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       `).join('');
     }
 
-    // Security layers
+    // Camadas de segurança
     const secLabels = {
       https: 'HTTPS/TLS', helmet: 'Helmet Headers', ratelimit: 'Rate Limiting',
       cors: 'CORS Config', csrf: 'CSRF Protection', sanitize: 'Input Sanitization',
@@ -2582,7 +2661,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       }
     }
 
-    // Architecture profile
+    // Perfil da arquitetura
     const archProfile = document.getElementById('insight-arch-profile');
     if (archProfile) {
       const items = [
@@ -2602,7 +2681,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       `).join('');
     }
 
-    // Tests
+    // Testes
     const testLabels = { unit: 'Unit Tests', integration: 'Integracao', e2e: 'End-to-End', visual: 'Visual Regression', performance: 'Performance', accessibility: 'Acessibilidade' };
     const testEl = document.getElementById('insight-tests');
     if (testEl) {
@@ -2618,7 +2697,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       }
     }
 
-    // Features/Integrations
+    // Funcionalidades/Integrações
     const intLabels = { stripe: 'Stripe', paypal: 'PayPal', asaas: 'Asaas', email: 'Email Service', sms: 'SMS', webhook: 'Webhooks', analytics: 'Analytics', maps: 'Maps', ai: 'AI/ML' };
     const featEl = document.getElementById('insight-features');
     if (featEl) {
@@ -2693,7 +2772,35 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       const sbKey = window.__bcSupabaseKey;
       const token = auth.session.access_token;
       const userId = auth.session.user.id;
+
+      // Verificar limite de projetos por plano
+      const currentPlan = getUserPlan();
+      const PROJECT_LIMITS = { explorador: 3, consultor: 15, arquiteto: 999999 };
+      const maxProjects = PROJECT_LIMITS[currentPlan] || 3;
+
+      const countRes = await fetch(sbUrl + '/rest/v1/projects?select=id&user_id=eq.' + userId, {
+        headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + token },
+      });
+      const existingProjects = await countRes.json();
+      if (Array.isArray(existingProjects) && existingProjects.length >= maxProjects) {
+        const planNames = { explorador: 'Explorador', consultor: 'Consultor', arquiteto: 'Arquiteto' };
+        showFeedback(`Limite de ${maxProjects} projetos atingido (Plano ${planNames[currentPlan] || currentPlan}). Apague um projeto no perfil para salvar outro, ou faça upgrade.`, false);
+        saveProjectBtn.removeAttribute('disabled');
+        saveProjectBtn.innerHTML = '<span class="material-symbols-outlined text-sm">save</span> Salvar no meu painel';
+        return;
+      }
+
       const desc = document.getElementById('save-project-desc')?.value?.trim() || '';
+
+      // Validar char limit do Prompt Base antes de salvar
+      var promptLimit = getPromptLimit();
+      if (promptOutput.value.length > promptLimit) {
+        showFeedback('Prompt Base excede o limite de ' + promptLimit.toLocaleString() + ' caracteres do seu plano. Reduza o conteúdo ou faça upgrade.', false);
+        saveProjectBtn.removeAttribute('disabled');
+        saveProjectBtn.innerHTML = '<span class="material-symbols-outlined text-sm">save</span> Salvar no meu painel';
+        return;
+      }
+
       const headers = { 'apikey': sbKey, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' };
 
       // Upload image if provided
@@ -2712,18 +2819,37 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
         }
       }
 
-      // Insert project via REST
-      const insertRes = await fetch(sbUrl + '/rest/v1/projects', {
+      // Upload PRD e Prompt Base para Storage (banco fica leve)
+      const timestamp = Date.now();
+      const prdPath = userId + '/' + timestamp + '_prd.md';
+      const promptPath = userId + '/' + timestamp + '_prompt.md';
+      const storageHeaders = { 'apikey': sbKey, 'Authorization': 'Bearer ' + token, 'Content-Type': 'text/markdown' };
+
+      const [prdUpload, promptUpload] = await Promise.all([
+        fetch(sbUrl + '/storage/v1/object/prd-files/' + prdPath, {
+          method: 'POST', headers: storageHeaders, body: prdOutput.value,
+        }),
+        fetch(sbUrl + '/storage/v1/object/prd-files/' + promptPath, {
+          method: 'POST', headers: storageHeaders, body: promptOutput.value,
+        }),
+      ]);
+
+      const prdStoragePath = prdUpload.ok ? prdPath : null;
+      const promptStoragePath = promptUpload.ok ? promptPath : null;
+
+      // Insert project via server-side API (valida plano, limites e char limit)
+      const insertRes = await fetch('/api/save-project', {
         method: 'POST',
-        headers,
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
         body: JSON.stringify({
-          user_id: userId,
           name: title,
           business_context: desc,
           scale: getFormValue('escala'),
           nature: getFormValue('tipo'),
-          generated_prd: prdOutput.value,
-          generated_prompt: promptOutput.value,
+          generated_prd: prdStoragePath ? '' : prdOutput.value,
+          generated_prompt: promptStoragePath ? '' : promptOutput.value,
+          prd_storage_path: prdStoragePath,
+          prompt_storage_path: promptStoragePath,
           agent_used: localStorage.getItem('bc-agent') || 'theboss',
           llm_model: getFormValue('llm-model'),
           image_url: imageUrl,
@@ -2732,7 +2858,8 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
 
       if (!insertRes.ok) {
         const errBody = await insertRes.json().catch(() => ({}));
-        throw new Error(errBody.message || 'Erro ao salvar');
+        console.error('[SaveProject] API error:', errBody);
+        throw new Error(errBody.error || 'Erro ao salvar');
       }
 
       showFeedback('Projeto salvo com sucesso!', true);
@@ -3306,6 +3433,14 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
   }
 
   chatToggle?.addEventListener('click', () => {
+    // Block guests from opening chat
+    const auth = window.__bcAuth;
+    if (auth && auth.ready && !auth.session) {
+      if (typeof window.__bcShowAuthGate === 'function') {
+        window.__bcShowAuthGate();
+      }
+      return;
+    }
     const isOpen = !chatPanel.classList.contains('hidden');
     if (isOpen) closeChat();
     else openChat();
@@ -3349,9 +3484,14 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     try {
+      const ttsHeaders = { 'Content-Type': 'application/json' };
+      var ttsAuth = window.__bcAuth;
+      if (ttsAuth && ttsAuth.session && ttsAuth.session.access_token) {
+        ttsHeaders['Authorization'] = 'Bearer ' + ttsAuth.session.access_token;
+      }
       const res = await fetch('/api/tts', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: ttsHeaders,
         body: JSON.stringify({ text: text.substring(0, 300), agentId: selectedAgent }),
       });
 
@@ -3427,9 +3567,14 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     try {
+      const chatHeaders = { 'Content-Type': 'application/json' };
+      const chatAuth = window.__bcAuth;
+      if (chatAuth?.session?.access_token) {
+        chatHeaders['Authorization'] = 'Bearer ' + chatAuth.session.access_token;
+      }
       const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: chatHeaders,
         body: JSON.stringify({ messages: chatHistory, agentId: selectedAgent }),
       });
       const data = await res.json();
@@ -3522,9 +3667,50 @@ async function applyAuthUI(session: Session | null) {
     // Store auth state globally
     (window as any).__bcAuth = { session, profile, subscription, ready: true };
 
+    // Apply LLM tier restrictions for Explorador plan
+    const currentPlan = subscription?.plan || 'explorador';
+    if (currentPlan === 'explorador') {
+      document.querySelectorAll('input[name="llm-model"]').forEach(input => {
+        const label = input.closest('label') as HTMLElement;
+        if (!label) return;
+        const tierBadge = label.querySelector('[class*="tracking-wider"]') as HTMLElement;
+        const tierText = tierBadge?.textContent?.trim().toLowerCase() || '';
+        const modelValue = (input as HTMLInputElement).value;
+        const isBudget = modelValue.includes(':free');
+
+        if (!isBudget) {
+          (input as HTMLInputElement).disabled = true;
+          label.style.cursor = 'not-allowed';
+          label.style.opacity = '0.4';
+          const panel = label.querySelector('.glass-panel') as HTMLElement;
+          if (panel) {
+            const lock = document.createElement('div');
+            lock.className = 'absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center z-20 rounded-2xl';
+            lock.innerHTML = '<span class="material-symbols-outlined text-3xl text-slate-400 mb-1">lock</span><span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Plano Pro+</span>';
+            panel.style.position = 'relative';
+            panel.appendChild(lock);
+          }
+        }
+      });
+    }
+
+    // Force agent to theboss for Explorador plan
+    if (currentPlan === 'explorador') {
+      const savedAgent = localStorage.getItem('bc-agent');
+      if (savedAgent && savedAgent !== 'theboss') {
+        localStorage.setItem('bc-agent', 'theboss');
+      }
+    }
+
     // Unlock chat widget for authenticated users
     const chatLock = document.getElementById('chat-lock-overlay');
     if (chatLock) chatLock.remove();
+    // Restore chat panel state (may have been hidden by a previous guest-state event)
+    const chatPanelEl = document.getElementById('chat-panel');
+    if (chatPanelEl && chatPanelEl.classList.contains('hidden')) {
+      // Ensure flex-col is preserved for next open
+      if (!chatPanelEl.classList.contains('flex-col')) chatPanelEl.classList.add('flex-col');
+    }
 
     const displayName = profile?.full_name || session.user.email?.split('@')[0] || 'Usuário';
     const initials = displayName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2);
@@ -3591,18 +3777,14 @@ async function applyAuthUI(session: Session | null) {
         toggle.style.position = 'relative';
         const lockOverlay = document.createElement('div');
         lockOverlay.id = 'chat-lock-overlay';
-        lockOverlay.className = 'absolute inset-0 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center z-10';
+        lockOverlay.className = 'absolute inset-0 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center z-10 cursor-pointer';
         lockOverlay.innerHTML = '<span class="material-symbols-outlined text-slate-400 text-xl">lock</span>';
+        // Intercept clicks on the overlay itself (not the toggle button)
+        lockOverlay.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showAuthGate();
+        });
         toggle.appendChild(lockOverlay);
-
-        // Override toggle click for guests — show login prompt
-        toggle.addEventListener('click', (e) => {
-          if (!(window as any).__bcAuth?.session) {
-            e.stopImmediatePropagation();
-            e.preventDefault();
-            showAuthGate();
-          }
-        }, true);
       }
     }
   }

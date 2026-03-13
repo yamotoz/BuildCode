@@ -193,6 +193,50 @@ export const prerender = false;
             </a>
           </div>
 
+          <!-- Contadores de créditos -->
+          <div class="relative z-10 rounded-xl p-5 space-y-4" style="background: rgba(168,85,247,0.04); border: 1px solid rgba(168,85,247,0.12);">
+            <div class="flex items-center justify-between">
+              <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500">Créditos Disponíveis</p>
+              <a href="/precos#recarga" class="text-[10px] text-purple-400 font-bold hover:text-purple-300 transition-colors uppercase tracking-wider">+ Recarregar</a>
+            </div>
+            <!-- Plano (reseta todo mês) -->
+            <div>
+              <p class="text-[9px] uppercase tracking-widest font-bold text-slate-600 mb-2">Plano <span id="credits-plan-label" class="text-slate-500">(mensal)</span></p>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="rounded-lg p-2.5 text-center" style="background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.12);">
+                  <p id="credits-plan-eco" class="text-lg font-bold text-emerald-400">0</p>
+                  <p class="text-[8px] text-slate-600 uppercase font-bold">Econômica</p>
+                </div>
+                <div class="rounded-lg p-2.5 text-center" style="background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.12);">
+                  <p id="credits-plan-mid" class="text-lg font-bold text-amber-400">0</p>
+                  <p class="text-[8px] text-slate-600 uppercase font-bold">Média</p>
+                </div>
+                <div class="rounded-lg p-2.5 text-center" style="background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.12);">
+                  <p id="credits-plan-elite" class="text-lg font-bold text-purple-400">0</p>
+                  <p class="text-[8px] text-slate-600 uppercase font-bold">Elite</p>
+                </div>
+              </div>
+            </div>
+            <!-- Independentes / Recarga (acumulativos) -->
+            <div>
+              <p class="text-[9px] uppercase tracking-widest font-bold text-slate-600 mb-2">Recarga <span class="text-purple-400/60">(acumulativo)</span></p>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="rounded-lg p-2.5 text-center" style="background: rgba(52,211,153,0.04); border: 1px solid rgba(52,211,153,0.08);">
+                  <p id="credits-indie-eco" class="text-lg font-bold text-emerald-400/80">0</p>
+                  <p class="text-[8px] text-slate-600 uppercase font-bold">Econômica</p>
+                </div>
+                <div class="rounded-lg p-2.5 text-center" style="background: rgba(251,191,36,0.04); border: 1px solid rgba(251,191,36,0.08);">
+                  <p id="credits-indie-mid" class="text-lg font-bold text-amber-400/80">0</p>
+                  <p class="text-[8px] text-slate-600 uppercase font-bold">Média</p>
+                </div>
+                <div class="rounded-lg p-2.5 text-center" style="background: rgba(168,85,247,0.04); border: 1px solid rgba(168,85,247,0.08);">
+                  <p id="credits-indie-elite" class="text-lg font-bold text-purple-400/80">0</p>
+                  <p class="text-[8px] text-slate-600 uppercase font-bold">Elite</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Stats grid -->
           <div class="grid grid-cols-3 gap-3 relative z-10">
             <div class="rounded-xl p-4 text-center" style="background: rgba(255,255,255,0.02); border: 1px solid #2A3135;">
@@ -313,6 +357,32 @@ export const prerender = false;
           </div>
         </div>
 
+        <!-- Upgrade Toast (styled notification instead of ugly alert) -->
+        <div id="upgrade-toast" class="hidden fixed top-6 left-1/2 -translate-x-1/2 z-[9999] max-w-md w-[90vw] animate-[slideDown_0.3s_ease-out]">
+          <div class="rounded-2xl border border-primary/20 bg-[#0A0E14]/95 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.5)] p-5">
+            <div class="flex items-start gap-4">
+              <div class="size-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+                <span class="material-symbols-outlined text-primary text-xl">lock</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h4 id="upgrade-toast-title" class="text-white font-bold text-sm">Recurso Premium</h4>
+                <p id="upgrade-toast-msg" class="text-slate-400 text-xs mt-1 leading-relaxed"></p>
+              </div>
+              <button id="upgrade-toast-close" class="text-slate-600 hover:text-white transition-colors shrink-0 cursor-pointer">
+                <span class="material-symbols-outlined text-lg">close</span>
+              </button>
+            </div>
+            <div class="flex items-center gap-2 mt-4">
+              <a href="/precos" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white text-xs font-bold text-center hover:shadow-[0_0_20px_rgba(46,116,139,0.3)] transition-all">
+                Ver Planos
+              </a>
+              <button id="upgrade-toast-dismiss" class="flex-1 py-2.5 rounded-xl border border-white/[0.06] text-slate-400 text-xs font-bold text-center hover:text-white hover:border-white/10 transition-all cursor-pointer">
+                Entendi
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- LoL-style Loading Screen (hidden, shown on selection) -->
         <div id="agent-loading-screen" class="hidden fixed inset-0 z-[9999] bg-[#0D0D0D] flex flex-col items-center justify-center">
           <div class="flex items-end justify-center gap-2 sm:gap-4 w-full max-w-4xl px-4">
@@ -388,7 +458,7 @@ export const prerender = false;
 
           <!-- Tier labels -->
           <div class="flex items-center gap-4 text-[10px] uppercase tracking-widest font-bold relative z-10">
-            <span class="flex items-center gap-1 text-emerald-400"><span class="material-symbols-outlined text-xs">savings</span> Gratuitos</span>
+            <span class="flex items-center gap-1 text-emerald-400"><span class="material-symbols-outlined text-xs">savings</span> Econômicos</span>
             <span class="flex items-center gap-1 text-amber-400"><span class="material-symbols-outlined text-xs">bolt</span> Intermediarios</span>
             <span class="flex items-center gap-1 text-purple-400"><span class="material-symbols-outlined text-xs">auto_awesome</span> Avancados</span>
           </div>
@@ -404,7 +474,7 @@ export const prerender = false;
                 </div>
                 <span class="llm-check hidden w-5 h-5 rounded-full bg-emerald-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
               </div>
-              <p class="text-slate-500 text-[11px] leading-relaxed">Modelo leve do Google. Gratuito. Ideal para tarefas simples.</p>
+              <p class="text-slate-500 text-[11px] leading-relaxed">Modelo leve do Google. Econômico. Ideal para tarefas simples.</p>
               <div class="flex items-center gap-2 mt-2">
                 <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold uppercase">Free</span>
                 <span class="text-[9px] text-slate-600">Google</span>
@@ -419,7 +489,7 @@ export const prerender = false;
                 </div>
                 <span class="llm-check hidden w-5 h-5 rounded-full bg-emerald-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
               </div>
-              <p class="text-slate-500 text-[11px] leading-relaxed">Meta Llama 3.1. Gratuito. Boa qualidade para o custo zero.</p>
+              <p class="text-slate-500 text-[11px] leading-relaxed">Meta Llama 3.1. Econômico. Boa qualidade para o custo zero.</p>
               <div class="flex items-center gap-2 mt-2">
                 <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold uppercase">Free</span>
                 <span class="text-[9px] text-slate-600">Meta</span>
@@ -434,7 +504,7 @@ export const prerender = false;
                 </div>
                 <span class="llm-check hidden w-5 h-5 rounded-full bg-emerald-500 items-center justify-center"><span class="material-symbols-outlined text-white text-xs">check</span></span>
               </div>
-              <p class="text-slate-500 text-[11px] leading-relaxed">Mistral compacto. Gratuito. Rapido e eficiente.</p>
+              <p class="text-slate-500 text-[11px] leading-relaxed">Mistral compacto. Econômico. Rapido e eficiente.</p>
               <div class="flex items-center gap-2 mt-2">
                 <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold uppercase">Free</span>
                 <span class="text-[9px] text-slate-600">Mistral</span>
@@ -700,6 +770,13 @@ export const prerender = false;
   </div>
 </Layout>
 
+<style is:global>
+  @keyframes slideDown {
+    from { opacity: 0; transform: translate(-50%, -20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
+</style>
+
 <script>
   import { supabase, getProfile, updateProfile, uploadAvatar, signOut, updatePassword, listAllProfiles, setUserRole, deleteUserProfile, inviteUser, getUserSubscription, getUserUsageStats, getUserProjects, deleteProject } from '../lib/supabase';
   import type { Profile, Subscription, Project } from '../lib/supabase';
@@ -710,6 +787,41 @@ export const prerender = false;
 
   let currentProfile: Profile | null = null;
   let currentUserId: string = '';
+
+  // === HTML Escape (previne XSS) ===
+  function esc(str: string): string {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // === Upgrade Toast ===
+  let toastTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function showUpgradeToast(title: string, msg: string) {
+    const toast = document.getElementById('upgrade-toast');
+    const titleEl = document.getElementById('upgrade-toast-title');
+    const msgEl = document.getElementById('upgrade-toast-msg');
+    if (!toast || !titleEl || !msgEl) return;
+    titleEl.textContent = title;
+    msgEl.textContent = msg;
+    toast.classList.remove('hidden');
+    toast.style.animation = 'none';
+    toast.offsetHeight; // force reflow
+    toast.style.animation = 'slideDown 0.3s ease-out';
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => hideUpgradeToast(), 5000);
+  }
+
+  function hideUpgradeToast() {
+    const toast = document.getElementById('upgrade-toast');
+    if (!toast) return;
+    toast.classList.add('hidden');
+    if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+  }
+
+  document.getElementById('upgrade-toast-close')?.addEventListener('click', hideUpgradeToast);
+  document.getElementById('upgrade-toast-dismiss')?.addEventListener('click', hideUpgradeToast);
   let currentUserEmail: string = '';
 
   function showFeedback() {
@@ -735,7 +847,7 @@ export const prerender = false;
   }
 
   function renderProfile(profile: Profile, email: string) {
-    // Name + Email
+    // Nome + Email
     document.getElementById('profile-name')!.textContent = profile.full_name || 'Usuário';
     document.getElementById('profile-email')!.textContent = email;
     (document.getElementById('input-name') as HTMLInputElement).value = profile.full_name || '';
@@ -754,11 +866,11 @@ export const prerender = false;
       avatarInitials.textContent = getInitials(profile.full_name || email);
     }
 
-    // Seniority Badge
+    // Badge de Senioridade
     const badgeText = document.getElementById('badge-text')!;
     badgeText.textContent = profile.seniority.charAt(0).toUpperCase() + profile.seniority.slice(1);
 
-    // Role Badge
+    // Badge de Cargo
     const roleBadge = document.getElementById('role-badge')!;
     const roleBadgeText = document.getElementById('role-badge-text')!;
     if (profile.role === 'master') {
@@ -777,7 +889,7 @@ export const prerender = false;
       roleBadge.classList.remove('inline-flex');
     }
 
-    // Seniority buttons
+    // Botões de senioridade
     document.querySelectorAll('.seniority-btn').forEach(btn => {
       const val = (btn as HTMLElement).dataset.seniority;
       if (val === profile.seniority) {
@@ -787,7 +899,7 @@ export const prerender = false;
       }
     });
 
-    // Theme buttons
+    // Botões de tema
     document.querySelectorAll('.theme-btn').forEach(btn => {
       const val = (btn as HTMLElement).dataset.theme;
       if (val === profile.theme) {
@@ -799,7 +911,7 @@ export const prerender = false;
 
     applyThemeToPage(profile.theme);
 
-    // Language buttons
+    // Botões de idioma
     const savedLang = (profile as any).preferred_language || localStorage.getItem('bc-lang') || 'pt';
     document.querySelectorAll('.lang-btn').forEach(btn => {
       const val = (btn as HTMLElement).dataset.lang;
@@ -810,7 +922,7 @@ export const prerender = false;
       }
     });
 
-    // Show admin panel for master
+    // Exibe painel admin para master
     const adminPanel = document.getElementById('admin-panel')!;
     if (profile.role === 'master') {
       adminPanel.classList.remove('hidden');
@@ -819,12 +931,12 @@ export const prerender = false;
   }
 
   // ══════════════════════════════
-  //  USER MANAGEMENT
+  //  GESTÃO DE USUÁRIOS
   // ══════════════════════════════
 
   let usersLoading = false;
   let allProfiles: Profile[] = [];
-  let userFilter: 'admins' | 'all' = 'admins'; // default: show admins only
+  let userFilter: 'admins' | 'all' = 'admins'; // padrão: exibe apenas admins
   let userSearchQuery = '';
 
   async function loadUsers() {
@@ -847,12 +959,12 @@ export const prerender = false;
   function getFilteredProfiles(): Profile[] {
     let filtered = allProfiles;
 
-    // Role filter
+    // Filtro por cargo
     if (userFilter === 'admins') {
       filtered = filtered.filter(p => p.role === 'admin' || p.role === 'master');
     }
 
-    // Search filter
+    // Filtro de busca
     if (userSearchQuery.length > 0) {
       const q = userSearchQuery.toLowerCase();
       filtered = filtered.filter(p =>
@@ -889,13 +1001,15 @@ export const prerender = false;
         : p.role === 'admin' ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
         : 'text-slate-400 bg-white/5 border-border-color';
 
-      // Highlight search match
+      // Destaca resultado de busca
       const displayName = p.full_name || 'Sem nome';
-      let nameHtml = displayName;
+      let nameHtml = esc(displayName);
       if (userSearchQuery.length > 0) {
-        const idx = displayName.toLowerCase().indexOf(userSearchQuery.toLowerCase());
+        const escaped = esc(displayName);
+        const escapedQuery = esc(userSearchQuery);
+        const idx = escaped.toLowerCase().indexOf(escapedQuery.toLowerCase());
         if (idx !== -1) {
-          nameHtml = displayName.substring(0, idx) + '<mark class="bg-purple-500/30 text-white rounded px-0.5">' + displayName.substring(idx, idx + userSearchQuery.length) + '</mark>' + displayName.substring(idx + userSearchQuery.length);
+          nameHtml = escaped.substring(0, idx) + '<mark class="bg-purple-500/30 text-white rounded px-0.5">' + escaped.substring(idx, idx + escapedQuery.length) + '</mark>' + escaped.substring(idx + escapedQuery.length);
         }
       }
 
@@ -906,8 +1020,8 @@ export const prerender = false;
           <div class="flex items-center gap-3">
             <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary border border-primary/20 overflow-hidden">
               ${p.avatar_url
-                ? `<img src="${p.avatar_url}" class="w-full h-full object-cover" />`
-                : `<span>${getInitials(p.full_name || '??')}</span>`
+                ? `<img src="${esc(p.avatar_url)}" class="w-full h-full object-cover" />`
+                : `<span>${esc(getInitials(p.full_name || '??'))}</span>`
               }
             </div>
             <span class="text-white font-medium">${nameHtml}${isSelf ? ' <span class="text-slate-500 text-xs">(você)</span>' : ''}</span>
@@ -938,7 +1052,7 @@ export const prerender = false;
 
   function attachUserTableEvents() {
     const tbody = document.getElementById('users-table-body')!;
-    // Remove old listeners by replacing node
+    // Remove listeners antigos substituindo o nó
     const newTbody = tbody.cloneNode(true) as HTMLElement;
     tbody.parentNode!.replaceChild(newTbody, tbody);
 
@@ -973,7 +1087,7 @@ export const prerender = false;
     });
   }
 
-  // Search input
+  // Input de busca
   const userSearchInput = document.getElementById('user-search-input') as HTMLInputElement;
   userSearchInput?.addEventListener('input', () => {
     userSearchQuery = userSearchInput.value.trim();
@@ -981,7 +1095,7 @@ export const prerender = false;
     attachUserTableEvents();
   });
 
-  // Filter buttons
+  // Botões de filtro
   const filterAdminsBtn = document.getElementById('filter-admins-btn');
   const filterAllBtn = document.getElementById('filter-all-btn');
 
@@ -1011,7 +1125,7 @@ export const prerender = false;
     attachUserTableEvents();
   });
 
-  // Init
+  // Inicialização
   async function init() {
     const { data: { session } } = await supabase.auth.getSession();
 
@@ -1033,7 +1147,7 @@ export const prerender = false;
       return;
     }
 
-    // Redirect to login if terms not accepted (forces terms modal)
+    // Redireciona para login se termos não aceitos (força modal de termos)
     if (!profile.terms_accepted_at) {
       window.location.href = '/login';
       return;
@@ -1051,7 +1165,7 @@ export const prerender = false;
 
   async function loadUsageData() {
     try {
-      // Load subscription
+      // Carrega assinatura
       const sub = await getUserSubscription(currentUserId);
       const planNames: Record<string, string> = { explorador: 'Explorador', consultor: 'Consultor', arquiteto: 'Arquiteto' };
       const planColors: Record<string, { bg: string; text: string; border: string; label: string }> = {
@@ -1060,6 +1174,8 @@ export const prerender = false;
         arquiteto: { bg: 'bg-cta/15', text: 'text-cta', border: 'border-cta/20', label: 'Elite' },
       };
       const plan = sub?.plan || 'explorador';
+      // Store plan globally for agent/llm restrictions
+      (window as any).__bcPlan = plan;
       const pc = planColors[plan] || planColors.explorador;
       const nameEl = document.getElementById('usage-plan-name');
       const badgeEl = document.getElementById('usage-plan-badge');
@@ -1074,8 +1190,45 @@ export const prerender = false;
         periodEl.textContent = `Válido até ${end.toLocaleDateString('pt-BR')}`;
       }
 
-      // Load usage stats
-      const logs = await getUserUsageStats(currentUserId);
+      // Créditos padrão por plano (quando user_credits não existe ainda)
+      const PLAN_DEFAULTS: Record<string, { eco: number; mid: number; elite: number }> = {
+        explorador: { eco: 50, mid: 0, elite: 0 },
+        consultor:  { eco: 999999, mid: 999999, elite: 20 },
+        arquiteto:  { eco: 999999, mid: 999999, elite: 50 },
+      };
+
+      // Carrega créditos do usuário
+      const { data: credits } = await supabase
+        .from('user_credits')
+        .select('*')
+        .eq('user_id', currentUserId)
+        .single();
+
+      const planLabelEl = document.getElementById('credits-plan-label');
+      if (planLabelEl) planLabelEl.textContent = `(${planNames[plan] || 'mensal'})`;
+
+      const setPlanCredits = (id: string, val: number) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val >= 999999 ? '∞' : String(val);
+      };
+
+      if (credits) {
+        const setIndieCredits = (id: string, val: number) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = String(val);
+        };
+        setIndieCredits('credits-indie-eco', credits.indie_credits_economy);
+        setIndieCredits('credits-indie-mid', credits.indie_credits_mid);
+        setIndieCredits('credits-indie-elite', credits.indie_credits_elite);
+      }
+
+      // Carrega estatísticas de uso (filtra pelo mês atual)
+      const allLogs = await getUserUsageStats(currentUserId);
+      const monthStart = new Date();
+      monthStart.setDate(1);
+      monthStart.setHours(0, 0, 0, 0);
+      const logs = allLogs.filter(l => new Date(l.created_at) >= monthStart);
+
       const prdCount = logs.filter(l => l.action === 'prd_generation').length;
       const chatCount = logs.filter(l => l.action === 'chat_message').length;
       const ttsCount = logs.filter(l => l.action === 'tts_audio').length;
@@ -1087,7 +1240,30 @@ export const prerender = false;
       if (chatEl) chatEl.textContent = String(chatCount);
       if (ttsEl) ttsEl.textContent = String(ttsCount);
 
-      // Usage by model
+      // Atualiza créditos restantes (limite - uso do mês)
+      const defaults = PLAN_DEFAULTS[plan] || PLAN_DEFAULTS.explorador;
+      const ecoLimit = credits ? credits.plan_credits_economy : defaults.eco;
+      const midLimit = credits ? credits.plan_credits_mid : defaults.mid;
+      const eliteLimit = credits ? credits.plan_credits_elite : defaults.elite;
+
+      // Contar uso por tier no mês
+      const budgetModels = ['google/gemma-3-4b-it:free', 'meta-llama/llama-3.1-8b-instruct:free', 'mistralai/mistral-small-3.1-24b-instruct:free'];
+      const midModels = ['google/gemini-2.0-flash-001', 'openai/gpt-4o-mini', 'anthropic/claude-3.5-haiku'];
+      const proModels = ['anthropic/claude-sonnet-4', 'openai/gpt-4o', 'google/gemini-2.5-pro-preview'];
+
+      const ecoUsed = logs.filter(l => budgetModels.includes(l.llm_model) || l.action === 'chat_message').length;
+      const midUsed = logs.filter(l => midModels.includes(l.llm_model)).length;
+      const eliteUsed = logs.filter(l => proModels.includes(l.llm_model)).length;
+
+      const showRemaining = (id: string, limit: number, used: number) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = limit >= 999999 ? '∞' : String(Math.max(limit - used, 0));
+      };
+      showRemaining('credits-plan-eco', ecoLimit, ecoUsed);
+      showRemaining('credits-plan-mid', midLimit, midUsed);
+      showRemaining('credits-plan-elite', eliteLimit, eliteUsed);
+
+      // Uso por modelo
       const modelMap: Record<string, number> = {};
       logs.forEach(l => {
         if (l.llm_model) {
@@ -1116,7 +1292,7 @@ export const prerender = false;
         }
       }
     } catch {
-      // Tables may not exist yet — fail silently
+      // Tabelas podem ainda não existir — falha silenciosamente
     }
   }
 
@@ -1150,43 +1326,63 @@ export const prerender = false;
         const hasImage = p.image_url && p.image_url.length > 0;
         const prdPreview = (p.generated_prd || '').substring(0, 120).replace(/[#*\n]/g, ' ').trim();
         return `
-          <div class="group rounded-xl p-4 transition-all hover:border-primary/20" style="background: rgba(255,255,255,0.02); border: 1px solid #2A3135;" data-project-id="${p.id}">
+          <div class="group rounded-xl p-4 transition-all hover:border-primary/20" style="background: rgba(255,255,255,0.02); border: 1px solid #2A3135;" data-project-id="${esc(p.id)}">
             <div class="flex gap-3">
-              ${hasImage ? `<img src="${p.image_url}" alt="${p.name}" class="size-14 rounded-lg object-cover shrink-0 border border-white/5" />` : `<div class="size-14 rounded-lg bg-primary/5 border border-primary/10 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-xl">code</span></div>`}
+              ${hasImage ? `<img src="${esc(p.image_url)}" alt="${esc(p.name)}" class="size-14 rounded-lg object-cover shrink-0 border border-white/5" />` : `<div class="size-14 rounded-lg bg-primary/5 border border-primary/10 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-xl">code</span></div>`}
               <div class="flex-1 min-w-0">
                 <div class="flex items-start justify-between gap-2">
-                  <h4 class="text-sm font-bold text-white truncate">${p.name}</h4>
+                  <h4 class="text-sm font-bold text-white truncate">${esc(p.name)}</h4>
                   <div class="flex items-center gap-1 shrink-0">
-                    <button type="button" class="project-view-btn p-1 rounded-md text-slate-600 hover:text-primary hover:bg-primary/10 transition-all" title="Ver PRD" data-prd="${encodeURIComponent(p.generated_prd || '')}" data-prompt="${encodeURIComponent(p.generated_prompt || '')}" data-name="${p.name}">
+                    <button type="button" class="project-view-btn p-1 rounded-md text-slate-600 hover:text-primary hover:bg-primary/10 transition-all" title="Ver PRD" data-prd="${encodeURIComponent(p.generated_prd || '')}" data-prompt="${encodeURIComponent(p.generated_prompt || '')}" data-prd-path="${esc(p.prd_storage_path || '')}" data-prompt-path="${esc(p.prompt_storage_path || '')}" data-name="${esc(p.name)}">
                       <span class="material-symbols-outlined text-[16px]">visibility</span>
                     </button>
-                    <button type="button" class="project-delete-btn p-1 rounded-md text-slate-600 hover:text-red-400 hover:bg-red-500/10 transition-all" title="Excluir" data-id="${p.id}">
+                    <button type="button" class="project-delete-btn p-1 rounded-md text-slate-600 hover:text-red-400 hover:bg-red-500/10 transition-all" title="Excluir" data-id="${esc(p.id)}">
                       <span class="material-symbols-outlined text-[16px]">delete</span>
                     </button>
                   </div>
                 </div>
-                <p class="text-[10px] text-slate-500 mt-0.5">${date} · ${scaleLabels[p.scale] || p.scale || '-'} · ${natureLabels[p.nature] || p.nature || '-'}</p>
-                ${p.business_context ? `<p class="text-[11px] text-slate-600 mt-1 line-clamp-1">${p.business_context}</p>` : ''}
-                ${prdPreview ? `<p class="text-[10px] text-slate-700 mt-1 line-clamp-1 font-mono">${prdPreview}...</p>` : ''}
+                <p class="text-[10px] text-slate-500 mt-0.5">${date} · ${esc(scaleLabels[p.scale] || p.scale || '-')} · ${esc(natureLabels[p.nature] || p.nature || '-')}</p>
+                ${p.business_context ? `<p class="text-[11px] text-slate-600 mt-1 line-clamp-1">${esc(p.business_context)}</p>` : ''}
+                ${prdPreview ? `<p class="text-[10px] text-slate-700 mt-1 line-clamp-1 font-mono">${esc(prdPreview)}...</p>` : ''}
               </div>
             </div>
           </div>`;
       }).join('');
 
-      // View project modal/expand
+      // Visualizar projeto (modal/expandir) — carrega do Storage se disponível
       listEl.querySelectorAll('.project-view-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const prd = decodeURIComponent(btn.getAttribute('data-prd') || '');
-          const prompt = decodeURIComponent(btn.getAttribute('data-prompt') || '');
+        btn.addEventListener('click', async () => {
+          const prdPath = btn.getAttribute('data-prd-path') || '';
+          const promptPath = btn.getAttribute('data-prompt-path') || '';
           const name = btn.getAttribute('data-name') || 'Projeto';
-          // Open in new tab with styled view
+
+          let prd = decodeURIComponent(btn.getAttribute('data-prd') || '');
+          let prompt = decodeURIComponent(btn.getAttribute('data-prompt') || '');
+
+          // Busca do Storage se os paths existirem e o texto inline estiver vazio
+          if (prdPath && !prd) {
+            try {
+              const { data: { session: s } } = await supabase.auth.getSession();
+              if (s) {
+                const sbUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+                const headers = { 'apikey': import.meta.env.PUBLIC_SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + s.access_token };
+                const [prdRes, promptRes] = await Promise.all([
+                  prdPath ? fetch(sbUrl + '/storage/v1/object/prd-files/' + prdPath, { headers }) : null,
+                  promptPath ? fetch(sbUrl + '/storage/v1/object/prd-files/' + promptPath, { headers }) : null,
+                ]);
+                if (prdRes?.ok) prd = await prdRes.text();
+                if (promptRes?.ok) prompt = await promptRes.text();
+              }
+            } catch (e) { console.error('[Storage] Erro ao carregar PRD:', e); }
+          }
+
           const htmlContent = buildProjectViewHtml(name, prd, prompt);
           const w = window.open('', '_blank');
           if (w) { w.document.write(htmlContent); w.document.close(); }
         });
       });
 
-      // Delete project
+      // Excluir projeto
       listEl.querySelectorAll('.project-delete-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
           const id = btn.getAttribute('data-id');
@@ -1194,7 +1390,7 @@ export const prerender = false;
           await deleteProject(id);
           const card = btn.closest('[data-project-id]');
           if (card) card.remove();
-          // Update count
+          // Atualiza contador
           const remaining = listEl.querySelectorAll('[data-project-id]').length;
           if (countBadge) countBadge.textContent = String(remaining);
           if (remaining === 0) {
@@ -1215,7 +1411,8 @@ export const prerender = false;
 
   function buildProjectViewHtml(name: string, prd: string, prompt: string) {
     const date = new Date().toLocaleDateString('pt-BR');
-    return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${name} - BuildCode</title>
+    const safeName = esc(name);
+    return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${safeName} - BuildCode</title>
     <style>
       body{font-family:"Segoe UI",Helvetica,sans-serif;max-width:900px;margin:40px auto;padding:0 30px;color:#e2e8f0;background:#0a0a0a;line-height:1.7;font-size:14px}
       .header{background:linear-gradient(135deg,#0d1b2a,#1b3a4b);padding:30px 40px;margin:-40px -30px 30px;border-radius:0 0 12px 12px}
@@ -1232,7 +1429,7 @@ export const prerender = false;
       .content.active{display:block}
       .footer{text-align:center;margin-top:60px;padding:20px;border-top:1px solid #1e293b;color:#475569;font-size:11px}
     </style></head><body>
-    <div class="header"><h1>${name}</h1><p>BuildCode AI Engine — Gerado em ${date}</p></div>
+    <div class="header"><h1>${safeName}</h1><p>BuildCode AI Engine — Gerado em ${date}</p></div>
     <div class="tabs">
       <div class="tab active" onclick="switchTab(0)">PRD</div>
       <div class="tab" onclick="switchTab(1)">Prompt Base</div>
@@ -1246,14 +1443,14 @@ export const prerender = false;
 
   init();
 
-  // Logout
+  // Sair
   document.getElementById('btn-logout')!.addEventListener('click', async () => {
     await signOut();
     localStorage.removeItem('bc-theme');
     window.location.href = '/';
   });
 
-  // Save name
+  // Salvar nome
   document.getElementById('btn-save-name')!.addEventListener('click', async () => {
     const name = (document.getElementById('input-name') as HTMLInputElement).value.trim();
     if (!name) return;
@@ -1263,7 +1460,7 @@ export const prerender = false;
     showFeedback();
   });
 
-  // Seniority
+  // Senioridade
   document.querySelectorAll('.seniority-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const val = (btn as HTMLElement).dataset.seniority as Profile['seniority'];
@@ -1276,7 +1473,7 @@ export const prerender = false;
     });
   });
 
-  // Theme
+  // Tema
   document.querySelectorAll('.theme-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const val = (btn as HTMLElement).dataset.theme as Profile['theme'];
@@ -1289,21 +1486,21 @@ export const prerender = false;
     });
   });
 
-  // Language
+  // Idioma
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const val = (btn as HTMLElement).dataset.lang!;
       await updateProfile(currentUserId, { preferred_language: val } as Partial<Profile>);
       localStorage.setItem('bc-lang', val);
       if (currentProfile) (currentProfile as any).preferred_language = val;
-      // Apply i18n if available
+      // Aplica i18n se disponível
       if ((window as any).bcSetLang) (window as any).bcSetLang(val);
       renderProfile(currentProfile!, currentUserEmail);
       showFeedback();
     });
   });
 
-  // Avatar upload
+  // Upload de avatar
   document.getElementById('avatar-input')!.addEventListener('change', async (e) => {
     const file = (e.target as HTMLInputElement).files?.[0];
     if (!file) return;
@@ -1509,6 +1706,14 @@ export const prerender = false;
       const agentId = (card as HTMLElement).dataset.agent!;
       if (currentProfile?.agent === agentId) return;
 
+      // Explorador só pode usar The Boss
+      const userPlan = (window as any).__bcPlan || 'explorador';
+      if (userPlan === 'explorador' && agentId !== 'theboss') {
+        const agentNames: Record<string, string> = { azrael: 'Azrael', rizler: 'Rizler', anastasia: 'Anastasia' };
+        showUpgradeToast('Agente Premium', `O agente ${agentNames[agentId] || agentId} está disponível apenas para planos Consultor e Arquiteto. Faça upgrade para desbloquear!`);
+        return;
+      }
+
       // Save to DB and localStorage
       await updateProfile(currentUserId, { agent: agentId } as Partial<Profile>);
       localStorage.setItem('bc-agent', agentId);
@@ -1525,6 +1730,22 @@ export const prerender = false;
     const saved = (currentProfile as any)?.agent || localStorage.getItem('bc-agent') || 'theboss';
     localStorage.setItem('bc-agent', saved);
     renderAgentSelection(saved);
+
+    // Apply plan restrictions — add lock overlay for Explorador users
+    const userPlan = (window as any).__bcPlan || 'explorador';
+    if (userPlan === 'explorador') {
+      document.querySelectorAll('.agent-card').forEach(card => {
+        const id = (card as HTMLElement).dataset.agent;
+        if (id && id !== 'theboss') {
+          // Add lock overlay
+          const lock = document.createElement('div');
+          lock.className = 'absolute inset-0 bg-black/60 backdrop-blur-[2px] flex flex-col items-center justify-center z-20 rounded-xl';
+          lock.innerHTML = '<span class="material-symbols-outlined text-3xl text-slate-400 mb-1">lock</span><span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Plano Pro+</span>';
+          (card as HTMLElement).style.position = 'relative';
+          card.appendChild(lock);
+        }
+      });
+    }
   }
 
   // ══════════════════════════════
@@ -1578,8 +1799,16 @@ export const prerender = false;
   document.querySelectorAll('.llm-card').forEach(card => {
     card.addEventListener('click', async () => {
       const llmId = (card as HTMLElement).dataset.llm!;
+      const tier = (card as HTMLElement).dataset.tier || 'budget';
       const currentLlm = (currentProfile as any)?.llm_model;
       if (currentLlm === llmId) return;
+
+      // Explorador só pode usar modelos econômicos (budget)
+      const userPlan = (window as any).__bcPlan || 'explorador';
+      if (userPlan === 'explorador' && tier !== 'budget') {
+        showUpgradeToast('Modelo Premium', 'Modelos intermediários e profissionais estão disponíveis apenas para planos Consultor e Arquiteto. Faça upgrade para desbloquear!');
+        return;
+      }
 
       await updateProfile(currentUserId, { llm_model: llmId } as Partial<Profile>);
       localStorage.setItem('bc-llm-model', llmId);
@@ -1606,11 +1835,26 @@ export const prerender = false;
     });
   }
 
-  // Init LLM selection
+  // Inicialização LLM selection
   function initLlmSelection() {
     const saved = (currentProfile as any)?.llm_model || localStorage.getItem('bc-llm-model') || 'google/gemma-3-4b-it:free';
     localStorage.setItem('bc-llm-model', saved);
     renderLlmSelection(saved);
+
+    // Apply plan restrictions — lock mid/pro for Explorador
+    const userPlan = (window as any).__bcPlan || 'explorador';
+    if (userPlan === 'explorador') {
+      document.querySelectorAll('.llm-card').forEach(card => {
+        const tier = (card as HTMLElement).dataset.tier || 'budget';
+        if (tier !== 'budget') {
+          const lock = document.createElement('div');
+          lock.className = 'absolute inset-0 bg-black/60 backdrop-blur-[2px] flex flex-col items-center justify-center z-20 rounded-xl';
+          lock.innerHTML = '<span class="material-symbols-outlined text-2xl text-slate-400 mb-1">lock</span><span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Plano Pro+</span>';
+          (card as HTMLElement).style.position = 'relative';
+          card.appendChild(lock);
+        }
+      });
+    }
   }
 
   document.getElementById('btn-confirm-add')!.addEventListener('click', async () => {

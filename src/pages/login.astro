@@ -98,7 +98,10 @@ export const prerender = false;
           </div>
           <div class="relative group">
             <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="login-password">Senha</label>
-            <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="login-password" placeholder="••••••••" type="password" required />
+            <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 pr-12 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="login-password" placeholder="••••••••" type="password" required />
+            <button type="button" class="pw-toggle" data-target="login-password" aria-label="Mostrar senha">
+              <span class="material-symbols-outlined text-xl">visibility</span>
+            </button>
           </div>
           <div class="flex items-center justify-between">
             <button type="button" id="btn-back-google" class="text-xs font-medium text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1">
@@ -121,7 +124,10 @@ export const prerender = false;
           </div>
           <div class="relative group">
             <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="signup-password">Senha</label>
-            <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="signup-password" placeholder="Crie uma senha forte" type="password" required />
+            <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 pr-12 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="signup-password" placeholder="Crie uma senha forte" type="password" required />
+            <button type="button" class="pw-toggle" data-target="signup-password" aria-label="Mostrar senha">
+              <span class="material-symbols-outlined text-xl">visibility</span>
+            </button>
           </div>
           <!-- Password strength meter -->
           <div id="pw-strength-wrap" class="space-y-2 hidden">
@@ -161,7 +167,10 @@ export const prerender = false;
           </div>
           <div class="relative group">
             <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="signup-confirm">Confirmar Senha</label>
-            <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="signup-confirm" placeholder="Repita a senha" type="password" required />
+            <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 pr-12 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="signup-confirm" placeholder="Repita a senha" type="password" required />
+            <button type="button" class="pw-toggle" data-target="signup-confirm" aria-label="Mostrar senha">
+              <span class="material-symbols-outlined text-xl">visibility</span>
+            </button>
           </div>
           <div class="flex items-center justify-between">
             <button type="button" id="btn-back-signup" class="text-xs font-medium text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1">
@@ -183,11 +192,17 @@ export const prerender = false;
           </div>
           <div class="relative group">
             <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="recovery-password">Nova senha</label>
-            <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="recovery-password" placeholder="••••••••" type="password" required minlength="6" />
+            <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 pr-12 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="recovery-password" placeholder="••••••••" type="password" required minlength="6" />
+            <button type="button" class="pw-toggle" data-target="recovery-password" aria-label="Mostrar senha">
+              <span class="material-symbols-outlined text-xl">visibility</span>
+            </button>
           </div>
           <div class="relative group">
             <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="recovery-confirm">Confirmar senha</label>
-            <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="recovery-confirm" placeholder="••••••••" type="password" required minlength="6" />
+            <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 pr-12 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="recovery-confirm" placeholder="••••••••" type="password" required minlength="6" />
+            <button type="button" class="pw-toggle" data-target="recovery-confirm" aria-label="Mostrar senha">
+              <span class="material-symbols-outlined text-xl">visibility</span>
+            </button>
           </div>
           <button class="relative overflow-hidden w-full rounded-xl border border-emerald-500/40 bg-surface-dark py-4 text-sm font-semibold text-white shadow-[0_0_20px_rgba(16,185,129,0.1)] hover:shadow-[0_0_30px_rgba(16,185,129,0.25)] hover:border-emerald-500/60 transition-all flex items-center justify-center gap-2 group cursor-pointer" type="submit">
             <span class="material-symbols-outlined text-lg">check</span>
@@ -330,10 +345,112 @@ export const prerender = false;
 
 <style>
   @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+  /* Fix password reveal eye icon (browser-native) for dark backgrounds */
+  input[type="password"]::-ms-reveal,
+  input[type="password"]::-ms-clear {
+    filter: invert(1);
+  }
+  input[type="text"]::-ms-reveal,
+  input[type="text"]::-ms-clear {
+    filter: invert(1);
+  }
+  /* Chrome/Edge Chromium */
+  input::-webkit-credentials-auto-fill-button {
+    filter: invert(1);
+  }
+
+  /* Custom password toggle button */
+  .pw-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    z-index: 2;
+  }
+  .pw-toggle:hover {
+    color: #94a3b8;
+  }
 </style>
 
 <script>
   import { supabase, signInWithEmail, signInWithGoogle, getProfile } from '../lib/supabase';
+
+  // ═══════════════════════════════════════════
+  //  PASSWORD TOGGLE (eye icon)
+  // ═══════════════════════════════════════════
+  document.querySelectorAll('.pw-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = (btn as HTMLElement).dataset.target!;
+      const input = document.getElementById(targetId) as HTMLInputElement;
+      const icon = btn.querySelector('.material-symbols-outlined')!;
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        input.type = 'password';
+        icon.textContent = 'visibility';
+      }
+    });
+  });
+
+  // ═══════════════════════════════════════════
+  //  BRUTE FORCE PROTECTION (client-side tracking)
+  // ═══════════════════════════════════════════
+  const LOGIN_LIMITS = [
+    { attempts: 10, blockSeconds: 3600 },   // 10+ fails → 1 hora
+    { attempts: 5, blockSeconds: 900 },     // 5+ fails → 15 min
+    { attempts: 3, blockSeconds: 60 },      // 3+ fails → 1 min
+  ];
+
+  function getLoginAttempts(): { count: number; lastFail: number } {
+    try {
+      const raw = localStorage.getItem('_bf_guard');
+      if (raw) return JSON.parse(raw);
+    } catch {}
+    return { count: 0, lastFail: 0 };
+  }
+
+  function setLoginAttempts(count: number) {
+    localStorage.setItem('_bf_guard', JSON.stringify({ count, lastFail: Date.now() }));
+  }
+
+  function clearLoginAttempts() {
+    localStorage.removeItem('_bf_guard');
+  }
+
+  function checkBruteForce(): { blocked: boolean; retryAfter?: number; message?: string } {
+    const { count, lastFail } = getLoginAttempts();
+    if (count < 3) return { blocked: false };
+
+    for (const limit of LOGIN_LIMITS) {
+      if (count >= limit.attempts) {
+        const elapsed = (Date.now() - lastFail) / 1000;
+        if (elapsed < limit.blockSeconds) {
+          const remaining = Math.ceil(limit.blockSeconds - elapsed);
+          const mins = Math.floor(remaining / 60);
+          const secs = remaining % 60;
+          const timeStr = mins > 0 ? `${mins}min ${secs}s` : `${secs}s`;
+          return {
+            blocked: true,
+            retryAfter: remaining,
+            message: `Muitas tentativas falhas (${count}). Tente novamente em ${timeStr}.`,
+          };
+        }
+        break;
+      }
+    }
+    return { blocked: false };
+  }
 
   const formLogin = document.getElementById('form-login')! as HTMLFormElement;
   const formSignup = document.getElementById('form-signup')! as HTMLFormElement;
@@ -454,7 +571,7 @@ export const prerender = false;
 
     // Colors
     const colors = ['#EF4444', '#F59E0B', '#F59E0B', '#2E748B', '#10B981'];
-    const labels = ['Muito fraca', 'Fraca', 'Media', 'Forte', 'Muito forte'];
+    const labels = ['Forte pra Caralho!', 'Fraca', 'Media', 'Forte', 'Muito forte'];
     const tips = ['Adicione mais requisitos', 'Falta pouco...', 'Quase la!', 'Boa senha!', 'Excelente!'];
     const color = colors[score] || colors[0];
     const label = labels[score] || labels[0];
@@ -728,24 +845,73 @@ export const prerender = false;
     }
   });
 
-  // Email login submit
+  // Email login submit (with brute force protection — client + server)
   formLogin.addEventListener('submit', async (e) => {
     e.preventDefault();
     hideMsg();
+
+    // Client-side brute force check (immediate feedback)
+    const bf = checkBruteForce();
+    if (bf.blocked) {
+      showMsg(bf.message!, 'error');
+      return;
+    }
+
     const email = (document.getElementById('login-email') as HTMLInputElement).value;
     const password = (document.getElementById('login-password') as HTMLInputElement).value;
     const btnText = document.getElementById('btn-login-text')!;
 
     btnText.textContent = 'Entrando...';
-    const { error } = await signInWithEmail(email, password);
 
-    if (error) {
-      showMsg(error.message === 'Invalid login credentials'
-        ? 'E-mail ou senha incorretos.'
-        : error.message, 'error');
-      btnText.textContent = 'Entrar no Sistema';
+    try {
+      // Server-side login (has its own IP-based brute force tracking)
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        const { count } = getLoginAttempts();
+        setLoginAttempts(count + 1);
+
+        if (data.retryAfter) {
+          const mins = Math.floor(data.retryAfter / 60);
+          const secs = data.retryAfter % 60;
+          const timeStr = mins > 0 ? `${mins}min ${secs}s` : `${secs}s`;
+          showMsg(`Muitas tentativas falhas. Tente novamente em ${timeStr}.`, 'error');
+        } else {
+          showMsg(data.error || 'E-mail ou senha incorretos.', 'error');
+        }
+        btnText.textContent = 'Entrar no Sistema';
+        return;
+      }
+
+      // Server returned session — set it in the client
+      if (data.session) {
+        await supabase.auth.setSession({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token,
+        });
+        clearLoginAttempts();
+      }
+      // onAuthStateChange handles redirect + terms check
+    } catch {
+      // Fallback to client-side login if API fails
+      const { error } = await signInWithEmail(email, password);
+      if (error) {
+        const { count } = getLoginAttempts();
+        setLoginAttempts(count + 1);
+        showMsg(error.message === 'Invalid login credentials'
+          ? 'E-mail ou senha incorretos.'
+          : error.message, 'error');
+        btnText.textContent = 'Entrar no Sistema';
+      } else {
+        clearLoginAttempts();
+      }
     }
-    // onAuthStateChange handles redirect + terms check
   });
 
   // Logo swap for light/dark theme

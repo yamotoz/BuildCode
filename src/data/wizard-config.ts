@@ -1,17 +1,17 @@
 /**
- * BuildCode — Wizard Configuration
- * Data-driven config for the Software Decision System.
+ * BuildCode — Configuração do Wizard
+ * Configuração data-driven do Sistema de Decisão de Software.
  *
- * Phases: 1=Contexto, 2=Stack Tecnica, 3=Qualidade, 4=Final
- * difficulty: 'easy' | 'medium' | 'hard' — visual tag on each option
- * recommendedFor: 'junior' | 'pleno' | 'senior' — "Recomendado" badge
- * minLevel: 1=Junior, 2=Pleno+, 3=Senior only (visibility filter)
+ * Fases: 1=Contexto, 2=Stack Técnica, 3=Qualidade, 4=Final
+ * difficulty: 'easy' | 'medium' | 'hard' — tag visual em cada opção
+ * recommendedFor: 'junior' | 'pleno' | 'senior' — badge "Recomendado"
+ * minLevel: 1=Junior, 2=Pleno+, 3=Somente Senior (filtro de visibilidade)
  *
- * visibleFor: controls which project types show this step
- *   - 'all' = always visible
- *   - Array of specific types e.g. ['hobby','saas','enterprise']
+ * visibleFor: controla quais tipos de projeto exibem este passo
+ *   - 'all' = sempre visível
+ *   - Array de tipos específicos ex: ['hobby','saas','enterprise']
  *
- * optionalFor: project types where this step can be skipped
+ * optionalFor: tipos de projeto onde este passo pode ser pulado
  */
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
@@ -57,13 +57,13 @@ export const phases = [
 ];
 
 /**
- * LLM Models for OpenRouter selection
- * 3 baratos + 3 medianos + 3 avancados = 9 total
+ * Modelos LLM para seleção via OpenRouter
+ * 3 baratos + 3 medianos + 3 avançados = 9 total
  */
 export const llmModels = [
-    { value: 'google/gemma-3-4b-it:free', label: 'Gemma 3 4B', tier: 'budget', icon: 'savings', desc: 'Modelo leve do Google. Gratuito. Ideal para tarefas simples.', provider: 'Google' },
-    { value: 'meta-llama/llama-3.1-8b-instruct:free', label: 'Llama 3.1 8B', tier: 'budget', icon: 'savings', desc: 'Meta Llama 3.1. Gratuito. Boa qualidade para o custo zero.', provider: 'Meta' },
-    { value: 'mistralai/mistral-small-3.1-24b-instruct:free', label: 'Mistral Small 3.1', tier: 'budget', icon: 'savings', desc: 'Mistral compacto. Gratuito. Rapido e eficiente.', provider: 'Mistral' },
+    { value: 'google/gemma-3-4b-it:free', label: 'Gemma 3 4B', tier: 'budget', icon: 'savings', desc: 'Modelo leve do Google. Econômico. Ideal para tarefas simples.', provider: 'Google' },
+    { value: 'meta-llama/llama-3.1-8b-instruct:free', label: 'Llama 3.1 8B', tier: 'budget', icon: 'savings', desc: 'Meta Llama 3.1. Econômico. Boa qualidade para o custo zero.', provider: 'Meta' },
+    { value: 'mistralai/mistral-small-3.1-24b-instruct:free', label: 'Mistral Small 3.1', tier: 'budget', icon: 'savings', desc: 'Mistral compacto. Econômico. Rapido e eficiente.', provider: 'Mistral' },
     { value: 'google/gemini-2.0-flash-001', label: 'Gemini 2.0 Flash', tier: 'mid', icon: 'bolt', desc: 'Google Gemini Flash. Rapido, barato e muito capaz.', provider: 'Google' },
     { value: 'openai/gpt-4o-mini', label: 'GPT-4o Mini', tier: 'mid', icon: 'bolt', desc: 'OpenAI modelo medio. Excelente custo-beneficio.', provider: 'OpenAI' },
     { value: 'anthropic/claude-3.5-haiku', label: 'Claude 3.5 Haiku', tier: 'mid', icon: 'bolt', desc: 'Anthropic Haiku. Rapido, inteligente e acessivel.', provider: 'Anthropic' },
@@ -73,22 +73,22 @@ export const llmModels = [
 ];
 
 /**
- * Step visibility rules by project type:
+ * Regras de visibilidade dos passos por tipo de projeto:
  *
  * HOBBY (Portfolio/Landing):
- *   Show: #1 Contexto, #2 Senioridade, #3 Escala, #4 Tipo, #5 Ferramenta,
- *         #6 Frontend, #11 Deploy, #10 Skills, #19 Integracoes, #20 SEO+Testes
- *   Hide: Backend, DB, Cache, Auth, Seguranca, Websockets, etc.
+ *   Exibe: #1 Contexto, #2 Senioridade, #3 Escala, #4 Tipo, #5 Ferramenta,
+ *          #6 Frontend, #11 Deploy, #10 Skills, #19 Integrações, #20 SEO+Testes
+ *   Oculta: Backend, DB, Cache, Auth, Segurança, Websockets, etc.
  *
  * SAAS (MVP):
- *   Show: All 20, but #15 Realtime and #18 i18n are optional/skippable
+ *   Exibe: Todos os 20, mas #15 Realtime e #18 i18n são opcionais
  *
  * ENTERPRISE:
- *   Show: All 20 as mandatory
+ *   Exibe: Todos os 20 como obrigatórios
  */
 
 export const questions: WizardQuestion[] = [
-    // PHASE 1: CONTEXTO (Q1-Q5)
+    // FASE 1: CONTEXTO (Q1-Q5)
     {
         step: 1, phase: 1, type: 'textarea', name: 'contexto',
         visibleFor: 'all',
@@ -145,7 +145,7 @@ export const questions: WizardQuestion[] = [
         ],
     },
 
-    // PHASE 2: STACK TECNICA (Q6-Q12)
+    // FASE 2: STACK TÉCNICA (Q6-Q12)
     {
         step: 6, phase: 2, type: 'checkbox', name: 'frontend', cols: 3,
         visibleFor: 'all',
@@ -257,7 +257,7 @@ export const questions: WizardQuestion[] = [
         ],
     },
 
-    // PHASE 3: QUALIDADE & SEGURANCA (Q13-Q18)
+    // FASE 3: QUALIDADE & SEGURANÇA (Q13-Q18)
     {
         step: 13, phase: 3, type: 'checkbox', name: 'auth', cols: 2,
         visibleFor: ['saas', 'enterprise'],
@@ -334,7 +334,7 @@ export const questions: WizardQuestion[] = [
         ],
     },
 
-    // PHASE 4: FINAL (Q19-Q20)
+    // FASE 4: FINAL (Q19-Q20)
     {
         step: 19, phase: 4, type: 'checkbox', name: 'integracoes', cols: 3,
         visibleFor: 'all',

@@ -14,7 +14,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  // Verify the caller is authenticated and is master/admin
+  // Verifica se o chamador está autenticado e é master/admin
   const authHeader = request.headers.get('authorization');
   if (!authHeader?.startsWith('Bearer ')) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -33,7 +33,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  // Check caller role via service role client (bypasses RLS)
+  // Verifica role do chamador via service role client (ignora RLS)
   const adminClient = createClient(supabaseUrl, serviceRoleKey, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
@@ -51,7 +51,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  // Parse body
+  // Extrai corpo da requisição
   let body: { email: string; fullName: string; role: string; plan?: string; canAccessDashboard?: boolean };
   try {
     body = await request.json();
@@ -76,7 +76,7 @@ export const POST: APIRoute = async ({ request }) => {
   const validPlans = ['explorador', 'consultor', 'arquiteto'];
   const safePlan = validPlans.includes(plan || '') ? plan! : 'explorador';
 
-  // Create user with service role (admin privileges)
+  // Cria usuário com service role (privilégios admin)
   const { data, error } = await adminClient.auth.admin.createUser({
     email,
     email_confirm: true,
@@ -91,10 +91,10 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   if (data.user) {
-    // Wait for trigger to create profile
+    // Aguarda trigger do Supabase criar o perfil
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    // Set role and dashboard access
+    // Define role e acesso ao dashboard
     const profileUpdate: Record<string, any> = {};
     if (safeRole !== 'user') profileUpdate.role = safeRole;
     if (canAccessDashboard === true) profileUpdate.can_access_dashboard = true;
@@ -105,7 +105,7 @@ export const POST: APIRoute = async ({ request }) => {
         .eq('id', data.user.id);
     }
 
-    // Create subscription for the new user
+    // Cria assinatura para o novo usuário
     const now = new Date();
     const periodEnd = new Date(now);
     periodEnd.setFullYear(periodEnd.getFullYear() + 1);
@@ -119,7 +119,7 @@ export const POST: APIRoute = async ({ request }) => {
     }, { onConflict: 'user_id' });
   }
 
-  // Send password reset so the new user can set their own password
+  // Envia link de reset de senha para o novo usuário definir sua senha
   await adminClient.auth.admin.generateLink({
     type: 'recovery',
     email,

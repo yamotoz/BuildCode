@@ -18,17 +18,17 @@ export const POST: APIRoute = async ({ request }) => {
       auth: { autoRefreshToken: false, persistSession: false }
     });
 
-    // Verify the user
+    // Verifica o usuário
     const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
     if (authError || !user) {
       return new Response(JSON.stringify({ error: 'Token invalido.' }), { status: 401, headers });
     }
 
-    // Get client IP
+    // Obtém IP do cliente
     const forwarded = request.headers.get('x-forwarded-for');
     const ip = forwarded ? forwarded.split(',')[0].trim() : request.headers.get('x-real-ip') || 'unknown';
 
-    // Update profile with terms acceptance
+    // Atualiza perfil com aceite dos termos
     const { error: updateError } = await supabaseAdmin
       .from('profiles')
       .update({

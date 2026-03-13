@@ -3,8 +3,8 @@ import type { APIRoute } from 'astro';
 export const prerender = false;
 
 /**
- * Skills.sh search proxy — searches skills.sh for a technology
- * and returns the install command (npx skills add ...).
+ * Proxy de busca do Skills.sh — pesquisa uma tecnologia
+ * e retorna o comando de instalação (npx skills add ...).
  *
  * GET /api/skills-search?q=astro
  */
@@ -19,7 +19,7 @@ export const GET: APIRoute = async ({ url }) => {
   }
 
   try {
-    // Fetch skills.sh search page
+    // Busca página de resultados do skills.sh
     const res = await fetch(`https://skills.sh/search?q=${encodeURIComponent(query)}`, {
       headers: {
         'User-Agent': 'BuildCode-Agent/2.0',
@@ -28,7 +28,7 @@ export const GET: APIRoute = async ({ url }) => {
     });
 
     if (!res.ok) {
-      // Fallback: construct the skill command based on known patterns
+      // Fallback: constrói comando baseado em padrões conhecidos
       return new Response(JSON.stringify({
         results: [{
           name: query,
@@ -43,7 +43,7 @@ export const GET: APIRoute = async ({ url }) => {
 
     const html = await res.text();
 
-    // Parse skill links from HTML
+    // Extrai links de skills do HTML
     const skillRegex = /href="(\/skills\/[^"]+)"/g;
     const nameRegex = /<h[23][^>]*>([^<]+)<\/h[23]>/g;
     const results: { name: string; url: string; command: string }[] = [];
@@ -59,7 +59,7 @@ export const GET: APIRoute = async ({ url }) => {
       names.push(match[1].trim());
     }
 
-    // Build results combining urls and names
+    // Monta resultados combinando URLs e nomes
     for (let i = 0; i < Math.min(urls.length, 5); i++) {
       const skillName = names[i] || query;
       const skillPath = urls[i];
@@ -70,7 +70,7 @@ export const GET: APIRoute = async ({ url }) => {
       });
     }
 
-    // If no results parsed from HTML, provide a fallback
+    // Se nenhum resultado encontrado no HTML, usa fallback
     if (results.length === 0) {
       results.push({
         name: query,
@@ -84,7 +84,7 @@ export const GET: APIRoute = async ({ url }) => {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (err: unknown) {
-    // Fallback on network error
+    // Fallback em caso de erro de rede
     return new Response(JSON.stringify({
       results: [{
         name: query,

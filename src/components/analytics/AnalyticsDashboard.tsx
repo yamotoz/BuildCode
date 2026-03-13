@@ -45,7 +45,7 @@ function formatNumber(n: number): string {
   return n.toString();
 }
 
-// All available stacks (display names mapped to search keys)
+// Todas as stacks disponíveis (nomes de exibição mapeados para chaves de busca)
 const STACK_OPTIONS = [
   { label: 'React', category: 'Frontend' },
   { label: 'Next.js', category: 'Frontend' },
@@ -177,7 +177,7 @@ function AutocompleteInput({ value, onChange, onKeyDown, placeholder, color, lab
         s.category.toLowerCase().includes(value.toLowerCase())
       );
 
-  // Group by category
+  // Agrupa por categoria
   const grouped = filtered.reduce<Record<string, typeof STACK_OPTIONS>>((acc, item) => {
     if (!acc[item.category]) acc[item.category] = [];
     acc[item.category].push(item);
@@ -340,7 +340,7 @@ export default function AnalyticsDashboard() {
 
   return (
     <div className="analytics-dashboard max-w-[1400px] mx-auto px-6 py-8">
-      {/* Search Bar */}
+      {/* Barra de Busca */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -387,7 +387,7 @@ export default function AnalyticsDashboard() {
         </div>
       </motion.div>
 
-      {/* Loading */}
+      {/* Carregando */}
       <AnimatePresence>
         {loading && (
           <motion.div
@@ -402,7 +402,7 @@ export default function AnalyticsDashboard() {
         )}
       </AnimatePresence>
 
-      {/* Error */}
+      {/* Erro */}
       {error && !loading && (
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -421,7 +421,7 @@ export default function AnalyticsDashboard() {
           animate="visible"
           className="space-y-6"
         >
-          {/* Metric Cards */}
+          {/* Cards de Métricas */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <motion.div custom={0} variants={fadeUp}>
               <MetricCard
@@ -478,7 +478,7 @@ export default function AnalyticsDashboard() {
             </motion.div>
           </div>
 
-          {/* Charts Row */}
+          {/* Linha de Gráficos */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <motion.div custom={4} variants={fadeUp} className="lg:col-span-2">
               <StarsChart
@@ -498,7 +498,7 @@ export default function AnalyticsDashboard() {
             </motion.div>
           </div>
 
-          {/* Bottom Row */}
+          {/* Linha Inferior */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             <motion.div custom={6} variants={fadeUp} className="md:col-span-8">
               <PulseGrid

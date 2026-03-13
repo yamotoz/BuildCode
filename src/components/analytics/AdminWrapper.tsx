@@ -18,7 +18,7 @@ export default function AdminWrapper() {
 
   async function load() {
     try {
-      // Auth check
+      // Verificação de autenticação
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) { setState('unauth'); return; }
 
@@ -29,9 +29,9 @@ export default function AdminWrapper() {
       const hasAccess = ['master', 'admin'].includes(profile.role) || profile.can_access_dashboard === true;
       if (!hasAccess) { setState('unauth'); return; }
 
-      // Fetch all data
+      // Busca todos os dados
       const [subsRes, costsRes, profsRes, usageRes, usersRes, usageFullRes] = await Promise.all([
-        supabase.from('subscriptions').select('plan, status, created_at, current_period_end, user_id'),
+        supabase.from('subscriptions').select('plan, status, created_at, current_period_end, user_id, profiles!inner(role)'),
         supabase.from('api_costs').select('*').order('period_date', { ascending: true }).limit(365),
         supabase.from('profiles').select('seniority, created_at'),
         supabase.from('usage_logs').select('cost_usd, created_at').order('created_at', { ascending: true }).limit(1000),
@@ -46,23 +46,30 @@ export default function AdminWrapper() {
       const users = usersRes.data || [];
       const usageFull = usageFullRes.data || [];
 
+      // Filtra subscriptions: exclui master/admin via join direto com profiles
+      const getSubRole = (s: any) => s.profiles?.role || '';
+      const isPayingSub = (s: any) => !['master', 'admin'].includes(getSubRole(s));
+
       const active = subs.filter((s: any) => s.status === 'active');
       const canceled = subs.filter((s: any) => s.status === 'canceled');
       const prices: Record<string, number> = { explorador: 0, consultor: 35, arquiteto: 50 };
 
-      // ── Real MRR ──
-      const mrr = active.reduce((s: number, x: any) => s + (prices[x.plan] || 0), 0);
+      // ── MRR Real (exclui master/admin) ──
+      const activeExternal = active.filter(isPayingSub);
+      const mrr = activeExternal.reduce((s: number, x: any) => s + (prices[x.plan] || 0), 0);
 
-      // ── Real Churn Rate ──
-      const totalSubs = subs.length;
-      const churnRate = totalSubs > 0 ? (canceled.length / totalSubs) * 100 : 0;
+      // ── Taxa de Churn Real (exclui master/admin) ──
+      const externalSubs = subs.filter(isPayingSub);
+      const externalCanceled = canceled.filter(isPayingSub);
+      const totalSubs = externalSubs.length;
+      const churnRate = totalSubs > 0 ? (externalCanceled.length / totalSubs) * 100 : 0;
 
-      // ── Real ARPU & LTV ──
-      const payingUsers = active.filter((s: any) => prices[s.plan] > 0).length;
+      // ── ARPU & LTV Reais (exclui master/admin) ──
+      const payingUsers = activeExternal.filter((s: any) => prices[s.plan] > 0).length;
       const arpu = payingUsers > 0 ? mrr / payingUsers : 0;
       const ltv = churnRate > 0 ? (arpu / (churnRate / 100)) : arpu * 12;
 
-      // ── API Costs (real from api_costs table) ──
+      // ── Custos de API (dados reais da tabela api_costs) ──
       const apiCosts = [
         { provider: 'OpenAI', cost: 0 }, { provider: 'OpenRouter', cost: 0 },
         { provider: 'Supabase', cost: 0 }, { provider: 'Vercel', cost: 0 },
@@ -72,25 +79,25 @@ export default function AdminWrapper() {
         if (e) e.cost += Number(c.total_cost_usd) || 0;
       });
 
-      // ── Build monthly history from real data ──
+      // ── Constrói histórico mensal a partir de dados reais ──
       const monthNames = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
       const now = new Date();
       const monthlyHistory: Record<string, { revenue: number; cost: number; users: number }> = {};
 
-      // Initialize last 6 months
+      // Inicializa últimos 6 meses
       for (let i = 5; i >= 0; i--) {
         const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
         const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
         monthlyHistory[key] = { revenue: 0, cost: 0, users: 0 };
       }
 
-      // Revenue: count active subs that existed in each month
+      // Receita: conta assinaturas ativas em cada mês
       Object.keys(monthlyHistory).forEach(monthKey => {
         const [y, m] = monthKey.split('-').map(Number);
         const monthStart = new Date(y, m - 1, 1);
         const monthEnd = new Date(y, m, 0, 23, 59, 59);
 
-        subs.forEach((s: any) => {
+        subs.filter(isPayingSub).forEach((s: any) => {
           const createdAt = new Date(s.created_at);
           const isActiveInMonth = createdAt <= monthEnd && (s.status === 'active' || (s.current_period_end && new Date(s.current_period_end) >= monthStart));
           if (isActiveInMonth) {
@@ -99,7 +106,7 @@ export default function AdminWrapper() {
         });
       });
 
-      // Costs: aggregate api_costs by month
+      // Custos: agrega api_costs por mês
       costs.forEach((c: any) => {
         if (!c.period_date) return;
         const d = new Date(c.period_date);
@@ -109,7 +116,7 @@ export default function AdminWrapper() {
         }
       });
 
-      // Usage costs fallback (if api_costs is empty, use usage_logs)
+      // Fallback de custos (se api_costs vazio, usa usage_logs)
       if (costs.length === 0) {
         usage.forEach((u: any) => {
           if (!u.created_at) return;
@@ -121,7 +128,7 @@ export default function AdminWrapper() {
         });
       }
 
-      // Users: count profiles created up to each month
+      // Usuários: conta perfis criados até cada mês
       Object.keys(monthlyHistory).forEach(monthKey => {
         const [y, m] = monthKey.split('-').map(Number);
         const monthEnd = new Date(y, m, 0, 23, 59, 59);
@@ -141,11 +148,11 @@ export default function AdminWrapper() {
           ltv: churnRate > 0
             ? Number(((monthMrr / usersInMonth) / (churnRate / 100)).toFixed(2))
             : Number(((monthMrr / usersInMonth) * 12).toFixed(2)),
-          churn: churnRate, // static for now — no monthly churn snapshots
+          churn: churnRate, // estático por enquanto — sem snapshots mensais de churn
         };
       });
 
-      // ── Build daily history (last 30 days) ──
+      // ── Constrói histórico diário (últimos 30 dias) ──
       const dailyHistory: Record<string, { revenue: number; cost: number; users: number }> = {};
       for (let i = 29; i >= 0; i--) {
         const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
@@ -155,14 +162,14 @@ export default function AdminWrapper() {
 
       Object.keys(dailyHistory).forEach(dayKey => {
         const dayDate = new Date(dayKey + 'T23:59:59');
-        // Revenue: subs active on that day
-        subs.forEach((s: any) => {
+        // Receita: assinaturas ativas naquele dia (exclui master/admin)
+        subs.filter(isPayingSub).forEach((s: any) => {
           const createdAt = new Date(s.created_at);
           if (createdAt <= dayDate && (s.status === 'active' || (s.current_period_end && new Date(s.current_period_end) >= dayDate))) {
-            dailyHistory[dayKey].revenue += (prices[s.plan] || 0) / 30; // daily pro-rata
+            dailyHistory[dayKey].revenue += (prices[s.plan] || 0) / 30; // rateio diário
           }
         });
-        // Costs
+        // Custos
         costs.forEach((c: any) => {
           if (!c.period_date) return;
           const costDate = c.period_date.substring(0, 10);
@@ -179,7 +186,7 @@ export default function AdminWrapper() {
             }
           });
         }
-        // Users
+        // Usuários
         dailyHistory[dayKey].users = profs.filter((p: any) => new Date(p.created_at) <= dayDate).length;
       });
 
@@ -199,21 +206,21 @@ export default function AdminWrapper() {
         };
       });
 
-      // ── Plan Distribution ──
+      // ── Distribuição de Planos ──
       const planDistribution = [
         { plan: 'Explorador', count: active.filter((s: any) => s.plan === 'explorador').length },
         { plan: 'Consultor', count: active.filter((s: any) => s.plan === 'consultor').length },
         { plan: 'Arquiteto', count: active.filter((s: any) => s.plan === 'arquiteto').length },
-      ].filter(p => p.count > 0); // only show plans that have users
+      ].filter(p => p.count > 0); // exibe apenas planos com usuários
 
-      // ── User Segmentation ──
+      // ── Segmentação de Usuários ──
       const userSegmentation = [
         { seniority: 'Junior', count: profs.filter((p: any) => p.seniority === 'junior').length },
         { seniority: 'Pleno', count: profs.filter((p: any) => p.seniority === 'pleno').length },
         { seniority: 'Senior', count: profs.filter((p: any) => p.seniority === 'senior').length },
       ].filter(s => s.count > 0);
 
-      // Build user list with subscription data
+      // Monta lista de usuários com dados de assinatura
       const usersList = users.map((u: any) => {
         const sub = subs.find((s: any) => s.user_id === u.id);
         const userLogs = usageFull.filter((l: any) => l.user_id === u.id);

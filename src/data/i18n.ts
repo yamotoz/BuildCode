@@ -1,5 +1,5 @@
 /**
- * BuildCode — Internationalization (i18n)
+ * BuildCode — Internacionalização (i18n)
  * Traduções PT-BR ↔ EN para todo o sistema.
  *
  * Para adicionar novo texto traduzível:
@@ -394,10 +394,11 @@ export const translations: Record<string, Record<string, string>> = {
   "precos.plan.explorer.cta": { pt: "Começar Grátis", en: "Start Free" },
   "precos.plan.explorer.f1": { pt: "Apenas agente", en: "Only agent" },
   "precos.plan.explorer.f2": { pt: "e Prompt Bases salvos", en: "and Prompt Bases saved" },
-  "precos.plan.explorer.f3": { pt: "de IA gratuita", en: "of free AI" },
-  "precos.plan.explorer.f4": { pt: "LLMs médias e premium bloqueadas", en: "Medium and premium LLMs locked" },
+  "precos.plan.explorer.f3": { pt: "de IA econômica", en: "of budget AI" },
+  "precos.plan.explorer.f4": { pt: "LLMs médias e Elite bloqueadas", en: "Medium and Elite LLMs locked" },
   "precos.plan.explorer.f5": { pt: "Prompt Base até", en: "Prompt Base up to" },
   "precos.plan.explorer.f6": { pt: "Sem resumo em áudio", en: "No audio summary" },
+  "precos.plan.explorer.f7": { pt: "Sem exportação de arquivos", en: "No file export" },
   "precos.plan.pro": { pt: "Consultor", en: "Consultant" },
   "precos.plan.pro.tag": { pt: "Pro", en: "Pro" },
   "precos.plan.pro.desc": {
@@ -408,9 +409,9 @@ export const translations: Record<string, Record<string, string>> = {
   "precos.plan.pro.f1": { pt: "liberados", en: "unlocked" },
   "precos.plan.pro.f2": { pt: "e Prompt Bases salvos", en: "and Prompt Bases saved" },
   "precos.plan.pro.f3": { pt: "ilimitadas", en: "unlimited" },
-  "precos.plan.pro.f4": { pt: "em LLMs premium", en: "on premium LLMs" },
+  "precos.plan.pro.f4": { pt: "em LLMs de Elite", en: "on Elite LLMs" },
   "precos.plan.pro.f5": { pt: "Prompt Base até", en: "Prompt Base up to" },
-  "precos.plan.pro.f6": { pt: "Importação em", en: "Import in" },
+  "precos.plan.pro.f6": { pt: "Exportação em", en: "Export in" },
   "precos.plan.pro.f7": { pt: "da IA", en: "from AI" },
   "precos.plan.elite": { pt: "Arquiteto", en: "Architect" },
   "precos.plan.elite.tag": { pt: "Elite", en: "Elite" },
@@ -423,7 +424,7 @@ export const translations: Record<string, Record<string, string>> = {
   "precos.plan.elite.f1": { pt: "liberados", en: "unlocked" },
   "precos.plan.elite.f2": { pt: "ilimitados", en: "unlimited" },
   "precos.plan.elite.f3": { pt: "ilimitadas", en: "unlimited" },
-  "precos.plan.elite.f4": { pt: "em LLMs premium", en: "on premium LLMs" },
+  "precos.plan.elite.f4": { pt: "em LLMs de Elite", en: "on Elite LLMs" },
   "precos.plan.elite.f5": { pt: "Prompt Base até", en: "Prompt Base up to" },
   "precos.plan.elite.f6": { pt: "e mais", en: "and more" },
   "precos.plan.elite.f7": { pt: "da IA", en: "from AI" },

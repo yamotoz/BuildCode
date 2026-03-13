@@ -1,24 +1,69 @@
-# build output
-dist/
-# generated types
-.astro/
+# ========================================
+# BuildCode - Protecao de Arquivos
+# ========================================
 
-# dependencies
+# Build & Cache
+dist/
+.astro/
+.vercel/
+.netlify/
+.output/
+
+# Dependencias
 node_modules/
 
-# logs
+# Variaveis de ambiente (CRITICO)
+.env
+.env.*
+.env.local
+.env.production
+.env.development
+!.env.example
+
+# Banco de dados & Schema (PROTEGIDO)
+supabase/
+*.sql
+
+# Diario do agente (INTERNO)
+agentlog.md
+
+# Skills & Configuracoes do agente (INTERNO)
+.agents/
+
+# Memoria do Claude (INTERNO)
+.claude/
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+*.log
 
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
+# Sistema operacional
 .DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
 
-# jetbrains setting folder
+# IDE
 .idea/
+.vscode/
+*.code-workspace
+
+# Scripts utilitarios internos
+change_photoSVG.py
+download_icons.cjs
+generate_techs.js
+skills-lock.json
+
+# Pasta de imagens antigas
+Img/
+
+# Arquivos temporarios
+*.tmp
+*.temp
+*.bak
+*.orig

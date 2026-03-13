@@ -5,7 +5,7 @@ export const prerender = false;
 const GITHUB_TOKEN = import.meta.env.GITHUB_TOKEN;
 
 const REPO_MAP: Record<string, string> = {
-  // Frameworks Frontend
+  // Frameworks Frontend (mapeamento de nomes para repositórios GitHub)
   'react': 'facebook/react',
   'next.js': 'vercel/next.js',
   'nextjs': 'vercel/next.js',
@@ -59,7 +59,7 @@ const REPO_MAP: Record<string, string> = {
   'adonis': 'adonisjs/core',
   'adonisjs': 'adonisjs/core',
 
-  // Mobile
+  // Mobile / Desktop
   'react native': 'facebook/react-native',
   'flutter': 'flutter/flutter',
   'expo': 'expo/expo',
@@ -68,7 +68,7 @@ const REPO_MAP: Record<string, string> = {
   'tauri': 'tauri-apps/tauri',
   'electron': 'electron/electron',
 
-  // Databases
+  // Bancos de Dados
   'postgresql': 'postgres/postgres',
   'postgres': 'postgres/postgres',
   'mysql': 'mysql/mysql-server',
@@ -83,7 +83,7 @@ const REPO_MAP: Record<string, string> = {
   'sequelize': 'sequelize/sequelize',
   'mongoose': 'Automattic/mongoose',
 
-  // DevOps / Infra
+  // DevOps / Infraestrutura
   'docker': 'moby/moby',
   'kubernetes': 'kubernetes/kubernetes',
   'k8s': 'kubernetes/kubernetes',
@@ -93,7 +93,7 @@ const REPO_MAP: Record<string, string> = {
   'grafana': 'grafana/grafana',
   'prometheus': 'prometheus/prometheus',
 
-  // CSS / UI
+  // CSS / Interface
   'tailwindcss': 'tailwindlabs/tailwindcss',
   'tailwind': 'tailwindlabs/tailwindcss',
   'bootstrap': 'twbs/bootstrap',
@@ -103,7 +103,7 @@ const REPO_MAP: Record<string, string> = {
   'shadcn': 'shadcn-ui/ui',
   'radix': 'radix-ui/primitives',
 
-  // Tools / Bundlers
+  // Ferramentas / Bundlers
   'vite': 'vitejs/vite',
   'webpack': 'webpack/webpack',
   'turbopack': 'vercel/turborepo',
@@ -115,14 +115,14 @@ const REPO_MAP: Record<string, string> = {
   'eslint': 'eslint/eslint',
   'prettier': 'prettier/prettier',
 
-  // Testing
+  // Testes
   'jest': 'jestjs/jest',
   'vitest': 'vitest-dev/vitest',
   'playwright': 'microsoft/playwright',
   'cypress': 'cypress-io/cypress',
   'storybook': 'storybookjs/storybook',
 
-  // State / Data
+  // Estado / Dados
   'redux': 'reduxjs/redux',
   'zustand': 'pmndrs/zustand',
   'tanstack query': 'TanStack/query',
@@ -138,7 +138,7 @@ const REPO_MAP: Record<string, string> = {
   'hugging face': 'huggingface/transformers',
   'transformers': 'huggingface/transformers',
 
-  // Languages
+  // Linguagens
   'typescript': 'microsoft/TypeScript',
   'rust': 'rust-lang/rust',
   'go': 'golang/go',
@@ -152,7 +152,7 @@ function resolveRepo(input: string): string | null {
   const normalized = input.trim().toLowerCase();
   if (REPO_MAP[normalized]) return REPO_MAP[normalized];
 
-  // Try direct owner/repo format
+  // Tenta formato direto owner/repo
   if (/^[\w.-]+\/[\w.-]+$/.test(input.trim())) return input.trim();
 
   return null;
