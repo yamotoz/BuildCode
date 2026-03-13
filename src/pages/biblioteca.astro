@@ -4,7 +4,18 @@ import { categories } from '../data/categories';
 import { technologies } from '../data/technologies';
 ---
 
-<Layout title="Biblioteca Técnica | BuildCode">
+<Layout
+  title="Biblioteca Tecnica - 200+ Tecnologias | BuildCode"
+  description="Catalogo curado com mais de 200 tecnologias em 9 categorias: frontend, backend, banco de dados, infraestrutura, bibliotecas, DevEx, IA, design e MCP. Busca e filtros avancados."
+  canonicalPath="/biblioteca"
+  jsonLd={{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Biblioteca Tecnica - BuildCode",
+    "description": "Catalogo curado de 200+ tecnologias para desenvolvimento de software",
+    "url": "https://buildcode.com.br/biblioteca"
+  }}
+>
   <!-- Digital Grain Background para estética premium -->
   <div class="fixed inset-0 pointer-events-none bg-grain opacity-[0.03] z-[9999]"></div>
   

@@ -4,7 +4,18 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 ---
 
-<Layout title="BuildCode | Preços">
+<Layout
+  title="Precos e Planos - BuildCode | Explorador, Consultor e Arquiteto"
+  description="Escolha o plano ideal para seu projeto. Explorador gratuito, Consultor R$35/mes e Arquiteto R$50/mes. 9 modelos de IA, exportacao em Markdown, PDF e DOCX."
+  canonicalPath="/precos"
+  jsonLd={{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Precos e Planos - BuildCode",
+    "description": "Planos de assinatura do BuildCode - Explorador, Consultor e Arquiteto",
+    "url": "https://buildcode.com.br/precos"
+  }}
+>
   <Header />
 
   <main class="bg-background-dark min-h-screen">

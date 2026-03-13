@@ -4,7 +4,58 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="BuildCode - Construir software sem arquitetura é apostar no caos.">
+<Layout
+  title="BuildCode - Arquitetura de Software com IA | Gere PRDs e Prompts Otimizados"
+  description="Plataforma SaaS que gera documentos de arquitetura (PRD) e Prompt Base otimizados para projetos de software. 9 modelos de IA, 200+ tecnologias, dados GitHub em tempo real."
+  canonicalPath="/"
+  jsonLd={{
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "BuildCode",
+    "url": "https://buildcode.com.br",
+    "description": "Plataforma SaaS de arquitetura de software com IA. Gere PRDs estrategicos e Prompt Base otimizados com 9 modelos de IA.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Explorador",
+        "price": "0",
+        "priceCurrency": "BRL",
+        "description": "Plano gratuito com 3 projetos e modelos Budget"
+      },
+      {
+        "@type": "Offer",
+        "name": "Consultor",
+        "price": "35.00",
+        "priceCurrency": "BRL",
+        "description": "15 projetos, modelos Budget + Mid, audio TTS"
+      },
+      {
+        "@type": "Offer",
+        "name": "Arquiteto",
+        "price": "50.00",
+        "priceCurrency": "BRL",
+        "description": "Projetos ilimitados, todos os modelos, exportacao completa"
+      }
+    ],
+    "creator": {
+      "@type": "Organization",
+      "name": "BuildCode",
+      "url": "https://buildcode.com.br"
+    },
+    "featureList": [
+      "Wizard de arquitetura com 20 etapas",
+      "Geracao de PRD por IA",
+      "Prompt Base otimizado para LLMs",
+      "9 modelos de IA em 3 tiers",
+      "4 agentes mentores com TTS",
+      "Analytics com dados GitHub em tempo real",
+      "Biblioteca de 200+ tecnologias",
+      "Internacionalizacao PT-BR e EN"
+    ]
+  }}
+>
   <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
     <Header />
 
@@ -61,7 +112,7 @@ import Footer from '../components/Footer.astro';
           </div>
 
           <!-- Social proof micro -->
-          <div class="flex items-center gap-6 mt-12 text-sm text-slate-500">
+          <div class="flex items-center gap-6 mt-12 text-sm text-slate-400">
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-primary text-lg">shield</span>
               <span data-i18n="lp.hero.proof.lgpd">LGPD Compliant</span>
@@ -209,19 +260,19 @@ import Footer from '../components/Footer.astro';
                 <div class="size-3 rounded-full bg-red-500/60"></div>
                 <div class="size-3 rounded-full bg-yellow-500/60"></div>
                 <div class="size-3 rounded-full bg-green-500/60"></div>
-                <span class="ml-3 text-slate-500 text-xs">security-scan.sh</span>
+                <span class="ml-3 text-slate-400 text-xs">security-scan.sh</span>
               </div>
               <!-- Simulated scan output -->
               <div class="space-y-2 text-slate-400">
                 <p><span class="text-primary">$</span> scanning target application...</p>
-                <p class="text-slate-500">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%</p>
+                <p class="text-slate-400">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100%</p>
                 <p class="mt-3"><span class="text-red-400 font-bold">CRITICAL</span> SQL Injection in /api/users</p>
                 <p><span class="text-red-400 font-bold">CRITICAL</span> XSS via unsanitized input</p>
                 <p><span class="text-yellow-400 font-bold">HIGH</span> &nbsp;&nbsp;&nbsp;&nbsp;No rate limiting on auth</p>
                 <p><span class="text-yellow-400 font-bold">HIGH</span> &nbsp;&nbsp;&nbsp;&nbsp;JWT without expiration</p>
                 <p><span class="text-orange-400 font-bold">MEDIUM</span> &nbsp;CORS wildcard enabled</p>
                 <p><span class="text-orange-400 font-bold">MEDIUM</span> &nbsp;Missing CSP headers</p>
-                <p class="mt-4 text-slate-500">────────────────────────────────</p>
+                <p class="mt-4 text-slate-400">────────────────────────────────</p>
                 <p class="text-red-400 font-bold">6 vulnerabilities found.</p>
                 <p class="text-red-400">Application status: <span class="animate-pulse">COMPROMISED</span></p>
               </div>
@@ -242,7 +293,7 @@ import Footer from '../components/Footer.astro';
           <div class="flex flex-col items-center text-center gap-5 max-w-[800px] mx-auto">
             <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5">
               <span class="material-symbols-outlined text-primary text-sm">auto_awesome</span>
-              <span class="text-xs font-bold tracking-[0.15em] text-primary uppercase" data-i18n="lp.porque.badge">Por Que BuildCode</span>
+              <span class="text-xs font-bold tracking-[0.15em] text-secondary uppercase" data-i18n="lp.porque.badge">Por Que BuildCode</span>
             </div>
             <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
               <span data-i18n="lp.porque.title.1">Construa software como um</span><br/>
@@ -298,7 +349,7 @@ import Footer from '../components/Footer.astro';
 
           <!-- CTA inline -->
           <div class="flex justify-center">
-            <a href="/app" class="group flex items-center gap-3 rounded-full bg-white/[0.03] border border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all px-8 py-4 text-primary font-bold">
+            <a href="/app" class="group flex items-center gap-3 rounded-full bg-white/[0.03] border border-primary/30 hover:border-primary/50 hover:bg-primary/5 transition-all px-8 py-4 text-secondary font-bold">
               <span data-i18n="lp.porque.cta">Experimentar Gratuitamente</span>
               <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">east</span>
             </a>
@@ -316,7 +367,7 @@ import Footer from '../components/Footer.astro';
           <div class="flex flex-col items-center text-center gap-5 max-w-[800px] mx-auto">
             <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5">
               <span class="material-symbols-outlined text-primary text-sm">diamond</span>
-              <span class="text-xs font-bold tracking-[0.15em] text-primary uppercase" data-i18n="lp.diff.badge">Diferenciais</span>
+              <span class="text-xs font-bold tracking-[0.15em] text-secondary uppercase" data-i18n="lp.diff.badge">Diferenciais</span>
             </div>
             <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
               <span data-i18n="lp.diff.title.1">O que torna o BuildCode</span><br/>
@@ -378,22 +429,22 @@ import Footer from '../components/Footer.astro';
             <div class="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-primary/20 transition-colors">
               <span class="material-symbols-outlined text-primary text-3xl mb-3">translate</span>
               <div class="text-white font-bold text-sm" data-i18n="lp.diff.mini1.title">Multi-idioma</div>
-              <div class="text-slate-500 text-xs mt-1" data-i18n="lp.diff.mini1.sub">PT-BR & English</div>
+              <div class="text-slate-400 text-xs mt-1" data-i18n="lp.diff.mini1.sub">PT-BR & English</div>
             </div>
             <div class="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-primary/20 transition-colors">
               <span class="material-symbols-outlined text-primary text-3xl mb-3">library_books</span>
               <div class="text-white font-bold text-sm" data-i18n="lp.diff.mini2.title">Biblioteca 200+</div>
-              <div class="text-slate-500 text-xs mt-1" data-i18n="lp.diff.mini2.sub">Ferramentas curadas</div>
+              <div class="text-slate-400 text-xs mt-1" data-i18n="lp.diff.mini2.sub">Ferramentas curadas</div>
             </div>
             <div class="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-primary/20 transition-colors">
               <span class="material-symbols-outlined text-primary text-3xl mb-3">dark_mode</span>
               <div class="text-white font-bold text-sm" data-i18n="lp.diff.mini3.title">Tema Dark/Light</div>
-              <div class="text-slate-500 text-xs mt-1" data-i18n="lp.diff.mini3.sub">Interface adaptável</div>
+              <div class="text-slate-400 text-xs mt-1" data-i18n="lp.diff.mini3.sub">Interface adaptável</div>
             </div>
             <div class="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-primary/20 transition-colors">
               <span class="material-symbols-outlined text-primary text-3xl mb-3">analytics</span>
               <div class="text-white font-bold text-sm" data-i18n="lp.diff.mini4.title">GitHub Analytics</div>
-              <div class="text-slate-500 text-xs mt-1" data-i18n="lp.diff.mini4.sub">Compare tecnologias</div>
+              <div class="text-slate-400 text-xs mt-1" data-i18n="lp.diff.mini4.sub">Compare tecnologias</div>
             </div>
           </div>
         </div>
@@ -412,7 +463,7 @@ import Footer from '../components/Footer.astro';
           <div class="flex flex-col items-center text-center gap-5 max-w-[900px] mx-auto">
             <div class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5">
               <span class="material-symbols-outlined text-primary text-sm">verified</span>
-              <span class="text-xs font-bold tracking-[0.15em] text-primary uppercase" data-i18n="lp.solucao.badge">A Solução</span>
+              <span class="text-xs font-bold tracking-[0.15em] text-secondary uppercase" data-i18n="lp.solucao.badge">A Solução</span>
             </div>
             <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
               <span data-i18n="lp.solucao.title.1">Quatro mentes artificiais.</span><br/>
@@ -617,7 +668,7 @@ import Footer from '../components/Footer.astro';
                   <span class="ml-3 text-red-500/40 text-xs font-bold">cyberdyne v0.1-alpha</span>
                 </div>
                 <div class="space-y-2">
-                  <p class="text-red-500/70"><span class="text-red-400">root@cyberdyne</span>:<span class="text-slate-500">~</span>$ ./scan --target app.example.com --deep</p>
+                  <p class="text-red-500/70"><span class="text-red-400">root@cyberdyne</span>:<span class="text-slate-400">~</span>$ ./scan --target app.example.com --deep</p>
                   <p class="text-slate-600 text-xs mt-1">[*] Initializing attack vectors...</p>
                   <p class="text-slate-600 text-xs">[*] Loading 847 payloads...</p>
                   <p class="text-slate-600 text-xs">[*] Scanning 23 endpoints...</p>
@@ -785,7 +836,7 @@ import Footer from '../components/Footer.astro';
               <span data-i18n="lp.cta.button">Criar Meu Projeto Agora</span>
               <span class="material-symbols-outlined ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </a>
-            <p class="text-slate-500 text-sm relative z-10" data-i18n="lp.cta.subtext">Gratuito. Sem cartão de crédito. Sem pegadinha.</p>
+            <p class="text-slate-400 text-sm relative z-10" data-i18n="lp.cta.subtext">Gratuito. Sem cartão de crédito. Sem pegadinha.</p>
           </div>
         </div>
       </section>
