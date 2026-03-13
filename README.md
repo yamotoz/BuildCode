@@ -4,11 +4,9 @@
 
 <br /><br />
 
-# O Arquiteto de Software que nunca dorme.
+# BuildCode
 
-**BuildCode transforma decisoes tecnicas em vantagem competitiva.**
-
-Enquanto empresas perdem meses escolhendo stacks erradas, seu time gera arquiteturas validadas por IA em minutos.
+**Plataforma SaaS de arquitetura de software potencializada por IA — Astro SSR + React + Supabase + 9 LLMs**
 
 <br />
 
@@ -26,146 +24,217 @@ https://github.com/user-attachments/assets/b128e015-2b0a-4085-bcd6-81168f4c28d1
 
 ---
 
-## O Problema que Custa Bilhoes
+## Sobre
 
-Toda empresa de tecnologia enfrenta o mesmo dilema: **escolher a stack errada no inicio do projeto custa caro demais para corrigir depois.**
+BuildCode e um SaaS que gera documentos de arquitetura (PRD) e Prompt Base otimizados para projetos de software, alimentado por 9 modelos de IA, dados em tempo real da GitHub API e uma base proprietaria de 200+ tecnologias.
 
-- **67% dos projetos de software falham** por decisoes tecnicas tomadas sem dados suficientes
-- Startups queimam **meses de runway** refatorando arquiteturas que nao escalam
-- Desenvolvedores seniores gastam **semanas** avaliando ferramentas antes de escrever a primeira linha de codigo
-- Consultorias de arquitetura cobram **R$ 15.000 a R$ 80.000** por projeto — e ainda erram
+O sistema conduz o usuario por um wizard de 20 etapas cobrindo stack completa — frontend, backend, banco de dados, autenticacao, testes, CI/CD, deploy — e entrega:
 
-O mercado nao tem um sistema que centralize conhecimento tecnico, analise dados reais e gere decisoes arquiteturais fundamentadas. **Ate agora.**
-
----
-
-## O que e o BuildCode
-
-BuildCode e um **SaaS de engenharia de software potencializado por Inteligencia Artificial** que atua como um arquiteto virtual de elite.
-
-Atraves de um wizard inteligente de 20 etapas, o sistema conduz o usuario por cada decisao critica — ferramentas, frameworks, banco de dados, infraestrutura, autenticacao, testes, CI/CD, deploy — e gera automaticamente:
-
-| Entregavel | O que faz |
-|:---|:---|
-| **PRD Completo** | Documento de Requisitos com justificativas tecnicas, diagrama de arquitetura e estimativa de custos |
-| **Prompt Base Otimizado** | Prompt de engenharia pronto para Claude, GPT, Gemini — com boas praticas por tecnologia |
-| **Insights Visuais** | Graficos radar, distribuicao de stack, complexidade e metricas de risco do projeto |
-
-Tudo isso alimentado por uma **base proprietaria de 200+ tecnologias**, dados em tempo real do GitHub, e 9 modelos de IA de ponta.
+- **PRD Completo** — Justificativas tecnicas, diagrama de arquitetura, estimativa de custos
+- **Prompt Base Otimizado** — Pronto para Claude, GPT, Gemini com boas praticas por tecnologia
+- **Insights Visuais** — Graficos radar, distribuicao de stack, complexidade e risco
 
 ---
 
-## Por que BuildCode e Diferente
-
-### Dados Reais, Nao Opinioes
-
-Enquanto outros recomendam stacks baseados em hype, BuildCode consulta a **GitHub API em tempo real** — stars, forks, issues abertas, frequencia de commits — para validar cada recomendacao com dados concretos.
-
-### 4 Agentes Mentores com Personalidade
-
-Nao e um chatbot generico. Sao **4 agentes de IA especializados**, cada um com voz propria (TTS), estilo de comunicacao e expertise distinta:
-
-| Agente | Estilo | Especialidade |
-|:---|:---|:---|
-| **The Boss** | Direto, estrategico | Arquitetura e decisoes de alto nivel |
-| **Azrael** | Tecnico, cirurgico | Otimizacao, performance e seguranca |
-| **Rizler** | Criativo, ousado | Frontend, UX e tendencias emergentes |
-| **Anastasia** | Didatica, acolhedora | Melhores praticas e aprendizado guiado |
-
-### Motor de Decisao Inteligente
-
-O sistema nao apenas pergunta — ele **pensa**. Analisa senioridade do desenvolvedor, tipo de projeto, escala esperada, restricoes tecnicas e orcamento para recomendar a stack ideal. Projetos hobby recebem stacks diferentes de projetos enterprise.
-
-### 9 Modelos de IA em 3 Tiers
-
-| Tier | Modelos | Para quem |
-|:---|:---|:---|
-| **Budget** | Gemini Flash, Llama, Mistral | Geracoes rapidas e economicas |
-| **Mid** | GPT-4o-mini, Claude Haiku, DeepSeek | Equilibrio entre custo e qualidade |
-| **Pro** | GPT-4o, Claude Sonnet, Gemini Pro | Maximo nivel de profundidade e detalhe |
-
----
-
-## Numeros que Importam
+## Arquitetura & Stack
 
 <div align="center">
 
-| Metrica | Valor |
-|:---|:---|
-| Tecnologias mapeadas | **200+** em 9 categorias |
-| Etapas do wizard | **20** decisoes criticas cobertas |
-| Modelos de IA | **9** (3 tiers de custo) |
-| Chaves de traducao | **350+** (PT-BR ↔ EN) |
-| Tempo medio por PRD | **< 3 minutos** |
-| Categorias da biblioteca | **9** (frontend, backend, dados, infra, libs, devex, IA, design, MCP) |
-
-</div>
-
----
-
-## Funcionalidades Completas
-
-**Wizard de Arquitetura** — 20 etapas guiadas com filtragem dinamica por tipo de projeto (hobby/saas/enterprise), dificuldade por opcao e recomendacoes inteligentes.
-
-**Geracao de PRD por IA** — Documento completo com justificativas tecnicas, diagrama de arquitetura, estimativa de custos e links para documentacao oficial.
-
-**Prompt Base Otimizado** — Prompts prontos para LLMs com boas praticas por tecnologia, regras de clean code, diretrizes de responsividade e padrao agentlog.
-
-**Chat IA Flutuante** — Widget integrado ao wizard com agente mentor, personalidade unica e audio TTS em tempo real.
-
-**Analytics Dashboard** — Comparacao lado-a-lado de tecnologias com dados GitHub em tempo real. Graficos interativos com Recharts.
-
-**Painel Administrativo SaaS** — MRR, Churn, ARPU, LTV, burn rate, graficos de crescimento, gestao de usuarios e analise de uso por usuario.
-
-**Biblioteca Tecnica** — Catalogo curado de 200+ tecnologias com busca, filtro por categoria e detalhamento completo.
-
-**Internacionalizacao** — Suporte completo PT-BR e EN com troca instantanea em toda a plataforma.
-
-**Dark/Light Mode** — Tema global com persistencia, adaptacao de graficos e troca dinamica de logo.
-
-**Background 3D Imersivo** — Cena Three.js com particulas animadas no wizard para experiencia premium.
-
-**Pagina de Precos** — 3 planos (Explorador, Consultor, Arquiteto) com toggle mensal/anual e FAQ.
-
----
-
-## Stack Tecnologica
-
-<div align="center">
-
-![Astro](https://img.shields.io/badge/Astro-BC52EE?style=flat-square&logo=astro&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Astro](https://img.shields.io/badge/Astro_SSR-BC52EE?style=flat-square&logo=astro&logoColor=white)
+![React](https://img.shields.io/badge/React_18-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
-![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=openai&logoColor=white)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=flat-square&logo=framer&logoColor=white)
-![Recharts](https://img.shields.io/badge/Recharts-FF6384?style=flat-square&logo=chart.js&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![GitHub API](https://img.shields.io/badge/GitHub_API-181717?style=flat-square&logo=github&logoColor=white)
-![Lucide](https://img.shields.io/badge/Lucide_React-F56565?style=flat-square&logo=lucide&logoColor=white)
-![OpenRouter](https://img.shields.io/badge/OpenRouter-6366F1?style=flat-square&logo=data:image/svg+xml;base64,&logoColor=white)
-![Asaas](https://img.shields.io/badge/Asaas_Payments-00C853?style=flat-square&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
 
 </div>
 
+### Frontend
+
+| Tecnologia | Uso |
+|:---|:---|
+| **Astro SSR** | Framework principal — renderizacao server-side com `prerender = false` para rotas de API |
+| **React 18** | Componentes interativos dentro de Astro islands (`client:load`) |
+| **TypeScript** | Tipagem em todo o codebase — API routes, componentes, configs |
+| **Tailwind CSS v4** | Estilizacao utility-first com dark/light mode e CSS layers |
+| **Framer Motion** | Animacoes de transicao no wizard e componentes UI |
+| **Three.js** | Cena 3D com sistema de particulas animadas no background do wizard |
+| **Recharts** | Graficos interativos — radar, barra, distribuicao — no dashboard de analytics |
+| **Lucide React** | Icones SVG consistentes em toda a interface |
+
+### Backend & Infraestrutura
+
+| Tecnologia | Uso |
+|:---|:---|
+| **Supabase Auth** | Autenticacao com JWT — login, registro, sessoes, role-based access (master/admin/user) |
+| **Supabase Database** | PostgreSQL gerenciado com RLS (Row Level Security) policies por tabela |
+| **Supabase Storage** | Upload de avatares (bucket `avatars`) e armazenamento de PRDs/Prompts gerados |
+| **Supabase Realtime** | Subscriptions para atualizacao de dados em tempo real |
+| **Astro API Routes** | Endpoints server-side em `/api/*` — chat, generate, tts, save-project, github, invite-user |
+
+### Integracoes de IA
+
+BuildCode roteia para **9 modelos de IA** atraves de 3 provedores:
+
+| Provedor | Modelos | Protocolo |
+|:---|:---|:---|
+| **OpenAI** | GPT-4o, GPT-4o-mini | API direta (`api.openai.com/v1`) |
+| **Google** | Gemini 2.0 Flash, Gemini 1.5 Pro | API direta (`generativelanguage.googleapis.com`) |
+| **OpenRouter** | Claude Sonnet, Claude Haiku, Llama 3.3 70B, Mistral Small, DeepSeek V3 | API unificada (`openrouter.ai/api/v1`) |
+| **OpenAI TTS** | `tts-1` com 4 vozes (onyx, echo, fable, nova) | API de audio (`api.openai.com/v1/audio/speech`) |
+
+**Tiers de modelo:**
+
+```
+Budget  → Gemini Flash, Llama 3.3 70B, Mistral Small     (rapido, economico)
+Mid     → GPT-4o-mini, Claude Haiku, DeepSeek V3          (equilibrio custo/qualidade)
+Pro     → GPT-4o, Claude Sonnet, Gemini 1.5 Pro           (maximo detalhe)
+```
+
+### APIs Externas
+
+| API | Endpoint | Funcao |
+|:---|:---|:---|
+| **GitHub REST API** | `api.github.com/repos/{owner}/{repo}` | Stars, forks, issues, commits, linguagens — analytics em tempo real |
+| **OpenAI Chat** | `/v1/chat/completions` | Chat com agentes mentores (gpt-4o-mini) |
+| **OpenAI TTS** | `/v1/audio/speech` | Sintese de voz para resumos dos agentes |
+| **OpenRouter** | `/api/v1/chat/completions` | Roteamento multi-modelo para geracao de PRD/Prompt |
+| **Google Gemini** | `/v1beta/models/*/generateContent` | Geracao via modelos Gemini |
+| **Asaas Payments** | API de pagamentos | Gestao de assinaturas e cobrancas recorrentes |
+
 ---
 
-## Visao de Futuro
+## Sistema de Agentes IA
 
-BuildCode nao e apenas uma ferramenta — e a **infraestrutura de decisao tecnica** para a proxima geracao de empresas de software.
+4 agentes especializados, cada um com personalidade, estilo de comunicacao e voz TTS propria:
 
-O roadmap inclui:
+| Agente | Voz TTS | Modelo | Especialidade |
+|:---|:---|:---|:---|
+| **The Boss** | `onyx` | gpt-4o-mini | Arquitetura, decisoes estrategicas |
+| **Azrael** | `echo` | gpt-4o-mini | Performance, seguranca, otimizacao |
+| **Rizler** | `fable` | gpt-4o-mini | Frontend, UX, tendencias |
+| **Anastasia** | `nova` | gpt-4o-mini | Boas praticas, aprendizado guiado |
+
+Os agentes sao acessiveis via chat flutuante integrado ao wizard, com audio TTS em tempo real.
+
+---
+
+## Wizard de Arquitetura
+
+Sistema de 20 etapas com logica dinamica:
+
+- **Filtragem por tipo de projeto** — Steps tem `visibleFor` (hobby/saas/enterprise) e `optionalFor` (etapas pulaveis)
+- **Dificuldade por opcao** — Tags `easy`, `medium`, `hard` com badges `recommendedFor`
+- **Navegacao inteligente** — Pula automaticamente steps ocultos baseado no tipo de projeto
+- **Step 21** = Selecao do modelo LLM | **Step 22** = Loading | **Step 23** = Resultado
+
+**Saida gerada:**
+
+| Documento | Conteudo |
+|:---|:---|
+| **PRD** | Justificativa de cada tecnologia, diagrama de arquitetura, estimativa de custos, links para docs oficiais |
+| **Prompt Base** | Regra `agentlog.md`, boas praticas por tech, guidelines de responsividade, clean code, padrao de logs |
+
+Configuracao completa em `wizard-config.ts`: questions, phases, testesOptions, llmModels, difficultyConfig.
+
+---
+
+## Funcionalidades
+
+| Feature | Tecnologias Envolvidas |
+|:---|:---|
+| **Wizard 20 etapas** | Astro, React, Framer Motion, wizard-config.ts |
+| **Geracao PRD/Prompt** | OpenAI, Gemini, OpenRouter, Astro API routes |
+| **Chat IA flutuante** | OpenAI GPT-4o-mini, WebSocket-like streaming |
+| **Audio TTS** | OpenAI TTS API, 4 vozes mapeadas por agente |
+| **Analytics Dashboard** | GitHub REST API, Recharts, comparacao lado-a-lado |
+| **Painel Admin SaaS** | Supabase admin, metricas MRR/Churn/ARPU/LTV/burn rate |
+| **Biblioteca Tecnica** | 200+ tecnologias, 9 categorias, busca e filtros |
+| **Sistema de planos** | 3 tiers (Explorador/Consultor/Arquiteto), validacao server-side |
+| **Perfil & Avatares** | Supabase Auth + Storage, upload com preview |
+| **Convite de usuarios** | API route server-side com service role key |
+| **i18n** | 350+ chaves PT-BR/EN, troca instantanea via `data-i18n` |
+| **Dark/Light Mode** | CSS custom properties, persistencia em localStorage |
+| **Background 3D** | Three.js particle system animado |
+| **Exportacao** | Markdown (.md), PDF, DOCX — restrito por plano |
+
+---
+
+## Seguranca
+
+- **Supabase RLS** — Row Level Security em todas as tabelas, policies por `user_id`
+- **Service Role Key** — Operacoes admin (createUser, deleteUser) apenas server-side
+- **Validacao server-side** — Limites de projetos, caracteres do prompt e uso por plano validados na API
+- **XSS Prevention** — Sanitizacao de inputs com `textContent`/`innerHTML` escape
+- **Auth em todas as rotas** — Bearer token validado em cada API route
+- **Rate limiting** — Contagem de uso mensal por tier de modelo
+
+---
+
+## Estrutura de Planos
+
+| | Explorador | Consultor | Arquiteto |
+|:---|:---|:---|:---|
+| Projetos | 3 | 15 | Ilimitado |
+| Prompt Base | 10.000 chars | 25.000 chars | 80.000 chars |
+| Modelos LLM | Budget | Budget + Mid | Todos (Budget + Mid + Pro) |
+| Audio TTS | — | Sim | Sim |
+| Exportacao | Copiar | .md | .md, .pdf, .docx |
+| Chat IA | 50/mes | 200/mes | Ilimitado |
+
+---
+
+## Banco de Dados
+
+PostgreSQL via Supabase com as principais tabelas:
+
+- `profiles` — Dados do usuario, role, avatar_url
+- `subscriptions` — Plano ativo, status, datas
+- `projects` — Projetos salvos com PRD e Prompt gerados
+- `usage_logs` — Registro de uso por acao (chat, geracao), modelo e tokens
+- `payments` — Historico de pagamentos via Asaas
+
+---
+
+## Desenvolvimento
+
+```bash
+# Instalar dependencias
+npm install
+
+# Rodar em desenvolvimento
+npm run dev
+
+# Build para producao
+npm run build
+
+# Preview do build
+npm run preview
+```
+
+**Variaveis de ambiente necessarias:**
+
+```env
+PUBLIC_SUPABASE_URL=
+PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+OPENAI_API_KEY=
+GOOGLE_GEMINI_API_KEY=
+OPENROUTER_API_KEY=
+GITHUB_TOKEN=
+```
+
+> `.env` requer restart do dev server — Astro/Vite nao faz hot-reload de env vars.
+
+---
+
+## Roadmap
+
 - Persistencia de projetos com historico completo de geracoes
 - Templates pre-configurados por vertical (fintech, healthtech, edtech)
 - Modo colaborativo para equipes
 - Deploy direto via Vercel/Railway integrado
 - Marketplace de plugins e extensoes de agentes
-
-A visao: **todo projeto de software no mundo comeca no BuildCode.**
 
 ---
 
@@ -175,22 +244,14 @@ A visao: **todo projeto de software no mundo comeca no BuildCode.**
 
 Este software e **proprietario** e protegido por direitos autorais. Todos os direitos reservados.
 
-A reproducao, distribuicao ou uso nao autorizado deste sistema, total ou parcial, e estritamente proibida.
-
-<br />
-
 **CNPJ:** 62.829.190/0001-01
 
-<br /><br />
+<br />
 
 ---
 
-**BuildCode** — Engenharia de Elite para Projetos Visionarios
+**BuildCode** — Engenharia de Software com IA
 
-*Decisoes de arquitetura que separam empresas que escalam de empresas que quebram.*
-
-<br />
-
-Criado por **Stenio Mello**
+Criado por **Miguel Oliveira**
 
 </div>
