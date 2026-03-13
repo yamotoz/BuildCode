@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/Logowhitemodeloff.png" alt="BuildCode" width="320" />
+<img src="public/Logo_buildcode.png" alt="BuildCode" width="320" />
 
 <br /><br />
 
@@ -18,7 +18,7 @@ Enquanto empresas perdem meses escolhendo stacks erradas, seu time gera arquitet
 
 <br />
 
-https://github.com/yamotoz/BuildCode/raw/master/public/toursystem.mp4
+https://github.com/user-attachments/assets/b128e015-2b0a-4085-bcd6-81168f4c28d1
 
 <br />
 
