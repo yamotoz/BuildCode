@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/Logo_buildcode.png" alt="BuildCode" width="320" />
+<img src="public/Logo_Buildcode.png" alt="BuildCode" width="320" />
 
 <br /><br />
 
