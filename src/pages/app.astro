@@ -1298,14 +1298,14 @@ document.addEventListener('DOMContentLoaded', () => {
       escala: getFormValue('escala'),
       tipo: getFormValue('tipo'),
       ferramenta: getFormValue('ferramenta'),
-      frontend: getFormValue('frontend'),
+      frontend: getFormValues('frontend'),
       backend: getFormValue('backend'),
       mcps: getFormValues('mcps'),
       database: getFormValue('database'),
       skills: getFormValues('skills'),
       infra: getFormValue('infra'),
       persistencia: getFormValue('persistencia'),
-      auth: getFormValue('auth'),
+      auth: getFormValues('auth'),
       seguranca: getFormValues('seguranca'),
       realtime: getFormValue('realtime'),
       codestyle: getFormValue('codestyle'),
@@ -1337,19 +1337,25 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const L = (cat, val) => lbl[cat]?.[val] || val || '';
+    const LA = (cat, arr) => arr.map(v => L(cat, v)).filter(Boolean).join(', ');
     const date = new Date().toLocaleDateString('pt-BR');
     const isSenior = data.senioridade === 'senior';
+
+    // Derived labels for arrays
+    const frontendLabel = LA('frontend', data.frontend) || 'Nenhum selecionado';
+    const authLabel = LA('auth', data.auth) || 'Sem Auth';
 
     // Cost estimation
     const costBase = { '50': 0, '1000': 30, '10000': 150, '50000': 800 };
     const costInfra = { vercel: 0, railway: 5, supabase: 0, netlify: 0, cloudflare: 5, digitalocean: 12, aws: 50, 'docker-vps': 15 };
     const costAuth = { nenhum: 0, basico: 0, oauth: 0, rbac: 10, enterprise: 50 };
-    const estimatedCost = (costBase[data.escala] || 0) + (costInfra[data.infra] || 0) + (costAuth[data.auth] || 0);
+    const authCostMax = data.auth.reduce((max, a) => Math.max(max, costAuth[a] || 0), 0);
+    const estimatedCost = (costBase[data.escala] || 0) + (costInfra[data.infra] || 0) + authCostMax;
     const costRange = `$${estimatedCost} – $${Math.round(estimatedCost * 2.5)}/mês`;
 
     // Collect skills URLs
     const selectedSkillsURLs = [];
-    const techNames = [L('frontend', data.frontend), L('backend', data.backend)];
+    const techNames = [...data.frontend.map(f => L('frontend', f)), L('backend', data.backend)];
     techNames.forEach(tn => {
       if (skillsData[tn]) {
         skillsData[tn].forEach(s => selectedSkillsURLs.push(`- ${s.name}: ${s.url}`));
@@ -1381,11 +1387,11 @@ ${data.contexto}
 
 | Camada | Tecnologia | Por que foi escolhida |
 |--------|-----------|----------------------|
-| **Frontend** | ${L('frontend', data.frontend)} | ${data.frontend === 'html-css' ? 'Maximo controle. Sem overhead de framework. Ideal para aprendizado.' : data.frontend === 'astro' ? 'Zero-JS por padrao. Excelente SEO. Islands Architecture.' : data.frontend === 'react' ? 'Ecossistema massivo. Componentizacao. Ideal para SPAs e dashboards.' : data.frontend === 'nextjs' ? 'React fullstack. SSR/SSG/ISR. API Routes integradas. Otimizado para producao.' : data.frontend === 'vue' ? 'Curva suave. Reatividade elegante. Composition API moderno.' : 'Escolha do usuario — consultar documentacao oficial.'} |
+| **Frontend** | ${frontendLabel} | ${data.frontend.length > 1 ? 'Stack multi-framework. Cada tecnologia foi selecionada para cobrir uma necessidade especifica do projeto.' : data.frontend[0] === 'html-css' ? 'Maximo controle. Sem overhead de framework. Ideal para aprendizado.' : data.frontend[0] === 'astro' ? 'Zero-JS por padrao. Excelente SEO. Islands Architecture.' : data.frontend[0] === 'react' ? 'Ecossistema massivo. Componentizacao. Ideal para SPAs e dashboards.' : data.frontend[0] === 'nextjs' ? 'React fullstack. SSR/SSG/ISR. API Routes integradas. Otimizado para producao.' : data.frontend[0] === 'vue' ? 'Curva suave. Reatividade elegante. Composition API moderno.' : 'Escolha do usuario — consultar documentacao oficial.'} |
 | **Backend** | ${L('backend', data.backend)} | ${data.backend === 'supabase' ? 'BaaS completo: Auth + DB + Storage + Edge Functions. Rapido para MVPs.' : data.backend === 'firebase' ? 'Google BaaS. Firestore NoSQL + Auth + Hosting. Otimo para prototipagem.' : data.backend === 'express' ? 'Servidor HTTP mais usado em Node.js. Flexivel e leve.' : data.backend === 'nestjs' ? 'Framework enterprise. DI, Guards, Pipes, Interceptors. TypeScript nativo.' : 'Escolha do usuario — consultar documentacao oficial.'} |
 | **Banco de Dados** | ${L('database', data.database)} | ${data.database === 'sql-managed' ? 'Zero overhead de infra. Managed pelo provider.' : data.database === 'sql-raw' ? 'Controle total. Ideal para queries complexas e performance.' : data.database === 'nosql' ? 'Flexibilidade de schema. Escalabilidade horizontal.' : 'Banco vetorial para aplicacoes de IA e embeddings.'} |
 | **Infraestrutura** | ${L('infra', data.infra)} | ${data.infra === 'vercel' ? 'Deploy instantaneo. Edge Functions. Otimizado para Next.js/Astro.' : data.infra === 'railway' ? 'PaaS simples. Deploy via Git. Bom free tier.' : data.infra === 'aws' ? 'Controle total. Escala global. Servicos ilimitados.' : 'Escolha do usuario.'} |
-${data.auth && data.auth !== 'nenhum' ? `| **Autenticacao** | ${L('auth', data.auth)} | ${data.auth === 'rbac' ? 'Controle granular por papeis (admin, user, etc).' : data.auth === 'oauth' ? 'Login social (Google, GitHub, etc). UX simplificada.' : 'Autenticacao basica por email e senha.'} |` : ''}
+${data.auth.length > 0 && !data.auth.includes('nenhum') ? `| **Autenticacao** | ${authLabel} | ${data.auth.length > 1 ? 'Multiplas camadas de autenticacao para seguranca e flexibilidade.' : data.auth[0] === 'rbac' ? 'Controle granular por papeis (admin, user, etc).' : data.auth[0] === 'oauth' ? 'Login social (Google, GitHub, etc). UX simplificada.' : data.auth[0] === 'enterprise' ? 'SSO + SAML + MFA obrigatorio. Compliance total.' : 'Autenticacao basica por email e senha.'} |` : ''}
 ${data.persistencia ? `| **Persistencia** | ${L('persistencia', data.persistencia)} | ${data.persistencia === 'hibrido' ? 'SQL + Cache (Redis). Maximo desempenho.' : data.persistencia === 'relacional' ? 'Dados estruturados. ACID compliance.' : 'Documentos flexiveis.'} |` : ''}
 
 ---
@@ -1442,7 +1448,7 @@ ${isSenior ? `### Recomendacoes Enterprise (Senior):
 |------|----------------------|
 | **Infraestrutura (${L('infra', data.infra)})** | ${costRange} |
 | **Banco de Dados** | ${data.database === 'sql-managed' ? '$0 – $25 (free tier + managed)' : '$20 – $100'} |
-| **Autenticacao** | ${data.auth === 'nenhum' || data.auth === 'basico' || data.auth === 'oauth' ? 'Gratuito (tier free)' : '$10 – $50'} |
+| **Autenticacao** | ${data.auth.some(a => a === 'rbac' || a === 'enterprise') ? '$10 – $50' : 'Gratuito (tier free)'} |
 | **CDN / Dominio** | $0 – $20 |
 | **Total Estimado** | **${costRange}** |
 
@@ -1888,7 +1894,7 @@ Queues e Jobs: use para operacoes demoradas (email, PDF, integracao). Configure 
 Artisan: crie commands customizados para tarefas administrativas e scripts.`,
     };
 
-    const fbp = frontendBestPractices[data.frontend] || 'Siga as melhores praticas da documentacao oficial do framework escolhido. Consulte os guias oficiais de estilo e arquitetura.';
+    const fbp = data.frontend.map(f => frontendBestPractices[f]).filter(Boolean).join('\n\n---\n\n') || 'Siga as melhores praticas da documentacao oficial do framework escolhido. Consulte os guias oficiais de estilo e arquitetura.';
     const bbp = backendBestPractices[data.backend] || 'Siga as melhores praticas da documentacao oficial da tecnologia escolhida. Consulte os guias oficiais de estilo e arquitetura.';
 
     // Custom IDE name
@@ -1914,7 +1920,7 @@ Atualize o agentlog.md ao final de CADA task completada. Este arquivo sera sua m
 
 IDENTIDADE E CONTEXTO
 
-Voce e um Engenheiro de Software ${L('senioridade', data.senioridade)} especialista em ${L('frontend', data.frontend)} e ${L('backend', data.backend)}.
+Voce e um Engenheiro de Software ${L('senioridade', data.senioridade)} especialista em ${frontendLabel} e ${L('backend', data.backend)}.
 
 Projeto: ${data.contexto}
 Escala: ${L('escala', data.escala)} usuarios simultaneos
@@ -1943,18 +1949,18 @@ Priorize organizacao e clareza acima de complexidade e cleverness
 
 STACK TECNICA DO PROJETO
 
-Frontend: ${L('frontend', data.frontend)}
+Frontend: ${frontendLabel}
 Backend: ${L('backend', data.backend)}
 ${data.database ? `Banco de Dados: ${L('database', data.database)}` : ''}
 ${data.infra ? `Infraestrutura: ${L('infra', data.infra)}` : ''}
 ${data.persistencia ? `Persistencia: ${L('persistencia', data.persistencia)}` : ''}
-${data.auth && data.auth !== 'nenhum' ? `Autenticacao: ${L('auth', data.auth)}` : ''}
+${data.auth.length > 0 && !data.auth.includes('nenhum') ? `Autenticacao: ${authLabel}` : ''}
 ${data.realtime && data.realtime !== 'nao' ? `Real-time: ${L('realtime', data.realtime)}` : ''}
 ${data.i18n && data.i18n !== 'nao' ? `Internacionalizacao: ${L('i18n', data.i18n)}` : ''}
 
 ---
 
-BOAS PRATICAS TECNICAS — ${L('frontend', data.frontend).toUpperCase()} (FRONTEND)
+BOAS PRATICAS TECNICAS — ${frontendLabel.toUpperCase()} (FRONTEND)
 
 ${fbp}
 
@@ -2040,7 +2046,7 @@ ${data.seguranca.length > 0 ? data.seguranca.map(s => {
 
 NUNCA exponha API keys, tokens, ou secrets no frontend ou em repositorios publicos.
 Variaveis sensiveis devem existir APENAS em arquivos .env (server-side) e NUNCA ser commitadas no git. Adicione .env ao .gitignore IMEDIATAMENTE.
-${data.auth && data.auth !== 'nenhum' ? `Proteja TODAS as rotas de API que acessam dados privados com ${L('auth', data.auth)}. Nenhuma rota que retorna dados de usuario deve ser acessivel sem autenticacao.` : ''}
+${data.auth.length > 0 && !data.auth.includes('nenhum') ? `Proteja TODAS as rotas de API que acessam dados privados com ${authLabel}. Nenhuma rota que retorna dados de usuario deve ser acessivel sem autenticacao.` : ''}
 
 ---
 
@@ -2087,10 +2093,10 @@ ${data.skills.length > 0 ? `\nPadroes Exigidos pelo projeto:\n\n${data.skills.ma
 
 TASK INICIAL — COMECE POR AQUI
 
-1. Inicialize o projeto com ${L('frontend', data.frontend)}${data.backend ? ' + ' + L('backend', data.backend) : ''}
+1. Inicialize o projeto com ${frontendLabel}${data.backend ? ' + ' + L('backend', data.backend) : ''}
 2. Instale e configure todas as dependencias da stack definida acima
 3. Defina o Design System: tokens de design (cores, tipografia, espacamentos) e componentes base
-4. ${data.auth && data.auth !== 'nenhum' ? `Implemente autenticacao completa (${L('auth', data.auth)}) com protecao de rotas` : 'Configure a conexao com o banco de dados e crie o schema inicial'}
+4. ${data.auth.length > 0 && !data.auth.includes('nenhum') ? `Implemente autenticacao completa (${authLabel}) com protecao de rotas` : 'Configure a conexao com o banco de dados e crie o schema inicial'}
 5. Crie a pagina inicial com layout responsivo (mobile-first, testado em 375px e 1440px)
 6. ${isSenior ? 'Configure o framework de testes (Vitest/Jest) e escreva o primeiro teste para a logica mais critica' : 'Crie um endpoint de health check que retorna status do servidor e conexao com banco'}
 7. Crie o agentlog.md e registre todas as decisoes tomadas durante o setup
@@ -2453,14 +2459,14 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       escala: getFormValue('escala'),
       tipo: getFormValue('tipo'),
       ferramenta: getFormValue('ferramenta'),
-      frontend: getFormValue('frontend'),
+      frontend: getFormValues('frontend'),
       backend: getFormValue('backend'),
       mcps: getFormValues('mcps'),
       database: getFormValue('database'),
       skills: getFormValues('skills'),
       infra: getFormValue('infra'),
       persistencia: getFormValue('persistencia'),
-      auth: getFormValue('auth'),
+      auth: getFormValues('auth'),
       seguranca: getFormValues('seguranca'),
       realtime: getFormValue('realtime'),
       codestyle: getFormValue('codestyle'),
@@ -2472,13 +2478,14 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     };
 
     // Count technologies
-    const techs = [data.frontend, data.backend, data.database, data.infra, data.auth, data.persistencia, data.realtime, data.codestyle].filter(Boolean);
+    const techs = [...data.frontend, data.backend, data.database, data.infra, ...data.auth, data.persistencia, data.realtime, data.codestyle].filter(Boolean);
     const allTechs = [...techs, ...data.mcps, ...data.skills, ...data.integracoes, ...data.testes];
     document.getElementById('insight-stack-count').textContent = allTechs.length.toString();
     document.getElementById('insight-security-count').textContent = data.seguranca.length.toString();
 
     // Complexity score
-    const complexityScore = allTechs.length + data.seguranca.length * 2 + (data.auth === 'enterprise' ? 5 : data.auth === 'rbac' ? 3 : 1) + (data.realtime !== 'nao' ? 3 : 0) + (data.i18n === 'global' ? 3 : data.i18n === 'poucos' ? 1 : 0);
+    const authComplexity = data.auth.includes('enterprise') ? 5 : data.auth.includes('rbac') ? 3 : 1;
+    const complexityScore = allTechs.length + data.seguranca.length * 2 + authComplexity + (data.realtime !== 'nao' ? 3 : 0) + (data.i18n === 'global' ? 3 : data.i18n === 'poucos' ? 1 : 0);
     const complexityLabel = complexityScore > 25 ? 'Alta' : complexityScore > 15 ? 'Media' : 'Baixa';
     const complexityColor = complexityScore > 25 ? '#EF4444' : complexityScore > 15 ? '#F59E0B' : '#10B981';
     document.getElementById('insight-complexity').textContent = complexityLabel;
@@ -2525,16 +2532,17 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     const costBase = { '50': 0, '1000': 30, '10000': 150, '50000': 800 };
     const costInfra = { vercel: 0, railway: 5, supabase: 0, netlify: 0, cloudflare: 5, digitalocean: 12, aws: 50, 'docker-vps': 15 };
     const costAuth = { nenhum: 0, basico: 0, oauth: 0, rbac: 10, enterprise: 50 };
-    const est = (costBase[data.escala] || 0) + (costInfra[data.infra] || 0) + (costAuth[data.auth] || 0);
+    const authCMax = data.auth.reduce((max, a) => Math.max(max, costAuth[a] || 0), 0);
+    const est = (costBase[data.escala] || 0) + (costInfra[data.infra] || 0) + authCMax;
     document.getElementById('insight-cost-est').textContent = est === 0 ? 'Gratis' : `$${est}/mes`;
 
     // Stack distribution bars
     const categories = [
-      { label: 'Frontend', value: data.frontend, color: '#2E748B' },
+      { label: 'Frontend', value: data.frontend.join(', '), color: '#2E748B' },
       { label: 'Backend', value: data.backend, color: '#F2AB6D' },
       { label: 'Database', value: data.database, color: '#10B981' },
       { label: 'Infra', value: data.infra, color: '#8B5CF6' },
-      { label: 'Auth', value: data.auth, color: '#EF4444' },
+      { label: 'Auth', value: data.auth.filter(a => a !== 'nenhum').join(', '), color: '#EF4444' },
       { label: 'MCPs', value: data.mcps.length > 0 ? data.mcps.join(', ') : '', color: '#06B6D4' },
       { label: 'Skills', value: data.skills.length > 0 ? `${data.skills.length} selecionadas` : '', color: '#EC4899' },
     ].filter(c => c.value);
@@ -2632,7 +2640,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
     const radarEl = document.getElementById('insight-radar');
     if (radarEl) {
       const dims = [
-        { label: 'Frontend', score: data.frontend ? 60 : 0, color: '#2E748B' },
+        { label: 'Frontend', score: data.frontend.length > 0 ? Math.min(data.frontend.length * 40, 100) : 0, color: '#2E748B' },
         { label: 'Backend', score: data.backend ? 70 : 0, color: '#F2AB6D' },
         { label: 'Seguranca', score: Math.min(data.seguranca.length * 15, 100), color: '#10B981' },
         { label: 'Testes', score: Math.min(data.testes.length * 20, 100), color: '#8B5CF6' },

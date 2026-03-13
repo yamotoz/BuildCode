@@ -121,7 +121,7 @@ export async function deleteUserProfile(targetUserId: string) {
     .eq('id', targetUserId);
 }
 
-export async function inviteUser(email: string, fullName: string, role: 'user' | 'admin', plan?: string) {
+export async function inviteUser(email: string, fullName: string, role: 'user' | 'admin', plan?: string, canAccessDashboard?: boolean) {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) return { data: null, error: { message: 'Not authenticated' } };
 
@@ -131,7 +131,7 @@ export async function inviteUser(email: string, fullName: string, role: 'user' |
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${session.access_token}`,
     },
-    body: JSON.stringify({ email, fullName, role, plan: plan || 'explorador' }),
+    body: JSON.stringify({ email, fullName, role, plan: plan || 'explorador', canAccessDashboard: canAccessDashboard || false }),
   });
 
   const result = await res.json();

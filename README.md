@@ -22,7 +22,7 @@ Selecione stacks, mitigue riscos e escale com integridade — tudo em um unico s
 
 <br />
 
-<video src="toursystem.webm" autoplay loop muted playsinline width="100%" style="border-radius: 16px; border: 1px solid #2A3135;"></video>
+https://github.com/yamotoz/BuildCode/raw/master/public/toursystem.webm
 
 <br />
 

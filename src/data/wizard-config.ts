@@ -147,11 +147,11 @@ export const questions: WizardQuestion[] = [
 
     // PHASE 2: STACK TECNICA (Q6-Q12)
     {
-        step: 6, phase: 2, type: 'radio', name: 'frontend', cols: 3,
+        step: 6, phase: 2, type: 'checkbox', name: 'frontend', cols: 3,
         visibleFor: 'all',
         searchable: true, dbCategory: 'frontend',
-        titlePre: 'Escolha o', titleHighlight: 'Frontend', titlePost: 'principal.',
-        subtitle: 'Opcoes com tags de dificuldade. Nao encontrou? Pesquise abaixo.',
+        titlePre: 'Escolha o(s)', titleHighlight: 'Frontend(s)', titlePost: 'do projeto.',
+        subtitle: 'Selecione um ou mais. Opcoes com tags de dificuldade. Nao encontrou? Pesquise abaixo.',
         options: [
             { value: 'html-css', label: 'HTML + CSS Puro', icon: 'code', desc: 'Sem framework. Maximo controle e aprendizado.', minLevel: 1, difficulty: 'easy', recommendedFor: ['junior'], website: 'https://developer.mozilla.org/pt-BR/docs/Web' },
             { value: 'astro', label: 'Astro', icon: 'rocket_launch', desc: 'Zero-JS por padrao. Perfeito para sites content-driven.', minLevel: 1, difficulty: 'easy', recommendedFor: ['junior', 'pleno'], website: 'https://astro.build' },
@@ -259,10 +259,10 @@ export const questions: WizardQuestion[] = [
 
     // PHASE 3: QUALIDADE & SEGURANCA (Q13-Q18)
     {
-        step: 13, phase: 3, type: 'radio', name: 'auth', cols: 2,
+        step: 13, phase: 3, type: 'checkbox', name: 'auth', cols: 2,
         visibleFor: ['saas', 'enterprise'],
-        titlePre: 'Nivel de', titleHighlight: 'Autenticacao', titlePost: 'necessario.',
-        subtitle: 'Quem pode acessar o sistema e com quais permissoes?',
+        titlePre: 'Niveis de', titleHighlight: 'Autenticacao', titlePost: 'necessarios.',
+        subtitle: 'Selecione um ou mais. Quem pode acessar o sistema e com quais permissoes?',
         options: [
             { value: 'nenhum', label: 'Sem Auth', icon: 'lock_open', desc: 'App publico sem login. Landing pages, blogs.', difficulty: 'easy', recommendedFor: ['junior'] },
             { value: 'basico', label: 'Email + Senha', icon: 'lock', desc: 'Login basico. Cadastro e recuperacao de senha.', difficulty: 'easy', recommendedFor: ['junior', 'pleno'] },

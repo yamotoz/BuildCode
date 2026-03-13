@@ -7,6 +7,30 @@ import {
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
+interface UsageLog {
+  user_id: string;
+  action: string;
+  llm_model: string;
+  tokens_used: number;
+  cost_usd: number;
+  created_at: string;
+}
+
+interface UserProfile {
+  id: string;
+  full_name: string;
+  avatar_url: string;
+  role: string;
+  seniority: string;
+  agent: string;
+  llm_model: string;
+  created_at: string;
+  can_access_dashboard: boolean;
+  plan: string;
+  subStatus: string;
+  usageLogs: UsageLog[];
+}
+
 interface Metrics {
   mrr: number;
   churnRate: number;
@@ -38,6 +62,7 @@ interface Metrics {
     churn: number;
   }[];
   userSegmentation: { seniority: string; count: number }[];
+  usersList?: UserProfile[];
 }
 
 // ── Colors & Helpers ─────────────────────────────────────────────────────────
@@ -252,6 +277,187 @@ function VerticalBarMini({ data, nameKey, valueKey, colors }: {
   );
 }
 
+// ── User Analytics Modal ─────────────────────────────────────────────────────
+
+const MONTH_NAMES_M = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const ACTION_LABELS: Record<string, string> = {
+  prd_generation: 'PRD Gerado',
+  prompt_generation: 'Prompt Base',
+  chat_message: 'Mensagem Chat',
+  tts_audio: 'Áudio TTS',
+  analytics_compare: 'Analytics',
+};
+const ACTION_COLORS: Record<string, string> = {
+  prd_generation: '#2E748B',
+  prompt_generation: '#F2AB6D',
+  chat_message: '#10B981',
+  tts_audio: '#8B5CF6',
+  analytics_compare: '#EC4899',
+};
+
+function UserAnalyticsModal({ user, onClose }: { user: UserProfile; onClose: () => void }) {
+  const logs = user.usageLogs || [];
+
+  const now = new Date();
+  const monthlyData: { month: string; prd: number; prompt: number; chat: number; tts: number; analytics: number }[] = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    const monthLogs = logs.filter(l => l.created_at?.startsWith(key));
+    monthlyData.push({
+      month: MONTH_NAMES_M[d.getMonth()],
+      prd: monthLogs.filter(l => l.action === 'prd_generation').length,
+      prompt: monthLogs.filter(l => l.action === 'prompt_generation').length,
+      chat: monthLogs.filter(l => l.action === 'chat_message').length,
+      tts: monthLogs.filter(l => l.action === 'tts_audio').length,
+      analytics: monthLogs.filter(l => l.action === 'analytics_compare').length,
+    });
+  }
+
+  const llmCounts: Record<string, number> = {};
+  logs.forEach(l => { if (l.llm_model) llmCounts[l.llm_model] = (llmCounts[l.llm_model] || 0) + 1; });
+  const topLLMs = Object.entries(llmCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const maxLLMCount = topLLMs[0]?.[1] || 1;
+
+  const actionTotals: Record<string, number> = {};
+  logs.forEach(l => { actionTotals[l.action] = (actionTotals[l.action] || 0) + 1; });
+
+  const totalCost = logs.reduce((s, l) => s + (Number(l.cost_usd) || 0), 0);
+  const totalTokens = logs.reduce((s, l) => s + (l.tokens_used || 0), 0);
+
+  const planLabels: Record<string, string> = { explorador: 'Explorador', consultor: 'Consultor', arquiteto: 'Arquiteto' };
+  const roleLabels: Record<string, string> = { master: 'Master', admin: 'Admin', user: 'Usuário' };
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }} onClick={onClose}>
+      <div className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl p-6" style={{ background: '#0D0D0D', border: '1px solid #2A3135' }} onClick={e => e.stopPropagation()}>
+        {/* Header */}
+        <div className="flex items-start justify-between mb-6">
+          <div className="flex items-center gap-4">
+            {user.avatar_url ? (
+              <img src={user.avatar_url} alt="" className="w-14 h-14 rounded-full object-cover" style={{ border: '2px solid #2A3135' }} />
+            ) : (
+              <div className="w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold text-white" style={{ background: '#1E1E1E', border: '2px solid #2A3135' }}>
+                {(user.full_name || '?')[0]?.toUpperCase()}
+              </div>
+            )}
+            <div>
+              <h2 className="text-xl font-bold text-white">{user.full_name || 'Sem nome'}</h2>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full" style={{ background: user.role === 'master' ? '#C0392B20' : user.role === 'admin' ? '#8B5CF620' : '#2E748B20', color: user.role === 'master' ? '#C0392B' : user.role === 'admin' ? '#8B5CF6' : '#2E748B' }}>
+                  {roleLabels[user.role] || user.role}
+                </span>
+                <span className="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full" style={{ background: '#F2AB6D20', color: '#F2AB6D' }}>
+                  {planLabels[user.plan] || user.plan}
+                </span>
+                <span className="text-xs text-slate-500">{user.seniority || 'N/A'}</span>
+              </div>
+            </div>
+          </div>
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer" style={{ color: '#94a3b8' }}>
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        {/* Quick stats */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          {[
+            { label: 'Total Ações', value: logs.length.toString(), icon: 'bolt' },
+            { label: 'PRDs Gerados', value: (actionTotals['prd_generation'] || 0).toString(), icon: 'description' },
+            { label: 'Custo Total', value: `$${totalCost.toFixed(4)}`, icon: 'payments' },
+            { label: 'Tokens Usados', value: totalTokens > 1000 ? `${(totalTokens / 1000).toFixed(1)}k` : totalTokens.toString(), icon: 'token' },
+          ].map(s => (
+            <div key={s.label} className="rounded-xl p-3" style={{ background: '#121212', border: '1px solid #2A3135' }}>
+              <div className="flex items-center gap-1.5 mb-1">
+                <span className="material-symbols-outlined text-sm" style={{ color: PRIMARY }}>{s.icon}</span>
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-slate-400">{s.label}</span>
+              </div>
+              <div className="text-lg font-bold text-white">{s.value}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Monthly activity chart */}
+        <div className="rounded-xl p-5 mb-4" style={{ background: '#121212', border: '1px solid #2A3135' }}>
+          <h3 className="text-sm font-semibold text-white mb-1">Atividade Mensal</h3>
+          <p className="text-xs text-slate-500 mb-4">Ações por tipo nos últimos 6 meses</p>
+          <div style={{ height: 220 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={monthlyData} barCategoryGap="15%">
+                <CartesianGrid strokeDasharray="3 3" stroke="#2A3135" vertical={false} />
+                <XAxis dataKey="month" tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} allowDecimals={false} />
+                <Tooltip contentStyle={tooltipStyle.contentStyle} itemStyle={tooltipStyle.itemStyle} />
+                <Bar dataKey="prd" name="PRD" fill="#2E748B" stackId="a" radius={[0, 0, 0, 0]} />
+                <Bar dataKey="prompt" name="Prompt Base" fill="#F2AB6D" stackId="a" />
+                <Bar dataKey="chat" name="Chat" fill="#10B981" stackId="a" />
+                <Bar dataKey="tts" name="TTS" fill="#8B5CF6" stackId="a" />
+                <Bar dataKey="analytics" name="Analytics" fill="#EC4899" stackId="a" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Top LLMs */}
+          <div className="rounded-xl p-5" style={{ background: '#121212', border: '1px solid #2A3135' }}>
+            <h3 className="text-sm font-semibold text-white mb-1">IAs Mais Utilizadas</h3>
+            <p className="text-xs text-slate-500 mb-4">Modelos LLM por frequência</p>
+            {topLLMs.length > 0 ? (
+              <div className="space-y-3">
+                {topLLMs.map(([model, count], i) => {
+                  const pct = (count / maxLLMCount) * 100;
+                  const shortName = model.split('/').pop()?.replace(/:free$/, '') || model;
+                  return (
+                    <div key={model}>
+                      <div className="flex items-center justify-between text-xs mb-1">
+                        <span className="text-slate-300 font-medium truncate max-w-[160px]" title={model}>{shortName}</span>
+                        <span className="text-slate-400">{count}x</span>
+                      </div>
+                      <div className="h-2 w-full overflow-hidden rounded-full" style={{ background: '#1E1E1E' }}>
+                        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: [PRIMARY, ACCENT, GREEN, PURPLE, RED][i % 5] }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-xs text-slate-600 text-center py-6">Nenhum uso registrado</p>
+            )}
+          </div>
+
+          {/* Action breakdown */}
+          <div className="rounded-xl p-5" style={{ background: '#121212', border: '1px solid #2A3135' }}>
+            <h3 className="text-sm font-semibold text-white mb-1">Tipos de Ação</h3>
+            <p className="text-xs text-slate-500 mb-4">Distribuição por tipo de uso</p>
+            {Object.keys(actionTotals).length > 0 ? (
+              <div className="space-y-3">
+                {Object.entries(actionTotals).sort((a, b) => b[1] - a[1]).map(([action, count]) => {
+                  const maxAction = Math.max(...Object.values(actionTotals));
+                  const pct = (count / maxAction) * 100;
+                  return (
+                    <div key={action}>
+                      <div className="flex items-center justify-between text-xs mb-1">
+                        <span className="text-slate-300 font-medium">{ACTION_LABELS[action] || action}</span>
+                        <span className="text-slate-400">{count}</span>
+                      </div>
+                      <div className="h-2 w-full overflow-hidden rounded-full" style={{ background: '#1E1E1E' }}>
+                        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: ACTION_COLORS[action] || PRIMARY }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-xs text-slate-600 text-center py-6">Nenhum uso registrado</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Main Component ───────────────────────────────────────────────────────────
 
 export default function AdminDashboard({ metrics }: { metrics: Metrics }) {
@@ -259,6 +465,7 @@ export default function AdminDashboard({ metrics }: { metrics: Metrics }) {
   const [period, setPeriod] = useState<Period>('month');
   const [planView, setPlanView] = useState<MiniChartType>('donut');
   const [segView, setSegView] = useState<MiniChartType>('bar');
+  const [selectedUser, setSelectedUser] = useState<UserProfile | null>(null);
 
   const maxCost = Math.max(...metrics.apiCosts.map((c) => c.cost), 0.01);
 
@@ -632,6 +839,66 @@ export default function AdminDashboard({ metrics }: { metrics: Metrics }) {
           )}
         </div>
       </div>
+
+      {/* ── Users List ──────────────────────────────────────────────── */}
+      {metrics.usersList && metrics.usersList.length > 0 && (
+        <div className="rounded-2xl p-5 md:p-6" style={{ background: '#121212', border: '1px solid #2A3135' }}>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-sm font-semibold text-white">Usuários do Sistema</h2>
+              <p className="text-xs text-slate-500">Clique em um usuário para ver seus dados de uso</p>
+            </div>
+            <span className="text-xs text-slate-400 font-mono">{metrics.usersList.length} registros</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {metrics.usersList.map(user => {
+              const totalActions = user.usageLogs?.length || 0;
+              const prdCount = user.usageLogs?.filter(l => l.action === 'prd_generation').length || 0;
+              const planLabel: Record<string, string> = { explorador: 'Explorador', consultor: 'Consultor', arquiteto: 'Arquiteto' };
+              const roleColor: Record<string, string> = { master: '#C0392B', admin: '#8B5CF6', user: '#2E748B' };
+              return (
+                <button
+                  key={user.id}
+                  onClick={() => setSelectedUser(user)}
+                  className="flex items-center gap-3 p-3 rounded-xl text-left transition-all hover:border-[#2E748B]/50 cursor-pointer"
+                  style={{ background: '#0D0D0D', border: '1px solid #2A3135' }}
+                >
+                  {user.avatar_url ? (
+                    <img src={user.avatar_url} alt="" className="w-10 h-10 rounded-full object-cover flex-shrink-0" style={{ border: '2px solid #2A3135' }} />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0" style={{ background: '#1E1E1E', border: '2px solid #2A3135' }}>
+                      {(user.full_name || '?')[0]?.toUpperCase()}
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-white truncate">{user.full_name || 'Sem nome'}</span>
+                      <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: roleColor[user.role] || '#64748b' }} />
+                    </div>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-[10px] text-slate-500">{planLabel[user.plan] || user.plan}</span>
+                      <span className="text-[10px] text-slate-600">•</span>
+                      <span className="text-[10px] text-slate-500">{totalActions} ações</span>
+                      {prdCount > 0 && (
+                        <>
+                          <span className="text-[10px] text-slate-600">•</span>
+                          <span className="text-[10px] text-[#2E748B]">{prdCount} PRDs</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <span className="material-symbols-outlined text-slate-600 text-sm flex-shrink-0">chevron_right</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ── User Analytics Modal ── */}
+      {selectedUser && (
+        <UserAnalyticsModal user={selectedUser} onClose={() => setSelectedUser(null)} />
+      )}
     </div>
   );
 }

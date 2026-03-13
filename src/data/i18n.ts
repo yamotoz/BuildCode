@@ -20,113 +20,227 @@ export const translations: Record<string, Record<string, string>> = {
   "nav.acessar": { pt: "Acessar Sistema", en: "Access System" },
 
   // ══════════════════════════════════
-  //  HERO
+  //  LANDING PAGE — HERO
   // ══════════════════════════════════
-  "hero.badge": { pt: "IA-Powered Architecture", en: "AI-Powered Architecture" },
-  "hero.title.1": { pt: "Engenharia de ", en: "Elite " },
-  "hero.title.highlight": { pt: "Elite", en: "Engineering" },
-  "hero.title.2": { pt: " para Projetos Visionários", en: " for Visionary Projects" },
-  "hero.subtitle": {
-    pt: "A arquitetura perfeita para o seu software começa com decisões inteligentes. Use IA para selecionar stacks, mitigar riscos e escalar com integridade.",
-    en: "The perfect architecture for your software starts with smart decisions. Use AI to select stacks, mitigate risks, and scale with integrity."
+  "lp.hero.badge": { pt: "IA-Powered Architecture", en: "AI-Powered Architecture" },
+  "lp.hero.title.1": { pt: "Nunca mais construa", en: "Never build" },
+  "lp.hero.title.2": { pt: "software ", en: "software " },
+  "lp.hero.title.highlight": { pt: "no escuro.", en: "in the dark." },
+  "lp.hero.subtitle": {
+    pt: "O BuildCode analisa seus requisitos, seleciona a stack ideal e gera documentação profissional completa. Tudo guiado por inteligência artificial em menos de 3 minutos.",
+    en: "BuildCode analyzes your requirements, selects the ideal stack and generates complete professional documentation. All guided by artificial intelligence in less than 3 minutes."
   },
-  "hero.cta.primary": { pt: "Acessar Sistema", en: "Access System" },
-  "hero.cta.secondary": { pt: "Ver Demonstração", en: "Watch Demo" },
-
-  // Hero Terminal Mock
-  "hero.terminal.1": { pt: "Analyzing project requirements...", en: "Analyzing project requirements..." },
-  "hero.terminal.2": { pt: "Expected user load: 1M+ active users", en: "Expected user load: 1M+ active users" },
-  "hero.terminal.3": { pt: "Data processing: Real-time", en: "Data processing: Real-time" },
-  "hero.terminal.4": { pt: "Evaluating architectural patterns...", en: "Evaluating architectural patterns..." },
-  "hero.terminal.5": { pt: "Generating optimal tech stack...", en: "Generating optimal tech stack..." },
-  "hero.terminal.recommended": { pt: "Recommended Architecture", en: "Recommended Architecture" },
+  "lp.hero.cta.primary": { pt: "Criar Meu Projeto Agora", en: "Create My Project Now" },
+  "lp.hero.cta.secondary": { pt: "Entender o Problema", en: "Understand the Problem" },
+  "lp.hero.proof.lgpd": { pt: "LGPD Compliant", en: "LGPD Compliant" },
+  "lp.hero.proof.agents": { pt: "4 Agentes de IA", en: "4 AI Agents" },
+  "lp.hero.proof.docs": { pt: "PRD + Prompt Base", en: "PRD + Base Prompt" },
 
   // ══════════════════════════════════
-  //  PROBLEMA SECTION
+  //  LANDING PAGE — PROBLEMA (Section 2)
   // ══════════════════════════════════
-  "problema.title.1": { pt: "O Problema da ", en: "The " },
-  "problema.title.highlight": { pt: "Arquitetura", en: "Architecture" },
-  "problema.title.2": { pt: "", en: " Problem" },
-  "problema.subtitle": {
-    pt: "Escolher a tecnologia errada custa tempo, dinheiro e sanidade. A falta de visão sistêmica leva ao caos no desenvolvimento.",
-    en: "Choosing the wrong technology costs time, money and sanity. Lack of systemic vision leads to development chaos."
+  "lp.problema.badge": { pt: "Alerta Crítico", en: "Critical Alert" },
+  "lp.problema.title.1": { pt: "Seu software é um alvo.", en: "Your software is a target." },
+  "lp.problema.title.highlight": { pt: "Você só não sabe ainda.", en: "You just don't know it yet." },
+  "lp.problema.subtitle": {
+    pt: "A cada 39 segundos, um ataque cibernético acontece no mundo. E a maioria das vítimas tinha \"certeza\" de que estava protegida. O problema não é a falta de ferramentas. É a falta de planejamento desde o dia zero.",
+    en: "Every 39 seconds, a cyberattack happens worldwide. And most victims were \"sure\" they were protected. The problem isn't the lack of tools. It's the lack of planning from day zero."
   },
-  "problema.card1.title": { pt: "Decisões Descentralizadas", en: "Decentralized Decisions" },
-  "problema.card1.desc": {
-    pt: "Falta de coesão e padronização entre times. Cada equipe escolhe uma tecnologia diferente, criando um Frankenstein arquitetural impossível de manter.",
-    en: "Lack of cohesion and standardization across teams. Each team picks a different technology, creating an architectural Frankenstein impossible to maintain."
+  "lp.problema.card1.title": { pt: "Falhas de Segurança Silenciosas", en: "Silent Security Flaws" },
+  "lp.problema.card1.desc": {
+    pt: "SQL Injection, XSS, CSRF. Vulnerabilidades que dormem no seu código até alguém explorá-las. Sem uma arquitetura segura desde o início, cada feature nova é uma porta aberta para invasores.",
+    en: "SQL Injection, XSS, CSRF. Vulnerabilities sleeping in your code until someone exploits them. Without a secure architecture from the start, every new feature is an open door for attackers."
   },
-  "problema.card2.title": { pt: "Confusão de Stack", en: "Stack Confusion" },
-  "problema.card2.desc": {
-    pt: "Excesso de tecnologias sem necessidade clara. Adotar ferramentas apenas porque são 'hype', ignorando os reais requisitos do projeto.",
-    en: "Too many technologies without clear need. Adopting tools just because they're 'hyped', ignoring the project's real requirements."
+  "lp.problema.card1.stat": { pt: "78% das brechas vêm de código mal arquitetado", en: "78% of breaches come from poorly architected code" },
+  "lp.problema.card2.title": { pt: "Projetos Sem Gestão Real", en: "Projects Without Real Management" },
+  "lp.problema.card2.desc": {
+    pt: "Sem documentação, sem roadmap técnico, sem PRD. O time avança no escuro, cada dev puxa pra um lado, e o projeto se torna um labirinto que ninguém entende. Nem quem criou.",
+    en: "No documentation, no technical roadmap, no PRD. The team moves in the dark, each dev pulls in a different direction, and the project becomes a maze nobody understands. Not even its creator."
   },
-  "problema.card3.title": { pt: "Débito de Escalabilidade", en: "Scalability Debt" },
-  "problema.card3.desc": {
-    pt: "Custos altos e lentidão para escalar o sistema. Quando o sucesso chega, a arquitetura cede e o refatoramento custa meses de trabalho.",
-    en: "High costs and slowness to scale the system. When success arrives, the architecture crumbles and refactoring costs months of work."
+  "lp.problema.card2.stat": { pt: "67% dos projetos falham por gestão deficiente", en: "67% of projects fail due to poor management" },
+  "lp.problema.card3.title": { pt: "Dívida Técnica Explosiva", en: "Explosive Technical Debt" },
+  "lp.problema.card3.desc": {
+    pt: "Escolher a stack errada é plantar uma bomba-relógio. Quando o produto precisa escalar, o custo de refatoração não é técnico. É existencial. Startups morrem por isso todos os dias.",
+    en: "Choosing the wrong stack is planting a time bomb. When the product needs to scale, the refactoring cost isn't technical. It's existential. Startups die from this every day."
   },
+  "lp.problema.card3.stat": { pt: "Refatorar custa 10x mais que planejar", en: "Refactoring costs 10x more than planning" },
 
   // ══════════════════════════════════
-  //  SOLUÇÃO SECTION
+  //  LANDING PAGE — REALIDADE (Section 3)
   // ══════════════════════════════════
-  "solucao.badge": { pt: "Solução Estruturada", en: "Structured Solution" },
-  "solucao.title.1": { pt: "A stack perfeita, ", en: "The perfect stack, " },
-  "solucao.title.2": { pt: "escolhida por IA", en: "chosen by AI" },
-  "solucao.subtitle": {
-    pt: "Nossa IA avalia os requisitos de negócio, restrições técnicas e metas de longo prazo para recomendar a arquitetura ideal, gerando documentação completa em minutos.",
-    en: "Our AI evaluates business requirements, technical constraints, and long-term goals to recommend the ideal architecture, generating complete documentation in minutes."
+  "lp.realidade.badge": { pt: "Realidade do Mercado", en: "Market Reality" },
+  "lp.realidade.title.1": { pt: "Saber usar IA pra gerar código", en: "Knowing how to use AI to generate code" },
+  "lp.realidade.title.highlight": { pt: "não te faz engenheiro.", en: "doesn't make you an engineer." },
+  "lp.realidade.subtitle": {
+    pt: "O mercado está inundado de \"devs\" que copiam e colam código de ChatGPT sem entender o que está por trás. Chamam isso de \"vibe coding\" e consideram isso programação. Enquanto isso, os sistemas que eles criam são bombas-relógio de segurança esperando pra explodir.",
+    en: "The market is flooded with \"devs\" who copy and paste ChatGPT code without understanding what's behind it. They call it \"vibe coding\" and consider it programming. Meanwhile, the systems they create are security time bombs waiting to explode."
   },
-  "solucao.feature1.title": { pt: "Seleção de Stack via IA", en: "AI-Powered Stack Selection" },
-  "solucao.feature1.desc": {
-    pt: "Algoritmos avançados que analisam trade-offs e mitigam riscos técnicos antes da primeira linha de código.",
-    en: "Advanced algorithms that analyze trade-offs and mitigate technical risks before the first line of code."
+  "lp.realidade.item1.title": { pt: "Código sem contexto de segurança", en: "Code without security context" },
+  "lp.realidade.item1.desc": {
+    pt: "Uma API sem rate limiting, um form sem sanitização, um JWT sem expiração. Erros que uma IA gera em 2 segundos e que um hacker explora em menos.",
+    en: "An API without rate limiting, a form without sanitization, a JWT without expiration. Errors an AI generates in 2 seconds and a hacker exploits in less."
   },
-  "solucao.feature2.title": { pt: "Geração Automatizada de PRD", en: "Automated PRD Generation" },
-  "solucao.feature2.desc": {
-    pt: "Documentos de requisitos detalhados (PRD) gerados instantaneamente, alinhando engenharia e produto.",
-    en: "Detailed requirements documents (PRD) generated instantly, aligning engineering and product."
+  "lp.realidade.item2.title": { pt: "Arquiteturas que não sobrevivem à escala", en: "Architectures that don't survive scaling" },
+  "lp.realidade.item2.desc": {
+    pt: "Monolitos acoplados, banco de dados sem indexação, zero caching. Funciona com 10 usuários. Com 10.000, colapsa.",
+    en: "Coupled monoliths, databases without indexing, zero caching. Works with 10 users. With 10,000, it collapses."
   },
-
-  // ══════════════════════════════════
-  //  BENEFÍCIOS SECTION
-  // ══════════════════════════════════
-  "beneficios.title": { pt: "Benefícios a longo prazo", en: "Long-term Benefits" },
-  "beneficios.subtitle": {
-    pt: "Construa uma base sólida para o futuro. Sistemas que nascem com a arquitetura certa escalam sem fricção.",
-    en: "Build a solid foundation for the future. Systems born with the right architecture scale without friction."
-  },
-  "beneficios.seguranca.title": { pt: "Segurança", en: "Security" },
-  "beneficios.seguranca.desc": {
-    pt: "Mitigação proativa de vulnerabilidades com escolhas sólidas e validadas pela indústria.",
-    en: "Proactive vulnerability mitigation with solid, industry-validated choices."
-  },
-  "beneficios.escala.title": { pt: "Escalabilidade", en: "Scalability" },
-  "beneficios.escala.desc": {
-    pt: "Arquitetura resiliente pronta para suportar de centenas a milhões de usuários simultâneos.",
-    en: "Resilient architecture ready to support hundreds to millions of simultaneous users."
-  },
-  "beneficios.clareza.title": { pt: "Clareza", en: "Clarity" },
-  "beneficios.clareza.desc": {
-    pt: "Visão cristalina do roadmap técnico, alinhando engenharia com objetivos de negócios.",
-    en: "Crystal clear vision of the technical roadmap, aligning engineering with business goals."
-  },
-  "beneficios.educacao.title": { pt: "Educação", en: "Education" },
-  "beneficios.educacao.desc": {
-    pt: "Aprenda as melhores práticas de engenharia durante o processo de estruturação.",
-    en: "Learn engineering best practices during the structuring process."
+  "lp.realidade.item3.title": { pt: "Falsa confiança, prejuízo real", en: "False confidence, real losses" },
+  "lp.realidade.item3.desc": {
+    pt: "\"Tá funcionando\" não significa \"tá seguro\". A diferença entre um software amador e um profissional está no que acontece quando as coisas dão errado.",
+    en: "\"It's working\" doesn't mean \"it's secure\". The difference between amateur and professional software is what happens when things go wrong."
   },
 
   // ══════════════════════════════════
-  //  CTA FINAL
+  //  LANDING PAGE — POR QUE (Section 4)
   // ══════════════════════════════════
-  "cta.title.1": { pt: "O futuro do seu código ", en: "The future of your code " },
-  "cta.title.highlight": { pt: "começa agora.", en: "starts now." },
-  "cta.subtitle": {
-    pt: "Pare de adivinhar sua stack. Comece a construir com certeza e escala desde o dia zero.",
-    en: "Stop guessing your stack. Start building with certainty and scale from day zero."
+  "lp.porque.badge": { pt: "Por Que BuildCode", en: "Why BuildCode" },
+  "lp.porque.title.1": { pt: "Construa software como um", en: "Build software like a" },
+  "lp.porque.title.highlight": { pt: "arquiteto sênior.", en: "senior architect." },
+  "lp.porque.subtitle": {
+    pt: "Mesmo que você esteja começando. O BuildCode coloca décadas de experiência em engenharia nas suas mãos, em forma de inteligência artificial que pensa antes de agir.",
+    en: "Even if you're just starting out. BuildCode puts decades of engineering experience in your hands, in the form of artificial intelligence that thinks before it acts."
   },
-  "cta.button": { pt: "Começar meu Projeto", en: "Start my Project" },
+  "lp.porque.f1.title": { pt: "Simplicidade Radical", en: "Radical Simplicity" },
+  "lp.porque.f1.desc": {
+    pt: "Responda um questionário inteligente de 20 etapas. A IA faz o resto: seleciona a stack, gera o PRD, cria o Prompt Base e entrega tudo documentado. Zero complexidade pra você.",
+    en: "Answer a smart 20-step questionnaire. AI does the rest: selects the stack, generates the PRD, creates the Base Prompt and delivers everything documented. Zero complexity for you."
+  },
+  "lp.porque.f2.title": { pt: "Segurança Desde o Dia Zero", en: "Security From Day Zero" },
+  "lp.porque.f2.desc": {
+    pt: "Cada recomendação do BuildCode já considera OWASP Top 10, sanitização de inputs, rate limiting, autenticação robusta e boas práticas de infraestrutura. Segurança não é extra. É o padrão.",
+    en: "Every BuildCode recommendation already considers OWASP Top 10, input sanitization, rate limiting, robust authentication and infrastructure best practices. Security isn't extra. It's the standard."
+  },
+  "lp.porque.f3.title": { pt: "IA Disponível 24/7", en: "AI Available 24/7" },
+  "lp.porque.f3.desc": {
+    pt: "Dúvidas sobre sua stack? Quer entender por que o sistema recomendou PostgreSQL em vez de MongoDB? Pergunte ao chat integrado. A IA responde com contexto do seu projeto, não com respostas genéricas.",
+    en: "Questions about your stack? Want to understand why the system recommended PostgreSQL instead of MongoDB? Ask the integrated chat. AI responds with your project's context, not generic answers."
+  },
+  "lp.porque.f4.title": { pt: "Organização de Verdade", en: "Real Organization" },
+  "lp.porque.f4.desc": {
+    pt: "PRD profissional, Prompt Base otimizado, insights de complexidade, gráficos de stack e projetos salvos no seu perfil. Tudo que um gestor de projetos precisa, automatizado e em português.",
+    en: "Professional PRD, optimized Base Prompt, complexity insights, stack charts and saved projects in your profile. Everything a project manager needs, automated and ready to go."
+  },
+  "lp.porque.cta": { pt: "Experimentar Gratuitamente", en: "Try It Free" },
+
+  // ══════════════════════════════════
+  //  LANDING PAGE — DIFERENCIAIS (Section 5)
+  // ══════════════════════════════════
+  "lp.diff.badge": { pt: "Diferenciais", en: "Differentials" },
+  "lp.diff.title.1": { pt: "O que torna o BuildCode", en: "What makes BuildCode" },
+  "lp.diff.title.highlight": { pt: "insubstituível.", en: "irreplaceable." },
+  "lp.diff.f1.title": { pt: "4 Agentes de IA Especializados", en: "4 Specialized AI Agents" },
+  "lp.diff.f1.desc": {
+    pt: "Cada agente tem personalidade, visão técnica e abordagem única. Escolha quem vai guiar seu projeto: do pragmático ao visionário, do especialista em segurança à rainha do fullstack.",
+    en: "Each agent has personality, technical vision and a unique approach. Choose who will guide your project: from the pragmatic to the visionary, from the security specialist to the fullstack queen."
+  },
+  "lp.diff.f2.title": { pt: "Gráficos de Stack Interativos", en: "Interactive Stack Charts" },
+  "lp.diff.f2.desc": {
+    pt: "Ao final do questionário, visualize sua arquitetura em gráficos detalhados: distribuição de tecnologias, complexidade por camada, custo estimado e score de segurança. Dados, não achismos.",
+    en: "At the end of the questionnaire, visualize your architecture in detailed charts: technology distribution, complexity per layer, estimated cost and security score. Data, not guesswork."
+  },
+  "lp.diff.f3.title": { pt: "PRD + Prompt Base Profissional", en: "PRD + Professional Base Prompt" },
+  "lp.diff.f3.desc": {
+    pt: "Documentação completa gerada automaticamente: PRD com justificativa de cada tecnologia, estimativa de custo e arquitetura visual. Prompt Base otimizado com boas práticas de código, responsividade e clean code.",
+    en: "Complete documentation generated automatically: PRD with justification for each technology, cost estimation and visual architecture. Optimized Base Prompt with code best practices, responsiveness and clean code."
+  },
+  "lp.diff.mini1.title": { pt: "Multi-idioma", en: "Multi-language" },
+  "lp.diff.mini1.sub": { pt: "PT-BR & English", en: "PT-BR & English" },
+  "lp.diff.mini2.title": { pt: "Biblioteca 200+", en: "Library 200+" },
+  "lp.diff.mini2.sub": { pt: "Ferramentas curadas", en: "Curated tools" },
+  "lp.diff.mini3.title": { pt: "Tema Dark/Light", en: "Dark/Light Theme" },
+  "lp.diff.mini3.sub": { pt: "Interface adaptável", en: "Adaptive interface" },
+  "lp.diff.mini4.title": { pt: "GitHub Analytics", en: "GitHub Analytics" },
+  "lp.diff.mini4.sub": { pt: "Compare tecnologias", en: "Compare technologies" },
+
+  // ══════════════════════════════════
+  //  LANDING PAGE — SOLUÇÃO / AGENTES (Section 6)
+  // ══════════════════════════════════
+  "lp.solucao.badge": { pt: "A Solução", en: "The Solution" },
+  "lp.solucao.title.1": { pt: "Quatro mentes artificiais.", en: "Four artificial minds." },
+  "lp.solucao.title.highlight": { pt: "Uma missão: proteger seu software.", en: "One mission: protect your software." },
+  "lp.solucao.subtitle": {
+    pt: "O BuildCode não é só uma ferramenta. É uma equipe de especialistas com inteligência artificial que analisa, questiona e valida cada decisão do seu projeto. Conheça os agentes que vão blindar sua arquitetura.",
+    en: "BuildCode isn't just a tool. It's a team of AI-powered specialists that analyzes, questions and validates every decision in your project. Meet the agents that will armor your architecture."
+  },
+  "lp.agent.boss.role": { pt: "O Arquiteto Pragmático", en: "The Pragmatic Architect" },
+  "lp.agent.boss.quote": {
+    pt: "\"Você quer um software ou um brinquedo? Se for pra usar essa stack lenta, nem me faça perder tempo.\"",
+    en: "\"Do you want software or a toy? If you're going to use that slow stack, don't waste my time.\""
+  },
+  "lp.agent.boss.desc": {
+    pt: "Direto, brutal e sem filtro. The Boss exige performance, escalabilidade e decisões técnicas que sobrevivam ao teste do tempo. API com mais de 200ms? Prepare-se pra ouvir.",
+    en: "Direct, brutal and unfiltered. The Boss demands performance, scalability and technical decisions that survive the test of time. API over 200ms? Prepare to hear about it."
+  },
+  "lp.agent.azrael.role": { pt: "O Visionário Obsessivo", en: "The Obsessive Visionary" },
+  "lp.agent.azrael.quote": {
+    pt: "\"Isso é funcional, mas não é revolucionário. Por que não adicionamos uma camada de análise preditiva aqui?\"",
+    en: "\"This is functional, but not revolutionary. Why don't we add a predictive analysis layer here?\""
+  },
+  "lp.agent.azrael.desc": {
+    pt: "Pensa três passos à frente. Azrael vê seu MVP como trampolim, não como destino. Se existe uma forma de integrar IA, dados preditivos ou automação, ele vai encontrar.",
+    en: "Thinks three steps ahead. Azrael sees your MVP as a springboard, not a destination. If there's a way to integrate AI, predictive data or automation, he will find it."
+  },
+  "lp.agent.rizler.role": { pt: "O Fantasma do Red Team", en: "The Red Team Ghost" },
+  "lp.agent.rizler.quote": {
+    pt: "\"Bonito seu front-end. Uma pena que eu levaria 12 segundos para derrubar sua DB com um SQL Injection básico nesse setup.\"",
+    en: "\"Nice front-end. Too bad it would take me 12 seconds to drop your DB with a basic SQL Injection on this setup.\""
+  },
+  "lp.agent.rizler.desc": {
+    pt: "Paranoico por natureza, brilhante por mérito. Rizler pensa como um hacker pra proteger como um engenheiro. Portas abertas, .env exposto, MFA ausente. Nada escapa.",
+    en: "Paranoid by nature, brilliant by merit. Rizler thinks like a hacker to protect like an engineer. Open ports, exposed .env, missing MFA. Nothing escapes."
+  },
+  "lp.agent.anastasia.role": { pt: "A Rainha do Fullstack", en: "The Fullstack Queen" },
+  "lp.agent.anastasia.quote": {
+    pt: "\"Calma, baby. Vamos escolher uma stack que deixe seu backend tão atraente quanto o seu front.\"",
+    en: "\"Easy, baby. Let's pick a stack that makes your backend as attractive as your front.\""
+  },
+  "lp.agent.anastasia.desc": {
+    pt: "Técnica, confiante e elegante. Anastasia garante que frontend e backend conversem em harmonia. Design system primeiro, TypeScript obrigatório, componentes enxutos. Padrão de rainha.",
+    en: "Technical, confident and elegant. Anastasia ensures frontend and backend talk in harmony. Design system first, TypeScript mandatory, lean components. Queen's standard."
+  },
+  "lp.solucao.mentor": { pt: "Escolha seu mentor. Construa com confiança.", en: "Choose your mentor. Build with confidence." },
+  "lp.solucao.cta": { pt: "Escolher Meu Agente", en: "Choose My Agent" },
+
+  // ══════════════════════════════════
+  //  LANDING PAGE — CYBERDYNE (Section 7)
+  // ══════════════════════════════════
+  "lp.cyber.badge": { pt: "Em Desenvolvimento", en: "In Development" },
+  "lp.cyber.tagline": { pt: "Encontre as falhas antes que elas encontrem você.", en: "Find the flaws before they find you." },
+  "lp.cyber.desc": {
+    pt: "Cyberdyne é um script de segurança ofensiva projetado para varrer, identificar e documentar vulnerabilidades em aplicações web e sistemas locais. Ele não pergunta permissão. Ele testa tudo. XSS, SQL Injection, LFI, IDOR, SSRF, DDoS surface, e muito mais.",
+    en: "Cyberdyne is an offensive security script designed to scan, identify and document vulnerabilities in web applications and local systems. It doesn't ask permission. It tests everything. XSS, SQL Injection, LFI, IDOR, SSRF, DDoS surface, and much more."
+  },
+
+  // ══════════════════════════════════
+  //  LANDING PAGE — SERENITY (Section 8)
+  // ══════════════════════════════════
+  "lp.serenity.badge": { pt: "Em Desenvolvimento", en: "In Development" },
+  "lp.serenity.tagline": { pt: "Qualidade não se discute. Se comprova.", en: "Quality isn't debated. It's proven." },
+  "lp.serenity.desc": {
+    pt: "Serenity é um motor de QA automatizado que testa cada funcionalidade do seu sistema com a precisão de um relojoeiro suíço. Integrado com IA, ele não só encontra falhas. Ele explica o porquê, sugere correções e gera um relatório executivo completo.",
+    en: "Serenity is an automated QA engine that tests every feature of your system with the precision of a Swiss watchmaker. Integrated with AI, it doesn't just find flaws. It explains why, suggests fixes and generates a complete executive report."
+  },
+  "lp.serenity.e2e": { pt: "Testes E2E", en: "E2E Tests" },
+  "lp.serenity.a11y": { pt: "Acessibilidade", en: "Accessibility" },
+  "lp.serenity.report": { pt: "Relatório com IA", en: "AI Report" },
+  "lp.serenity.responsive": { pt: "Responsividade", en: "Responsiveness" },
+  "lp.serenity.functionality": { pt: "Funcionalidade", en: "Functionality" },
+  "lp.serenity.accessibility": { pt: "Acessibilidade", en: "Accessibility" },
+  "lp.serenity.responsiveness": { pt: "Responsividade", en: "Responsiveness" },
+
+  // ══════════════════════════════════
+  //  LANDING PAGE — CTA FINAL (Section 9)
+  // ══════════════════════════════════
+  "lp.cta.title.1": { pt: "O código que você escreve hoje", en: "The code you write today" },
+  "lp.cta.title.2": { pt: "define o software de ", en: "defines the software of " },
+  "lp.cta.title.highlight": { pt: "amanhã.", en: "tomorrow." },
+  "lp.cta.subtitle": {
+    pt: "Pare de improvisar. Pare de adivinhar. Comece cada projeto com a clareza, a segurança e a inteligência que ele merece.",
+    en: "Stop improvising. Stop guessing. Start every project with the clarity, security and intelligence it deserves."
+  },
+  "lp.cta.button": { pt: "Criar Meu Projeto Agora", en: "Create My Project Now" },
+  "lp.cta.subtext": { pt: "Gratuito. Sem cartão de crédito. Sem pegadinha.", en: "Free. No credit card. No catch." },
 
   // ══════════════════════════════════
   //  FOOTER

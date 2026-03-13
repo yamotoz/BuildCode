@@ -353,6 +353,15 @@ Ao registrar no Auth, `handle_new_user()` cria automaticamente o perfil com:
 - [x] API `/api/accept-terms.ts` para registrar aceite de termos com IP
 - [x] API `/api/signup.ts` para registro de novos usuarios
 - [x] Integracao Asaas (pasta `/api/asaas/`) para pagamentos
+- [x] Multi-select no wizard: frontend (Q6) e autenticacao (Q13) agora aceitam multiplas selecoes (checkbox)
+- [x] PRD e Prompt Base atualizados para lidar com arrays de frontend e auth (labels, justificativas, custos)
+- [x] Painel de usuarios no Admin Dashboard: lista todos os usuarios com avatar, role, plano e total de acoes
+- [x] Modal de analytics por usuario: clique em qualquer usuario para ver graficos de uso mensal (Recharts stacked bar)
+- [x] Modal mostra IAs mais utilizadas por usuario (top 5 LLMs) e distribuicao por tipo de acao
+- [x] Coluna `can_access_dashboard` no profiles: controla acesso ao dashboard de gestao por usuario
+- [x] Toggle "Acesso ao Dashboard de Gestao" no formulario de convite de usuario (perfil.astro)
+- [x] AdminWrapper verifica `can_access_dashboard` alem de role master/admin
+- [x] dataall.sql atualizado com nova coluna can_access_dashboard
 
 ## 13. FUNCIONALIDADES PENDENTES / ROADMAP
 

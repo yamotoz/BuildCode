@@ -23,24 +23,28 @@ export default function AdminWrapper() {
       if (!session) { setState('unauth'); return; }
 
       const { data: profile } = await supabase
-        .from('profiles').select('role').eq('id', session.user.id).single();
+        .from('profiles').select('role, can_access_dashboard').eq('id', session.user.id).single();
 
-      if (!profile || !['master', 'admin'].includes(profile.role)) {
-        setState('unauth'); return;
-      }
+      if (!profile) { setState('unauth'); return; }
+      const hasAccess = ['master', 'admin'].includes(profile.role) || profile.can_access_dashboard === true;
+      if (!hasAccess) { setState('unauth'); return; }
 
       // Fetch all data
-      const [subsRes, costsRes, profsRes, usageRes] = await Promise.all([
-        supabase.from('subscriptions').select('plan, status, created_at, current_period_end'),
+      const [subsRes, costsRes, profsRes, usageRes, usersRes, usageFullRes] = await Promise.all([
+        supabase.from('subscriptions').select('plan, status, created_at, current_period_end, user_id'),
         supabase.from('api_costs').select('*').order('period_date', { ascending: true }).limit(365),
         supabase.from('profiles').select('seniority, created_at'),
         supabase.from('usage_logs').select('cost_usd, created_at').order('created_at', { ascending: true }).limit(1000),
+        supabase.from('profiles').select('id, full_name, avatar_url, role, seniority, agent, llm_model, created_at, can_access_dashboard'),
+        supabase.from('usage_logs').select('user_id, action, llm_model, tokens_used, cost_usd, created_at').order('created_at', { ascending: false }).limit(5000),
       ]);
 
       const subs = subsRes.data || [];
       const costs = costsRes.data || [];
       const profs = profsRes.data || [];
       const usage = usageRes.data || [];
+      const users = usersRes.data || [];
+      const usageFull = usageFullRes.data || [];
 
       const active = subs.filter((s: any) => s.status === 'active');
       const canceled = subs.filter((s: any) => s.status === 'canceled');
@@ -209,6 +213,18 @@ export default function AdminWrapper() {
         { seniority: 'Senior', count: profs.filter((p: any) => p.seniority === 'senior').length },
       ].filter(s => s.count > 0);
 
+      // Build user list with subscription data
+      const usersList = users.map((u: any) => {
+        const sub = subs.find((s: any) => s.user_id === u.id);
+        const userLogs = usageFull.filter((l: any) => l.user_id === u.id);
+        return {
+          ...u,
+          plan: sub?.plan || 'explorador',
+          subStatus: sub?.status || 'none',
+          usageLogs: userLogs,
+        };
+      });
+
       setMetrics({
         mrr,
         churnRate,
@@ -224,6 +240,7 @@ export default function AdminWrapper() {
         revenueHistory,
         dailyHistory: dailyHistoryArr,
         userSegmentation,
+        usersList,
       });
 
       setState('ready');

@@ -52,7 +52,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Parse body
-  let body: { email: string; fullName: string; role: string; plan?: string };
+  let body: { email: string; fullName: string; role: string; plan?: string; canAccessDashboard?: boolean };
   try {
     body = await request.json();
   } catch {
@@ -62,7 +62,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const { email, fullName, role, plan } = body;
+  const { email, fullName, role, plan, canAccessDashboard } = body;
   if (!email || !fullName) {
     return new Response(JSON.stringify({ error: 'email and fullName are required' }), {
       status: 400,
@@ -94,11 +94,14 @@ export const POST: APIRoute = async ({ request }) => {
     // Wait for trigger to create profile
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    // Set role if not default 'user'
-    if (safeRole !== 'user') {
+    // Set role and dashboard access
+    const profileUpdate: Record<string, any> = {};
+    if (safeRole !== 'user') profileUpdate.role = safeRole;
+    if (canAccessDashboard === true) profileUpdate.can_access_dashboard = true;
+    if (Object.keys(profileUpdate).length > 0) {
       await adminClient
         .from('profiles')
-        .update({ role: safeRole })
+        .update(profileUpdate)
         .eq('id', data.user.id);
     }
 

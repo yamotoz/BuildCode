@@ -444,6 +444,10 @@ ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS terms_accepted_at TIMESTAMP
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS terms_version TEXT;
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS terms_ip TEXT;
 
+-- Controle de acesso ao dashboard administrativo
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS can_access_dashboard BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS can_access_dashboard BOOLEAN NOT NULL DEFAULT FALSE;
+
 -- Tabela de rate-limit para criacao de contas por IP
 CREATE TABLE IF NOT EXISTS public.signup_rate_limit (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
