@@ -52,7 +52,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Extrai corpo da requisição
-  let body: { email: string; fullName: string; role: string; plan?: string; canAccessDashboard?: boolean };
+  let body: { email: string; fullName: string; role: string; plan?: string; canAccessDashboard?: boolean; password?: string };
   try {
     body = await request.json();
   } catch {
@@ -62,9 +62,16 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const { email, fullName, role, plan, canAccessDashboard } = body;
+  const { email, fullName, role, plan, canAccessDashboard, password } = body;
   if (!email || !fullName) {
     return new Response(JSON.stringify({ error: 'email and fullName are required' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  if (!password || password.length < 6) {
+    return new Response(JSON.stringify({ error: 'password must be at least 6 characters' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     });
@@ -76,9 +83,10 @@ export const POST: APIRoute = async ({ request }) => {
   const validPlans = ['explorador', 'consultor', 'arquiteto'];
   const safePlan = validPlans.includes(plan || '') ? plan! : 'explorador';
 
-  // Cria usuário com service role (privilégios admin)
+  // Cria usuário diretamente com senha definida (email já confirmado)
   const { data, error } = await adminClient.auth.admin.createUser({
     email,
+    password,
     email_confirm: true,
     user_metadata: { full_name: fullName },
   });
@@ -118,13 +126,6 @@ export const POST: APIRoute = async ({ request }) => {
       current_period_end: periodEnd.toISOString(),
     }, { onConflict: 'user_id' });
   }
-
-  // Envia link de reset de senha para o novo usuário definir sua senha
-  await adminClient.auth.admin.generateLink({
-    type: 'recovery',
-    email,
-    options: { redirectTo: `${request.headers.get('origin') || ''}/login` },
-  });
 
   return new Response(JSON.stringify({ success: true, userId: data.user?.id }), {
     status: 200,

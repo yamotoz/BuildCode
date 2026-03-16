@@ -47,10 +47,12 @@ export const POST: APIRoute = async ({ request }) => {
   // Autenticação
   const authHeader = request.headers.get('authorization');
   let userPlan = 'explorador';
+  let authenticatedUser: { id: string } | null = null;
 
   if (authHeader?.startsWith('Bearer ')) {
     const anonClient = createClient(supabaseUrl, supabaseAnon);
     const { data: { user } } = await anonClient.auth.getUser(authHeader.replace('Bearer ', ''));
+    authenticatedUser = user;
 
     if (user) {
       const adminClient = createClient(supabaseUrl, serviceRoleKey);
@@ -123,15 +125,16 @@ export const POST: APIRoute = async ({ request }) => {
     const reply = data.choices?.[0]?.message?.content || 'Sem resposta.';
 
     // Registrar uso na usage_logs
-    if (user) {
+    if (authenticatedUser) {
       const adminClient = createClient(supabaseUrl, serviceRoleKey);
-      await adminClient.from('usage_logs').insert({
-        user_id: user.id,
+      const { error: logError } = await adminClient.from('usage_logs').insert({
+        user_id: authenticatedUser.id,
         action: 'chat_message',
         llm_model: 'gpt-4o-mini',
         tokens_used: data.usage?.total_tokens || 0,
         cost_usd: 0,
       });
+      if (logError) console.error('[chat] Erro ao registrar uso:', logError.message);
     }
 
     return new Response(JSON.stringify({ reply }), {

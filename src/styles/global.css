@@ -457,3 +457,67 @@ html.light [style*="border: 1px solid rgba(255, 255, 255, 0.06)"] {
 html.light .bg-white\/10 {
   background-color: rgba(46, 116, 139, 0.1) !important;
 }
+
+/* ══════════════════════════════════════════════════════
+   HERO VIDEO OVERLAY — theme-aware
+══════════════════════════════════════════════════════ */
+html.dark .hero-overlay {
+  background: rgba(13, 13, 13, 0.85) !important;
+  backdrop-filter: blur(3px);
+}
+html.dark .hero-gradient {
+  background: linear-gradient(to top, #0D0D0D, rgba(13, 13, 13, 0.4), transparent) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   LANDING PAGE LIGHT MODE — text contrast fixes
+══════════════════════════════════════════════════════ */
+html.light .text-primary {
+  color: #1C5A6E !important;
+}
+
+html.light .text-secondary {
+  color: #1C5A6E !important;
+}
+
+html.light .text-cta {
+  color: #C4863D !important;
+}
+
+/* Footer light mode */
+html.light footer {
+  background-color: #EBEEF3 !important;
+  border-color: #D4D9E0 !important;
+}
+
+html.light footer .text-slate-400 {
+  color: #5a6370 !important;
+}
+
+/* Header dropdown light mode */
+html.light [style*="background: #1a1a1a; border: 1px solid #2A3135"] {
+  background: #FFFFFF !important;
+  border-color: #D4D9E0 !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+}
+
+html.light [style*="background: #1a1a1a"] .text-slate-300 {
+  color: #4a4a66 !important;
+}
+
+/* Precos page inline borders */
+html.light [style*="border: 1px solid rgba(46,116,139"] {
+  border-color: rgba(46, 116, 139, 0.2) !important;
+}
+
+html.light [style*="border: 1px solid rgba(168,85,247"] {
+  border-color: rgba(168, 85, 247, 0.15) !important;
+}
+
+html.light [style*="border: 1px solid rgba(52,211,153"] {
+  border-color: rgba(52, 211, 153, 0.15) !important;
+}
+
+html.light [style*="border: 1px solid rgba(251,191,36"] {
+  border-color: rgba(251, 191, 36, 0.15) !important;
+}

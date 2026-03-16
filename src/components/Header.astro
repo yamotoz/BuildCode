@@ -30,15 +30,49 @@
           <span data-i18n="nav.acessar">Acessar Sistema</span>
       </a>
 
-      <!-- User pill (visible when authenticated) — after Acessar Sistema -->
-      <a id="header-user-btn" href="/perfil" class="hidden items-center gap-2 cursor-pointer rounded-full border border-primary/20 pl-2.5 pr-1.5 py-1.5 hover:bg-primary/5 hover:border-primary/40 transition-all">
-        <span id="header-user-name" class="text-xs sm:text-sm font-medium text-white max-w-[80px] sm:max-w-[120px] truncate"></span>
-        <div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30 shrink-0">
-          <img id="header-avatar-img" src="" alt="" class="w-full h-full object-cover hidden" />
-          <span id="header-avatar-initials" class="text-[10px] font-bold text-primary"></span>
+      <!-- User pill with dropdown (visible when authenticated) -->
+      <div id="header-user-btn" class="hidden relative">
+        <button id="header-user-pill" type="button" class="flex items-center gap-2 cursor-pointer rounded-full border border-primary/20 pl-2.5 pr-1.5 py-1.5 hover:bg-primary/5 hover:border-primary/40 transition-all">
+          <span id="header-user-name" class="text-xs sm:text-sm font-medium text-white max-w-[80px] sm:max-w-[120px] truncate"></span>
+          <div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30 shrink-0">
+            <img id="header-avatar-img" src="" alt="" class="w-full h-full object-cover hidden" />
+            <span id="header-avatar-initials" class="text-[10px] font-bold text-primary"></span>
+          </div>
+        </button>
+        <!-- Dropdown -->
+        <div id="header-user-dropdown" class="hidden absolute right-0 top-full mt-2 w-48 rounded-xl overflow-hidden shadow-xl z-50" style="background: #1a1a1a; border: 1px solid #2A3135;">
+          <a href="/perfil" id="header-link-perfil" class="flex items-center gap-3 px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-white/[0.05] transition-all">
+            <span class="material-symbols-outlined text-lg text-primary">person</span>
+            Perfil
+          </a>
+          <a href="/perfil#plano" id="header-link-plano" class="flex items-center gap-3 px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-white/[0.05] transition-all border-t border-white/5">
+            <span class="material-symbols-outlined text-lg text-cta">credit_card</span>
+            Plano
+          </a>
+          <button id="header-logout-btn" type="button" class="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/5 transition-all border-t border-white/5 w-full text-left cursor-pointer">
+            <span class="material-symbols-outlined text-lg">logout</span>
+            Sair
+          </button>
         </div>
-      </a>
+      </div>
+
+      <!-- Mobile hamburger menu button -->
+      <button id="mobile-menu-btn" type="button" class="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] transition-all cursor-pointer" aria-label="Menu">
+        <span id="mobile-menu-icon" class="material-symbols-outlined text-xl text-slate-300">menu</span>
+      </button>
     </div>
+  </div>
+
+  <!-- Mobile menu drawer -->
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-border-color">
+    <nav class="flex flex-col py-3 px-2 gap-1">
+      <a class="text-slate-300 hover:text-primary hover:bg-white/[0.04] transition-all text-sm font-medium tracking-wide rounded-lg px-4 py-3" href="https://migueloliveiradev.com.br" target="_blank" rel="noopener noreferrer" data-i18n="nav.criador">Criador</a>
+      <a class="text-slate-300 hover:text-primary hover:bg-white/[0.04] transition-all text-sm font-medium tracking-wide rounded-lg px-4 py-3" href="/precos" data-i18n="nav.precos">Preços</a>
+      <a class="text-slate-300 hover:text-primary hover:bg-white/[0.04] transition-all text-sm font-medium tracking-wide rounded-lg px-4 py-3" href="/analytics" data-i18n="nav.analytics">Analytics</a>
+      <a class="text-slate-300 hover:text-primary hover:bg-white/[0.04] transition-all text-sm font-medium tracking-wide rounded-lg px-4 py-3" href="/biblioteca" data-i18n="nav.biblioteca">Biblioteca</a>
+      <div class="border-t border-white/5 my-1"></div>
+      <a id="mobile-login-link" class="text-slate-300 hover:text-primary hover:bg-white/[0.04] transition-all text-sm font-medium tracking-wide rounded-lg px-4 py-3" href="/login" data-i18n="nav.login">Login</a>
+    </nav>
   </div>
 </header>
 
@@ -57,11 +91,14 @@
     try {
       const { data: { session } } = await supabase.auth.getSession();
 
+      const mobileLoginLink = document.getElementById('mobile-login-link');
+
       if (session) {
         loginBtn.classList.add('hidden');
         loginBtn.classList.remove('lg:flex');
         userBtn.classList.remove('hidden');
         userBtn.classList.add('flex');
+        if (mobileLoginLink) mobileLoginLink.classList.add('hidden');
 
         const profile = await getProfile(session.user.id);
         const displayName = profile?.full_name || session.user.email?.split('@')[0] || 'Usuário';
@@ -79,11 +116,11 @@
           if (avatarImg) avatarImg.classList.add('hidden');
         }
 
-        // Apply user theme preference
-        if (profile?.theme === 'light') {
-          document.documentElement.classList.remove('dark');
-          document.documentElement.classList.add('light');
-          localStorage.setItem('bc-theme', 'light');
+        // Apply user theme preference (default is light)
+        if (profile?.theme === 'dark') {
+          document.documentElement.classList.remove('light');
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('bc-theme', 'dark');
         }
         updateLogo();
       } else {
@@ -111,6 +148,81 @@
 
   // Expose for theme toggle usage
   (window as any).bcUpdateLogo = updateLogo;
+
+  // User dropdown toggle
+  const userPill = document.getElementById('header-user-pill');
+  const userDropdown = document.getElementById('header-user-dropdown');
+  if (userPill && userDropdown) {
+    userPill.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userDropdown.classList.toggle('hidden');
+    });
+    // Close on click outside
+    document.addEventListener('click', () => {
+      userDropdown.classList.add('hidden');
+    });
+    userDropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  }
+
+  // Perfil link — if already on /perfil, switch to perfil view
+  const perfilLink = document.getElementById('header-link-perfil');
+  if (perfilLink) {
+    perfilLink.addEventListener('click', (e) => {
+      if (window.location.pathname === '/perfil') {
+        e.preventDefault();
+        window.history.replaceState(null, '', '/perfil');
+        if (typeof (window as any).switchProfileTab === 'function') {
+          (window as any).switchProfileTab('perfil');
+        }
+        userDropdown?.classList.add('hidden');
+      }
+    });
+  }
+
+  // Plano link — navigate to perfil and switch tab
+  const planoLink = document.getElementById('header-link-plano');
+  if (planoLink) {
+    planoLink.addEventListener('click', (e) => {
+      // If already on /perfil, just switch tab
+      if (window.location.pathname === '/perfil') {
+        e.preventDefault();
+        window.history.replaceState(null, '', '/perfil#plano');
+        if (typeof (window as any).switchProfileTab === 'function') {
+          (window as any).switchProfileTab('plano');
+        }
+        userDropdown?.classList.add('hidden');
+      }
+      // Otherwise let the href navigate with hash
+    });
+  }
+
+  // Logout button
+  const logoutBtn = document.getElementById('header-logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = '/login';
+    });
+  }
+
+  // Mobile menu toggle
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileIcon = document.getElementById('mobile-menu-icon');
+  if (mobileBtn && mobileMenu && mobileIcon) {
+    mobileBtn.addEventListener('click', () => {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      if (isOpen) {
+        mobileMenu.classList.add('hidden');
+        mobileIcon.textContent = 'menu';
+      } else {
+        mobileMenu.classList.remove('hidden');
+        mobileIcon.textContent = 'close';
+      }
+    });
+  }
 
   updateHeaderAuth();
   updateLogo();

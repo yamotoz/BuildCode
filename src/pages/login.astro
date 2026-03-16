@@ -486,6 +486,35 @@ export const prerender = false;
     authMsg.className = 'hidden';
   }
 
+  function showLoginToast(message: string, type: 'success' | 'error' = 'success') {
+    const existing = document.getElementById('bc-toast');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.id = 'bc-toast';
+    const icon = type === 'success' ? 'check_circle' : 'error';
+    const bg = type === 'success'
+      ? 'linear-gradient(135deg, #059669, #10B981)'
+      : 'linear-gradient(135deg, #DC2626, #EF4444)';
+    toast.innerHTML = `<span class="material-symbols-outlined" style="font-size:20px">${icon}</span><span>${message}</span>`;
+    Object.assign(toast.style, {
+      position: 'fixed', bottom: '24px', right: '24px', zIndex: '99999',
+      display: 'flex', alignItems: 'center', gap: '10px',
+      background: bg, color: '#fff',
+      padding: '14px 24px', borderRadius: '14px',
+      fontSize: '14px', fontWeight: '600',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+      transform: 'translateY(20px)', opacity: '0',
+      transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
+      maxWidth: '400px',
+    });
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => { toast.style.transform = 'translateY(0)'; toast.style.opacity = '1'; });
+    setTimeout(() => {
+      toast.style.transform = 'translateY(20px)'; toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 400);
+    }, 4000);
+  }
+
   function showPanel(panel: 'google' | 'login' | 'signup' | 'recovery') {
     authGoogle.classList.add('hidden');
     formLogin.classList.add('hidden');
@@ -740,7 +769,7 @@ export const prerender = false;
 
         if (directErr) {
           console.error('[Terms] Direct update error:', directErr);
-          alert('Erro ao registrar aceite dos termos: ' + directErr.message);
+          showLoginToast('Erro ao registrar aceite dos termos: ' + directErr.message, 'error');
           btnAcceptTerms.textContent = 'Aceito os Termos';
           btnAcceptTerms.disabled = false;
           return;
@@ -753,7 +782,7 @@ export const prerender = false;
       window.location.href = '/perfil';
     } catch (err: any) {
       console.error('[Terms] Error:', err);
-      alert('Erro ao aceitar termos: ' + (err?.message || 'erro desconhecido'));
+      showLoginToast('Erro ao aceitar termos: ' + (err?.message || 'erro desconhecido'), 'error');
       btnAcceptTerms.textContent = 'Aceito os Termos';
       btnAcceptTerms.disabled = false;
     }
@@ -921,9 +950,10 @@ export const prerender = false;
 
   // Logo swap for light/dark theme
   function updatePageLogo() {
-    document.querySelectorAll('img[data-dark][data-light]').forEach(img => {
+    document.querySelectorAll('img[data-dark][data-light]').forEach(el => {
+      const img = el as HTMLImageElement;
       const isLight = document.documentElement.classList.contains('light');
-      img.src = isLight ? img.dataset.light : img.dataset.dark;
+      img.src = isLight ? (img.dataset.light || img.src) : (img.dataset.dark || img.src);
     });
   }
   updatePageLogo();

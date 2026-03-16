@@ -153,32 +153,69 @@ export const POST: APIRoute = async ({ request }) => {
   const limits = PLAN_LIMITS[userPlan] || PLAN_LIMITS.explorador;
   const tierLimit = limits[mapping.tier];
 
-  // Bloquear tier não permitido
-  if (tierLimit === 0) {
-    const tierNames: Record<ModelTier, string> = { budget: 'econômico', mid: 'intermediário', pro: 'profissional' };
-    return json({ error: `Modelo ${tierNames[mapping.tier]} não disponível no plano ${userPlan}. Faça upgrade para usar este modelo.` }, 403);
-  }
+  // Buscar indie credits (Recarga Rebelde)
+  const indieField: Record<ModelTier, string> = {
+    budget: 'indie_credits_economy',
+    mid: 'indie_credits_mid',
+    pro: 'indie_credits_elite',
+  };
+  const { data: userCredits } = await adminClient
+    .from('user_credits')
+    .select('*')
+    .eq('user_id', user.id)
+    .single();
+  const indieCredits = (userCredits as any)?.[indieField[mapping.tier]] || 0;
 
-  // Verificar uso mensal (início do mês atual)
+  // Verificar uso mensal
   const monthStart = new Date();
   monthStart.setDate(1);
   monthStart.setHours(0, 0, 0, 0);
 
-  // Contar uso deste tier no mês
-  const budgetModels = Object.entries(MODEL_MAP).filter(([, v]) => v.tier === mapping.tier).map(([k]) => k);
-  const { count: usageCount } = await adminClient
+  const tierAction = `generation_${mapping.tier}`;
+  const tierModels = Object.entries(MODEL_MAP).filter(([, v]) => v.tier === mapping.tier).map(([k]) => k);
+
+  const { count: countByAction } = await adminClient
     .from('usage_logs')
     .select('id', { count: 'exact', head: true })
     .eq('user_id', user.id)
-    .in('llm_model', budgetModels)
+    .eq('action', tierAction)
     .gte('created_at', monthStart.toISOString());
 
-  if ((usageCount || 0) >= tierLimit) {
+  const { count: countByModel } = await adminClient
+    .from('usage_logs')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+    .in('llm_model', tierModels)
+    .neq('action', tierAction)
+    .gte('created_at', monthStart.toISOString());
+
+  const usageCount = (countByAction || 0) + (countByModel || 0);
+
+  // Calcular créditos totais disponíveis:
+  // - Explorador: indie credits + plan credits
+  // - Consultor/Arquiteto: apenas plan credits (indie intocado)
+  const isExplorador = userPlan === 'explorador';
+  let totalAvailable: number;
+  if (tierLimit >= 999999) {
+    totalAvailable = 999999;
+  } else if (isExplorador) {
+    totalAvailable = tierLimit + indieCredits;
+  } else {
+    totalAvailable = tierLimit;
+  }
+
+  // Bloquear se zero créditos disponíveis (plano + indie)
+  if (totalAvailable === 0) {
+    const tierNames: Record<ModelTier, string> = { budget: 'econômico', mid: 'intermediário', pro: 'profissional' };
+    return json({ error: `Modelo ${tierNames[mapping.tier]} não disponível. Você não tem créditos ${tierNames[mapping.tier]}. Faça upgrade ou compre uma Recarga Rebelde.` }, 403);
+  }
+
+  if (usageCount >= totalAvailable) {
     return json({
-      error: `Limite mensal atingido (${tierLimit} requisições ${mapping.tier}). Aguarde o próximo mês ou faça upgrade.`,
+      error: `Limite atingido (${usageCount}/${totalAvailable} requisições ${mapping.tier}). Aguarde o próximo mês, faça upgrade ou compre uma Recarga Rebelde.`,
       limitReached: true,
       used: usageCount,
-      limit: tierLimit,
+      limit: totalAvailable,
     }, 429);
   }
 
@@ -209,16 +246,20 @@ export const POST: APIRoute = async ({ request }) => {
         break;
     }
 
-    // Registrar uso na usage_logs
-    await adminClient.from('usage_logs').insert({
+    // Registrar uso na usage_logs (com verificação)
+    // Action inclui o tier para facilitar contagem: generation_budget, generation_mid, generation_pro
+    const { error: logError } = await adminClient.from('usage_logs').insert({
       user_id: user.id,
-      action: 'llm_generation',
+      action: `generation_${mapping.tier}`,
       llm_model: model,
       tokens_used: 0,
       cost_usd: 0,
     });
+    if (logError) {
+      console.error('[generate] Erro ao registrar uso:', logError.message);
+    }
 
-    return json({ result, provider: mapping.provider, model: mapping.nativeModel });
+    return json({ result, provider: mapping.provider, model: mapping.nativeModel, tier: mapping.tier });
   } catch (err: any) {
     console.error(`[generate] Erro (${mapping.provider}/${mapping.nativeModel}):`, err.message);
     return json({ error: err.message || 'Erro ao gerar conteúdo.' }, 500);

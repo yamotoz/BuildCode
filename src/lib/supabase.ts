@@ -114,6 +114,20 @@ export async function setUserRole(targetUserId: string, newRole: string) {
   });
 }
 
+export async function deleteOwnAccount() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return { error: { message: 'Not authenticated' } };
+
+  const res = await fetch('/api/delete-account', {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${session.access_token}` },
+  });
+
+  const result = await res.json();
+  if (!res.ok) return { error: { message: result.error || 'Falha ao excluir conta' } };
+  return { error: null };
+}
+
 export async function deleteUserProfile(targetUserId: string) {
   return supabase
     .from('profiles')
@@ -121,7 +135,7 @@ export async function deleteUserProfile(targetUserId: string) {
     .eq('id', targetUserId);
 }
 
-export async function inviteUser(email: string, fullName: string, role: 'user' | 'admin', plan?: string, canAccessDashboard?: boolean) {
+export async function inviteUser(email: string, fullName: string, role: 'user' | 'admin', plan?: string, canAccessDashboard?: boolean, password?: string) {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) return { data: null, error: { message: 'Not authenticated' } };
 
@@ -131,7 +145,7 @@ export async function inviteUser(email: string, fullName: string, role: 'user' |
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${session.access_token}`,
     },
-    body: JSON.stringify({ email, fullName, role, plan: plan || 'explorador', canAccessDashboard: canAccessDashboard || false }),
+    body: JSON.stringify({ email, fullName, role, plan: plan || 'explorador', canAccessDashboard: canAccessDashboard || false, password }),
   });
 
   const result = await res.json();

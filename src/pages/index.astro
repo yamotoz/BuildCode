@@ -68,11 +68,11 @@ import Footer from '../components/Footer.astro';
       <section class="relative w-full flex flex-col items-center justify-center min-h-screen px-6 py-24 overflow-hidden">
         <!-- Video Background -->
         <div class="absolute inset-0 z-0 pointer-events-none">
-          <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
-            <source src="/code01.mp4" type="video/mp4" />
+          <video id="hero-video" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover" data-dark="/code01.mp4" data-light="/tema_claro.mp4">
+            <source src="/tema_claro.mp4" type="video/mp4" />
           </video>
-          <div class="absolute inset-0 bg-background-dark/85 backdrop-blur-[3px]"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent"></div>
+          <div class="hero-overlay absolute inset-0 bg-white/70 backdrop-blur-[2px]"></div>
+          <div class="hero-gradient absolute inset-0 bg-gradient-to-t from-white via-white/30 to-transparent"></div>
         </div>
 
         <!-- Ambient glow -->
@@ -856,3 +856,22 @@ import Footer from '../components/Footer.astro';
     100% { top: 100%; }
   }
 </style>
+
+<script is:inline>
+  // Switch hero video based on theme
+  function updateHeroVideo() {
+    var video = document.getElementById('hero-video');
+    if (!video) return;
+    var isLight = document.documentElement.classList.contains('light');
+    var src = isLight ? video.dataset.light : video.dataset.dark;
+    var currentSrc = video.querySelector('source');
+    if (currentSrc && src && !currentSrc.src.endsWith(src)) {
+      currentSrc.src = src;
+      video.load();
+    }
+  }
+  // Run on load and watch for theme changes
+  updateHeroVideo();
+  var _heroObs = new MutationObserver(updateHeroVideo);
+  _heroObs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+</script>

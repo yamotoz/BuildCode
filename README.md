@@ -10,7 +10,7 @@
 
 <br />
 
-[![Acesse o BuildCode](https://img.shields.io/badge/Acessar_BuildCode-2E748B?style=for-the-badge&logoColor=white)](https://buildcode.com.br)
+[![Acesse o BuildCode](https://img.shields.io/badge/Acessar_BuildCode-2E748B?style=for-the-badge&logoColor=white)](https://www.thebuildcode.com.br)
 [![Status](https://img.shields.io/badge/Status-Produção-00C851?style=for-the-badge)]()
 [![License](https://img.shields.io/badge/Licença-Proprietária-red?style=for-the-badge)](#licenca)
 

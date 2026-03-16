@@ -312,7 +312,7 @@ import Header from '../components/Header.astro';
               <span class="text-slate-300 text-sm"><strong class="text-white">2</strong> elite</span>
             </li>
           </ul>
-          <button type="button" class="btn-recharge w-full text-center rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2.5 text-xs font-bold text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer" data-combo="starter">
+          <button type="button" class="btn-recharge w-full text-center rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2.5 text-xs font-bold text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer">
             Recarregar
           </button>
         </div>
@@ -337,7 +337,7 @@ import Header from '../components/Header.astro';
               <span class="text-slate-300 text-sm"><strong class="text-white">5</strong> elite</span>
             </li>
           </ul>
-          <button type="button" class="btn-recharge w-full text-center rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2.5 text-xs font-bold text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer" data-combo="turbo">
+          <button type="button" class="btn-recharge w-full text-center rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2.5 text-xs font-bold text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer">
             Recarregar
           </button>
         </div>
@@ -362,7 +362,7 @@ import Header from '../components/Header.astro';
               <span class="text-slate-300 text-sm"><strong class="text-white">8</strong> elite</span>
             </li>
           </ul>
-          <button type="button" class="btn-recharge w-full text-center rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2.5 text-xs font-bold text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer" data-combo="mega">
+          <button type="button" class="btn-recharge w-full text-center rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-2.5 text-xs font-bold text-purple-300 hover:bg-purple-500/20 transition-all cursor-pointer">
             Recarregar
           </button>
         </div>
@@ -388,7 +388,7 @@ import Header from '../components/Header.astro';
               <span class="text-slate-300 text-sm"><strong class="text-white">15</strong> elite</span>
             </li>
           </ul>
-          <button type="button" class="btn-recharge w-full text-center rounded-full text-xs font-bold text-background-dark py-2.5 transition-all cursor-pointer" style="background: linear-gradient(135deg, #A855F7, #7C3AED);" data-combo="ultra">
+          <button type="button" class="btn-recharge w-full text-center rounded-full text-xs font-bold text-background-dark py-2.5 transition-all cursor-pointer" style="background: linear-gradient(135deg, #A855F7, #7C3AED);">
             Recarregar
           </button>
         </div>
@@ -537,6 +537,47 @@ import Header from '../components/Header.astro';
     import.meta.env.PUBLIC_SUPABASE_ANON_KEY
   );
 
+  // ── Toast notification system ──
+  function showToast(message: string, type: 'success' | 'error' = 'success') {
+    const existing = document.getElementById('bc-toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'bc-toast';
+    const icon = type === 'success' ? 'check_circle' : 'error';
+    const bg = type === 'success'
+      ? 'linear-gradient(135deg, #059669, #10B981)'
+      : 'linear-gradient(135deg, #DC2626, #EF4444)';
+    toast.innerHTML = `
+      <span class="material-symbols-outlined" style="font-size:20px">${icon}</span>
+      <span>${message}</span>
+    `;
+    Object.assign(toast.style, {
+      position: 'fixed', bottom: '24px', right: '24px', zIndex: '99999',
+      display: 'flex', alignItems: 'center', gap: '10px',
+      background: bg, color: '#fff',
+      padding: '14px 24px', borderRadius: '14px',
+      fontSize: '14px', fontWeight: '600',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+      transform: 'translateY(20px)', opacity: '0',
+      transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
+      maxWidth: '400px',
+    });
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => {
+      toast.style.transform = 'translateY(0)';
+      toast.style.opacity = '1';
+    });
+    setTimeout(() => {
+      toast.style.transform = 'translateY(20px)';
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 400);
+    }, 4000);
+  }
+
+  // Expose globally so other scripts can use it
+  (window as any).__bcToast = showToast;
+
   document.addEventListener('DOMContentLoaded', () => {
     // ── Billing toggle ──
     const radios = document.querySelectorAll<HTMLInputElement>('input[name="billing-cycle"]');
@@ -556,6 +597,47 @@ import Header from '../components/Header.astro';
       });
     });
 
+    // ── Detect current plan and mark button ──
+    (async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      try {
+        const { data: sub } = await supabase
+          .from('subscriptions')
+          .select('plan')
+          .eq('user_id', session.user.id)
+          .single();
+
+        const currentPlan = sub?.plan || 'explorador';
+
+        // Mark the Explorador free button
+        if (currentPlan === 'explorador') {
+          const freeBtn = document.getElementById('btn-free') as HTMLElement | null;
+          if (freeBtn) {
+            freeBtn.textContent = 'Plano Atual';
+            freeBtn.classList.remove('hover:bg-white/10', 'hover:border-white/20');
+            freeBtn.classList.add('opacity-60', 'cursor-default');
+            freeBtn.removeAttribute('href');
+            freeBtn.style.pointerEvents = 'none';
+          }
+        }
+
+        // Mark checkout buttons
+        document.querySelectorAll<HTMLButtonElement>('.btn-checkout').forEach(btn => {
+          if (btn.dataset.plan === currentPlan) {
+            btn.textContent = 'Plano Atual';
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            btn.style.cursor = 'default';
+            btn.style.background = '#374151';
+            btn.style.boxShadow = 'none';
+            btn.classList.remove('hover:bg-secondary');
+          }
+        });
+      } catch {}
+    })();
+
     // ── Checkout buttons ──
     const checkoutButtons = document.querySelectorAll<HTMLButtonElement>('.btn-checkout');
 
@@ -567,50 +649,38 @@ import Header from '../components/Header.astro';
         // Check auth
         const { data: { session } } = await supabase.auth.getSession();
         if (!session) {
-          // Save desired plan in sessionStorage for after login
           sessionStorage.setItem('pendingPlan', plan);
           sessionStorage.setItem('pendingCycle', getSelectedCycle());
           window.location.href = '/login';
           return;
         }
 
-        // Show loading state
+        // [TEST MODE] — troca plano diretamente sem pagamento
         const originalText = btn.textContent || '';
         btn.disabled = true;
-        btn.textContent = 'Processando...';
+        btn.textContent = 'Ativando...';
         btn.style.opacity = '0.7';
 
         try {
-          const res = await fetch('/api/asaas/create-checkout', {
+          const res = await fetch('/api/switch-plan', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${session.access_token}`,
             },
-            body: JSON.stringify({
-              plan,
-              billingCycle: getSelectedCycle(),
-            }),
+            body: JSON.stringify({ plan }),
           });
 
-          const data = await res.json();
-
-          if (!res.ok) {
-            throw new Error(data.error || 'Erro ao processar pagamento');
-          }
-
-          if (data.invoiceUrl) {
-            // Redirect to Asaas payment page
-            window.location.href = data.invoiceUrl;
+          if (res.ok) {
+            btn.textContent = 'Plano ativado!';
+            btn.style.background = '#10B981';
+            showToast('Plano ativado com sucesso!', 'success');
+            setTimeout(() => { window.location.href = '/perfil#plano'; }, 1500);
           } else {
-            // Fallback: show success message, payment link may arrive by email
-            alert('Assinatura criada! Verifique seu e-mail para o link de pagamento.');
-            btn.textContent = originalText;
-            btn.disabled = false;
-            btn.style.opacity = '1';
+            throw new Error('Erro ao trocar plano');
           }
         } catch (err: any) {
-          alert(err.message || 'Erro ao processar. Tente novamente.');
+          showToast(err.message || 'Erro ao processar. Tente novamente.', 'error');
           btn.textContent = originalText;
           btn.disabled = false;
           btn.style.opacity = '1';
@@ -690,7 +760,8 @@ import Header from '../components/Header.astro';
       if (s) s.addEventListener('input', updateCustomTotal);
     });
 
-    // Processar recarga (combo ou custom)
+    // [TEST MODE] — Processar recarga direto no banco sem pagamento
+    // TODO: restaurar integração Asaas quando for pro ar
     async function processRecharge(type: 'combo' | 'custom', comboName: string | null, eco: number, mid: number, elite: number, amount: number) {
       const { data: { session } } = await rechargeSupabase.auth.getSession();
       if (!session) {
@@ -700,40 +771,34 @@ import Header from '../components/Header.astro';
       }
 
       try {
-        const res = await fetch('/api/asaas/create-recharge', {
+        const res = await fetch('/api/test-recharge', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${session.access_token}`,
           },
           body: JSON.stringify({
-            rechargeType: type,
-            comboName,
             creditsEconomy: eco,
             creditsMid: mid,
             creditsElite: elite,
-            amountBrl: amount,
           }),
         });
 
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Erro ao processar recarga');
 
-        if (data.invoiceUrl) {
-          window.location.href = data.invoiceUrl;
-        } else {
-          alert('Recarga solicitada! Verifique seu e-mail para o link de pagamento.');
-        }
+        const toast = (window as any).__bcToast;
+        if (toast) toast('Recarga aplicada com sucesso!', 'success');
+        setTimeout(() => { window.location.href = '/perfil#plano'; }, 1500);
       } catch (err: any) {
-        alert(err.message || 'Erro ao processar recarga.');
+        const toast = (window as any).__bcToast;
+        if (toast) toast(err.message || 'Erro ao processar recarga.', 'error');
       }
     }
 
     // Botões de combo
     document.querySelectorAll<HTMLButtonElement>('.btn-recharge').forEach(btn => {
       btn.addEventListener('click', async () => {
-        const combo = btn.closest<HTMLElement>('.recharge-combo') || btn;
-        const comboData = combo.dataset.combo ? combo.closest<HTMLElement>('[data-combo]') : combo;
         const parent = btn.closest<HTMLElement>('[data-combo]');
         if (!parent) return;
 

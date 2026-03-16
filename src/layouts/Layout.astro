@@ -20,14 +20,14 @@ const {
 	jsonLd,
 } = Astro.props;
 
-const siteUrl = "https://buildcode.com.br";
+const siteUrl = "https://www.thebuildcode.com.br";
 const currentPath = canonicalPath || Astro.url.pathname;
 const canonicalUrl = `${siteUrl}${currentPath}`;
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
 ---
 
 <!doctype html>
-<html lang="pt-BR" class="dark scroll-smooth">
+<html lang="pt-BR" class="light scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -88,9 +88,9 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`
 		<script is:inline>
 			(function() {
 				var t = localStorage.getItem('bc-theme');
-				if (t === 'light') {
-					document.documentElement.classList.remove('dark');
-					document.documentElement.classList.add('light');
+				if (t === 'dark') {
+					document.documentElement.classList.remove('light');
+					document.documentElement.classList.add('dark');
 				}
 			})();
 		</script>
