@@ -106,10 +106,11 @@ export async function listAllProfiles(): Promise<Profile[]> {
     .select('*, subscriptions(plan, status)')
     .order('created_at', { ascending: true });
   // Flatten subscription plan onto profile
-  return (data || []).map((p: any) => ({
-    ...p,
-    plan: Array.isArray(p.subscriptions) ? p.subscriptions[0]?.plan : p.subscriptions?.plan,
-  }));
+  return (data || []).map((p: any) => {
+    const subs = Array.isArray(p.subscriptions) ? p.subscriptions : (p.subscriptions ? [p.subscriptions] : []);
+    const activeSub = subs.find((s: any) => ['active', 'trialing'].includes(s.status));
+    return { ...p, plan: activeSub?.plan || 'explorador' };
+  });
 }
 
 export async function setUserRole(targetUserId: string, newRole: string) {
@@ -183,6 +184,7 @@ export async function getUserSubscription(userId: string): Promise<Subscription 
     .from('subscriptions')
     .select('*')
     .eq('user_id', userId)
+    .in('status', ['active', 'trialing'])
     .single();
   return data;
 }
