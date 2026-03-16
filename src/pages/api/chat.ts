@@ -68,7 +68,7 @@ export const POST: APIRoute = async ({ request }) => {
       const monthStart = new Date();
       monthStart.setDate(1);
       monthStart.setHours(0, 0, 0, 0);
-      const limit = userPlan === 'explorador' ? 50 : 999999;
+      const limit = userPlan === 'explorador' ? 50 : 999999; // vip incluso no 999999
 
       const { count } = await adminClient
         .from('usage_logs')

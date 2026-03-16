@@ -50,7 +50,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   const userPlan = sub?.plan || 'explorador';
   if (userPlan === 'explorador') {
-    return json({ error: 'Resumo em áudio disponível apenas para planos Consultor e Arquiteto. Faça upgrade para desbloquear!' }, 403);
+    return json({ error: 'Resumo em áudio disponível apenas para planos pagos. Faça upgrade para desbloquear!' }, 403);
   }
 
   let body: { text: string; agentId?: string };

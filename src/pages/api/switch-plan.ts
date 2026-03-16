@@ -31,7 +31,11 @@ export const POST: APIRoute = async ({ request }) => {
   let body: { plan?: string; resetCredits?: boolean };
   try { body = await request.json(); } catch { return json({ error: 'Invalid JSON' }, 400); }
 
-  const validPlans = ['explorador', 'consultor', 'arquiteto'];
+  const { data: callerProfile } = await adminClient.from('profiles').select('role').eq('id', user.id).single();
+  const isMaster = callerProfile?.role === 'master';
+  const validPlans = isMaster
+    ? ['explorador', 'consultor', 'arquiteto', 'vip']
+    : ['explorador', 'consultor', 'arquiteto'];
 
   if (body.plan && validPlans.includes(body.plan)) {
     await adminClient.from('subscriptions').upsert({

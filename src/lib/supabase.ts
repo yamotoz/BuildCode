@@ -61,6 +61,7 @@ export interface Profile {
   terms_accepted_at?: string | null;
   terms_version?: string | null;
   terms_ip?: string | null;
+  plan?: string; // joined from subscriptions
 }
 
 export async function getProfile(userId: string): Promise<Profile | null> {
@@ -102,9 +103,13 @@ export async function uploadAvatar(userId: string, file: File): Promise<string |
 export async function listAllProfiles(): Promise<Profile[]> {
   const { data } = await supabase
     .from('profiles')
-    .select('*')
+    .select('*, subscriptions(plan, status)')
     .order('created_at', { ascending: true });
-  return data || [];
+  // Flatten subscription plan onto profile
+  return (data || []).map((p: any) => ({
+    ...p,
+    plan: Array.isArray(p.subscriptions) ? p.subscriptions[0]?.plan : p.subscriptions?.plan,
+  }));
 }
 
 export async function setUserRole(targetUserId: string, newRole: string) {
@@ -164,7 +169,7 @@ export async function inviteUser(email: string, fullName: string, role: 'user' |
 export interface Subscription {
   id: string;
   user_id: string;
-  plan: 'explorador' | 'consultor' | 'arquiteto';
+  plan: 'explorador' | 'consultor' | 'arquiteto' | 'vip';
   billing_cycle: 'monthly' | 'yearly';
   status: 'active' | 'canceled' | 'past_due' | 'trialing' | 'pending';
   current_period_end: string;

@@ -204,6 +204,7 @@ export const prerender = false;
                   <option value="explorador">Explorador</option>
                   <option value="consultor">Consultor</option>
                   <option value="arquiteto">Arquiteto</option>
+                  <option value="vip">⬡ VIP</option>
                 </select>
                 <button id="master-plan-apply" class="text-[10px] px-3 py-1.5 rounded-lg bg-cta/20 text-cta border border-cta/30 font-bold hover:bg-cta/30 transition-all cursor-pointer">Trocar</button>
                 <button id="master-credits-reset" class="text-[10px] px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold hover:bg-emerald-500/30 transition-all cursor-pointer">Resetar Créditos</button>
@@ -861,6 +862,7 @@ export const prerender = false;
                     <option value="explorador">Explorador (Grátis)</option>
                     <option value="consultor">Consultor (R$35/mês)</option>
                     <option value="arquiteto">Arquiteto (R$50/mês)</option>
+                    <option value="vip" class="text-blue-300">⬡ VIP (Acesso Total)</option>
                   </select>
                 </div>
               </div>
@@ -1399,6 +1401,8 @@ export const prerender = false;
       const roleColor = p.role === 'master' ? 'text-purple-400 bg-purple-500/10 border-purple-500/20'
         : p.role === 'admin' ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
         : 'text-slate-400 bg-white/5 border-border-color';
+      const isVip = p.plan === 'vip';
+      const vipBadge = isVip ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border bg-blue-900/40 text-blue-300 border-blue-700/50 ml-1.5">⬡ VIP</span>` : '';
 
       // Destaca resultado de busca
       const displayName = p.full_name || 'Sem nome';
@@ -1423,7 +1427,7 @@ export const prerender = false;
                 : `<span class="pointer-events-none">${esc(getInitials(p.full_name || '??'))}</span>`
               }
             </div>
-            <span class="text-white font-medium">${nameHtml}${isSelf ? ' <span class="text-slate-500 text-xs">(você)</span>' : ''}</span>
+            <span class="text-white font-medium">${nameHtml}${isSelf ? ' <span class="text-slate-500 text-xs">(você)</span>' : ''}${vipBadge}</span>
           </div>
         </td>
         <td class="py-3.5 pr-4 text-slate-400">${p.id.slice(0, 8)}...</td>
@@ -1566,11 +1570,12 @@ export const prerender = false;
     try {
       // Carrega assinatura
       const sub = await getUserSubscription(currentUserId);
-      const planNames: Record<string, string> = { explorador: 'Explorador', consultor: 'Consultor', arquiteto: 'Arquiteto' };
+      const planNames: Record<string, string> = { explorador: 'Explorador', consultor: 'Consultor', arquiteto: 'Arquiteto', vip: '⬡ VIP' };
       const planColors: Record<string, { bg: string; text: string; border: string; label: string }> = {
-        explorador: { bg: 'bg-emerald-500/15', text: 'text-emerald-400', border: 'border-emerald-500/20', label: 'Free' },
-        consultor: { bg: 'bg-primary/15', text: 'text-primary', border: 'border-primary/20', label: 'Pro' },
-        arquiteto: { bg: 'bg-cta/15', text: 'text-cta', border: 'border-cta/20', label: 'Elite' },
+        explorador: { bg: 'bg-emerald-500/15',  text: 'text-emerald-400', border: 'border-emerald-500/20', label: 'Free'  },
+        consultor:  { bg: 'bg-primary/15',       text: 'text-primary',     border: 'border-primary/20',     label: 'Pro'   },
+        arquiteto:  { bg: 'bg-cta/15',           text: 'text-cta',         border: 'border-cta/20',         label: 'Elite' },
+        vip:        { bg: 'bg-blue-900/40',      text: 'text-blue-300',    border: 'border-blue-700/50',    label: 'VIP'   },
       };
       const plan = sub?.plan || 'explorador';
       // Store plan globally for agent/llm restrictions
@@ -1600,9 +1605,10 @@ export const prerender = false;
 
       // Créditos padrão por plano (quando user_credits não existe ainda)
       const PLAN_DEFAULTS: Record<string, { eco: number; mid: number; elite: number }> = {
-        explorador: { eco: 50, mid: 0, elite: 0 },
-        consultor:  { eco: 999999, mid: 999999, elite: 20 },
-        arquiteto:  { eco: 999999, mid: 999999, elite: 50 },
+        explorador: { eco: 50,     mid: 0,      elite: 0      },
+        consultor:  { eco: 999999, mid: 999999, elite: 20     },
+        arquiteto:  { eco: 999999, mid: 999999, elite: 50     },
+        vip:        { eco: 999999, mid: 999999, elite: 999999 },
       };
 
       // Carrega créditos e logs via API server-side (bypassa RLS)

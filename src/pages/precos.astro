@@ -510,6 +510,117 @@ import Header from '../components/Header.astro';
       </div>
     </section>
 
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- MODAL: Checkout de Plano -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div id="modal-checkout" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);">
+      <div class="w-full max-w-3xl rounded-3xl overflow-hidden relative flex flex-col lg:flex-row" style="background:#0e1214;border:1px solid #2A3135;max-height:92vh;">
+
+        <!-- ── LEFT: Plan Details ── -->
+        <div class="lg:w-[52%] flex flex-col overflow-y-auto" id="checkout-left-panel">
+
+          <!-- Plan header gradient -->
+          <div id="checkout-header" class="relative p-8 pb-6 overflow-hidden shrink-0">
+            <div id="checkout-glow" class="absolute -top-16 -left-16 w-64 h-64 rounded-full blur-[80px] opacity-30 pointer-events-none"></div>
+            <div class="relative z-10">
+              <div class="flex items-center gap-2 mb-3">
+                <span id="checkout-badge" class="text-[9px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider border"></span>
+              </div>
+              <h2 id="checkout-plan-name" class="font-display text-3xl font-bold text-white tracking-tight mb-1"></h2>
+              <div class="flex items-end gap-1.5 mt-3">
+                <span id="checkout-price-display" class="text-4xl font-bold text-white"></span>
+                <span class="text-slate-500 text-sm pb-1">/mês</span>
+                <span id="checkout-billing-note" class="hidden text-xs text-emerald-400 font-semibold pb-1.5 ml-1"></span>
+              </div>
+              <p id="checkout-plan-desc" class="text-slate-400 text-sm mt-2 leading-relaxed"></p>
+            </div>
+          </div>
+
+          <!-- Benefits -->
+          <div class="px-8 pb-6 shrink-0">
+            <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-3">O que você recebe</p>
+            <ul id="checkout-benefits" class="space-y-2.5"></ul>
+          </div>
+
+          <!-- Agents -->
+          <div class="px-8 pb-8">
+            <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-4">Agentes Mentores</p>
+            <div id="checkout-agents" class="grid grid-cols-2 gap-3"></div>
+          </div>
+        </div>
+
+        <!-- ── RIGHT: Checkout Form ── -->
+        <div class="lg:w-[48%] flex flex-col p-8 gap-6 border-t lg:border-t-0 lg:border-l border-border-color justify-between" style="background:#0a0e10;">
+
+          <!-- Close -->
+          <button id="btn-close-checkout" class="absolute top-4 right-4 p-2 rounded-lg text-slate-500 hover:text-white hover:bg-white/5 transition-all cursor-pointer z-10">
+            <span class="material-symbols-outlined text-xl">close</span>
+          </button>
+
+          <div class="space-y-6">
+            <!-- Billing cycle -->
+            <div>
+              <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-3">Ciclo de cobrança</p>
+              <div class="grid grid-cols-2 gap-2">
+                <label id="cycle-monthly-label" class="cursor-pointer">
+                  <input type="radio" name="modal-billing" value="monthly" checked class="sr-only peer" />
+                  <div class="peer-checked:border-primary/60 peer-checked:bg-primary/10 rounded-xl border border-border-color p-3 text-center transition-all hover:border-primary/30">
+                    <p class="text-xs font-bold text-white">Mensal</p>
+                    <p id="modal-price-monthly" class="text-lg font-bold text-primary mt-0.5"></p>
+                    <p class="text-[10px] text-slate-500">por mês</p>
+                  </div>
+                </label>
+                <label id="cycle-yearly-label" class="cursor-pointer">
+                  <input type="radio" name="modal-billing" value="yearly" class="sr-only peer" />
+                  <div class="peer-checked:border-emerald-500/60 peer-checked:bg-emerald-500/10 rounded-xl border border-border-color p-3 text-center transition-all hover:border-emerald-500/30 relative overflow-hidden">
+                    <span class="absolute top-1.5 right-1.5 text-[8px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full font-bold">-20%</span>
+                    <p class="text-xs font-bold text-white">Anual</p>
+                    <p id="modal-price-yearly" class="text-lg font-bold text-emerald-400 mt-0.5"></p>
+                    <p class="text-[10px] text-slate-500">por mês</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Savings highlight -->
+            <div id="checkout-savings-box" class="hidden rounded-xl px-4 py-3 text-sm" style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);">
+              <p class="text-emerald-400 font-semibold text-xs">💰 <span id="checkout-savings-text"></span></p>
+            </div>
+
+            <!-- CPF (opcional) -->
+            <div>
+              <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 block">CPF <span class="normal-case font-normal text-slate-600">(opcional)</span></label>
+              <input id="checkout-cpf" type="text" maxlength="14" placeholder="000.000.000-00" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" />
+              <p class="text-[10px] text-slate-600 mt-1">Para emissão de nota fiscal</p>
+            </div>
+
+            <!-- Price summary -->
+            <div class="rounded-xl p-4" style="background:#111518;border:1px solid #1e2a2e;">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs text-slate-500">Plano <span id="summary-plan-name" class="text-slate-300"></span></span>
+                <span id="summary-price" class="text-sm font-bold text-white"></span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-slate-600">Ciclo</span>
+                <span id="summary-cycle" class="text-xs text-slate-400"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pay button -->
+          <div class="space-y-3">
+            <div id="checkout-msg" class="hidden rounded-xl px-4 py-3 text-sm font-medium"></div>
+            <button id="btn-pay-now" class="w-full py-4 rounded-2xl font-bold text-base transition-all cursor-pointer flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-lg">payment</span>
+              <span id="btn-pay-label">Ir para pagamento</span>
+            </button>
+            <p class="text-[10px] text-slate-600 text-center">Você será redirecionado para escolher PIX, boleto ou cartão</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer class="border-t border-border-color px-4 sm:px-6 lg:px-24 py-10">
       <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -638,15 +749,160 @@ import Header from '../components/Header.astro';
       } catch {}
     })();
 
-    // ── Checkout buttons ──
-    const checkoutButtons = document.querySelectorAll<HTMLButtonElement>('.btn-checkout');
+    // ── Plan config para o modal ──
+    const PLAN_CONFIG: Record<string, {
+      name: string; badge: string; badgeClass: string; glowColor: string;
+      monthly: number; yearly: number; desc: string;
+      benefits: string[]; agents: { name: string; role: string; img: string }[];
+    }> = {
+      consultor: {
+        name: 'Consultor', badge: 'PRO', badgeClass: 'bg-primary/15 text-primary border-primary/25',
+        glowColor: '#2E748B', monthly: 35, yearly: 28,
+        desc: 'Para devs que querem velocidade real. Todos os agentes, modelos mid e mais geração.',
+        benefits: [
+          '15 projetos salvos', 'Todos os 4 agentes mentores', 'Economy + Mid ilimitados',
+          '20 chamadas Elite por mês', 'Chat IA: 200 mensagens/mês',
+          'Áudio TTS com voz de agente', 'Exportação em Markdown (.md)',
+        ],
+        agents: [
+          { name: 'The Boss', role: 'Estratégia & Performance', img: '/agentes/Theboss.png' },
+          { name: 'Azrael', role: 'UX & Visão de Produto', img: '/agentes/Azrael.png' },
+          { name: 'Rizler', role: 'Segurança & Arquitetura', img: '/agentes/Rizler.png' },
+          { name: 'Anastasia', role: 'Fullstack & Didática', img: '/agentes/Anastasia.png' },
+        ],
+      },
+      arquiteto: {
+        name: 'Arquiteto', badge: 'ELITE', badgeClass: 'bg-cta/15 text-cta border-cta/25',
+        glowColor: '#F2AB6D', monthly: 50, yearly: 40,
+        desc: 'Para quem constrói sem limites. Máximo de geração, todos os modelos e exportação completa.',
+        benefits: [
+          'Projetos ilimitados', 'Todos os 4 agentes mentores', 'Economy + Mid ilimitados',
+          '50 chamadas Elite por mês', 'Chat IA ilimitado',
+          'Áudio TTS com voz de agente', 'Exportação em .md, .pdf e .docx',
+        ],
+        agents: [
+          { name: 'The Boss', role: 'Estratégia & Performance', img: '/agentes/Theboss.png' },
+          { name: 'Azrael', role: 'UX & Visão de Produto', img: '/agentes/Azrael.png' },
+          { name: 'Rizler', role: 'Segurança & Arquitetura', img: '/agentes/Rizler.png' },
+          { name: 'Anastasia', role: 'Fullstack & Didática', img: '/agentes/Anastasia.png' },
+        ],
+      },
+    };
 
-    checkoutButtons.forEach(btn => {
+    let checkoutPlan = '';
+    let checkoutCycle: 'monthly' | 'yearly' = 'monthly';
+
+    const checkoutModal = document.getElementById('modal-checkout')!;
+    const payBtn = document.getElementById('btn-pay-now') as HTMLButtonElement;
+    const checkoutMsg = document.getElementById('checkout-msg')!;
+
+    function openCheckoutModal(plan: string, cycle: 'monthly' | 'yearly' = 'monthly') {
+      const cfg = PLAN_CONFIG[plan];
+      if (!cfg) return;
+      checkoutPlan = plan;
+      checkoutCycle = cycle;
+
+      // Header
+      document.getElementById('checkout-plan-name')!.textContent = cfg.name;
+      document.getElementById('checkout-badge')!.textContent = cfg.badge;
+      document.getElementById('checkout-badge')!.className = `text-[9px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider border ${cfg.badgeClass}`;
+      (document.getElementById('checkout-glow') as HTMLElement).style.background = cfg.glowColor;
+      document.getElementById('checkout-plan-desc')!.textContent = cfg.desc;
+
+      // Prices
+      (document.getElementById('modal-price-monthly') as HTMLElement).textContent = `R$ ${cfg.monthly}`;
+      (document.getElementById('modal-price-yearly') as HTMLElement).textContent = `R$ ${cfg.yearly}`;
+
+      // Billing cycle pre-select
+      const monthlyRadio = document.querySelector<HTMLInputElement>('input[name="modal-billing"][value="monthly"]')!;
+      const yearlyRadio = document.querySelector<HTMLInputElement>('input[name="modal-billing"][value="yearly"]')!;
+      if (cycle === 'yearly') { yearlyRadio.checked = true; monthlyRadio.checked = false; }
+      else { monthlyRadio.checked = true; yearlyRadio.checked = false; }
+      updateModalPrices();
+
+      // Benefits
+      const benefitsList = document.getElementById('checkout-benefits')!;
+      benefitsList.innerHTML = cfg.benefits.map(b => `
+        <li class="flex items-start gap-2.5">
+          <span class="material-symbols-outlined text-primary text-base mt-0.5 shrink-0">check_circle</span>
+          <span class="text-sm text-slate-300">${b}</span>
+        </li>
+      `).join('');
+
+      // Agents
+      const agentsEl = document.getElementById('checkout-agents')!;
+      agentsEl.innerHTML = cfg.agents.map(a => `
+        <div class="rounded-2xl overflow-hidden relative group" style="background:#0d1214;border:1px solid #1e2a2e;">
+          <div class="aspect-[3/4] overflow-hidden">
+            <img src="${a.img}" alt="${a.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+          </div>
+          <div class="p-3">
+            <p class="text-white text-xs font-bold">${a.name}</p>
+            <p class="text-slate-500 text-[10px] mt-0.5">${a.role}</p>
+          </div>
+        </div>
+      `).join('');
+
+      // Pay button style
+      if (plan === 'arquiteto') {
+        payBtn.style.background = 'linear-gradient(135deg, #F2AB6D 0%, #e8954a 100%)';
+        payBtn.style.color = '#0D0D0D';
+        payBtn.style.boxShadow = '0 0 30px rgba(242,171,109,0.25)';
+      } else {
+        payBtn.style.background = 'linear-gradient(135deg, #2E748B 0%, #1C4D5E 100%)';
+        payBtn.style.color = '#ffffff';
+        payBtn.style.boxShadow = '0 0 30px rgba(46,116,139,0.25)';
+      }
+
+      checkoutMsg.className = 'hidden';
+      payBtn.disabled = false;
+      (document.getElementById('btn-pay-label') as HTMLElement).textContent = 'Ir para pagamento';
+
+      checkoutModal.classList.remove('hidden');
+      checkoutModal.classList.add('flex');
+    }
+
+    function updateModalPrices() {
+      const cfg = PLAN_CONFIG[checkoutPlan];
+      if (!cfg) return;
+      const isYearly = (document.querySelector<HTMLInputElement>('input[name="modal-billing"]:checked')?.value === 'yearly');
+      checkoutCycle = isYearly ? 'yearly' : 'monthly';
+      const price = isYearly ? cfg.yearly : cfg.monthly;
+      const headerPrice = document.getElementById('checkout-price-display')!;
+      const note = document.getElementById('checkout-billing-note')!;
+      headerPrice.textContent = `R$ ${price}`;
+      if (isYearly) {
+        note.textContent = `(R$ ${cfg.yearly * 12}/ano)`;
+        note.classList.remove('hidden');
+        const saved = (cfg.monthly - cfg.yearly) * 12;
+        document.getElementById('checkout-savings-box')!.classList.remove('hidden');
+        document.getElementById('checkout-savings-text')!.textContent = `Você economiza R$ ${saved}/ano no plano anual`;
+      } else {
+        note.classList.add('hidden');
+        document.getElementById('checkout-savings-box')!.classList.add('hidden');
+      }
+      (document.getElementById('summary-plan-name') as HTMLElement).textContent = cfg.name;
+      (document.getElementById('summary-price') as HTMLElement).textContent = `R$ ${price}/mês`;
+      (document.getElementById('summary-cycle') as HTMLElement).textContent = isYearly ? 'Anual (cobrado anualmente)' : 'Mensal (cobrado mensalmente)';
+    }
+
+    function closeCheckoutModal() {
+      checkoutModal.classList.add('hidden');
+      checkoutModal.classList.remove('flex');
+    }
+
+    document.getElementById('btn-close-checkout')!.addEventListener('click', closeCheckoutModal);
+    checkoutModal.addEventListener('click', (e) => { if (e.target === checkoutModal) closeCheckoutModal(); });
+
+    document.querySelectorAll<HTMLInputElement>('input[name="modal-billing"]').forEach(r => {
+      r.addEventListener('change', updateModalPrices);
+    });
+
+    // ── Checkout buttons → abre modal ──
+    document.querySelectorAll<HTMLButtonElement>('.btn-checkout').forEach(btn => {
       btn.addEventListener('click', async () => {
         const plan = btn.dataset.plan;
         if (!plan) return;
-
-        // Check auth
         const { data: { session } } = await supabase.auth.getSession();
         if (!session) {
           sessionStorage.setItem('pendingPlan', plan);
@@ -654,67 +910,67 @@ import Header from '../components/Header.astro';
           window.location.href = '/login';
           return;
         }
-
-        // [TEST MODE] — troca plano diretamente sem pagamento
-        const originalText = btn.textContent || '';
-        btn.disabled = true;
-        btn.textContent = 'Ativando...';
-        btn.style.opacity = '0.7';
-
-        try {
-          const res = await fetch('/api/switch-plan', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${session.access_token}`,
-            },
-            body: JSON.stringify({ plan }),
-          });
-
-          if (res.ok) {
-            btn.textContent = 'Plano ativado!';
-            btn.style.background = '#10B981';
-            showToast('Plano ativado com sucesso!', 'success');
-            setTimeout(() => { window.location.href = '/perfil#plano'; }, 1500);
-          } else {
-            throw new Error('Erro ao trocar plano');
-          }
-        } catch (err: any) {
-          showToast(err.message || 'Erro ao processar. Tente novamente.', 'error');
-          btn.textContent = originalText;
-          btn.disabled = false;
-          btn.style.opacity = '1';
-        }
+        openCheckoutModal(plan, getSelectedCycle());
       });
+    });
+
+    // ── Pay button → chama Asaas ──
+    payBtn.addEventListener('click', async () => {
+      const cfg = PLAN_CONFIG[checkoutPlan];
+      if (!cfg) return;
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { window.location.href = '/login'; return; }
+
+      payBtn.disabled = true;
+      (document.getElementById('btn-pay-label') as HTMLElement).textContent = 'Processando...';
+      checkoutMsg.className = 'hidden';
+
+      const cpfRaw = (document.getElementById('checkout-cpf') as HTMLInputElement).value.replace(/\D/g, '');
+
+      try {
+        const res = await fetch('/api/asaas/create-checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+          body: JSON.stringify({ plan: checkoutPlan, billingCycle: checkoutCycle, cpfCnpj: cpfRaw || undefined }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Erro ao criar assinatura');
+
+        if (data.invoiceUrl) {
+          (document.getElementById('btn-pay-label') as HTMLElement).textContent = 'Redirecionando...';
+          window.location.href = data.invoiceUrl;
+        } else {
+          throw new Error('URL de pagamento não disponível. Tente novamente.');
+        }
+      } catch (err: any) {
+        checkoutMsg.className = 'rounded-xl px-4 py-3 text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20';
+        checkoutMsg.textContent = err.message;
+        checkoutMsg.classList.remove('hidden');
+        payBtn.disabled = false;
+        (document.getElementById('btn-pay-label') as HTMLElement).textContent = 'Ir para pagamento';
+      }
+    });
+
+    // CPF mask
+    const cpfInput = document.getElementById('checkout-cpf') as HTMLInputElement;
+    cpfInput.addEventListener('input', () => {
+      let v = cpfInput.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+      else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+      else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+      cpfInput.value = v;
     });
 
     // ── Resume pending checkout after login redirect ──
     (async () => {
       const pendingPlan = sessionStorage.getItem('pendingPlan');
-      const pendingCycle = sessionStorage.getItem('pendingCycle');
+      const pendingCycle = sessionStorage.getItem('pendingCycle') as 'monthly' | 'yearly' | null;
       if (!pendingPlan) return;
-
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
-
-      // Clear stored plan
       sessionStorage.removeItem('pendingPlan');
       sessionStorage.removeItem('pendingCycle');
-
-      // Auto-trigger checkout
-      const btn = document.querySelector<HTMLButtonElement>(`.btn-checkout[data-plan="${pendingPlan}"]`);
-      if (btn) {
-        // Set the billing cycle first
-        if (pendingCycle === 'yearly') {
-          const yearlyRadio = document.querySelector<HTMLInputElement>('input[name="billing-cycle"][value="yearly"]');
-          if (yearlyRadio) {
-            yearlyRadio.checked = true;
-            yearlyRadio.dispatchEvent(new Event('change'));
-          }
-        }
-        // Small delay then click
-        setTimeout(() => btn.click(), 500);
-      }
+      setTimeout(() => openCheckoutModal(pendingPlan, pendingCycle || 'monthly'), 500);
     })();
   });
 </script>

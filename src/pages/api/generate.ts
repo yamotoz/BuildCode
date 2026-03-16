@@ -31,9 +31,10 @@ const MODEL_MAP: Record<string, { provider: 'google' | 'openai' | 'openrouter'; 
 
 // Limites de uso mensal por plano e tier
 const PLAN_LIMITS: Record<string, Record<ModelTier, number>> = {
-  explorador: { budget: 50, mid: 0, pro: 0 },
-  consultor:  { budget: 999999, mid: 999999, pro: 20 },
-  arquiteto:  { budget: 999999, mid: 999999, pro: 50 },
+  explorador: { budget: 50,     mid: 0,      pro: 0      },
+  consultor:  { budget: 999999, mid: 999999, pro: 20     },
+  arquiteto:  { budget: 999999, mid: 999999, pro: 50     },
+  vip:        { budget: 999999, mid: 999999, pro: 999999 },
 };
 
 function json(data: any, status = 200) {

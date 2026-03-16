@@ -80,7 +80,11 @@ export const POST: APIRoute = async ({ request }) => {
   const validRoles = ['user', 'admin'];
   const safeRole = validRoles.includes(role) ? role : 'user';
 
-  const validPlans = ['explorador', 'consultor', 'arquiteto'];
+  // VIP só pode ser atribuído por master
+  const isMaster = callerProfile.role === 'master';
+  const validPlans = isMaster
+    ? ['explorador', 'consultor', 'arquiteto', 'vip']
+    : ['explorador', 'consultor', 'arquiteto'];
   const safePlan = validPlans.includes(plan || '') ? plan! : 'explorador';
 
   // Cria usuário diretamente com senha definida (email já confirmado)
