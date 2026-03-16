@@ -718,6 +718,7 @@ import Header from '../components/Header.astro';
           .from('subscriptions')
           .select('plan')
           .eq('user_id', session.user.id)
+          .in('status', ['active', 'trialing'])
           .single();
 
         const currentPlan = sub?.plan || 'explorador';
