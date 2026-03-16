@@ -46,10 +46,16 @@ async function asaasRequest(endpoint: string, method: string, body?: any) {
   return data;
 }
 
-async function findOrCreateCustomer(name: string, email: string) {
+async function findOrCreateCustomer(name: string, email: string, cpfCnpj?: string) {
   const search = await asaasRequest(`/customers?email=${encodeURIComponent(email)}`, 'GET');
-  if (search.data?.length > 0) return search.data[0];
-  return asaasRequest('/customers', 'POST', { name, email, notificationDisabled: false });
+  if (search.data?.length > 0) {
+    const existing = search.data[0];
+    if (cpfCnpj && !existing.cpfCnpj) {
+      await asaasRequest(`/customers/${existing.id}`, 'PUT', { cpfCnpj });
+    }
+    return existing;
+  }
+  return asaasRequest('/customers', 'POST', { name, email, cpfCnpj: cpfCnpj || undefined, notificationDisabled: false });
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -71,7 +77,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   // Parse body
   const body = await request.json();
-  const { rechargeType, comboName, creditsEconomy, creditsMid, creditsElite, amountBrl } = body;
+  const { rechargeType, comboName, creditsEconomy, creditsMid, creditsElite, amountBrl, cpfCnpj } = body;
 
   let eco = 0, mid = 0, elite = 0, totalBrl = 0;
 
@@ -117,7 +123,7 @@ export const POST: APIRoute = async ({ request }) => {
     const customerName = profile?.full_name || user.email?.split('@')[0] || 'Usuário';
 
     // Criar/buscar cliente Asaas
-    const customer = await findOrCreateCustomer(customerName, user.email!);
+    const customer = await findOrCreateCustomer(customerName, user.email!, cpfCnpj || undefined);
 
     // Criar cobrança avulsa (não recorrente)
     const dueDate = new Date();

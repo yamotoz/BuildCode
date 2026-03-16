@@ -511,6 +511,33 @@ import Header from '../components/Header.astro';
     </section>
 
     <!-- ══════════════════════════════════════════════ -->
+    <!-- MODAL: Recarga Rebelde CPF -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div id="modal-recharge-cpf" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);">
+      <div class="w-full max-w-sm rounded-3xl p-8 relative" style="background:#0e1214;border:1px solid #2A3135;">
+        <button id="btn-close-recharge-cpf" class="absolute top-4 right-4 p-2 rounded-lg text-slate-500 hover:text-white hover:bg-white/5 transition-all cursor-pointer">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+        <div class="flex items-center gap-3 mb-6">
+          <span class="material-symbols-outlined text-purple-400 text-3xl">bolt</span>
+          <div>
+            <h3 class="text-white font-bold text-lg">Recarga Rebelde</h3>
+            <p id="recharge-cpf-summary" class="text-slate-500 text-xs mt-0.5"></p>
+          </div>
+        </div>
+        <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 block">CPF <span class="normal-case font-normal text-red-500">*obrigatório</span></label>
+        <input id="recharge-cpf-input" type="text" maxlength="14" placeholder="000.000.000-00" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-purple-500/60 focus:ring-1 focus:ring-purple-500/40 outline-none transition-all mb-1" />
+        <p class="text-[10px] text-slate-600 mb-6">Exigido pela operadora de pagamento</p>
+        <div id="recharge-cpf-msg" class="hidden rounded-xl px-4 py-3 text-sm font-medium mb-4"></div>
+        <button id="btn-recharge-pay" class="w-full py-3.5 rounded-2xl font-bold text-sm transition-all cursor-pointer flex items-center justify-center gap-2" style="background:linear-gradient(135deg,#A855F7,#7C3AED);color:#fff;box-shadow:0 0 20px rgba(168,85,247,0.25);">
+          <span class="material-symbols-outlined text-lg">payment</span>
+          <span id="btn-recharge-pay-label">Ir para pagamento</span>
+        </button>
+        <p class="text-[10px] text-slate-600 text-center mt-3">Você será redirecionado para escolher PIX, boleto ou cartão</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
     <!-- MODAL: Checkout de Plano -->
     <!-- ══════════════════════════════════════════════ -->
     <div id="modal-checkout" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);">
@@ -1026,62 +1053,122 @@ import Header from '../components/Header.astro';
       if (s) s.addEventListener('input', updateCustomTotal);
     });
 
-    // [TEST MODE] — Processar recarga direto no banco sem pagamento
-    // TODO: restaurar integração Asaas quando for pro ar
-    async function processRecharge(type: 'combo' | 'custom', comboName: string | null, eco: number, mid: number, elite: number, amount: number) {
-      const { data: { session } } = await rechargeSupabase.auth.getSession();
-      if (!session) {
-        sessionStorage.setItem('pendingRecharge', JSON.stringify({ type, comboName, eco, mid, elite, amount }));
-        window.location.href = '/login';
+    // ── Recharge CPF modal ──
+    let pendingRechargeData: { type: string; comboName: string | null; eco: number; mid: number; elite: number; amount: number } | null = null;
+
+    const rechargeCpfModal = document.getElementById('modal-recharge-cpf')!;
+    const rechargeCpfInput = document.getElementById('recharge-cpf-input') as HTMLInputElement;
+    const rechargeCpfMsg = document.getElementById('recharge-cpf-msg')!;
+    const rechargePayBtn = document.getElementById('btn-recharge-pay') as HTMLButtonElement;
+    const rechargePayLabel = document.getElementById('btn-recharge-pay-label')!;
+
+    rechargeCpfInput.addEventListener('input', () => {
+      let v = rechargeCpfInput.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+      else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+      else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+      rechargeCpfInput.value = v;
+    });
+
+    document.getElementById('btn-close-recharge-cpf')!.addEventListener('click', () => {
+      rechargeCpfModal.classList.add('hidden');
+      rechargeCpfModal.classList.remove('flex');
+    });
+    rechargeCpfModal.addEventListener('click', (e) => {
+      if (e.target === rechargeCpfModal) {
+        rechargeCpfModal.classList.add('hidden');
+        rechargeCpfModal.classList.remove('flex');
+      }
+    });
+
+    function openRechargeCpfModal(data: typeof pendingRechargeData) {
+      pendingRechargeData = data;
+      const label = data!.comboName
+        ? `Combo ${data!.comboName.charAt(0).toUpperCase() + data!.comboName.slice(1)} — R$ ${data!.amount}`
+        : `${data!.eco} eco + ${data!.mid} mid + ${data!.elite} elite — R$ ${data!.amount.toFixed(2).replace('.', ',')}`;
+      document.getElementById('recharge-cpf-summary')!.textContent = label;
+      rechargeCpfInput.value = '';
+      rechargeCpfMsg.className = 'hidden';
+      rechargePayBtn.disabled = false;
+      rechargePayLabel.textContent = 'Ir para pagamento';
+      rechargeCpfModal.classList.remove('hidden');
+      rechargeCpfModal.classList.add('flex');
+    }
+
+    rechargePayBtn.addEventListener('click', async () => {
+      if (!pendingRechargeData) return;
+      const cpfRaw = rechargeCpfInput.value.replace(/\D/g, '');
+      if (cpfRaw.length !== 11) {
+        rechargeCpfMsg.className = 'rounded-xl px-4 py-3 text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20';
+        rechargeCpfMsg.textContent = 'Preencha um CPF válido (11 dígitos).';
+        rechargeCpfMsg.classList.remove('hidden');
         return;
       }
+      const { data: { session } } = await rechargeSupabase.auth.getSession();
+      if (!session) { window.location.href = '/login'; return; }
 
+      rechargePayBtn.disabled = true;
+      rechargePayLabel.textContent = 'Processando...';
+      rechargeCpfMsg.className = 'hidden';
+
+      const r = pendingRechargeData;
       try {
-        const res = await fetch('/api/test-recharge', {
+        const res = await fetch('/api/asaas/create-recharge', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session.access_token}`,
-          },
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
           body: JSON.stringify({
-            creditsEconomy: eco,
-            creditsMid: mid,
-            creditsElite: elite,
+            rechargeType: r.type,
+            comboName: r.comboName,
+            creditsEconomy: r.eco,
+            creditsMid: r.mid,
+            creditsElite: r.elite,
+            amountBrl: r.amount,
+            cpfCnpj: cpfRaw,
           }),
         });
-
-        const data = await res.json();
+        let data: any;
+        try { data = await res.json(); } catch { throw new Error('Resposta inválida do servidor.'); }
         if (!res.ok) throw new Error(data.error || 'Erro ao processar recarga');
-
-        const toast = (window as any).__bcToast;
-        if (toast) toast('Recarga aplicada com sucesso!', 'success');
-        setTimeout(() => { window.location.href = '/perfil#plano'; }, 1500);
+        if (data.invoiceUrl) {
+          rechargePayLabel.textContent = 'Redirecionando...';
+          window.location.href = data.invoiceUrl;
+        } else {
+          throw new Error('URL de pagamento não disponível.');
+        }
       } catch (err: any) {
-        const toast = (window as any).__bcToast;
-        if (toast) toast(err.message || 'Erro ao processar recarga.', 'error');
+        rechargeCpfMsg.className = 'rounded-xl px-4 py-3 text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20';
+        rechargeCpfMsg.textContent = err.message;
+        rechargeCpfMsg.classList.remove('hidden');
+        rechargePayBtn.disabled = false;
+        rechargePayLabel.textContent = 'Ir para pagamento';
       }
-    }
+    });
 
     // Botões de combo
     document.querySelectorAll<HTMLButtonElement>('.btn-recharge').forEach(btn => {
       btn.addEventListener('click', async () => {
         const parent = btn.closest<HTMLElement>('[data-combo]');
         if (!parent) return;
-
-        const name = parent.dataset.combo!;
-        const price = parseFloat(parent.dataset.price || '0');
-        const eco = parseInt(parent.dataset.eco || '0');
-        const mid = parseInt(parent.dataset.mid || '0');
-        const elite = parseInt(parent.dataset.elite || '0');
-
-        const originalText = btn.textContent || '';
-        btn.disabled = true;
-        btn.textContent = 'Processando...';
-
-        await processRecharge('combo', name, eco, mid, elite, price);
-
-        btn.textContent = originalText;
-        btn.disabled = false;
+        const { data: { session } } = await rechargeSupabase.auth.getSession();
+        if (!session) {
+          const name = parent.dataset.combo!;
+          const price = parseFloat(parent.dataset.price || '0');
+          const eco = parseInt(parent.dataset.eco || '0');
+          const mid = parseInt(parent.dataset.mid || '0');
+          const elite = parseInt(parent.dataset.elite || '0');
+          sessionStorage.setItem('pendingRecharge', JSON.stringify({ type: 'combo', comboName: name, eco, mid, elite, amount: price }));
+          window.location.href = '/login';
+          return;
+        }
+        openRechargeCpfModal({
+          type: 'combo',
+          comboName: parent.dataset.combo!,
+          price: parseFloat(parent.dataset.price || '0'),
+          eco: parseInt(parent.dataset.eco || '0'),
+          mid: parseInt(parent.dataset.mid || '0'),
+          elite: parseInt(parent.dataset.elite || '0'),
+          amount: parseFloat(parent.dataset.price || '0'),
+        } as any);
       });
     });
 
@@ -1093,15 +1180,13 @@ import Header from '../components/Header.astro';
         const elite = parseInt(eliteSlider.value) || 0;
         const total = (eco * PRICE_ECO) + (mid * PRICE_MID) + (elite * PRICE_ELITE);
         if (total <= 0) return;
-
-        const originalText = btnCustom.textContent || '';
-        btnCustom.disabled = true;
-        btnCustom.textContent = 'Processando...';
-
-        await processRecharge('custom', null, eco, mid, elite, parseFloat(total.toFixed(2)));
-
-        btnCustom.textContent = originalText;
-        btnCustom.disabled = false;
+        const { data: { session } } = await rechargeSupabase.auth.getSession();
+        if (!session) {
+          sessionStorage.setItem('pendingRecharge', JSON.stringify({ type: 'custom', comboName: null, eco, mid, elite, amount: parseFloat(total.toFixed(2)) }));
+          window.location.href = '/login';
+          return;
+        }
+        openRechargeCpfModal({ type: 'custom', comboName: null, eco, mid, elite, amount: parseFloat(total.toFixed(2)) });
       });
     }
 
@@ -1113,7 +1198,7 @@ import Header from '../components/Header.astro';
         const { data: { session } } = await rechargeSupabase.auth.getSession();
         if (!session) return;
         const r = JSON.parse(pendingRecharge);
-        await processRecharge(r.type, r.comboName, r.eco, r.mid, r.elite, r.amount);
+        openRechargeCpfModal(r);
       })();
     }
   });
