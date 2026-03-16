@@ -50,7 +50,12 @@ async function findOrCreateCustomer(name: string, email: string, cpfCnpj?: strin
   // Search existing
   const search = await asaasRequest(`/customers?email=${encodeURIComponent(email)}`, 'GET');
   if (search.data?.length > 0) {
-    return search.data[0];
+    const existing = search.data[0];
+    // Update CPF if customer exists but doesn't have it
+    if (cpfCnpj && !existing.cpfCnpj) {
+      await asaasRequest(`/customers/${existing.id}`, 'PUT', { cpfCnpj });
+    }
+    return existing;
   }
 
   // Create new
