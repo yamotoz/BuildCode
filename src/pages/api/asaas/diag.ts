@@ -4,7 +4,7 @@ export const prerender = false;
 
 export const GET: APIRoute = async ({ request }) => {
   const key = import.meta.env.ASAAS_API_KEY || '';
-  const base = 'https://api.asaas.com/api/v3';
+  const base = 'https://api.asaas.com/v3';
 
   const result: any = {
     keyPresent: !!key,

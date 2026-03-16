@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 export const prerender = false;
 
 const ASAAS_API_KEY = import.meta.env.ASAAS_API_KEY;
-const ASAAS_BASE = 'https://api.asaas.com/api/v3';
+const ASAAS_BASE = 'https://api.asaas.com/v3';
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 const supabaseAnon = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 const serviceRoleKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
