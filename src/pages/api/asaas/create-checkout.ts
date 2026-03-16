@@ -30,10 +30,17 @@ async function asaasRequest(endpoint: string, method: string, body?: any) {
     },
     body: body ? JSON.stringify(body) : undefined,
   });
-  const data = await res.json();
+  let data: any;
+  try {
+    data = await res.json();
+  } catch {
+    const text = await res.text().catch(() => '(sem corpo)');
+    console.error('[Asaas] Non-JSON response:', res.status, text.slice(0, 300));
+    throw new Error(`Asaas retornou resposta inválida (${res.status}). Verifique a API key.`);
+  }
   if (!res.ok) {
     console.error('[Asaas] Error:', endpoint, data);
-    throw new Error(data.errors?.[0]?.description || 'Asaas API error');
+    throw new Error(data.errors?.[0]?.description || data.message || 'Asaas API error');
   }
   return data;
 }
@@ -59,6 +66,7 @@ export const POST: APIRoute = async ({ request }) => {
   if (!ASAAS_API_KEY) {
     return json({ error: 'Asaas API key not configured' }, 500);
   }
+  console.log('[Asaas] Key prefix:', ASAAS_API_KEY.slice(0, 12), '| Length:', ASAAS_API_KEY.length);
 
   // Auth: get current user
   const authHeader = request.headers.get('authorization');
