@@ -361,6 +361,28 @@ export const questions: WizardQuestion[] = [
             { value: 'seo-partial', label: 'Parcial', icon: 'tune', desc: 'Landing com SEO + app sem indexacao.', difficulty: 'easy', recommendedFor: ['junior', 'pleno'] },
         ],
     },
+    // ── Novas perguntas para PRD profissional ──
+    {
+        step: 21, phase: 1, type: 'textarea' as const, name: 'objetivos',
+        visibleFor: ['saas', 'enterprise'] as ProjectType[],
+        titlePre: 'Quais os', titleHighlight: 'Objetivos', titlePost: 'do projeto?',
+        subtitle: 'Liste 2-5 objetivos concretos e mensuraveis para os proximos 3-6 meses.',
+        placeholder: 'Ex: 1. Validar product-market fit com 100 usuarios ativos\n2. Faturar R$5k/mes recorrente\n3. Reduzir churn abaixo de 5%\n4. Lancar MVP em 8 semanas',
+    },
+    {
+        step: 22, phase: 1, type: 'textarea' as const, name: 'publicoAlvo',
+        visibleFor: ['saas', 'enterprise'] as ProjectType[],
+        titlePre: 'Quem e o', titleHighlight: 'Publico-Alvo', titlePost: '?',
+        subtitle: 'Descreva as personas. Quem usara o sistema no dia a dia? Que dor eles sentem?',
+        placeholder: 'Ex: Donos de barbearias, 25-45 anos, baixa familiaridade com tecnologia. Precisam gerenciar agendamentos e receber pagamentos online. Tambem: clientes finais que agendam via link compartilhado.',
+    },
+    {
+        step: 23, phase: 4, type: 'textarea' as const, name: 'funcionalidades',
+        visibleFor: ['saas', 'enterprise'] as ProjectType[],
+        titlePre: 'Liste as', titleHighlight: 'Funcionalidades', titlePost: 'essenciais.',
+        subtitle: 'As features sem as quais o MVP nao funciona. Seja especifico e objetivo.',
+        placeholder: 'Ex: 1. Cadastro de profissionais com horarios disponiveis\n2. Link de agendamento compartilhavel\n3. Notificacoes por WhatsApp/email\n4. Dashboard financeiro com graficos\n5. Pagamento online via PIX',
+    },
 ];
 
 /** Prompt language selection — asked after SEO/Testes, before LLM */

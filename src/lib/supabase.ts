@@ -62,6 +62,8 @@ export interface Profile {
   terms_version?: string | null;
   terms_ip?: string | null;
   plan?: string; // joined from subscriptions
+  can_edit_biblioteca?: boolean;
+  can_access_marketing?: boolean;
 }
 
 export async function getProfile(userId: string): Promise<Profile | null> {
@@ -141,7 +143,7 @@ export async function deleteUserProfile(targetUserId: string) {
     .eq('id', targetUserId);
 }
 
-export async function inviteUser(email: string, fullName: string, role: 'user' | 'admin', plan?: string, canAccessDashboard?: boolean, password?: string) {
+export async function inviteUser(email: string, fullName: string, role: 'user' | 'admin', plan?: string, canAccessDashboard?: boolean, password?: string, canEditBiblioteca?: boolean, canAccessMarketing?: boolean) {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) return { data: null, error: { message: 'Not authenticated' } };
 
@@ -151,7 +153,7 @@ export async function inviteUser(email: string, fullName: string, role: 'user' |
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${session.access_token}`,
     },
-    body: JSON.stringify({ email, fullName, role, plan: plan || 'explorador', canAccessDashboard: canAccessDashboard || false, password }),
+    body: JSON.stringify({ email, fullName, role, plan: plan || 'explorador', canAccessDashboard: canAccessDashboard || false, canEditBiblioteca: canEditBiblioteca || false, canAccessMarketing: canAccessMarketing || false, password }),
   });
 
   const result = await res.json();

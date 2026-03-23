@@ -78,16 +78,22 @@ import { technologies } from '../data/technologies';
             <h2 class="font-display text-3xl font-black text-white tracking-tight"><span data-i18n="bib.title">Biblioteca </span><span id="category-title" class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary" data-i18n="bib.title.highlight">Técnica</span></h2>
             <p class="text-slate-400 text-sm mt-1 font-medium" data-i18n="bib.subtitle">Explore as ferramentas mais consolidadas do mercado e saiba exatamente quando usar.</p>
           </div>
-          <div class="flex items-center gap-4 bg-surface-dark px-5 py-3 rounded-2xl border border-border-color shadow-inner shrink-0">
-             <div class="flex flex-col items-center">
-               <span class="font-display text-2xl font-black text-white leading-none">{technologies.length}</span>
-               <span class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mt-1" data-i18n="bib.tecnologias">Tecnologias</span>
-             </div>
-             <div class="w-px h-8 bg-border-color mx-2"></div>
-             <div class="flex flex-col items-center">
-               <span class="font-display text-2xl font-black text-white leading-none">{categories.length}</span>
-               <span class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mt-1" data-i18n="bib.categorias">Categorias</span>
-             </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <button id="btn-add-tech" class="hidden items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all text-sm font-bold cursor-pointer" title="Adicionar tecnologia">
+              <span class="material-symbols-outlined text-base">add_circle</span>
+              <span class="hidden sm:inline">Adicionar</span>
+            </button>
+            <div class="flex items-center gap-4 bg-surface-dark px-5 py-3 rounded-2xl border border-border-color shadow-inner">
+               <div class="flex flex-col items-center">
+                 <span id="tech-count" class="font-display text-2xl font-black text-white leading-none">{technologies.length}</span>
+                 <span class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mt-1" data-i18n="bib.tecnologias">Tecnologias</span>
+               </div>
+               <div class="w-px h-8 bg-border-color mx-2"></div>
+               <div class="flex flex-col items-center">
+                 <span class="font-display text-2xl font-black text-white leading-none">{categories.length}</span>
+                 <span class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mt-1" data-i18n="bib.categorias">Categorias</span>
+               </div>
+            </div>
           </div>
         </div>
         
@@ -149,6 +155,79 @@ import { technologies } from '../data/technologies';
         </div>
       </div>
     </main>
+
+    <!-- MODAL: Adicionar Tecnologia -->
+    <div id="modal-add-tech" class="hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+      <div class="w-full max-w-lg rounded-2xl border border-border-color bg-[#0e1214] shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-border-color">
+          <h3 class="font-display text-lg font-bold text-white">Adicionar Tecnologia</h3>
+          <button id="close-add-tech" class="text-slate-500 hover:text-white p-1 cursor-pointer"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <div class="p-6 space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Nome *</label>
+              <input id="at-name" type="text" placeholder="React" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+            </div>
+            <div>
+              <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Categoria *</label>
+              <select id="at-category" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60">
+                <option value="frontend">Frontend</option><option value="backend">Backend</option>
+                <option value="data">Dados</option><option value="infra">Infra</option>
+                <option value="libs">Bibliotecas</option><option value="devex">DevEx</option>
+                <option value="ai">IA</option><option value="design">Design</option>
+                <option value="mcp">MCP</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Tagline *</label>
+            <input id="at-tagline" type="text" placeholder="Biblioteca JavaScript para interfaces" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+          </div>
+          <div>
+            <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Descrição *</label>
+            <textarea id="at-description" rows="3" placeholder="Descrição completa..." class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60 resize-none"></textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Linguagem</label>
+              <input id="at-language" type="text" placeholder="JavaScript" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+            </div>
+            <div>
+              <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Role</label>
+              <input id="at-role" type="text" placeholder="UI Library" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+            </div>
+          </div>
+          <div>
+            <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Prós (um por linha)</label>
+            <textarea id="at-pros" rows="2" placeholder="Performance excelente&#10;Comunidade ativa" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60 resize-none"></textarea>
+          </div>
+          <div>
+            <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Contras (um por linha)</label>
+            <textarea id="at-cons" rows="2" placeholder="Curva de aprendizado&#10;Bundle size" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60 resize-none"></textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Logo URL</label>
+              <input id="at-logo" type="url" placeholder="https://..." class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+            </div>
+            <div>
+              <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Website</label>
+              <input id="at-website" type="url" placeholder="https://..." class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+            </div>
+          </div>
+          <div>
+            <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Casos de Uso</label>
+            <input id="at-usecases" type="text" placeholder="SPAs, dashboards, mobile apps" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+          </div>
+          <div id="at-msg" class="hidden rounded-lg px-3 py-2 text-sm font-medium"></div>
+          <button id="at-submit" class="w-full py-3 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 hover:bg-emerald-500/25 transition-all text-sm font-bold cursor-pointer flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-base">add</span>
+            Adicionar à Biblioteca
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- RIGHT SIDEBAR: Painel de Visão Detalhada -->
     <aside id="detail-sidebar" class="w-0 shrink-0 opacity-0 overflow-hidden border-l border-white/[0.05] bg-black/60 backdrop-blur-3xl flex flex-col z-50 transition-all duration-[400ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] absolute right-0 top-0 h-full md:relative">
@@ -406,4 +485,185 @@ import { technologies } from '../data/technologies';
    }
    updatePageLogo();
    new MutationObserver(updatePageLogo).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+   // ══════════════════════════════════════════
+   // CUSTOM TECHNOLOGIES — merge DB + hardcoded
+   // ══════════════════════════════════════════
+   var customTechs = [];
+
+   function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+   function addCustomCardToGrid(tech, idx) {
+     var grid = document.getElementById('tech-grid');
+     var div = document.createElement('div');
+     div.className = 'tech-card p-6 rounded-3xl border border-emerald-500/10 bg-gradient-to-b from-[#0D1117] to-[#0A0C12] group cursor-pointer relative flex flex-col h-[260px] hover:-translate-y-1 hover:border-primary/40 hover:from-[#12161E] hover:to-[#0D1117] transition-all duration-300 hover:shadow-[0_10px_40px_rgba(0,0,0,0.5)]';
+     div.setAttribute('data-index', 'c' + idx);
+     div.setAttribute('data-name', tech.name.toLowerCase());
+     div.setAttribute('data-cat', tech.category);
+     div.innerHTML = '<div class="flex items-start justify-between mb-4 gap-3"><div class="size-12 rounded-2xl bg-gradient-to-br from-surface-dark to-black flex items-center justify-center border border-white/10 shrink-0 p-2.5 overflow-hidden">' +
+       (tech.logo ? '<img src="' + esc(tech.logo) + '" alt="' + esc(tech.name) + '" class="w-full h-full object-contain" loading="lazy" />' : '<span class="material-symbols-outlined text-primary text-xl">' + esc(tech.type_icon || 'code') + '</span>') +
+       '</div><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 shrink-0"><span class="material-symbols-outlined text-[10px]">star</span>Custom</span></div>' +
+       '<h3 class="font-display text-[15px] font-extrabold text-white mb-1 tracking-tight leading-snug">' + esc(tech.name) + '</h3>' +
+       '<p class="text-slate-500 text-xs leading-relaxed line-clamp-3 flex-1">' + esc(tech.tagline) + '</p>' +
+       '<div class="flex items-center gap-2 mt-auto pt-3 border-t border-white/[0.03]"><span class="text-[9px] font-bold uppercase tracking-widest text-slate-600">' + esc(tech.category) + '</span></div>';
+     grid.appendChild(div);
+     div.addEventListener('click', function() {
+       cards.forEach(function(c) { c.classList.remove('ring-1', 'ring-primary', 'border-transparent', 'shadow-[0_0_30px_rgba(46,116,139,0.15)]'); });
+       document.querySelectorAll('.tech-card').forEach(function(c) { c.classList.remove('ring-1', 'ring-primary', 'border-transparent', 'shadow-[0_0_30px_rgba(46,116,139,0.15)]'); });
+       div.classList.add('ring-1', 'ring-primary', 'border-transparent', 'shadow-[0_0_30px_rgba(46,116,139,0.15)]');
+       var pros = (tech.pros || []).map(function(p) { return '<li class="flex items-start gap-2"><span class="material-symbols-outlined text-emerald-400 text-sm mt-0.5 shrink-0">check_circle</span><span>' + esc(p) + '</span></li>'; }).join('');
+       var cons = (tech.cons || []).map(function(c) { return '<li class="flex items-start gap-2"><span class="material-symbols-outlined text-red-400 text-sm mt-0.5 shrink-0">cancel</span><span>' + esc(c) + '</span></li>'; }).join('');
+       detailContent.innerHTML = '<div class="flex flex-col items-center mb-8 text-center">' +
+         '<div class="size-24 rounded-[1.5rem] bg-gradient-to-br from-surface-dark to-black flex items-center justify-center border border-white/10 mb-5 shadow-[0_0_40px_rgba(46,116,139,0.08)] relative overflow-hidden p-5">' +
+         (tech.logo ? '<img src="' + esc(tech.logo) + '" class="w-full h-full object-contain relative z-10" />' : '<span class="material-symbols-outlined text-primary text-4xl">' + esc(tech.type_icon || 'code') + '</span>') +
+         '</div><h1 class="font-display text-2xl font-black text-white tracking-tight">' + esc(tech.name) + '</h1>' +
+         '<p class="text-sm text-primary/80 font-medium mt-1">' + esc(tech.role || tech.category) + '</p>' +
+         '<span class="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase border border-emerald-500/20 bg-emerald-500/5 text-emerald-400">Custom</span></div>' +
+         '<p class="text-slate-300 text-sm leading-relaxed mb-6">' + esc(tech.description) + '</p>' +
+         (pros ? '<div class="mb-6"><h3 class="text-[10px] uppercase tracking-[0.2em] font-extrabold text-emerald-400/80 mb-3">Prós</h3><ul class="space-y-2 text-sm text-slate-300">' + pros + '</ul></div>' : '') +
+         (cons ? '<div class="mb-6"><h3 class="text-[10px] uppercase tracking-[0.2em] font-extrabold text-red-400/80 mb-3">Contras</h3><ul class="space-y-2 text-sm text-slate-300">' + cons + '</ul></div>' : '') +
+         (tech.website ? '<a href="' + esc(tech.website) + '" target="_blank" rel="noopener" class="mt-4 flex items-center gap-2 text-primary hover:text-white text-sm transition-colors"><span class="material-symbols-outlined text-base">open_in_new</span>Visitar Website</a>' : '');
+       sidebar.classList.add('detail-open');
+     });
+   }
+
+   async function loadCustomTechs() {
+     try {
+       var res = await fetch('/api/biblioteca');
+       if (res.ok) {
+         customTechs = await res.json();
+         customTechs.forEach(function(t, i) { addCustomCardToGrid(t, i); });
+         var countEl = document.getElementById('tech-count');
+         if (countEl) countEl.textContent = String(techData.length + customTechs.length);
+       }
+     } catch(e) { /* silently fail */ }
+   }
+
+   // Show add button for master or can_edit_biblioteca users
+   async function checkBibliotecaPermission() {
+     try {
+       var supabaseUrl = document.querySelector('meta[name="supabase-url"]');
+       var supabaseKey = document.querySelector('meta[name="supabase-key"]');
+       if (!supabaseUrl || !supabaseKey) return;
+       var sb = window.supabase ? window.supabase : null;
+       if (!sb) {
+         // Use the imported supabase from the module script below
+         return;
+       }
+     } catch(e) {}
+   }
+
+   loadCustomTechs();
+
+   // Modal logic
+   var addBtn = document.getElementById('btn-add-tech');
+   var modal = document.getElementById('modal-add-tech');
+   var closeModal = document.getElementById('close-add-tech');
+   var submitBtn = document.getElementById('at-submit');
+
+   if (addBtn && modal) {
+     addBtn.addEventListener('click', function() { modal.classList.remove('hidden'); });
+     closeModal.addEventListener('click', function() { modal.classList.add('hidden'); });
+     modal.addEventListener('click', function(e) { if (e.target === modal) modal.classList.add('hidden'); });
+   }
+
+   if (submitBtn) {
+     submitBtn.addEventListener('click', async function() {
+       var msgEl = document.getElementById('at-msg');
+       var name = document.getElementById('at-name').value.trim();
+       var category = document.getElementById('at-category').value;
+       var tagline = document.getElementById('at-tagline').value.trim();
+       var description = document.getElementById('at-description').value.trim();
+
+       if (!name || !tagline || !description) {
+         msgEl.className = 'rounded-lg px-3 py-2 text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20';
+         msgEl.textContent = 'Preencha nome, tagline e descrição.';
+         msgEl.classList.remove('hidden');
+         return;
+       }
+
+       submitBtn.disabled = true;
+       submitBtn.textContent = 'Salvando...';
+
+       try {
+         var session = null;
+         try {
+           var sbMod = await import('/src/lib/supabase');
+           var s = await sbMod.supabase.auth.getSession();
+           session = s.data.session;
+         } catch(e) {}
+
+         if (!session) {
+           msgEl.className = 'rounded-lg px-3 py-2 text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20';
+           msgEl.textContent = 'Faça login primeiro.';
+           msgEl.classList.remove('hidden');
+           submitBtn.disabled = false;
+           submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">add</span> Adicionar à Biblioteca';
+           return;
+         }
+
+         var body = {
+           name: name,
+           category: category,
+           tagline: tagline,
+           description: description,
+           language: document.getElementById('at-language').value.trim(),
+           role: document.getElementById('at-role').value.trim(),
+           pros: document.getElementById('at-pros').value.trim(),
+           cons: document.getElementById('at-cons').value.trim(),
+           logo: document.getElementById('at-logo').value.trim(),
+           website: document.getElementById('at-website').value.trim(),
+           use_cases: document.getElementById('at-usecases').value.trim(),
+         };
+
+         var res = await fetch('/api/biblioteca', {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+           body: JSON.stringify(body),
+         });
+
+         var result = await res.json();
+
+         if (!res.ok) {
+           msgEl.className = 'rounded-lg px-3 py-2 text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20';
+           msgEl.textContent = result.error || 'Erro ao salvar.';
+           msgEl.classList.remove('hidden');
+         } else {
+           addCustomCardToGrid(result, customTechs.length);
+           customTechs.push(result);
+           var countEl = document.getElementById('tech-count');
+           if (countEl) countEl.textContent = String(techData.length + customTechs.length);
+           msgEl.className = 'rounded-lg px-3 py-2 text-sm font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+           msgEl.textContent = 'Tecnologia adicionada com sucesso!';
+           msgEl.classList.remove('hidden');
+           // Clear form
+           ['at-name','at-tagline','at-description','at-language','at-role','at-pros','at-cons','at-logo','at-website','at-usecases'].forEach(function(id) { document.getElementById(id).value = ''; });
+           setTimeout(function() { modal.classList.add('hidden'); msgEl.classList.add('hidden'); }, 1500);
+         }
+       } catch(e) {
+         msgEl.className = 'rounded-lg px-3 py-2 text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20';
+         msgEl.textContent = 'Erro de rede.';
+         msgEl.classList.remove('hidden');
+       }
+       submitBtn.disabled = false;
+       submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">add</span> Adicionar à Biblioteca';
+     });
+   }
+</script>
+
+<!-- Module script to check permission and show add button -->
+<script>
+  import { supabase, getProfile } from '../lib/supabase';
+  async function checkBibPerm() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+      const profile = await getProfile(session.user.id);
+      if (profile && (profile.role === 'master' || profile.can_edit_biblioteca)) {
+        const btn = document.getElementById('btn-add-tech');
+        if (btn) { btn.classList.remove('hidden'); btn.classList.add('flex'); }
+      }
+    } catch {}
+  }
+  checkBibPerm();
 </script>

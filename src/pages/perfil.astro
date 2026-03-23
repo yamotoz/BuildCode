@@ -884,6 +884,20 @@ export const prerender = false;
                 </label>
                 <span class="text-xs text-slate-400">Acesso ao Dashboard de Gestao</span>
               </div>
+              <div class="flex items-center gap-3">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input id="new-user-biblioteca" type="checkbox" class="sr-only peer" />
+                  <div class="w-9 h-5 rounded-full transition-colors bg-surface-dark/80 border border-border-color peer-checked:bg-emerald-500/30 peer-checked:border-emerald-500/40 after:content-[''] after:absolute after:top-[3px] after:start-[3px] after:bg-slate-400 after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:after:translate-x-full peer-checked:after:bg-emerald-400"></div>
+                </label>
+                <span class="text-xs text-slate-400">Biblioteca</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input id="new-user-marketing" type="checkbox" class="sr-only peer" />
+                  <div class="w-9 h-5 rounded-full transition-colors bg-surface-dark/80 border border-border-color peer-checked:bg-orange-500/30 peer-checked:border-orange-500/40 after:content-[''] after:absolute after:top-[3px] after:start-[3px] after:bg-slate-400 after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:after:translate-x-full peer-checked:after:bg-orange-400"></div>
+                </label>
+                <span class="text-xs text-slate-400">Marketing</span>
+              </div>
               <div id="add-user-msg" class="hidden rounded-lg px-3 py-2 text-sm font-medium"></div>
               <div class="flex gap-2">
                 <button id="btn-confirm-add" type="button" class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-purple-500/15 text-purple-400 border border-purple-500/25 hover:bg-purple-500/25 transition-all text-sm font-semibold cursor-pointer">
@@ -2938,6 +2952,8 @@ export const prerender = false;
     const role = (document.getElementById('new-user-role') as HTMLSelectElement).value as 'user' | 'admin';
     const plan = (document.getElementById('new-user-plan') as HTMLSelectElement).value;
     const canAccessDashboard = (document.getElementById('new-user-dashboard') as HTMLInputElement).checked;
+    const canEditBiblioteca = (document.getElementById('new-user-biblioteca') as HTMLInputElement).checked;
+    const canAccessMarketing = (document.getElementById('new-user-marketing') as HTMLInputElement).checked;
     const password = (document.getElementById('new-user-password') as HTMLInputElement).value;
     const passwordConfirm = (document.getElementById('new-user-password-confirm') as HTMLInputElement).value;
     const msgEl = document.getElementById('add-user-msg')!;
@@ -2974,7 +2990,7 @@ export const prerender = false;
     msgEl.textContent = 'Criando usuário...';
     msgEl.classList.remove('hidden');
 
-    const { error } = await inviteUser(email, name, role, plan, canAccessDashboard, password);
+    const { error } = await inviteUser(email, name, role, plan, canAccessDashboard, password, canEditBiblioteca, canAccessMarketing);
     if (error) {
       msgEl.className = 'rounded-lg px-3 py-2 text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20';
       msgEl.textContent = 'Erro: ' + error.message;

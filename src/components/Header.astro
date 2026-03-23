@@ -13,6 +13,7 @@
       <a class="text-slate-300 hover:text-primary transition-colors text-sm font-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-primary rounded" href="/precos" data-i18n="nav.precos">Preços</a>
       <a class="text-slate-300 hover:text-primary transition-colors text-sm font-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-primary rounded" href="/analytics" data-i18n="nav.analytics">Analytics</a>
       <a class="text-slate-300 hover:text-primary transition-colors text-sm font-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-primary rounded" href="/biblioteca" data-i18n="nav.biblioteca">Biblioteca</a>
+      <a class="text-red-400 hover:text-red-300 transition-colors text-sm font-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-red-500 rounded" href="/cyberdyne">CyberDyne</a>
     </nav>
     <div class="flex items-center gap-2 sm:gap-3 shrink-0">
       <!-- Language Switcher -->
@@ -49,6 +50,10 @@
             <span class="material-symbols-outlined text-lg text-cta">credit_card</span>
             Plano
           </a>
+          <a href="/marketing" id="header-link-marketing" class="hidden items-center gap-3 px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-white/[0.05] transition-all border-t border-white/5">
+            <span class="material-symbols-outlined text-lg text-orange-400">campaign</span>
+            Marketing
+          </a>
           <button id="header-logout-btn" type="button" class="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/5 transition-all border-t border-white/5 w-full text-left cursor-pointer">
             <span class="material-symbols-outlined text-lg">logout</span>
             Sair
@@ -70,6 +75,7 @@
       <a class="text-slate-300 hover:text-primary hover:bg-white/[0.04] transition-all text-sm font-medium tracking-wide rounded-lg px-4 py-3" href="/precos" data-i18n="nav.precos">Preços</a>
       <a class="text-slate-300 hover:text-primary hover:bg-white/[0.04] transition-all text-sm font-medium tracking-wide rounded-lg px-4 py-3" href="/analytics" data-i18n="nav.analytics">Analytics</a>
       <a class="text-slate-300 hover:text-primary hover:bg-white/[0.04] transition-all text-sm font-medium tracking-wide rounded-lg px-4 py-3" href="/biblioteca" data-i18n="nav.biblioteca">Biblioteca</a>
+      <a class="text-red-400 hover:text-red-300 hover:bg-red-500/5 transition-all text-sm font-medium tracking-wide rounded-lg px-4 py-3" href="/cyberdyne">CyberDyne</a>
       <div class="border-t border-white/5 my-1"></div>
       <a id="mobile-login-link" class="text-slate-300 hover:text-primary hover:bg-white/[0.04] transition-all text-sm font-medium tracking-wide rounded-lg px-4 py-3" href="/login" data-i18n="nav.login">Login</a>
     </nav>
@@ -114,6 +120,12 @@
           avatarInitials.textContent = initials;
           avatarInitials.classList.remove('hidden');
           if (avatarImg) avatarImg.classList.add('hidden');
+        }
+
+        // Show marketing link if user has permission
+        if (profile?.role === 'master' || (profile as any)?.can_access_marketing) {
+          const mktLink = document.getElementById('header-link-marketing');
+          if (mktLink) { mktLink.classList.remove('hidden'); mktLink.classList.add('flex'); }
         }
 
         // Apply user theme preference (default is light)

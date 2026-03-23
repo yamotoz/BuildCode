@@ -422,8 +422,8 @@ const techDB = technologies.map(t => ({
             </div>
           ))}
 
-          <!-- STEP 21: Prompt Language Selection -->
-          <div class="step hidden flex flex-col items-center gap-8" data-step="21" data-phase="4">
+          <!-- STEP 24: Prompt Language Selection -->
+          <div class="step hidden flex flex-col items-center gap-8" data-step="24" data-phase="4">
             <div class="text-center max-w-2xl space-y-3">
               <h2 class="font-display text-3xl lg:text-5xl font-black text-white tracking-tight">
                 Em qual <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Idioma</span> gerar o Prompt?
@@ -455,8 +455,8 @@ const techDB = technologies.map(t => ({
             </div>
           </div>
 
-          <!-- STEP 22: LLM Selection -->
-          <div class="step hidden flex flex-col items-center gap-8" data-step="22" data-phase="4">
+          <!-- STEP 25: LLM Selection -->
+          <div class="step hidden flex flex-col items-center gap-8" data-step="25" data-phase="4">
             <div class="text-center max-w-2xl space-y-3">
               <h2 class="font-display text-3xl lg:text-5xl font-black text-white tracking-tight">
                 Escolha o <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Modelo LLM</span> para Geração
@@ -500,8 +500,8 @@ const techDB = technologies.map(t => ({
             </div>
           </div>
 
-          <!-- STEP 23: Loading -->
-          <div class="step hidden flex flex-col items-center justify-center gap-6 py-16 text-center" data-step="23" data-phase="4">
+          <!-- STEP 26: Loading -->
+          <div class="step hidden flex flex-col items-center justify-center gap-6 py-16 text-center" data-step="26" data-phase="4">
             <div class="relative">
               <div class="size-24 rounded-full border-4 border-surface-dark border-t-primary animate-spin"></div>
               <span class="material-symbols-outlined text-primary text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse">auto_awesome</span>
@@ -515,8 +515,8 @@ const techDB = technologies.map(t => ({
             </div>
           </div>
 
-          <!-- STEP 24: Result (PRD + Prompt Base Tabs + Insights + Save) -->
-          <div class="step hidden flex flex-col gap-0 w-full" data-step="24" data-phase="4">
+          <!-- STEP 27: Result (PRD + Prompt Base Tabs + Insights + Save) -->
+          <div class="step hidden flex flex-col gap-0 w-full" data-step="27" data-phase="4">
 
             <!-- ── Result Header ── -->
             <div class="relative rounded-t-2xl overflow-hidden" style="background: linear-gradient(135deg, #0A1628 0%, #0D1B2A 50%, #112240 100%); border: 1px solid rgba(46,116,139,0.15); border-bottom: none;">
@@ -965,20 +965,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function isLastWizardStep(step) {
-    // Último passo do wizard antes da seleção de idioma do prompt (passo 21)
-    const wizardSteps = visibleSteps.filter(s => s <= 20);
+    // Último passo do wizard antes da seleção de idioma do prompt (passo 24)
+    const wizardSteps = visibleSteps.filter(s => s <= 23);
     return wizardSteps.length > 0 && wizardSteps[wizardSteps.length - 1] === step;
   }
 
   function getPhase(step) {
-    if (step <= 5) return 1;
+    if (step <= 5 || step === 21 || step === 22) return 1;
     if (step <= 12) return 2;
     if (step <= 18) return 3;
     return 4;
   }
 
   function updateProgress(step) {
-    const wizardSteps = visibleSteps.filter(s => s <= 22);
+    const wizardSteps = visibleSteps.filter(s => s <= 25);
     const idx = wizardSteps.indexOf(step);
     const pct = idx >= 0 ? Math.min((idx / Math.max(wizardSteps.length - 1, 1)) * 100, 100) : 100;
     progressBar.style.width = `${pct}%`;
@@ -1104,11 +1104,11 @@ document.addEventListener('DOMContentLoaded', () => {
       let nextStep;
 
       if (isLastWizardStep(currentStep)) {
-        // Pula para seleção de idioma do prompt (passo 21)
-        nextStep = 21;
-      } else if (currentStep === 21) {
-        // Da seleção de idioma → seleção de LLM (passo 22)
-        nextStep = 22;
+        // Pula para seleção de idioma do prompt (passo 24)
+        nextStep = 24;
+      } else if (currentStep === 24) {
+        // Da seleção de idioma → seleção de LLM (passo 25)
+        nextStep = 25;
       } else {
         nextStep = getNextVisibleStep(currentStep);
       }
@@ -1130,12 +1130,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.prev-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       let prevStep;
-      if (currentStep === 22) {
+      if (currentStep === 25) {
         // Seleção de LLM → volta para idioma do prompt
-        prevStep = 21;
-      } else if (currentStep === 21) {
+        prevStep = 24;
+      } else if (currentStep === 24) {
         // Idioma do prompt → volta para último passo do wizard
-        const wizardSteps = visibleSteps.filter(s => s <= 20);
+        const wizardSteps = visibleSteps.filter(s => s <= 23);
         prevStep = wizardSteps.length > 0 ? wizardSteps[wizardSteps.length - 1] : 20;
       } else {
         prevStep = getPrevVisibleStep(currentStep);
@@ -1255,7 +1255,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Segundo clique (ou mais): vai direto para geração
       closeChat();
-      showStep(23);
+      showStep(26);
       triggerGeneration();
     });
   }
@@ -1331,7 +1331,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           enforcePromptLimit();
           buildInsights();
-          showStep(24);
+          showStep(27);
           progressBar.style.width = '100%';
           showDownloadBtns(true);
           updateCharCount();
@@ -1427,6 +1427,9 @@ document.addEventListener('DOMContentLoaded', () => {
       seo: getFormValue('seo'),
       testes: getFormValues('testes'),
       llmModel: getFormValue('llm-model'),
+      objetivos: getTextValue('objetivos'),
+      publicoAlvo: getTextValue('publicoAlvo'),
+      funcionalidades: getTextValue('funcionalidades'),
     };
 
     // Mapas de labels para exibição
@@ -1494,8 +1497,26 @@ ${data.contexto}
 **Modelo LLM Selecionado:** ${llmLabel}
 
 ---
+${data.objetivos ? `
+## 2. OBJETIVOS DO PROJETO
 
-## 2. DECISAO DE STACK — JUSTIFICATIVA TECNICA
+${data.objetivos}
+
+---
+` : ''}${data.publicoAlvo ? `
+## 3. PUBLICO-ALVO E PERSONAS
+
+${data.publicoAlvo}
+
+---
+` : ''}${data.funcionalidades ? `
+## 4. FUNCIONALIDADES E REQUISITOS
+
+${data.funcionalidades}
+
+---
+` : ''}
+## ${data.objetivos ? '5' : '2'}. DECISAO DE STACK — JUSTIFICATIVA TECNICA
 
 | Camada | Tecnologia | Por que foi escolhida |
 |--------|-----------|----------------------|
@@ -1595,6 +1616,45 @@ ${data.seo === 'seo-full' ? `- Meta tags dinamicas (title, description, og:image
 - Performance otimizada` : '- App privado — SEO nao aplicavel.'}
 
 ---
+${data.publicoAlvo || data.funcionalidades ? `
+## HISTORIAS DE USUARIO / CASOS DE USO
+
+${data.funcionalidades && data.publicoAlvo ? `Com base no publico-alvo e funcionalidades definidos, as principais historias de usuario sao:
+
+${data.funcionalidades.split('\n').filter(Boolean).slice(0, 5).map((f, i) => \`\${i+1}. **Como** usuario do sistema, **quero** \${f.replace(/^\\d+\\.?\\s*/, '').toLowerCase()} **para** resolver minha necessidade principal.\`).join('\\n')}
+
+> Historias detalhadas com criterios de aceitacao serao refinadas na LLM.` : '(Sera preenchido pela LLM com base no contexto do projeto.)'}
+
+---
+
+## MARCOS E CRONOGRAMA
+
+| Fase | Prazo Estimado | Entregas |
+|------|---------------|----------|
+| **MVP (Alpha)** | Semanas 1-4 | Setup, funcionalidades core, auth, deploy staging |
+| **Beta** | Semanas 5-8 | Testes, ajustes UX, integrações, feedback de usuarios |
+| **Lancamento** | Semanas 9-12 | Performance, seguranca, monitoramento, deploy producao |
+
+> Cronograma sera refinado pela LLM com base na complexidade das funcionalidades.
+
+---
+
+## METRICAS DE SUCESSO
+
+${data.objetivos ? \`Com base nos objetivos definidos:
+
+\${data.objetivos.split('\\n').filter(Boolean).slice(0, 5).map(o => \`- **\${o.replace(/^\\d+\\.?\\s*/, '')}\` — KPI a ser medido mensalmente').join('\\n')}
+\` : \`| Metrica | Alvo (3 meses) | Como Medir |
+|---------|---------------|------------|
+| **Usuarios Ativos** | \${data.escala === '50' ? '50' : data.escala === '1000' ? '200' : '1.000'}+ | Analytics / Supabase logs |
+| **Retencao (D30)** | > 40% | Cohort analysis |
+| **NPS** | > 50 | Pesquisa in-app |
+| **Uptime** | > 99.9% | Monitoring (UptimeRobot) |\`}
+
+> Metricas detalhadas serao refinadas pela LLM.
+
+---
+` : ''}
 *Documento gerado pelo BuildCode AI Engine v2.1 — ${date}*
 *Modelo LLM: ${llmLabel}*`;
 
@@ -3664,7 +3724,7 @@ ${data.mcps.length > 0 ? `\nMCPs conectados ao projeto: ${data.mcps.join(', ')}.
       if (shouldProceed) {
         setTimeout(() => {
           closeChat();
-          showStep(23);
+          showStep(26);
           triggerGeneration();
         }, 2000);
       }

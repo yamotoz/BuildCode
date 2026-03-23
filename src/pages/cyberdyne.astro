@@ -1,0 +1,403 @@
+---
+export const prerender = false;
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="CyberDyne v7.0 | Scanner de Seguranca Ofensiva" description="113+ verificacoes automaticas de seguranca. XSS, SQLi, IDOR, JWT, SSRF. Um comando. Zero desculpas.">
+
+<div class="cyberdyne-section bg-[#080808] text-white min-h-screen">
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#080808]/80 border-b border-red-500/10 px-4 py-3 sm:px-6 sm:py-4 md:px-8 lg:px-24">
+    <div class="mx-auto relative flex max-w-[1440px] items-center justify-between">
+      <a href="/cyberdyne" class="flex items-center gap-2 sm:gap-3 text-slate-100 hover:opacity-80 transition-opacity shrink-0">
+        <img src="/cyoff.png" alt="CyberDyne" class="h-9 sm:h-10 w-auto object-contain" width="160" height="40" loading="eager" />
+        <h2 class="font-display text-lg sm:text-xl font-bold tracking-tight text-white hidden sm:block">CyberDyne</h2>
+      </a>
+      <nav class="hidden lg:flex gap-6 xl:gap-8 absolute left-1/2 -translate-x-1/2">
+        <a class="text-slate-300 hover:text-red-400 transition-colors text-sm font-medium tracking-wide" href="#features">Recursos</a>
+        <a class="text-slate-300 hover:text-red-400 transition-colors text-sm font-medium tracking-wide" href="#checks">Verificacoes</a>
+        <a class="text-slate-300 hover:text-red-400 transition-colors text-sm font-medium tracking-wide" href="#recon">Recon</a>
+        <a class="text-slate-300 hover:text-red-400 transition-colors text-sm font-medium tracking-wide" href="#how">Como Funciona</a>
+        <a class="text-primary hover:text-secondary transition-colors text-sm font-medium tracking-wide" href="/">BuildCode</a>
+      </nav>
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <a href="https://github.com/yamotoz/CyberDyne" target="_blank" rel="noopener noreferrer" class="flex cursor-pointer items-center justify-center rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors px-4 sm:px-6 py-2 text-xs sm:text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(220,38,38,0.3)] whitespace-nowrap">
+          Acessar Sistema
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <!-- Video background (mais claro) -->
+    <div class="absolute inset-0 z-0">
+      <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-35">
+        <source src="/cyberdyne.webm" type="video/webm" />
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#080808]/70 via-[#080808]/40 to-[#080808]"></div>
+    </div>
+    <!-- Red ambient glow -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-red-600/[0.04] rounded-full blur-[120px] z-[1]"></div>
+    <!-- Grid overlay -->
+    <div class="absolute inset-0 opacity-[0.03] z-[1]" style="background-image: linear-gradient(rgba(220,38,38,.3) 1px, transparent 1px), linear-gradient(90deg, rgba(220,38,38,.3) 1px, transparent 1px); background-size: 60px 60px;"></div>
+    <!-- Scanline -->
+    <div class="cd-scanline absolute inset-0 pointer-events-none z-[2]"></div>
+
+    <div class="relative z-20 max-w-[1200px] mx-auto px-6 md:px-12 lg:px-24 text-center pt-12 md:pt-16">
+
+      <!-- Badge mais pra baixo com animacao -->
+      <div class="cd-fade-up inline-flex items-center gap-2.5 mb-10 px-5 py-2 rounded-full border border-red-500/20 bg-red-500/5 text-red-400 text-sm font-mono backdrop-blur-sm">
+        <span class="flex size-2 rounded-full bg-red-500 animate-pulse"></span>
+        CyberDyne v7.0 // Offensive Security Scanner
+      </div>
+
+      <h1 class="cd-fade-up text-4xl md:text-6xl lg:text-[5.5rem] font-black leading-[0.92] mb-8 tracking-tighter" style="animation-delay: 0.1s">
+        O Codigo Que Voce Nao Testou<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-400 to-red-600">E o Ataque Que Voce Nao Viu Vir.</span>
+      </h1>
+
+      <p class="cd-fade-up text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed" style="animation-delay: 0.2s">
+        Um unico script Python varre sua aplicacao com <span class="text-white font-semibold">113 verificacoes de seguranca</span>,
+        <span class="text-white font-semibold">13 etapas de recon</span> e entrega um relatorio com
+        evidencias reais. Voce descobre onde quebra <span class="text-red-400 font-semibold">antes do atacante</span>.
+      </p>
+
+      <div class="cd-fade-up flex flex-col sm:flex-row gap-4 justify-center mb-16" style="animation-delay: 0.3s">
+        <a href="https://github.com/yamotoz/CyberDyne" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] hover:scale-[1.02]">
+          <span class="material-symbols-outlined text-xl group-hover:rotate-12 transition-transform">rocket_launch</span>
+          Acessar o Sistema
+        </a>
+        <a href="#features" class="group inline-flex items-center justify-center gap-2 px-8 py-4 border border-red-500/30 hover:border-red-500/60 text-red-400 hover:text-red-300 font-bold rounded-xl transition-all bg-red-500/5 hover:bg-red-500/10 backdrop-blur-sm">
+          <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">visibility</span>
+          Ver o que ele encontra
+        </a>
+      </div>
+
+      <!-- Terminal visual com glow -->
+      <div class="cd-fade-up max-w-2xl mx-auto rounded-2xl border border-red-500/15 bg-[#0a0a0a]/90 shadow-[0_0_60px_rgba(220,38,38,0.06)] overflow-hidden text-left backdrop-blur-sm" style="animation-delay: 0.4s">
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-red-500/10 bg-[#0c0c0c]/80">
+          <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/40"></div>
+          <div class="w-3 h-3 rounded-full bg-green-500/40"></div>
+          <span class="ml-2 text-xs text-slate-600 font-mono">cyberdyne@kali:~</span>
+        </div>
+        <div class="p-5 font-mono text-[13px] leading-relaxed">
+          <p class="text-slate-500">$ python CyberDyneWeb.py --url https://seuapp.com --all</p>
+          <p class="text-slate-400 mt-3"><span class="text-red-400">[*]</span> Iniciando varredura completa...</p>
+          <p class="text-slate-400"><span class="text-red-400">[*]</span> 8 modulos carregados: XSS, SQLi, LFI, IDOR, SSRF, JWT, Headers, Recon</p>
+          <p class="text-slate-400"><span class="text-green-400">[+]</span> 113 checks ativos // Playwright Chromium pronto</p>
+          <p class="text-slate-400 mt-2"><span class="text-yellow-400">[!]</span> <span class="text-yellow-300">XSS Reflected</span> em /search?q= <span class="text-slate-600">(CVSS 6.1)</span></p>
+          <p class="text-slate-400"><span class="text-yellow-400">[!]</span> <span class="text-red-300">SQL Injection</span> em /api/users?id= <span class="text-slate-600">(CVSS 9.8)</span></p>
+          <p class="text-slate-400"><span class="text-yellow-400">[!]</span> <span class="text-red-300">JWT alg:none bypass</span> em /auth/token <span class="text-slate-600">(CVSS 9.8)</span></p>
+          <p class="text-red-400 mt-2 font-semibold">[RESULTADO] 3 criticas // 5 altas // 2 medias</p>
+          <p class="text-green-400 mt-1">[+] Relatorio salvo: report_cyberdyne_2026.pdf</p>
+          <span class="inline-block w-2 h-4 bg-red-500 animate-pulse ml-1"></span>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="cd-fade-up mt-12 flex flex-col items-center gap-2 opacity-40" style="animation-delay: 0.6s">
+        <span class="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold">Descubra mais</span>
+        <span class="material-symbols-outlined text-xl text-slate-500 animate-bounce">expand_more</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ THE PROBLEM ═══════════════ -->
+  <section class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight">
+        Voce Confia no Seu Codigo.<br>
+        <span class="text-red-500">Mas Ele Nao Merece Essa Confiança.</span>
+      </h2>
+      <p class="text-slate-400 text-center max-w-xl mx-auto mb-4">Esses numeros nao mentem. E o atacante tambem nao.</p>
+      <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-auto mb-16"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="rounded-xl p-8 border border-red-500/10 bg-[#0a0a0a]/60 shadow-[0_0_30px_rgba(220,38,38,0.08)] text-center hover:border-red-500/30 transition-all">
+          <p class="text-5xl font-black text-red-500 mb-3">68%</p>
+          <p class="text-slate-300 text-sm">das aplicacoes carregam vulnerabilidades <span class="text-red-400 font-semibold">criticas</span> que ninguem testou</p>
+        </div>
+        <div class="rounded-xl p-8 border border-red-500/10 bg-[#0a0a0a]/60 shadow-[0_0_30px_rgba(220,38,38,0.08)] text-center hover:border-red-500/30 transition-all">
+          <p class="text-5xl font-black text-red-500 mb-3">287</p>
+          <p class="text-slate-300 text-sm">dias e o tempo medio para uma empresa <span class="text-red-400 font-semibold">descobrir</span> que foi comprometida</p>
+        </div>
+        <div class="rounded-xl p-8 border border-red-500/10 bg-[#0a0a0a]/60 shadow-[0_0_30px_rgba(220,38,38,0.08)] text-center hover:border-red-500/30 transition-all">
+          <p class="text-5xl font-black text-red-500 mb-3">R$4.5M</p>
+          <p class="text-slate-300 text-sm">e o custo medio de um <span class="text-red-400 font-semibold">data breach</span> no Brasil. Sua app vale esse risco?</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FEATURES GRID ═══════════════ -->
+  <section id="features" class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4">6 Modulos de Ataque Real</h2>
+      <p class="text-slate-400 text-center max-w-xl mx-auto mb-4">Sem simulação. Sem falso positivo. Cada alerta vem com evidencia concreta e CVSS score.</p>
+      <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-auto mb-16"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="group rounded-xl p-6 border border-red-500/10 bg-[#0a0a0a]/60 shadow-[0_0_30px_rgba(220,38,38,0.08)] hover:border-red-500/30 hover:shadow-[0_0_40px_rgba(220,38,38,0.15)] transition-all">
+          <div class="flex items-center justify-between mb-4">
+            <span class="material-symbols-outlined text-3xl text-red-500">code</span>
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-red-500/15 text-red-400 border border-red-500/20">CRITICO</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2">XSS Detection</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">8 fases de teste. 80+ payloads com evasao de WAF. Reflected, Stored e DOM-based. Validacao real via Playwright Chromium.</p>
+        </div>
+        <div class="group rounded-xl p-6 border border-red-500/10 bg-[#0a0a0a]/60 shadow-[0_0_30px_rgba(220,38,38,0.08)] hover:border-red-500/30 hover:shadow-[0_0_40px_rgba(220,38,38,0.15)] transition-all">
+          <div class="flex items-center justify-between mb-4">
+            <span class="material-symbols-outlined text-3xl text-red-500">database</span>
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-red-500/15 text-red-400 border border-red-500/20">CRITICO</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2">SQL Injection</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">140 patterns cobrindo 30+ DBMS. Boolean, time-based, UNION e error-based. Deteccao automatica de tipo e banco.</p>
+        </div>
+        <div class="group rounded-xl p-6 border border-red-500/10 bg-[#0a0a0a]/60 shadow-[0_0_30px_rgba(220,38,38,0.08)] hover:border-red-500/30 hover:shadow-[0_0_40px_rgba(220,38,38,0.15)] transition-all">
+          <div class="flex items-center justify-between mb-4">
+            <span class="material-symbols-outlined text-3xl text-red-500">folder_open</span>
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-red-500/15 text-red-400 border border-red-500/20">CRITICO</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2">LFI / Path Traversal</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">30 parametros monitorados. Encoding duplo, null byte e wrappers PHP. Um caminho aberto e tudo que o atacante precisa.</p>
+        </div>
+        <div class="group rounded-xl p-6 border border-red-500/10 bg-[#0a0a0a]/60 shadow-[0_0_30px_rgba(220,38,38,0.08)] hover:border-red-500/30 hover:shadow-[0_0_40px_rgba(220,38,38,0.15)] transition-all">
+          <div class="flex items-center justify-between mb-4">
+            <span class="material-symbols-outlined text-3xl text-orange-500">person_off</span>
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/20">ALTO</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2">IDOR & Auth Bypass</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">IDs sequenciais em APIs REST. Escalacao horizontal e vertical de privilegios. O ataque mais subestimado do mercado.</p>
+        </div>
+        <div class="group rounded-xl p-6 border border-red-500/10 bg-[#0a0a0a]/60 shadow-[0_0_30px_rgba(220,38,38,0.08)] hover:border-red-500/30 hover:shadow-[0_0_40px_rgba(220,38,38,0.15)] transition-all">
+          <div class="flex items-center justify-between mb-4">
+            <span class="material-symbols-outlined text-3xl text-red-500">cloud_sync</span>
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-red-500/15 text-red-400 border border-red-500/20">CRITICO</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2">SSRF Analysis</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">23 parametros suspeitos. Acesso a cloud metadata AWS, GCP, Azure. Redirect chains e DNS rebinding detection.</p>
+        </div>
+        <div class="group rounded-xl p-6 border border-red-500/10 bg-[#0a0a0a]/60 shadow-[0_0_30px_rgba(220,38,38,0.08)] hover:border-red-500/30 hover:shadow-[0_0_40px_rgba(220,38,38,0.15)] transition-all">
+          <div class="flex items-center justify-between mb-4">
+            <span class="material-symbols-outlined text-3xl text-red-500">key</span>
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-red-500/15 text-red-400 border border-red-500/20">CRITICO</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2">JWT Security</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Teste alg:none, brute-force com 330+ senhas, JWKS injection, KID SQLi e claim tampering. Seu token nao esta seguro.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 113+ CHECKS ═══════════════ -->
+  <section id="checks" class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4">
+        <span class="text-red-500">113+</span> Checks. Zero Piedade.
+      </h2>
+      <p class="text-slate-400 text-center max-w-xl mx-auto mb-16">Cobertura completa do OWASP Top 10 e muito alem. Cada check com timeout de 45s e evidencia obrigatoria.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { icon: 'security', count: '20', label: 'OWASP Top 10', desc: 'A01 ate A10 cobertos' },
+          { icon: 'smart_toy', count: '15', label: 'IA / JWT / Auth', desc: 'Tokens, sessoes, prompt injection' },
+          { icon: 'cloud', count: '10', label: 'BaaS / Cloud', desc: 'AWS, Supabase, Firebase, S3' },
+          { icon: 'dns', count: '10', label: 'Recon / DNS', desc: 'Subdominios, WHOIS, takeover' },
+          { icon: 'lan', count: '20', label: 'Infra / Headers', desc: 'CSP, CORS, HSTS, cookies' },
+          { icon: 'lock_open', count: '25', label: 'Logica / Auth', desc: 'Brute force, 2FA bypass, IDOR' },
+          { icon: 'psychology', count: '13', label: 'Advanced', desc: 'Race condition, deserialization' },
+          { icon: 'web', count: '16', label: 'Browser Mimic', desc: 'Playwright headless real' },
+        ].map(item => (
+          <div class="rounded-lg p-5 border border-red-500/10 bg-[#0a0a0a]/60 hover:border-red-500/30 transition-all">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="material-symbols-outlined text-red-500">{item.icon}</span>
+              <span class="text-2xl font-black text-red-400">{item.count}</span>
+            </div>
+            <p class="text-sm font-semibold text-slate-300">{item.label}</p>
+            <p class="text-xs text-slate-500 mt-1">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+  <section id="how" class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4">Um Comando. Resposta Total.</h2>
+      <p class="text-slate-400 text-center max-w-xl mx-auto mb-4">Sem configuracao complexa. Sem dependencias infinitas. Aponte e dispare.</p>
+      <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-auto mb-16"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="relative text-center">
+          <div class="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-6">
+            <span class="material-symbols-outlined text-3xl text-red-500">terminal</span>
+          </div>
+          <span class="absolute top-0 right-1/2 translate-x-1/2 -translate-y-3 text-xs font-mono text-red-500/60 bg-[#080808] px-2">01</span>
+          <h3 class="text-xl font-bold mb-3">Aponte o Alvo</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Informe a URL. Use <code class="text-red-400 bg-red-500/10 px-1.5 py-0.5 rounded text-xs">--all</code> para varredura total ou escolha modulos especificos.</p>
+        </div>
+        <div class="relative text-center">
+          <div class="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-6">
+            <span class="material-symbols-outlined text-3xl text-red-500">radar</span>
+          </div>
+          <span class="absolute top-0 right-1/2 translate-x-1/2 -translate-y-3 text-xs font-mono text-red-500/60 bg-[#080808] px-2">02</span>
+          <h3 class="text-xl font-bold mb-3">Deixe o CyberDyne Trabalhar</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">113+ checks em 8 grupos paralelos. Cada vulnerabilidade com evidencia real e score CVSS.</p>
+        </div>
+        <div class="relative text-center">
+          <div class="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-6">
+            <span class="material-symbols-outlined text-3xl text-red-500">description</span>
+          </div>
+          <span class="absolute top-0 right-1/2 translate-x-1/2 -translate-y-3 text-xs font-mono text-red-500/60 bg-[#080808] px-2">03</span>
+          <h3 class="text-xl font-bold mb-3">Relatorio Pronto</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">PDF, JSON, HTML. Severidades classificadas. Acoes claras. Entregue para o time e corrija antes que alguem explore.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ RECONNAISSANCE ═══════════════ -->
+  <section id="recon" class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4">
+        <span class="text-red-500">13</span> Etapas de Reconhecimento
+      </h2>
+      <p class="text-slate-400 text-center max-w-xl mx-auto mb-4">Antes de qualquer ataque, o CyberDyne mapeia a superficie inteira. Automatico. Silencioso. Completo.</p>
+      <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-auto mb-16"></div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        {[
+          { icon: 'hub', label: 'Subdominios', desc: '6 fontes ativas e passivas' },
+          { icon: 'link', label: 'Coleta de URLs', desc: 'ParamSpider + Wayback + Crawl' },
+          { icon: 'check_circle', label: 'Validacao', desc: '30 threads, status 200-399' },
+          { icon: 'warning', label: 'Subdomain Takeover', desc: 'CNAME dangling detection' },
+          { icon: 'badge', label: 'WHOIS', desc: 'Registrar, datas, DNSSEC' },
+          { icon: 'fingerprint', label: 'Fingerprint', desc: '62 tecnologias, 15 categorias' },
+          { icon: 'mail', label: 'Emails + HIBP', desc: 'Scraping + vazamentos' },
+          { icon: 'router', label: 'Port Scan', desc: 'Top-1000 portas TCP' },
+          { icon: 'code', label: 'GitHub Dorking', desc: 'Secrets em commits + 80 dorks' },
+          { icon: 'smart_toy', label: 'AI Fingerprint', desc: 'Endpoints OpenAI, Supabase' },
+          { icon: 'search', label: 'Fuzzing Paths', desc: '12 wordlists, 1000+ paths' },
+          { icon: 'travel_explore', label: 'LinkFinder', desc: 'Endpoints e secrets em JS' },
+          { icon: 'explore', label: 'Shodan', desc: 'Portas, CVEs, organizacao' },
+        ].map(item => (
+          <div class="rounded-lg p-4 border border-red-500/10 bg-[#0a0a0a]/60 hover:border-red-500/30 transition-all group">
+            <span class="material-symbols-outlined text-2xl text-red-500 mb-2 block group-hover:scale-110 transition-transform">{item.icon}</span>
+            <p class="text-sm font-bold text-slate-200">{item.label}</p>
+            <p class="text-xs text-slate-500 mt-0.5">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ VIBE CODING WARNING ═══════════════ -->
+  <section class="px-6 py-24 md:px-12 lg:px-24 border-t border-red-500/10">
+    <div class="max-w-[900px] mx-auto text-center">
+      <span class="material-symbols-outlined text-6xl text-red-500 mb-6 block">warning</span>
+      <h2 class="text-3xl md:text-5xl font-black mb-6 leading-tight">
+        Vibe Coding é o Novo<br><span class="text-red-500">Vetor de Ataque</span>
+      </h2>
+      <p class="text-slate-400 text-lg leading-relaxed mb-8">
+        Codigo gerado por IA funciona. Mas funcionar nao significa ser seguro.
+        Cada linha que a IA escreve sem auditoria e uma porta aberta.
+        O CyberDyne nasceu pra fechar essas portas.
+      </p>
+      <a href="https://github.com/yamotoz/CyberDyne" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_40px_rgba(220,38,38,0.5)] text-lg">
+        <span class="material-symbols-outlined text-xl">terminal</span>
+        Testar Agora no GitHub
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="px-6 py-8 md:px-12 lg:px-24 border-t border-red-500/10">
+    <div class="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-slate-500 font-mono">CyberDyne v7.0 // Um produto <a href="/" class="text-red-400 hover:text-red-300 transition-colors">BuildCode</a></p>
+      <div class="flex items-center gap-6">
+        <a href="https://github.com/yamotoz/CyberDyne" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-600 hover:text-red-400 transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">code</span>
+          GitHub
+        </a>
+        <a href="/" class="text-sm text-slate-600 hover:text-primary transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">arrow_back</span>
+          BuildCode
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ═══════════════ STYLES ═══════════════ -->
+<style>
+  /* Scanline effect */
+  .cd-scanline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.4), transparent);
+    animation: cd-scan 4s linear infinite;
+  }
+  @keyframes cd-scan {
+    0% { top: 0; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* Fade up animation for hero elements */
+  .cd-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: cd-fade-up 0.8s ease-out forwards;
+  }
+  @keyframes cd-fade-up {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Section reveal on scroll */
+  .cd-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .cd-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Glow line separator */
+  .cd-glow-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(220,38,38,0.3) 50%, transparent 100%);
+  }
+</style>
+
+<!-- Scroll reveal observer -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('section:not(#hero)').forEach(section => {
+    section.classList.add('cd-reveal');
+    observer.observe(section);
+  });
+</script>
+
+</Layout>

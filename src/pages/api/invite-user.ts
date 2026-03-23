@@ -52,7 +52,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Extrai corpo da requisição
-  let body: { email: string; fullName: string; role: string; plan?: string; canAccessDashboard?: boolean; password?: string };
+  let body: { email: string; fullName: string; role: string; plan?: string; canAccessDashboard?: boolean; canEditBiblioteca?: boolean; canAccessMarketing?: boolean; password?: string };
   try {
     body = await request.json();
   } catch {
@@ -62,7 +62,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const { email, fullName, role, plan, canAccessDashboard, password } = body;
+  const { email, fullName, role, plan, canAccessDashboard, canEditBiblioteca, canAccessMarketing, password } = body;
   if (!email || !fullName) {
     return new Response(JSON.stringify({ error: 'email and fullName are required' }), {
       status: 400,
@@ -110,6 +110,8 @@ export const POST: APIRoute = async ({ request }) => {
     const profileUpdate: Record<string, any> = {};
     if (safeRole !== 'user') profileUpdate.role = safeRole;
     if (canAccessDashboard === true) profileUpdate.can_access_dashboard = true;
+    if (canEditBiblioteca === true) profileUpdate.can_edit_biblioteca = true;
+    if (canAccessMarketing === true) profileUpdate.can_access_marketing = true;
     if (Object.keys(profileUpdate).length > 0) {
       await adminClient
         .from('profiles')
