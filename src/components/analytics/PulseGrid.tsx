@@ -57,9 +57,9 @@ export function PulseGrid({ activityA, activityB, nameA, nameB }: PulseGridProps
     >
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h3 className="text-lg font-bold" style={{ color: t.textPrimary }} data-i18n="analytics.pulse">
+          <h2 className="text-lg font-bold" style={{ color: t.textPrimary }} data-i18n="analytics.pulse">
             Atividade de Pulso
-          </h3>
+          </h2>
           <p className="text-sm" style={{ color: t.textSecondary }} data-i18n="analytics.pulse.sub">
             Intensidade de contribuição nas últimas 52 semanas
           </p>

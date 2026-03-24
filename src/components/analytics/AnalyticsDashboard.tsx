@@ -381,6 +381,7 @@ export default function AnalyticsDashboard() {
           <button
             onClick={compare}
             disabled={loading}
+            aria-label="Comparar tecnologias"
             className="bg-[#2E748B] hover:bg-[#367f97] text-white p-3 rounded-xl transition-all disabled:opacity-50 cursor-pointer"
           >
             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Search className="w-5 h-5" />}

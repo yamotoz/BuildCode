@@ -54,9 +54,9 @@ export function RadarChart({ dataA, dataB, nameA, nameB }: RadarChartProps) {
       style={{ background: t.cardBg, border: `1px solid ${t.border}` }}
     >
       <div className="w-full">
-        <h3 className="text-lg font-bold" style={{ color: t.textPrimary }} data-i18n="analytics.performance">
+        <h2 className="text-lg font-bold" style={{ color: t.textPrimary }} data-i18n="analytics.performance">
           Matriz de Performance
-        </h3>
+        </h2>
         <p className="text-sm mb-4" style={{ color: t.textSecondary }} data-i18n="analytics.performance.sub">
           Análise dimensional de features
         </p>

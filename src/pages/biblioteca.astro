@@ -68,7 +68,7 @@ import { technologies } from '../data/technologies';
     </div>
 
     <!-- MAIN CONTENT: Search & Grid -->
-    <main class="flex-1 flex flex-col h-full overflow-y-auto overflow-x-hidden custom-scrollbar relative bg-[#06070a]">
+    <main id="main-content" class="flex-1 flex flex-col h-full overflow-y-auto overflow-x-hidden custom-scrollbar relative bg-[#06070a]">
       <!-- Background glows -->
       <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] pointer-events-none"></div>
       
@@ -116,7 +116,7 @@ import { technologies } from '../data/technologies';
                 
                 <div class="flex justify-between items-start mb-6 relative z-10">
                   <div class="size-12 rounded-xl bg-black border border-white/5 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_rgba(46,116,139,0.15)] transition-all overflow-hidden relative">
-                    <img src={tech.logo} alt={tech.name} class="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] object-contain" />
+                    <img src={tech.logo} alt={tech.name} loading="lazy" class="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] object-contain" />
                   </div>
                   <div class="flex flex-col items-end gap-1.5">
                     <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest px-2 py-1 inline-flex items-center justify-center rounded-lg bg-white/[0.02] border border-white/[0.05] group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/20 transition-all">{tech.language}</span>
@@ -229,6 +229,16 @@ import { technologies } from '../data/technologies';
           <div>
             <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Casos de Uso</label>
             <input id="at-usecases" type="text" aria-label="Casos de uso" placeholder="SPAs, dashboards, mobile apps" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+          </div>
+          <!-- Checkbox IA sem censura (aparece só quando categoria = ia) -->
+          <div id="at-uncensored-wrap" class="hidden">
+            <label class="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-red-500/20 bg-red-500/5 cursor-pointer hover:bg-red-500/10 transition-all">
+              <input id="at-uncensored" type="checkbox" class="w-4 h-4 accent-red-500 cursor-pointer" />
+              <div>
+                <span class="text-sm font-bold text-red-400">IA sem censura?</span>
+                <p class="text-[10px] text-slate-500 mt-0.5">Marque se esta IA opera sem filtros de conteudo</p>
+              </div>
+            </label>
           </div>
           <div id="at-msg" class="hidden rounded-lg px-3 py-2 text-sm font-medium"></div>
           <button id="at-submit" class="w-full py-3 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 hover:bg-emerald-500/25 transition-all text-sm font-bold cursor-pointer flex items-center justify-center gap-2">
@@ -425,18 +435,19 @@ import { technologies } from '../data/technologies';
       const query = searchInput.value.toLowerCase().trim();
       let visibleCount = 0;
 
-      cards.forEach(card => {
+      // Query ALL tech-cards including dynamically added custom ones
+      document.querySelectorAll('.tech-card').forEach(card => {
          const cat = card.getAttribute('data-cat');
          const name = card.getAttribute('data-name');
-         
+
          const matchesCat = activeCategory === 'all' || cat === activeCategory;
          const matchesName = !query || name.includes(query);
 
          if (matchesCat && matchesName) {
-            card.style.display = 'flex';
+            (card as HTMLElement).style.display = 'flex';
             visibleCount++;
          } else {
-            card.style.display = 'none';
+            (card as HTMLElement).style.display = 'none';
          }
       });
 
@@ -510,17 +521,15 @@ import { technologies } from '../data/technologies';
      div.setAttribute('data-index', 'c' + idx);
      div.setAttribute('data-name', tech.name.toLowerCase());
      div.setAttribute('data-cat', tech.category);
-     var editBtn = '<button class="cd-card-action cd-edit-tech hidden inline-flex items-center justify-center size-6 rounded-md border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 hover:bg-emerald-500/15 transition-all" title="Editar"><span class="material-symbols-outlined text-xs">edit</span></button>';
+     var editBtn = '<button class="cd-card-action cd-edit-tech hidden inline-flex items-center justify-center size-6 rounded-md border border-white/10 bg-white/[0.03] text-slate-400 hover:bg-primary/10 hover:text-primary transition-all" title="Editar"><span class="material-symbols-outlined text-xs">edit</span></button>';
      div.innerHTML =
        '<div class="flex justify-between items-start mb-6 relative z-10">' +
          '<div class="size-12 rounded-xl bg-black border border-white/5 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_rgba(46,116,139,0.15)] transition-all overflow-hidden relative">' +
-           (tech.logo ? '<img src="' + esc(tech.logo) + '" alt="' + esc(tech.name) + '" class="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] object-contain" loading="lazy" />' : '<span class="material-symbols-outlined text-primary text-2xl absolute inset-0 flex items-center justify-center">' + esc(tech.type_icon || 'code') + '</span>') +
+           (tech.logo ? '<img src="' + esc(tech.logo) + '" alt="' + esc(tech.name) + '" class="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] object-contain" loading="lazy" />' : '<span class="material-symbols-outlined text-primary text-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">' + esc(tech.type_icon || 'code') + '</span>') +
          '</div>' +
          '<div class="flex flex-col items-end gap-1.5">' +
            (tech.language ? '<span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest px-2 py-1 inline-flex items-center justify-center rounded-lg bg-white/[0.02] border border-white/[0.05] group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/20 transition-all">' + esc(tech.language) + '</span>' : '') +
-           '<div class="flex items-center gap-1">' + editBtn +
-             '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[8px] font-extrabold uppercase tracking-widest border border-emerald-500/20 bg-emerald-500/5 text-emerald-400"><span class="material-symbols-outlined text-[10px]">star</span>Custom</span>' +
-           '</div>' +
+           editBtn +
          '</div>' +
        '</div>' +
        '<div class="mb-4 relative z-10 flex-1">' +
@@ -568,7 +577,7 @@ import { technologies } from '../data/technologies';
            '</div>' +
            '<h2 class="font-display text-3xl font-extrabold text-white tracking-tight mb-2">' + esc(tech.name) + '</h2>' +
            (tech.language ? '<span class="px-3 py-1 bg-surface-dark border border-white/10 text-slate-300 text-[9px] rounded-lg font-bold uppercase tracking-[0.2em] shadow-inner mb-2">' + esc(tech.language) + '</span>' : '') +
-           '<span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[9px] rounded-lg font-extrabold uppercase tracking-[0.15em] flex items-center gap-1 mb-2"><span class="material-symbols-outlined text-xs">star</span>Custom</span>' +
+           (tech.uncensored_ai ? '<span class="px-3 py-1 bg-red-500/10 border border-red-500/20 text-red-400 text-[9px] rounded-lg font-extrabold uppercase tracking-[0.15em] flex items-center gap-1 mb-2"><span class="material-symbols-outlined text-xs">warning</span>IA Sem Censura</span>' : '') +
            (tech.website ? '<a href="' + esc(tech.website) + '" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-bold hover:bg-primary hover:text-background-dark transition-all duration-200 group/link"><span class="material-symbols-outlined text-sm group-hover/link:rotate-12 transition-transform">open_in_new</span>Visitar Site Oficial</a>' : '') +
          '</div>' +
          '<div class="space-y-8 animate-[fadeIn_0.4s_ease-out]">' +
@@ -694,6 +703,14 @@ import { technologies } from '../data/technologies';
        var sel = iconGrid.querySelector('[data-icon="' + (tech.type_icon || 'code') + '"]');
        if (sel) { sel.classList.add('border-primary/40', 'bg-primary/10', 'text-primary'); sel.classList.remove('border-transparent', 'text-slate-500'); }
      }
+     // IA sem censura checkbox
+     var uncCb = document.getElementById('at-uncensored');
+     var uncWrap = document.getElementById('at-uncensored-wrap');
+     if (uncCb) uncCb.checked = !!tech.uncensored_ai;
+     if (uncWrap) {
+       if (tech.category === 'ai') uncWrap.classList.remove('hidden');
+       else uncWrap.classList.add('hidden');
+     }
      var submitBtn = document.getElementById('at-submit');
      if (submitBtn) submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">save</span> Salvar Alterações';
      var modal = document.getElementById('modal-add-tech');
@@ -715,6 +732,9 @@ import { technologies } from '../data/technologies';
        document.getElementById('at-modal-title').textContent = 'Adicionar Tecnologia';
        ['at-name','at-tagline','at-description','at-language','at-role','at-pros','at-cons','at-logo','at-website','at-usecases'].forEach(function(id) { document.getElementById(id).value = ''; });
        document.getElementById('at-icon').value = 'code';
+       var uncensoredCb = document.getElementById('at-uncensored');
+       if (uncensoredCb) uncensoredCb.checked = false;
+       if (atUncensoredWrap) atUncensoredWrap.classList.add('hidden');
        var submitBtnEl = document.getElementById('at-submit');
        if (submitBtnEl) submitBtnEl.innerHTML = '<span class="material-symbols-outlined text-base">add</span> Adicionar à Biblioteca';
        // Reset icon selection
@@ -729,6 +749,21 @@ import { technologies } from '../data/technologies';
      });
      closeModal.addEventListener('click', function() { modal.classList.add('hidden'); });
      modal.addEventListener('click', function(e) { if (e.target === modal) modal.classList.add('hidden'); });
+   }
+
+   // Show/hide "IA sem censura?" checkbox based on category
+   var atCategory = document.getElementById('at-category');
+   var atUncensoredWrap = document.getElementById('at-uncensored-wrap');
+   if (atCategory && atUncensoredWrap) {
+     atCategory.addEventListener('change', function() {
+       if (atCategory.value === 'ai') {
+         atUncensoredWrap.classList.remove('hidden');
+       } else {
+         atUncensoredWrap.classList.add('hidden');
+         var cb = document.getElementById('at-uncensored');
+         if (cb) cb.checked = false;
+       }
+     });
    }
 
    if (submitBtn) {
@@ -776,6 +811,7 @@ import { technologies } from '../data/technologies';
            website: document.getElementById('at-website').value.trim(),
            use_cases: document.getElementById('at-usecases').value.trim(),
            type_icon: document.getElementById('at-icon').value || 'code',
+           uncensored_ai: document.getElementById('at-uncensored')?.checked || false,
          };
          if (isEdit) body.id = editId;
 

@@ -230,9 +230,9 @@ export function StarsChart({ dataA, dataB, nameA, nameB }: StarsChartProps) {
       {/* Cabeçalho */}
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-lg font-bold" style={{ color: t.textPrimary }} data-i18n="analytics.adoption">
+          <h2 className="text-lg font-bold" style={{ color: t.textPrimary }} data-i18n="analytics.adoption">
             Velocidade de Adoção
-          </h3>
+          </h2>
           <p className="text-sm" style={{ color: t.textSecondary }} data-i18n="analytics.adoption.sub">
             Atividade de commits comparativa por {periodLabel}
           </p>

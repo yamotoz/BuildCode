@@ -30,7 +30,8 @@ export const prerender = false;
     </header>
 
     <!-- Dashboard (React island) -->
-    <main class="max-w-7xl mx-auto px-6 py-8">
+    <main id="main-content" class="max-w-7xl mx-auto px-6 py-8">
+      <h1 class="sr-only">Painel de Administração</h1>
       <AdminWrapper client:load />
     </main>
   </div>

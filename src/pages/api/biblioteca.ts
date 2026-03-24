@@ -92,6 +92,7 @@ export const POST: APIRoute = async ({ request }) => {
     logo: (body.logo || '').trim(),
     website: (body.website || '').trim(),
     tags: Array.isArray(body.tags) ? body.tags : [],
+    uncensored_ai: !!body.uncensored_ai,
     created_by: caller.id,
   }).select().single();
 
@@ -146,6 +147,7 @@ export const PUT: APIRoute = async ({ request }) => {
     logo: (body.logo || '').trim(),
     website: (body.website || '').trim(),
     tags: Array.isArray(body.tags) ? body.tags : [],
+    uncensored_ai: !!body.uncensored_ai,
   }).eq('id', id).select().single();
 
   if (error) return json({ error: error.message }, 500);
