@@ -273,8 +273,8 @@ export default function AdminWrapper() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '128px 0', textAlign: 'center' }}>
         <span className="material-symbols-outlined" style={{ fontSize: '48px', color: '#475569', marginBottom: '16px' }}>lock</span>
-        <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', marginBottom: '8px' }}>Acesso Restrito</h2>
-        <p style={{ color: '#94a3b8', marginBottom: '24px' }}>Apenas administradores podem acessar esta página.</p>
+        <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#f1f5f9', marginBottom: '8px' }}>Acesso Restrito</h2>
+        <p style={{ color: '#cbd5e1', marginBottom: '24px' }}>Apenas administradores podem acessar esta página.</p>
         <a href="/perfil" style={{ padding: '12px 24px', borderRadius: '12px', background: '#2E748B', color: 'white', fontWeight: 600, textDecoration: 'none' }}>Voltar ao Perfil</a>
       </div>
     );

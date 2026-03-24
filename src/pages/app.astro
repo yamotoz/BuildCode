@@ -68,7 +68,7 @@ const techDB = technologies.map(t => ({
     <!-- TOP NAV -->
     <header class="relative z-20 flex items-center justify-between px-4 sm:px-8 py-3 sm:py-4 border-b border-border-color glass-panel">
       <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-        <img id="app-logo" src="/logo_backofff.png" data-dark="/logo_backofff.png" data-light="/Logowhitemodeloff.png" alt="BuildCode" class="h-8 w-auto object-contain" />
+        <img id="app-logo" src="/logo_backofff.png" data-dark="/logo_backofff.png" data-light="/Logowhitemodeloff.png" alt="BuildCode" class="h-8 w-auto object-contain" width="136" height="32" />
         <span class="font-display text-lg font-bold text-white tracking-tight hidden sm:block">BuildCode</span>
       </a>
 
@@ -102,7 +102,7 @@ const techDB = technologies.map(t => ({
           <button id="app-user-btn" type="button" class="hidden items-center gap-2.5 cursor-pointer rounded-full border border-primary/20 pl-3 pr-1.5 py-1.5 hover:bg-primary/5 hover:border-primary/40 transition-all">
             <span id="app-user-name" class="text-sm font-medium text-white max-w-[120px] truncate"></span>
             <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
-              <img id="app-avatar-img" src="" alt="" class="w-full h-full object-cover hidden" />
+              <img id="app-avatar-img" src="" alt="Avatar do usuário" class="w-full h-full object-cover hidden" />
               <span id="app-avatar-initials" class="text-[10px] font-bold text-primary"></span>
             </div>
           </button>
@@ -110,7 +110,7 @@ const techDB = technologies.map(t => ({
           <div id="app-profile-dropdown" class="hidden absolute right-0 top-full mt-2 w-72 rounded-2xl glass-panel border border-primary/20 shadow-[0_8px_32px_rgba(0,0,0,0.5)] z-50 overflow-hidden">
             <div class="p-4 border-b border-border-color flex items-center gap-3">
               <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30 shrink-0">
-                <img id="app-dd-avatar-img" src="" alt="" class="w-full h-full object-cover hidden" />
+                <img id="app-dd-avatar-img" src="" alt="Avatar do usuário" class="w-full h-full object-cover hidden" />
                 <span id="app-dd-avatar-initials" class="text-xs font-bold text-primary"></span>
               </div>
               <div class="flex-1 min-w-0">
@@ -230,6 +230,7 @@ const techDB = technologies.map(t => ({
                         <span class="material-symbols-outlined absolute left-4 text-slate-500 text-lg pointer-events-none">search</span>
                         <input
                           type="text"
+                          aria-label={`Buscar ${q.name === 'frontend' ? 'framework frontend' : q.name === 'backend' ? 'tecnologia backend' : q.name === 'database' ? 'banco de dados' : 'plataforma de infra'}`}
                           class="tech-search-input w-full pl-11 pr-4 py-3 rounded-xl glass-panel text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
                           placeholder={`Buscar ${q.name === 'frontend' ? 'framework frontend' : q.name === 'backend' ? 'tecnologia backend' : q.name === 'database' ? 'banco de dados' : 'plataforma de infra'} no banco...`}
                           data-for={q.name}
@@ -299,6 +300,7 @@ const techDB = technologies.map(t => ({
                         <input
                           type="text"
                           id="mcp-search-input"
+                          aria-label="Buscar MCP"
                           class="w-full pl-11 pr-4 py-3 rounded-xl glass-panel text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all"
                           placeholder="Buscar MCPs na biblioteca..."
                           autocomplete="off"
@@ -316,6 +318,7 @@ const techDB = technologies.map(t => ({
                         <input
                           type="text"
                           id="mcp-custom-input"
+                          aria-label="MCP personalizado"
                           class="flex-1 px-4 py-3 rounded-xl glass-panel text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-cta/50 focus:ring-1 focus:ring-cta/50 transition-all border-cta/20"
                           placeholder="Nome do MCP personalizado (ex: slack-mcp, notion-mcp...)"
                           autocomplete="off"
@@ -344,7 +347,7 @@ const techDB = technologies.map(t => ({
                           <div class="flex items-start justify-between gap-2">
                             <div class="size-10 rounded-xl bg-primary/10 group-[.peer:checked+&]:bg-primary transition-colors shrink-0 overflow-hidden relative flex items-center justify-center">
                               {optionLogoMap[opt.value] ? (
-                                <img src={optionLogoMap[opt.value]} alt={opt.label} class="w-6 h-6 object-contain" />
+                                <img src={optionLogoMap[opt.value]} alt={opt.label} class="w-6 h-6 object-contain" width="24" height="24" />
                               ) : (
                                 <span class="material-symbols-outlined text-primary group-[.peer:checked+&]:text-background-dark text-xl">{opt.icon}</span>
                               )}
@@ -579,7 +582,7 @@ const techDB = technologies.map(t => ({
               <div id="save-project-expanded" class="hidden mt-3 space-y-3">
                 <textarea id="save-project-desc" aria-label="Descrição do projeto" placeholder="Descricao breve (opcional)" maxlength="500" rows="2" class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-white text-sm placeholder:text-slate-600 focus:border-primary/40 focus:outline-none transition-all resize-none"></textarea>
                 <div id="save-image-preview-wrap" class="hidden flex items-center gap-3">
-                  <img id="save-project-preview" class="h-16 w-24 rounded-lg object-cover border border-white/[0.08]" />
+                  <img id="save-project-preview" alt="Preview do projeto" class="h-16 w-24 rounded-lg object-cover border border-white/[0.08]" />
                   <button type="button" id="save-remove-image" class="text-[10px] text-red-400 hover:text-red-300 transition-colors">Remover</button>
                 </div>
               </div>
@@ -797,7 +800,7 @@ const techDB = technologies.map(t => ({
         <div class="px-6 py-5 border-b border-white/5 flex items-center justify-between shrink-0 bg-surface-dark/50">
            <div class="flex items-center gap-4">
               <div class="size-12 rounded-xl bg-black/50 border border-white/5 flex items-center justify-center overflow-hidden p-2 shadow-inner" id="modal-logo-container">
-                 <img id="modal-tech-logo" src="" alt="" class="w-full h-full object-contain" />
+                 <img id="modal-tech-logo" src="" alt="Logo da tecnologia" class="w-full h-full object-contain" />
               </div>
               <div>
                  <h3 id="modal-tech-name" class="font-display font-bold text-xl text-white tracking-tight leading-none mb-1">Tecnologia</h3>
