@@ -5,7 +5,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="CyberDyne v7.0 | Scanner de Seguranca Ofensiva" description="113+ verificacoes automaticas de seguranca. XSS, SQLi, IDOR, JWT, SSRF. Um comando. Zero desculpas.">
 
-<div id="main-content" class="cyberdyne-section bg-[#080808] text-white min-h-screen">
+<main id="main-content" class="cyberdyne-section bg-[#080808] text-white min-h-screen">
 
   <!-- ═══════════════ HEADER ═══════════════ -->
   <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#080808]/80 border-b border-red-500/10 px-4 py-3 sm:px-6 sm:py-4 md:px-8 lg:px-24">
@@ -19,7 +19,7 @@ import Layout from '../layouts/Layout.astro';
         <a class="text-slate-300 hover:text-red-400 transition-colors text-sm font-medium tracking-wide" href="#checks">Verificacoes</a>
         <a class="text-slate-300 hover:text-red-400 transition-colors text-sm font-medium tracking-wide" href="#recon">Recon</a>
         <a class="text-slate-300 hover:text-red-400 transition-colors text-sm font-medium tracking-wide" href="#how">Como Funciona</a>
-        <a class="text-primary hover:text-secondary transition-colors text-sm font-medium tracking-wide" href="/">BuildCode</a>
+        <a class="text-[#5A9DB5] hover:text-secondary transition-colors text-sm font-medium tracking-wide" href="/">BuildCode</a>
       </nav>
       <div class="flex items-center gap-2 sm:gap-3 shrink-0">
         <a href="https://github.com/yamotoz/CyberDyne" target="_blank" rel="noopener noreferrer" class="flex cursor-pointer items-center justify-center rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors px-4 sm:px-6 py-2 text-xs sm:text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(220,38,38,0.3)] whitespace-nowrap">
@@ -53,9 +53,9 @@ import Layout from '../layouts/Layout.astro';
         CyberDyne v7.0 // Offensive Security Scanner
       </div>
 
-      <h1 class="cd-fade-up text-4xl md:text-6xl lg:text-[5.5rem] font-black leading-[0.92] mb-8 tracking-tighter" style="animation-delay: 0.1s">
+      <h1 class="cd-fade-up text-4xl md:text-6xl lg:text-[5.5rem] font-black leading-[0.92] mb-8 tracking-tighter" style="animation-delay: 0.1s; text-shadow: 0 2px 20px rgba(0,0,0,0.8)">
         O Codigo Que Voce Nao Testou<br>
-        <span class="text-red-500">E o Ataque Que Voce Nao Viu Vir.</span>
+        <span class="text-red-400" style="text-shadow: 0 2px 20px rgba(0,0,0,0.9)">E o Ataque Que Voce Nao Viu Vir.</span>
       </h1>
 
       <p class="cd-fade-up text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed" style="animation-delay: 0.2s">
@@ -108,9 +108,9 @@ import Layout from '../layouts/Layout.astro';
   <!-- ═══════════════ THE PROBLEM ═══════════════ -->
   <section class="px-6 py-24 md:px-12 lg:px-24">
     <div class="max-w-[1200px] mx-auto">
-      <h2 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight" style="text-shadow: 0 2px 20px rgba(0,0,0,0.8)">
         Voce Confia no Seu Codigo.<br>
-        <span class="text-red-500">Mas Ele Nao Merece Essa Confiança.</span>
+        <span class="text-red-400" style="text-shadow: 0 2px 20px rgba(0,0,0,0.9)">Mas Ele Nao Merece Essa Confiança.</span>
       </h2>
       <p class="text-slate-400 text-center max-w-xl mx-auto mb-4">Esses numeros nao mentem. E o atacante tambem nao.</p>
       <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-red-500/40 to-transparent mx-auto mb-16"></div>
@@ -331,7 +331,7 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </footer>
 
-</div>
+</main>
 
 <!-- ═══════════════ STYLES ═══════════════ -->
 <style>

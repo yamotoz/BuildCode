@@ -33,7 +33,7 @@ export const prerender = false;
 
     <!-- Not authenticated -->
     <div id="profile-unauth" class="hidden flex-col items-center justify-center py-32 text-center">
-      <span class="material-symbols-outlined text-6xl text-slate-600 mb-4">lock</span>
+      <span class="material-symbols-outlined text-6xl text-slate-400 mb-4">lock</span>
       <h2 class="text-2xl font-bold text-white mb-2" data-i18n="perfil.unauth.title">Acesso necessário</h2>
       <p class="text-slate-400 mb-6" data-i18n="perfil.unauth.desc">Faça login para acessar seu perfil.</p>
       <a href="/login" class="px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary-dark transition-colors" data-i18n="perfil.unauth.login">Fazer Login</a>
@@ -102,12 +102,12 @@ export const prerender = false;
 
             <div class="space-y-4">
               <div>
-                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 block" data-i18n="perfil.nome">Nome completo</label>
+                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1.5 block" data-i18n="perfil.nome">Nome completo</label>
                 <input id="input-name" type="text" aria-label="Nome completo" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" placeholder="Seu nome" />
               </div>
 
               <div>
-                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 block">E-mail</label>
+                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1.5 block">E-mail</label>
                 <input id="input-email" type="email" disabled aria-label="E-mail" class="w-full rounded-xl border border-border-color bg-surface-dark/30 px-4 py-3 text-sm text-slate-500 cursor-not-allowed" />
               </div>
 
@@ -128,7 +128,7 @@ export const prerender = false;
             <div class="space-y-5">
               <!-- Seniority -->
               <div>
-                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-2 block" data-i18n="perfil.senioridade">Senioridade</label>
+                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-2 block" data-i18n="perfil.senioridade">Senioridade</label>
                 <div class="grid grid-cols-3 gap-2">
                   <button data-seniority="junior" class="seniority-btn py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer border text-center">Junior</button>
                   <button data-seniority="pleno" class="seniority-btn py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer border text-center">Pleno</button>
@@ -138,7 +138,7 @@ export const prerender = false;
 
               <!-- Theme -->
               <div>
-                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-2 block" data-i18n="perfil.tema">Tema</label>
+                <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-2 block" data-i18n="perfil.tema">Tema</label>
                 <div class="grid grid-cols-2 gap-2">
                   <button data-theme="dark" class="theme-btn py-3 rounded-xl text-sm font-bold transition-all cursor-pointer border flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined text-sm">dark_mode</span> <span data-i18n="perfil.tema.escuro">Escuro</span>
@@ -152,9 +152,9 @@ export const prerender = false;
               <!-- Language -->
               <div>
                 <div class="flex items-center gap-1.5 mb-2">
-                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500" data-i18n="perfil.idioma">Idioma</label>
+                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300" data-i18n="perfil.idioma">Idioma</label>
                   <div class="relative group/tip">
-                    <span class="material-symbols-outlined text-slate-600 text-xs cursor-help">info</span>
+                    <span class="material-symbols-outlined text-slate-400 text-xs cursor-help">info</span>
                     <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 p-2.5 rounded-lg text-[11px] text-slate-300 leading-relaxed opacity-0 invisible group-hover/tip:opacity-100 group-hover/tip:visible transition-all z-20 pointer-events-none" style="background: #1a1a1a; border: 1px solid #2A3135;">
                       <span data-i18n="perfil.idioma.tooltip">Este idioma será usado na interface do sistema. O idioma do prompt gerado é configurado separadamente no wizard.</span>
                       <div class="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 rotate-45" style="background: #1a1a1a; border-right: 1px solid #2A3135; border-bottom: 1px solid #2A3135;"></div>
@@ -192,7 +192,7 @@ export const prerender = false;
           <!-- Plan card -->
           <div class="relative z-10 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style="background: rgba(46,116,139,0.06); border: 1px solid rgba(46,116,139,0.15);">
             <div>
-              <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1" data-i18n="perfil.uso.plano">Plano Atual</p>
+              <p class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1" data-i18n="perfil.uso.plano">Plano Atual</p>
               <div class="flex items-center gap-2">
                 <span id="usage-plan-name" class="text-xl font-bold text-white">Explorador</span>
                 <span id="usage-plan-badge" class="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">Free</span>
@@ -206,7 +206,7 @@ export const prerender = false;
                   <option value="arquiteto">Arquiteto</option>
                   <option value="vip">⬡ VIP</option>
                 </select>
-                <button id="master-plan-apply" class="text-[10px] px-3 py-1.5 rounded-lg bg-cta/20 text-cta border border-cta/30 font-bold hover:bg-cta/30 transition-all cursor-pointer">Trocar</button>
+                <button id="master-plan-apply" class="text-[10px] px-3 py-1.5 rounded-lg bg-cta/20 text-cta-light border border-cta/30 font-bold hover:bg-cta/30 transition-all cursor-pointer text-amber-300">Trocar</button>
                 <button id="master-credits-reset" class="text-[10px] px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold hover:bg-emerald-500/30 transition-all cursor-pointer">Resetar Créditos</button>
               </div>
             </div>
@@ -781,16 +781,16 @@ export const prerender = false;
             <h3 class="text-lg font-bold text-white">Alterar Senha</h3>
           </div>
           <div>
-            <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 block">Senha atual</label>
+            <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1.5 block">Senha atual</label>
             <input id="input-current-password" type="password" aria-label="Senha atual" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" placeholder="Sua senha atual" />
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 block">Nova senha</label>
+              <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1.5 block">Nova senha</label>
               <input id="input-new-password" type="password" aria-label="Nova senha" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" placeholder="Mínimo 6 caracteres" minlength="6" />
             </div>
             <div>
-              <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 block">Confirmar nova senha</label>
+              <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1.5 block">Confirmar nova senha</label>
               <input id="input-confirm-password" type="password" aria-label="Confirmar nova senha" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" placeholder="Repita a senha" minlength="6" />
             </div>
           </div>
@@ -842,22 +842,22 @@ export const prerender = false;
               <h4 class="text-sm font-bold text-purple-300">Novo Usuário</h4>
               <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                 <div>
-                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Nome</label>
+                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1 block">Nome</label>
                   <input id="new-user-name" type="text" aria-label="Nome do novo usuário" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2.5 text-sm text-white focus:border-purple-500/60 outline-none transition-all" placeholder="Nome completo" />
                 </div>
                 <div>
-                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">E-mail</label>
+                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1 block">E-mail</label>
                   <input id="new-user-email" type="email" aria-label="E-mail do novo usuário" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2.5 text-sm text-white focus:border-purple-500/60 outline-none transition-all" placeholder="email@exemplo.com" />
                 </div>
                 <div>
-                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Cargo</label>
+                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1 block">Cargo</label>
                   <select id="new-user-role" aria-label="Cargo do novo usuário" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2.5 text-sm text-white focus:border-purple-500/60 outline-none transition-all">
                     <option value="user">Usuário</option>
                     <option value="admin">Administrador</option>
                   </select>
                 </div>
                 <div>
-                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Plano</label>
+                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1 block">Plano</label>
                   <select id="new-user-plan" aria-label="Plano do novo usuário" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2.5 text-sm text-white focus:border-purple-500/60 outline-none transition-all">
                     <option value="explorador">Explorador (Grátis)</option>
                     <option value="consultor">Consultor (R$35/mês)</option>
@@ -869,11 +869,11 @@ export const prerender = false;
               <!-- Senha -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                 <div>
-                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Senha</label>
+                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1 block">Senha</label>
                   <input id="new-user-password" type="password" aria-label="Senha do novo usuário" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2.5 text-sm text-white focus:border-purple-500/60 outline-none transition-all" placeholder="Mínimo 6 caracteres" minlength="6" />
                 </div>
                 <div>
-                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Confirmar Senha</label>
+                  <label class="text-[10px] uppercase tracking-widest font-bold text-slate-300 mb-1 block">Confirmar Senha</label>
                   <input id="new-user-password-confirm" type="password" aria-label="Confirmar senha do novo usuário" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2.5 text-sm text-white focus:border-purple-500/60 outline-none transition-all" placeholder="Repita a senha" minlength="6" />
                 </div>
               </div>
