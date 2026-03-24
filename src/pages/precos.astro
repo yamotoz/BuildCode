@@ -5,7 +5,7 @@ import Header from '../components/Header.astro';
 ---
 
 <Layout
-  title="Precos e Planos - BuildCode | Explorador, Consultor e Arquiteto"
+  title="Planos e Precos - BuildCode | Compare e Assine"
   description="Escolha o plano ideal para seu projeto. Explorador gratuito, Consultor R$35/mes e Arquiteto R$50/mes. 9 modelos de IA, exportacao em Markdown, PDF e DOCX."
   canonicalPath="/precos"
   jsonLd={{
@@ -32,13 +32,13 @@ import Header from '../components/Header.astro';
       <div class="inline-flex items-center gap-3 rounded-full border border-border-color bg-surface-dark p-1.5">
         <label class="cursor-pointer">
           <input type="radio" name="billing-cycle" value="monthly" checked class="sr-only peer" aria-label="Cobrança mensal" />
-          <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-white transition-all" data-i18n="precos.billing.monthly">
+          <span class="peer-checked:bg-primary peer-checked:text-white px-5 py-2 rounded-full text-sm font-semibold text-white transition-all" data-i18n="precos.billing.monthly">
             Mensal
           </span>
         </label>
         <label class="cursor-pointer">
           <input type="radio" name="billing-cycle" value="yearly" class="sr-only peer" aria-label="Cobrança anual" />
-          <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-white transition-all">
+          <span class="peer-checked:bg-primary peer-checked:text-white px-5 py-2 rounded-full text-sm font-semibold text-white transition-all">
             <span data-i18n="precos.billing.yearly">Anual</span> <span class="text-xs opacity-80" data-i18n="precos.billing.discount">(-20%)</span>
           </span>
         </label>
