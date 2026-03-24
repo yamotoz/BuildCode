@@ -23,11 +23,11 @@
       </button>
 
       <!-- Login button (visible when NOT authenticated) -->
-      <a id="header-login-btn" href="/login" class="hidden lg:flex cursor-pointer items-center justify-center rounded-full border border-primary/40 px-4 py-2 text-secondary hover:bg-primary/10 transition-colors text-sm font-semibold tracking-wide focus:outline-none focus:ring-2 focus:ring-primary">
+      <a id="header-login-btn" href="/login" class="hidden lg:flex cursor-pointer items-center justify-center rounded-full border border-primary/40 px-4 py-2.5 min-h-[44px] text-secondary hover:bg-primary/10 transition-colors text-sm font-semibold tracking-wide focus:outline-none focus:ring-2 focus:ring-primary">
           <span data-i18n="nav.login">Login</span>
       </a>
 
-      <a href="/app" class="flex cursor-pointer items-center justify-center rounded-full bg-primary text-background-dark hover:bg-white transition-colors px-4 sm:px-6 py-2 text-xs sm:text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(179,218,242,0.3)] focus:outline-none focus:ring-2 focus:ring-white whitespace-nowrap">
+      <a href="/app" class="flex cursor-pointer items-center justify-center rounded-full bg-primary text-white hover:bg-white hover:text-background-dark transition-colors px-4 sm:px-6 py-2.5 text-xs sm:text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(179,218,242,0.3)] focus:outline-none focus:ring-2 focus:ring-white whitespace-nowrap min-h-[44px]">
           <span data-i18n="nav.acessar">Acessar Sistema</span>
       </a>
 
@@ -36,7 +36,7 @@
         <button id="header-user-pill" type="button" class="flex items-center gap-2 cursor-pointer rounded-full border border-primary/20 pl-2.5 pr-1.5 py-1.5 hover:bg-primary/5 hover:border-primary/40 transition-all">
           <span id="header-user-name" class="text-xs sm:text-sm font-medium text-white max-w-[80px] sm:max-w-[120px] truncate"></span>
           <div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30 shrink-0">
-            <img id="header-avatar-img" src="" alt="" class="w-full h-full object-cover hidden" />
+            <img id="header-avatar-img" src="" alt="" class="w-full h-full object-cover hidden" width="32" height="32" />
             <span id="header-avatar-initials" class="text-[10px] font-bold text-primary"></span>
           </div>
         </button>
@@ -62,7 +62,7 @@
       </div>
 
       <!-- Mobile hamburger menu button -->
-      <button id="mobile-menu-btn" type="button" class="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] transition-all cursor-pointer" aria-label="Menu">
+      <button id="mobile-menu-btn" type="button" class="lg:hidden flex items-center justify-center w-11 h-11 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] transition-all cursor-pointer" aria-label="Menu">
         <span id="mobile-menu-icon" class="material-symbols-outlined text-xl text-slate-300">menu</span>
       </button>
     </div>

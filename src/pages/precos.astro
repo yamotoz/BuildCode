@@ -31,13 +31,13 @@ import Header from '../components/Header.astro';
       <!-- Billing Toggle -->
       <div class="inline-flex items-center gap-3 rounded-full border border-border-color bg-surface-dark p-1.5">
         <label class="cursor-pointer">
-          <input type="radio" name="billing-cycle" value="monthly" checked class="sr-only peer" />
+          <input type="radio" name="billing-cycle" value="monthly" checked class="sr-only peer" aria-label="Cobrança mensal" />
           <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-slate-400 transition-all" data-i18n="precos.billing.monthly">
             Mensal
           </span>
         </label>
         <label class="cursor-pointer">
-          <input type="radio" name="billing-cycle" value="yearly" class="sr-only peer" />
+          <input type="radio" name="billing-cycle" value="yearly" class="sr-only peer" aria-label="Cobrança anual" />
           <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-slate-400 transition-all">
             <span data-i18n="precos.billing.yearly">Anual</span> <span class="text-xs opacity-80" data-i18n="precos.billing.discount">(-20%)</span>
           </span>
@@ -417,7 +417,7 @@ import Header from '../components/Header.astro';
               </div>
               <span class="text-sm font-bold text-emerald-400" id="custom-eco-count">0</span>
             </div>
-            <input type="range" id="custom-eco" min="0" max="500" step="10" value="0" class="recharge-slider w-full accent-emerald-400" />
+            <input type="range" id="custom-eco" min="0" max="500" step="10" value="0" aria-label="Quantidade de créditos econômicos" class="recharge-slider w-full accent-emerald-400" />
             <p class="text-[10px] text-slate-600 mt-1">R$ 0,055 cada</p>
           </div>
           <!-- Médias slider -->
@@ -429,7 +429,7 @@ import Header from '../components/Header.astro';
               </div>
               <span class="text-sm font-bold text-amber-400" id="custom-mid-count">0</span>
             </div>
-            <input type="range" id="custom-mid" min="0" max="200" step="5" value="0" class="recharge-slider w-full accent-amber-400" />
+            <input type="range" id="custom-mid" min="0" max="200" step="5" value="0" aria-label="Quantidade de créditos médios" class="recharge-slider w-full accent-amber-400" />
             <p class="text-[10px] text-slate-600 mt-1">R$ 0,55 cada</p>
           </div>
           <!-- Elite slider -->
@@ -441,7 +441,7 @@ import Header from '../components/Header.astro';
               </div>
               <span class="text-sm font-bold text-purple-400" id="custom-elite-count">0</span>
             </div>
-            <input type="range" id="custom-elite" min="0" max="50" step="1" value="0" class="recharge-slider w-full accent-purple-400" />
+            <input type="range" id="custom-elite" min="0" max="50" step="1" value="0" aria-label="Quantidade de créditos elite" class="recharge-slider w-full accent-purple-400" />
             <p class="text-[10px] text-slate-600 mt-1">R$ 3,85 cada</p>
           </div>
         </div>
@@ -526,7 +526,7 @@ import Header from '../components/Header.astro';
           </div>
         </div>
         <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 block">CPF <span class="normal-case font-normal text-red-500">*obrigatório</span></label>
-        <input id="recharge-cpf-input" type="text" maxlength="14" placeholder="000.000.000-00" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-purple-500/60 focus:ring-1 focus:ring-purple-500/40 outline-none transition-all mb-1" />
+        <input id="recharge-cpf-input" type="text" maxlength="14" aria-label="CPF para recarga" placeholder="000.000.000-00" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-purple-500/60 focus:ring-1 focus:ring-purple-500/40 outline-none transition-all mb-1" />
         <p class="text-[10px] text-slate-600 mb-6">Exigido pela operadora de pagamento</p>
         <div id="recharge-cpf-msg" class="hidden rounded-xl px-4 py-3 text-sm font-medium mb-4"></div>
         <button id="btn-recharge-pay" class="w-full py-3.5 rounded-2xl font-bold text-sm transition-all cursor-pointer flex items-center justify-center gap-2" style="background:linear-gradient(135deg,#A855F7,#7C3AED);color:#fff;box-shadow:0 0 20px rgba(168,85,247,0.25);">
@@ -590,7 +590,7 @@ import Header from '../components/Header.astro';
               <p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-3">Ciclo de cobrança</p>
               <div class="grid grid-cols-2 gap-2">
                 <label id="cycle-monthly-label" class="cursor-pointer">
-                  <input type="radio" name="modal-billing" value="monthly" checked class="sr-only peer" />
+                  <input type="radio" name="modal-billing" value="monthly" checked class="sr-only peer" aria-label="Ciclo mensal" />
                   <div class="peer-checked:border-primary/60 peer-checked:bg-primary/10 rounded-xl border border-border-color p-3 text-center transition-all hover:border-primary/30">
                     <p class="text-xs font-bold text-white">Mensal</p>
                     <p id="modal-price-monthly" class="text-lg font-bold text-primary mt-0.5"></p>
@@ -598,7 +598,7 @@ import Header from '../components/Header.astro';
                   </div>
                 </label>
                 <label id="cycle-yearly-label" class="cursor-pointer">
-                  <input type="radio" name="modal-billing" value="yearly" class="sr-only peer" />
+                  <input type="radio" name="modal-billing" value="yearly" class="sr-only peer" aria-label="Ciclo anual" />
                   <div class="peer-checked:border-emerald-500/60 peer-checked:bg-emerald-500/10 rounded-xl border border-border-color p-3 text-center transition-all hover:border-emerald-500/30 relative overflow-hidden">
                     <span class="absolute top-1.5 right-1.5 text-[8px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full font-bold">-20%</span>
                     <p class="text-xs font-bold text-white">Anual</p>
@@ -617,7 +617,7 @@ import Header from '../components/Header.astro';
             <!-- CPF (obrigatório) -->
             <div>
               <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 block">CPF <span class="normal-case font-normal text-red-500">*obrigatório</span></label>
-              <input id="checkout-cpf" type="text" maxlength="14" placeholder="000.000.000-00" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" />
+              <input id="checkout-cpf" type="text" maxlength="14" aria-label="CPF para checkout" placeholder="000.000.000-00" class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-3 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" />
               <p class="text-[10px] text-slate-600 mt-1">Exigido pela operadora de pagamento</p>
             </div>
 

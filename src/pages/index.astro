@@ -59,7 +59,7 @@ import Footer from '../components/Footer.astro';
   <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
     <Header />
 
-    <main class="flex-1 flex flex-col items-center w-full">
+    <main id="main-content" class="flex-1 flex flex-col items-center w-full">
 
       <!-- ═══════════════════════════════════════════════════════
            SEÇÃO 1 — HERO
@@ -231,21 +231,21 @@ import Footer from '../components/Footer.astro';
               <div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                 <span class="material-symbols-outlined text-red-400 text-2xl mt-0.5 shrink-0">dangerous</span>
                 <div>
-                  <h4 class="text-white font-bold" data-i18n="lp.realidade.item1.title">Código sem contexto de segurança</h4>
+                  <h3 class="text-white font-bold" data-i18n="lp.realidade.item1.title">Código sem contexto de segurança</h3>
                   <p class="text-slate-400 text-sm mt-1" data-i18n="lp.realidade.item1.desc">Uma API sem rate limiting, um form sem sanitização, um JWT sem expiração. Erros que uma IA gera em 2 segundos e que um hacker explora em menos.</p>
                 </div>
               </div>
               <div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                 <span class="material-symbols-outlined text-red-400 text-2xl mt-0.5 shrink-0">dangerous</span>
                 <div>
-                  <h4 class="text-white font-bold" data-i18n="lp.realidade.item2.title">Arquiteturas que não sobrevivem à escala</h4>
+                  <h3 class="text-white font-bold" data-i18n="lp.realidade.item2.title">Arquiteturas que não sobrevivem à escala</h3>
                   <p class="text-slate-400 text-sm mt-1" data-i18n="lp.realidade.item2.desc">Monolitos acoplados, banco de dados sem indexação, zero caching. Funciona com 10 usuários. Com 10.000, colapsa.</p>
                 </div>
               </div>
               <div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                 <span class="material-symbols-outlined text-red-400 text-2xl mt-0.5 shrink-0">dangerous</span>
                 <div>
-                  <h4 class="text-white font-bold" data-i18n="lp.realidade.item3.title">Falsa confiança, prejuízo real</h4>
+                  <h3 class="text-white font-bold" data-i18n="lp.realidade.item3.title">Falsa confiança, prejuízo real</h3>
                   <p class="text-slate-400 text-sm mt-1" data-i18n="lp.realidade.item3.desc">"Tá funcionando" não significa "tá seguro". A diferença entre um software amador e um profissional está no que acontece quando as coisas dão errado.</p>
                 </div>
               </div>
@@ -481,7 +481,7 @@ import Footer from '../components/Footer.astro';
               <div class="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent pointer-events-none"></div>
               <div class="relative glass-panel p-8 rounded-2xl border-l-4 border-l-red-500/60 flex flex-col gap-5 h-full">
                 <div class="flex items-center gap-4">
-                  <img src="/agentes/Thebossicon.png" alt="The Boss" class="size-14 rounded-full object-cover border-2 border-red-500/30" />
+                  <img src="/agentes/Thebossicon.png" alt="The Boss" class="size-14 rounded-full object-cover border-2 border-red-500/30" loading="lazy" width="56" height="56" />
                   <div>
                     <h3 class="font-display text-xl font-black text-white">The Boss</h3>
                     <span class="text-red-400 text-sm font-semibold" data-i18n="lp.agent.boss.role">O Arquiteto Pragmático</span>
@@ -506,7 +506,7 @@ import Footer from '../components/Footer.astro';
               <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent pointer-events-none"></div>
               <div class="relative glass-panel p-8 rounded-2xl border-l-4 border-l-purple-500/60 flex flex-col gap-5 h-full">
                 <div class="flex items-center gap-4">
-                  <img src="/agentes/Azraelicon.png" alt="Azrael" class="size-14 rounded-full object-cover border-2 border-purple-500/30" />
+                  <img src="/agentes/Azraelicon.png" alt="Azrael" class="size-14 rounded-full object-cover border-2 border-purple-500/30" loading="lazy" width="56" height="56" />
                   <div>
                     <h3 class="font-display text-xl font-black text-white">Azrael</h3>
                     <span class="text-purple-400 text-sm font-semibold" data-i18n="lp.agent.azrael.role">O Visionário Obsessivo</span>
@@ -531,7 +531,7 @@ import Footer from '../components/Footer.astro';
               <div class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent pointer-events-none"></div>
               <div class="relative glass-panel p-8 rounded-2xl border-l-4 border-l-green-500/60 flex flex-col gap-5 h-full">
                 <div class="flex items-center gap-4">
-                  <img src="/agentes/Rizlericon.png" alt="Rizler" class="size-14 rounded-full object-cover border-2 border-green-500/30" />
+                  <img src="/agentes/Rizlericon.png" alt="Rizler" class="size-14 rounded-full object-cover border-2 border-green-500/30" loading="lazy" width="56" height="56" />
                   <div>
                     <h3 class="font-display text-xl font-black text-white">Rizler</h3>
                     <span class="text-green-400 text-sm font-semibold" data-i18n="lp.agent.rizler.role">O Fantasma do Red Team</span>
@@ -556,7 +556,7 @@ import Footer from '../components/Footer.astro';
               <div class="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-transparent pointer-events-none"></div>
               <div class="relative glass-panel p-8 rounded-2xl border-l-4 border-l-pink-500/60 flex flex-col gap-5 h-full">
                 <div class="flex items-center gap-4">
-                  <img src="/agentes/Anastasiaicon.png" alt="Anastasia" class="size-14 rounded-full object-cover border-2 border-pink-500/30" />
+                  <img src="/agentes/Anastasiaicon.png" alt="Anastasia" class="size-14 rounded-full object-cover border-2 border-pink-500/30" loading="lazy" width="56" height="56" />
                   <div>
                     <h3 class="font-display text-xl font-black text-white">Anastasia</h3>
                     <span class="text-pink-400 text-sm font-semibold" data-i18n="lp.agent.anastasia.role">A Rainha do Fullstack</span>

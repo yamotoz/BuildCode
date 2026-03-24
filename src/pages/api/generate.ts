@@ -110,6 +110,12 @@ async function callOpenRouter(model: string, systemPrompt: string, userPrompt: s
 }
 
 export const POST: APIRoute = async ({ request }) => {
+  // Rate limiting: 20 requests per minute per IP
+  const { rateLimit, getClientIp } = await import('../../lib/rate-limit');
+  const ip = getClientIp(request);
+  const blocked = rateLimit(`generate:${ip}`, 20, 60_000);
+  if (blocked) return blocked;
+
   // Autenticação
   const authHeader = request.headers.get('authorization');
   if (!authHeader?.startsWith('Bearer ')) {
@@ -259,6 +265,10 @@ export const POST: APIRoute = async ({ request }) => {
     if (logError) {
       console.error('[generate] Erro ao registrar uso:', logError.message);
     }
+
+    // Invalidate usage cache after successful generation
+    const { cacheDel, CACHE_KEYS } = await import('../../lib/redis');
+    await cacheDel(CACHE_KEYS.usage(user.id));
 
     return json({ result, provider: mapping.provider, model: mapping.nativeModel, tier: mapping.tier });
   } catch (err: any) {

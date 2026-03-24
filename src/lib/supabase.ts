@@ -82,8 +82,16 @@ export async function updateProfile(userId: string, updates: Partial<Profile>) {
     .eq('id', userId);
 }
 
+// Upload limits
+const MAX_AVATAR_SIZE = 2 * 1024 * 1024; // 2MB
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+
 export async function uploadAvatar(userId: string, file: File): Promise<string | null> {
-  const ext = file.name.split('.').pop();
+  // Server-side validation (defense in depth — client also validates)
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) return null;
+  if (file.size > MAX_AVATAR_SIZE) return null;
+
+  const ext = file.name.split('.').pop()?.toLowerCase().replace(/[^a-z0-9]/g, '') || 'png';
   const filePath = `${userId}/avatar.${ext}`;
 
   await supabase.storage.from('avatars').remove([filePath]);

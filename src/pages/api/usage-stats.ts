@@ -26,7 +26,18 @@ export const GET: APIRoute = async ({ request }) => {
     });
   }
 
-  // Read usage_logs with service role (bypasses RLS)
+  // Try Redis cache first (TTL 2min — usage changes frequently)
+  const { cacheGet, cacheSet, CACHE_KEYS } = await import('../../lib/redis');
+  const cacheKey = CACHE_KEYS.usage(user.id);
+  const cached = await cacheGet(cacheKey);
+  if (cached) {
+    return new Response(JSON.stringify(cached), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json', 'X-Cache': 'HIT' },
+    });
+  }
+
+  // Cache miss — fetch from Supabase
   const adminClient = createClient(supabaseUrl, serviceRoleKey);
   const { data: logs } = await adminClient
     .from('usage_logs')
@@ -35,15 +46,17 @@ export const GET: APIRoute = async ({ request }) => {
     .order('created_at', { ascending: false })
     .limit(500);
 
-  // Read user_credits with service role
   const { data: credits } = await adminClient
     .from('user_credits')
     .select('*')
     .eq('user_id', user.id)
     .single();
 
-  return new Response(JSON.stringify({ logs: logs || [], credits: credits || null }), {
+  const result = { logs: logs || [], credits: credits || null };
+  await cacheSet(cacheKey, result, 120); // 2 min TTL
+
+  return new Response(JSON.stringify(result), {
     status: 200,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-Cache': 'MISS' },
   });
 };

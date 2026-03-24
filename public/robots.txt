@@ -5,4 +5,15 @@ Disallow: /perfil
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://buildcode.com.br/sitemap-index.xml
+# Internal paths (do not crawl)
+Disallow: /api/admin/config
+Disallow: /api/v1/users
+Disallow: /api/v2/users
+Disallow: /api/debug/
+Disallow: /api/internal/
+Disallow: /dashboard/admin
+Disallow: /wp-admin
+Disallow: /phpmyadmin
+Disallow: /backup/
+
+Sitemap: https://www.thebuildcode.com.br/sitemap-index.xml

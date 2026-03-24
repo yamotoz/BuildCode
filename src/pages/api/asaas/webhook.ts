@@ -29,16 +29,17 @@ const WEBHOOK_TOKEN = import.meta.env.ASAAS_WEBHOOK_TOKEN;
 
 export const POST: APIRoute = async ({ request }) => {
   if (!serviceRoleKey) {
-    return json({ error: 'Server not configured' }, 500);
+    return json({ error: 'Service unavailable' }, 500);
   }
 
-  // Valida token do webhook
-  if (WEBHOOK_TOKEN) {
-    const asaasToken = request.headers.get('asaas-access-token');
-    if (asaasToken !== WEBHOOK_TOKEN) {
-      console.warn('[Asaas Webhook] Invalid token received');
-      return json({ error: 'Unauthorized' }, 401);
-    }
+  // Valida token do webhook — OBRIGATÓRIO
+  if (!WEBHOOK_TOKEN) {
+    console.error('[Asaas Webhook] ASAAS_WEBHOOK_TOKEN not configured');
+    return json({ error: 'Service unavailable' }, 500);
+  }
+  const asaasToken = request.headers.get('asaas-access-token');
+  if (asaasToken !== WEBHOOK_TOKEN) {
+    return json({ error: 'Unauthorized' }, 401);
   }
 
   let body: any;

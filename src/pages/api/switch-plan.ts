@@ -10,7 +10,7 @@ export const POST: APIRoute = async ({ request }) => {
   const json = (data: any, status = 200) =>
     new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
 
-  if (!serviceRoleKey) return json({ error: 'Server misconfigured' }, 500);
+  if (!serviceRoleKey) return json({ error: 'Service unavailable' }, 500);
 
   const authHeader = request.headers.get('authorization');
   if (!authHeader?.startsWith('Bearer ')) return json({ error: 'Unauthorized' }, 401);
@@ -23,23 +23,20 @@ export const POST: APIRoute = async ({ request }) => {
     auth: { autoRefreshToken: false, persistSession: false },
   });
 
-  // [TEST MODE] — qualquer usuário autenticado pode trocar plano
-  // TODO: remover quando integrar pagamento real (Asaas)
-  // const { data: profile } = await adminClient.from('profiles').select('role').eq('id', user.id).single();
-  // if (!profile || profile.role !== 'master') return json({ error: 'Forbidden' }, 403);
+  const { data: callerProfile } = await adminClient.from('profiles').select('role').eq('id', user.id).single();
+  if (!callerProfile || callerProfile.role !== 'master') {
+    return json({ error: 'Forbidden' }, 403);
+  }
 
-  let body: { plan?: string; resetCredits?: boolean };
+  let body: { plan?: string; userId?: string; resetCredits?: boolean };
   try { body = await request.json(); } catch { return json({ error: 'Invalid JSON' }, 400); }
 
-  const { data: callerProfile } = await adminClient.from('profiles').select('role').eq('id', user.id).single();
-  const isMaster = callerProfile?.role === 'master';
-  const validPlans = isMaster
-    ? ['explorador', 'consultor', 'arquiteto', 'vip']
-    : ['explorador', 'consultor', 'arquiteto'];
+  const targetUserId = body.userId || user.id;
+  const validPlans = ['explorador', 'consultor', 'arquiteto', 'vip'];
 
   if (body.plan && validPlans.includes(body.plan)) {
     await adminClient.from('subscriptions').upsert({
-      user_id: user.id,
+      user_id: targetUserId,
       plan: body.plan,
       status: 'active',
       billing_cycle: 'monthly',
@@ -48,10 +45,9 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   if (body.resetCredits) {
-    // Deleta todos os usage_logs do mês atual
     const now = new Date();
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
-    await adminClient.from('usage_logs').delete().eq('user_id', user.id).gte('created_at', monthStart);
+    await adminClient.from('usage_logs').delete().eq('user_id', targetUserId).gte('created_at', monthStart);
   }
 
   return json({ success: true });

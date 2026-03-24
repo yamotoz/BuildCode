@@ -100,7 +100,7 @@ import { technologies } from '../data/technologies';
         <div class="relative w-full max-w-[1600px] mx-auto">
           <div class="rounded-2xl flex items-center px-6 py-4 transition-all bg-surface-dark border border-white/[0.06] focus-within:border-primary/50 focus-within:shadow-[0_0_30px_rgba(46,116,139,0.1)] group">
             <span class="material-symbols-outlined text-primary mr-4 group-focus-within:animate-pulse">search</span>
-            <input id="search-input" class="bg-transparent border-none focus:ring-0 text-white placeholder:text-slate-600 text-lg w-full font-body tracking-wide outline-none focus:outline-none" placeholder="Qual stack ou ferramenta você quer entender hoje?" data-i18n-placeholder="bib.search" type="text" autocomplete="off" spellcheck="false" />
+            <input id="search-input" aria-label="Buscar tecnologias" class="bg-transparent border-none focus:ring-0 text-white placeholder:text-slate-600 text-lg w-full font-body tracking-wide outline-none focus:outline-none" placeholder="Qual stack ou ferramenta você quer entender hoje?" data-i18n-placeholder="bib.search" type="text" autocomplete="off" spellcheck="false" />
             <div class="hidden md:flex items-center gap-1.5 opacity-40 shrink-0 pointer-events-none">
               <kbd class="px-2 py-0.5 rounded bg-surface-light border border-border-color text-[10px] font-mono font-bold text-slate-300">Ctrl</kbd>
               <kbd class="px-2 py-0.5 rounded bg-surface-light border border-border-color text-[10px] font-mono font-bold text-slate-300">K</kbd>
@@ -160,18 +160,19 @@ import { technologies } from '../data/technologies';
     <div id="modal-add-tech" class="hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
       <div class="w-full max-w-lg rounded-2xl border border-border-color bg-[#0e1214] shadow-2xl max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between px-6 py-4 border-b border-border-color">
-          <h3 class="font-display text-lg font-bold text-white">Adicionar Tecnologia</h3>
+          <h3 id="at-modal-title" class="font-display text-lg font-bold text-white">Adicionar Tecnologia</h3>
           <button id="close-add-tech" class="text-slate-500 hover:text-white p-1 cursor-pointer"><span class="material-symbols-outlined">close</span></button>
         </div>
+        <input type="hidden" id="at-edit-id" value="" />
         <div class="p-6 space-y-4">
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Nome *</label>
-              <input id="at-name" type="text" placeholder="React" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+              <input id="at-name" type="text" aria-label="Nome da tecnologia" placeholder="React" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
             </div>
             <div>
               <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Categoria *</label>
-              <select id="at-category" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60">
+              <select id="at-category" aria-label="Categoria" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60">
                 <option value="frontend">Frontend</option><option value="backend">Backend</option>
                 <option value="data">Dados</option><option value="infra">Infra</option>
                 <option value="libs">Bibliotecas</option><option value="devex">DevEx</option>
@@ -182,43 +183,52 @@ import { technologies } from '../data/technologies';
           </div>
           <div>
             <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Tagline *</label>
-            <input id="at-tagline" type="text" placeholder="Biblioteca JavaScript para interfaces" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+            <input id="at-tagline" type="text" aria-label="Tagline" placeholder="Biblioteca JavaScript para interfaces" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
           </div>
           <div>
             <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Descrição *</label>
-            <textarea id="at-description" rows="3" placeholder="Descrição completa..." class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60 resize-none"></textarea>
+            <textarea id="at-description" rows="3" aria-label="Descrição" placeholder="Descrição completa..." class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60 resize-none"></textarea>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Linguagem</label>
-              <input id="at-language" type="text" placeholder="JavaScript" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+              <input id="at-language" type="text" aria-label="Linguagem" placeholder="JavaScript" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
             </div>
             <div>
               <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Role</label>
-              <input id="at-role" type="text" placeholder="UI Library" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+              <input id="at-role" type="text" aria-label="Role" placeholder="UI Library" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
             </div>
           </div>
           <div>
             <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Prós (um por linha)</label>
-            <textarea id="at-pros" rows="2" placeholder="Performance excelente&#10;Comunidade ativa" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60 resize-none"></textarea>
+            <textarea id="at-pros" rows="2" aria-label="Prós" placeholder="Performance excelente&#10;Comunidade ativa" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60 resize-none"></textarea>
           </div>
           <div>
             <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Contras (um por linha)</label>
-            <textarea id="at-cons" rows="2" placeholder="Curva de aprendizado&#10;Bundle size" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60 resize-none"></textarea>
+            <textarea id="at-cons" rows="2" aria-label="Contras" placeholder="Curva de aprendizado&#10;Bundle size" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60 resize-none"></textarea>
+          </div>
+          <!-- Icon selector -->
+          <div>
+            <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-2 block">Ícone do Card</label>
+            <input type="hidden" id="at-icon" value="code" />
+            <div id="icon-grid" class="grid grid-cols-8 gap-1.5 p-2 rounded-xl border border-border-color bg-surface-dark/30 max-h-[120px] overflow-y-auto">
+              <!-- Icons populated by JS below -->
+            </div>
+            <p class="text-[10px] text-slate-600 mt-1">Selecione um ícone ou use a Logo URL abaixo (Logo URL tem prioridade)</p>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Logo URL</label>
-              <input id="at-logo" type="url" placeholder="https://..." class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+              <input id="at-logo" type="url" aria-label="URL do logo" placeholder="https://..." class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
             </div>
             <div>
               <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Website</label>
-              <input id="at-website" type="url" placeholder="https://..." class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+              <input id="at-website" type="url" aria-label="Website" placeholder="https://..." class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
             </div>
           </div>
           <div>
             <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 block">Casos de Uso</label>
-            <input id="at-usecases" type="text" placeholder="SPAs, dashboards, mobile apps" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
+            <input id="at-usecases" type="text" aria-label="Casos de uso" placeholder="SPAs, dashboards, mobile apps" class="w-full rounded-lg border border-border-color bg-surface-dark/50 px-3 py-2 text-sm text-white outline-none focus:border-primary/60" />
           </div>
           <div id="at-msg" class="hidden rounded-lg px-3 py-2 text-sm font-medium"></div>
           <button id="at-submit" class="w-full py-3 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 hover:bg-emerald-500/25 transition-all text-sm font-bold cursor-pointer flex items-center justify-center gap-2">
@@ -496,33 +506,101 @@ import { technologies } from '../data/technologies';
    function addCustomCardToGrid(tech, idx) {
      var grid = document.getElementById('tech-grid');
      var div = document.createElement('div');
-     div.className = 'tech-card p-6 rounded-3xl border border-emerald-500/10 bg-gradient-to-b from-[#0D1117] to-[#0A0C12] group cursor-pointer relative flex flex-col h-[260px] hover:-translate-y-1 hover:border-primary/40 hover:from-[#12161E] hover:to-[#0D1117] transition-all duration-300 hover:shadow-[0_10px_40px_rgba(0,0,0,0.5)]';
+     div.className = 'tech-card p-6 rounded-3xl border border-white/[0.04] bg-gradient-to-b from-[#0D1117] to-[#0A0C12] group cursor-pointer relative flex flex-col h-[260px] hover:-translate-y-1 hover:border-primary/40 hover:from-[#12161E] hover:to-[#0D1117] transition-all duration-300 hover:shadow-[0_10px_40px_rgba(0,0,0,0.5)]';
      div.setAttribute('data-index', 'c' + idx);
      div.setAttribute('data-name', tech.name.toLowerCase());
      div.setAttribute('data-cat', tech.category);
-     div.innerHTML = '<div class="flex items-start justify-between mb-4 gap-3"><div class="size-12 rounded-2xl bg-gradient-to-br from-surface-dark to-black flex items-center justify-center border border-white/10 shrink-0 p-2.5 overflow-hidden">' +
-       (tech.logo ? '<img src="' + esc(tech.logo) + '" alt="' + esc(tech.name) + '" class="w-full h-full object-contain" loading="lazy" />' : '<span class="material-symbols-outlined text-primary text-xl">' + esc(tech.type_icon || 'code') + '</span>') +
-       '</div><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 shrink-0"><span class="material-symbols-outlined text-[10px]">star</span>Custom</span></div>' +
-       '<h3 class="font-display text-[15px] font-extrabold text-white mb-1 tracking-tight leading-snug">' + esc(tech.name) + '</h3>' +
-       '<p class="text-slate-500 text-xs leading-relaxed line-clamp-3 flex-1">' + esc(tech.tagline) + '</p>' +
-       '<div class="flex items-center gap-2 mt-auto pt-3 border-t border-white/[0.03]"><span class="text-[9px] font-bold uppercase tracking-widest text-slate-600">' + esc(tech.category) + '</span></div>';
+     var editBtn = '<button class="cd-card-action cd-edit-tech hidden inline-flex items-center justify-center size-6 rounded-md border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 hover:bg-emerald-500/15 transition-all" title="Editar"><span class="material-symbols-outlined text-xs">edit</span></button>';
+     div.innerHTML =
+       '<div class="flex justify-between items-start mb-6 relative z-10">' +
+         '<div class="size-12 rounded-xl bg-black border border-white/5 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_rgba(46,116,139,0.15)] transition-all overflow-hidden relative">' +
+           (tech.logo ? '<img src="' + esc(tech.logo) + '" alt="' + esc(tech.name) + '" class="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] object-contain" loading="lazy" />' : '<span class="material-symbols-outlined text-primary text-2xl absolute inset-0 flex items-center justify-center">' + esc(tech.type_icon || 'code') + '</span>') +
+         '</div>' +
+         '<div class="flex flex-col items-end gap-1.5">' +
+           (tech.language ? '<span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest px-2 py-1 inline-flex items-center justify-center rounded-lg bg-white/[0.02] border border-white/[0.05] group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/20 transition-all">' + esc(tech.language) + '</span>' : '') +
+           '<div class="flex items-center gap-1">' + editBtn +
+             '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[8px] font-extrabold uppercase tracking-widest border border-emerald-500/20 bg-emerald-500/5 text-emerald-400"><span class="material-symbols-outlined text-[10px]">star</span>Custom</span>' +
+           '</div>' +
+         '</div>' +
+       '</div>' +
+       '<div class="mb-4 relative z-10 flex-1">' +
+         '<div class="flex flex-col gap-1.5 mb-2">' +
+           '<h3 class="font-display text-xl font-bold text-white tracking-tight leading-none group-hover:text-primary transition-colors">' + esc(tech.name) + '</h3>' +
+           '<span class="text-[10px] text-secondary font-bold tracking-widest uppercase">' + esc(tech.tagline) + '</span>' +
+         '</div>' +
+         '<p class="text-slate-400 text-xs leading-relaxed font-body line-clamp-3 mt-3 opacity-80 group-hover:opacity-100 transition-opacity">' + esc(tech.description) + '</p>' +
+       '</div>' +
+       '<div class="mt-auto pt-4 border-t border-white/[0.03] flex items-center justify-between relative z-10">' +
+         '<div class="flex items-center gap-1.5">' +
+           '<span class="w-1.5 h-1.5 rounded-full bg-primary/50 group-hover:bg-cta group-hover:animate-pulse"></span>' +
+           '<span class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter italic">' + esc(tech.role || tech.category) + '</span>' +
+         '</div>' +
+         '<span class="material-symbols-outlined text-sm text-primary opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all">arrow_forward</span>' +
+       '</div>';
      grid.appendChild(div);
+     // Show edit button if user has permission
+     var editBtnEl = div.querySelector('.cd-edit-tech');
+     if (editBtnEl) {
+       if (window.__canEditBib) { editBtnEl.classList.remove('hidden'); editBtnEl.classList.add('inline-flex'); }
+       editBtnEl.addEventListener('click', function(e) {
+         e.stopPropagation();
+         if (window.__openEditTech) window.__openEditTech(tech);
+       });
+     }
+     // Website link — stop propagation
+     var linkEl = div.querySelector('.cd-card-action[href]');
+     if (linkEl) { linkEl.addEventListener('click', function(e) { e.stopPropagation(); }); }
      div.addEventListener('click', function() {
        cards.forEach(function(c) { c.classList.remove('ring-1', 'ring-primary', 'border-transparent', 'shadow-[0_0_30px_rgba(46,116,139,0.15)]'); });
        document.querySelectorAll('.tech-card').forEach(function(c) { c.classList.remove('ring-1', 'ring-primary', 'border-transparent', 'shadow-[0_0_30px_rgba(46,116,139,0.15)]'); });
        div.classList.add('ring-1', 'ring-primary', 'border-transparent', 'shadow-[0_0_30px_rgba(46,116,139,0.15)]');
-       var pros = (tech.pros || []).map(function(p) { return '<li class="flex items-start gap-2"><span class="material-symbols-outlined text-emerald-400 text-sm mt-0.5 shrink-0">check_circle</span><span>' + esc(p) + '</span></li>'; }).join('');
-       var cons = (tech.cons || []).map(function(c) { return '<li class="flex items-start gap-2"><span class="material-symbols-outlined text-red-400 text-sm mt-0.5 shrink-0">cancel</span><span>' + esc(c) + '</span></li>'; }).join('');
-       detailContent.innerHTML = '<div class="flex flex-col items-center mb-8 text-center">' +
-         '<div class="size-24 rounded-[1.5rem] bg-gradient-to-br from-surface-dark to-black flex items-center justify-center border border-white/10 mb-5 shadow-[0_0_40px_rgba(46,116,139,0.08)] relative overflow-hidden p-5">' +
-         (tech.logo ? '<img src="' + esc(tech.logo) + '" class="w-full h-full object-contain relative z-10" />' : '<span class="material-symbols-outlined text-primary text-4xl">' + esc(tech.type_icon || 'code') + '</span>') +
-         '</div><h1 class="font-display text-2xl font-black text-white tracking-tight">' + esc(tech.name) + '</h1>' +
-         '<p class="text-sm text-primary/80 font-medium mt-1">' + esc(tech.role || tech.category) + '</p>' +
-         '<span class="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase border border-emerald-500/20 bg-emerald-500/5 text-emerald-400">Custom</span></div>' +
-         '<p class="text-slate-300 text-sm leading-relaxed mb-6">' + esc(tech.description) + '</p>' +
-         (pros ? '<div class="mb-6"><h3 class="text-[10px] uppercase tracking-[0.2em] font-extrabold text-emerald-400/80 mb-3">Prós</h3><ul class="space-y-2 text-sm text-slate-300">' + pros + '</ul></div>' : '') +
-         (cons ? '<div class="mb-6"><h3 class="text-[10px] uppercase tracking-[0.2em] font-extrabold text-red-400/80 mb-3">Contras</h3><ul class="space-y-2 text-sm text-slate-300">' + cons + '</ul></div>' : '') +
-         (tech.website ? '<a href="' + esc(tech.website) + '" target="_blank" rel="noopener" class="mt-4 flex items-center gap-2 text-primary hover:text-white text-sm transition-colors"><span class="material-symbols-outlined text-base">open_in_new</span>Visitar Website</a>' : '');
+       var pros = (tech.pros || []).map(function(p) {
+         return '<li class="flex gap-3 text-sm text-slate-400 items-start"><span class="material-symbols-outlined text-[#5A9DB5]/80 text-[18px] shrink-0 mt-0.5">done</span><span class="leading-relaxed">' + esc(p) + '</span></li>';
+       }).join('');
+       var cons = (tech.cons || []).map(function(c) {
+         return '<li class="flex gap-3 text-sm text-slate-400 items-start"><span class="material-symbols-outlined text-cta/70 text-[18px] shrink-0 mt-0.5">close</span><span class="leading-relaxed">' + esc(c) + '</span></li>';
+       }).join('');
+       detailContent.innerHTML =
+         '<div class="flex flex-col items-center mb-8 text-center animate-[fadeIn_0.3s_ease-out]">' +
+           '<div class="size-24 rounded-[1.5rem] bg-gradient-to-br from-surface-dark to-black flex items-center justify-center border border-white/10 mb-5 shadow-[0_0_40px_rgba(46,116,139,0.08)] relative overflow-hidden p-5">' +
+             '<div class="absolute inset-0 bg-[#1C4D5E]/5 blur-xl"></div>' +
+             (tech.logo ? '<img src="' + esc(tech.logo) + '" alt="' + esc(tech.name) + '" class="w-full h-full object-contain relative z-10" />' : '<span class="material-symbols-outlined text-5xl text-primary relative z-10">' + esc(tech.type_icon || 'code') + '</span>') +
+           '</div>' +
+           '<h2 class="font-display text-3xl font-extrabold text-white tracking-tight mb-2">' + esc(tech.name) + '</h2>' +
+           (tech.language ? '<span class="px-3 py-1 bg-surface-dark border border-white/10 text-slate-300 text-[9px] rounded-lg font-bold uppercase tracking-[0.2em] shadow-inner mb-2">' + esc(tech.language) + '</span>' : '') +
+           '<span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[9px] rounded-lg font-extrabold uppercase tracking-[0.15em] flex items-center gap-1 mb-2"><span class="material-symbols-outlined text-xs">star</span>Custom</span>' +
+           (tech.website ? '<a href="' + esc(tech.website) + '" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-bold hover:bg-primary hover:text-background-dark transition-all duration-200 group/link"><span class="material-symbols-outlined text-sm group-hover/link:rotate-12 transition-transform">open_in_new</span>Visitar Site Oficial</a>' : '') +
+         '</div>' +
+         '<div class="space-y-8 animate-[fadeIn_0.4s_ease-out]">' +
+           '<section>' +
+             '<div class="flex items-center gap-2 text-primary/90 mb-4 border-b border-white/[0.04] pb-2">' +
+               '<span class="material-symbols-outlined text-base">architecture</span>' +
+               '<h4 class="text-[10px] uppercase font-bold tracking-[0.2em]">Visão Geral</h4>' +
+             '</div>' +
+             '<p class="text-slate-300 text-sm leading-relaxed font-body">' + esc(tech.description) + '</p>' +
+           '</section>' +
+           (pros ? '<section>' +
+             '<div class="flex items-center gap-2 text-[#5A9DB5] mb-4 border-b border-white/[0.04] pb-2">' +
+               '<span class="material-symbols-outlined text-base">check_circle</span>' +
+               '<h4 class="text-[10px] uppercase font-bold tracking-[0.2em]">Vantagens Notáveis</h4>' +
+             '</div>' +
+             '<ul class="space-y-3">' + pros + '</ul>' +
+           '</section>' : '') +
+           (cons ? '<section>' +
+             '<div class="flex items-center gap-2 text-cta mb-4 border-b border-white/[0.04] pb-2">' +
+               '<span class="material-symbols-outlined text-base">warning</span>' +
+               '<h4 class="text-[10px] uppercase font-bold tracking-[0.2em]">Fatores Críticos / Contras</h4>' +
+             '</div>' +
+             '<ul class="space-y-3">' + cons + '</ul>' +
+           '</section>' : '') +
+           (tech.use_cases ? '<section class="p-5 rounded-2xl bg-surface-dark border border-white/5 relative overflow-hidden group/ideal">' +
+             '<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover/ideal:opacity-100 transition-opacity"></div>' +
+             '<h4 class="text-[10px] uppercase font-bold tracking-[0.2em] text-primary mb-3 flex items-center gap-2">' +
+               '<span class="material-symbols-outlined text-sm">stars</span> Cena Ideal' +
+             '</h4>' +
+             '<p class="text-sm text-slate-300 font-medium leading-relaxed relative z-10">' + esc(tech.use_cases) + '</p>' +
+           '</section>' : '') +
+         '</div>';
        sidebar.classList.add('detail-open');
      });
    }
@@ -553,6 +631,75 @@ import { technologies } from '../data/technologies';
      } catch(e) {}
    }
 
+   // ══════════════════════════════════════════
+   // ICON SELECTOR
+   // ══════════════════════════════════════════
+   var ICON_OPTIONS = [
+     'code', 'terminal', 'language', 'api', 'database', 'storage', 'cloud',
+     'dns', 'hub', 'memory', 'smart_toy', 'psychology', 'model_training',
+     'webhook', 'data_object', 'schema', 'integration_instructions', 'deployed_code',
+     'web', 'devices', 'phone_iphone', 'laptop_mac', 'monitor',
+     'palette', 'brush', 'design_services', 'draw', 'format_paint',
+     'security', 'shield', 'lock', 'vpn_key', 'admin_panel_settings',
+     'speed', 'bolt', 'rocket_launch', 'trending_up', 'analytics',
+     'build', 'construction', 'handyman', 'settings', 'tune',
+     'chat', 'forum', 'mail', 'notifications', 'campaign',
+     'folder', 'inventory_2', 'package_2', 'widgets', 'extension',
+     'globe', 'public', 'travel_explore', 'language', 'translate',
+     'science', 'biotech', 'eco', 'water_drop', 'electric_bolt'
+   ];
+
+   var iconGrid = document.getElementById('icon-grid');
+   if (iconGrid) {
+     ICON_OPTIONS.forEach(function(ic) {
+       var btn = document.createElement('button');
+       btn.type = 'button';
+       btn.className = 'flex items-center justify-center size-8 rounded-lg border border-transparent hover:border-primary/40 hover:bg-primary/10 transition-all cursor-pointer text-slate-500 hover:text-primary';
+       btn.setAttribute('data-icon', ic);
+       btn.innerHTML = '<span class="material-symbols-outlined text-base">' + ic + '</span>';
+       btn.addEventListener('click', function() {
+         iconGrid.querySelectorAll('button').forEach(function(b) { b.classList.remove('border-primary/40', 'bg-primary/10', 'text-primary'); b.classList.add('border-transparent', 'text-slate-500'); });
+         btn.classList.add('border-primary/40', 'bg-primary/10', 'text-primary');
+         btn.classList.remove('border-transparent', 'text-slate-500');
+         document.getElementById('at-icon').value = ic;
+       });
+       iconGrid.appendChild(btn);
+     });
+     // Select default 'code'
+     var defaultBtn = iconGrid.querySelector('[data-icon="code"]');
+     if (defaultBtn) { defaultBtn.classList.add('border-primary/40', 'bg-primary/10', 'text-primary'); defaultBtn.classList.remove('border-transparent', 'text-slate-500'); }
+   }
+
+   // ══════════════════════════════════════════
+   // OPEN EDIT MODAL — pre-fills form with tech data
+   // ══════════════════════════════════════════
+   window.__openEditTech = function(tech) {
+     document.getElementById('at-edit-id').value = tech.id;
+     document.getElementById('at-modal-title').textContent = 'Editar Tecnologia';
+     document.getElementById('at-name').value = tech.name || '';
+     document.getElementById('at-category').value = tech.category || 'frontend';
+     document.getElementById('at-tagline').value = tech.tagline || '';
+     document.getElementById('at-description').value = tech.description || '';
+     document.getElementById('at-language').value = tech.language || '';
+     document.getElementById('at-role').value = tech.role || '';
+     document.getElementById('at-pros').value = (tech.pros || []).join('\n');
+     document.getElementById('at-cons').value = (tech.cons || []).join('\n');
+     document.getElementById('at-logo').value = tech.logo || '';
+     document.getElementById('at-website').value = tech.website || '';
+     document.getElementById('at-usecases').value = tech.use_cases || '';
+     document.getElementById('at-icon').value = tech.type_icon || 'code';
+     // Highlight selected icon
+     if (iconGrid) {
+       iconGrid.querySelectorAll('button').forEach(function(b) { b.classList.remove('border-primary/40', 'bg-primary/10', 'text-primary'); b.classList.add('border-transparent', 'text-slate-500'); });
+       var sel = iconGrid.querySelector('[data-icon="' + (tech.type_icon || 'code') + '"]');
+       if (sel) { sel.classList.add('border-primary/40', 'bg-primary/10', 'text-primary'); sel.classList.remove('border-transparent', 'text-slate-500'); }
+     }
+     var submitBtn = document.getElementById('at-submit');
+     if (submitBtn) submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">save</span> Salvar Alterações';
+     var modal = document.getElementById('modal-add-tech');
+     if (modal) modal.classList.remove('hidden');
+   };
+
    loadCustomTechs();
 
    // Modal logic
@@ -562,7 +709,24 @@ import { technologies } from '../data/technologies';
    var submitBtn = document.getElementById('at-submit');
 
    if (addBtn && modal) {
-     addBtn.addEventListener('click', function() { modal.classList.remove('hidden'); });
+     addBtn.addEventListener('click', function() {
+       // Reset to "add" mode
+       document.getElementById('at-edit-id').value = '';
+       document.getElementById('at-modal-title').textContent = 'Adicionar Tecnologia';
+       ['at-name','at-tagline','at-description','at-language','at-role','at-pros','at-cons','at-logo','at-website','at-usecases'].forEach(function(id) { document.getElementById(id).value = ''; });
+       document.getElementById('at-icon').value = 'code';
+       var submitBtnEl = document.getElementById('at-submit');
+       if (submitBtnEl) submitBtnEl.innerHTML = '<span class="material-symbols-outlined text-base">add</span> Adicionar à Biblioteca';
+       // Reset icon selection
+       if (iconGrid) {
+         iconGrid.querySelectorAll('button').forEach(function(b) { b.classList.remove('border-primary/40', 'bg-primary/10', 'text-primary'); b.classList.add('border-transparent', 'text-slate-500'); });
+         var defBtn = iconGrid.querySelector('[data-icon="code"]');
+         if (defBtn) { defBtn.classList.add('border-primary/40', 'bg-primary/10', 'text-primary'); defBtn.classList.remove('border-transparent', 'text-slate-500'); }
+       }
+       var msgEl = document.getElementById('at-msg');
+       if (msgEl) msgEl.classList.add('hidden');
+       modal.classList.remove('hidden');
+     });
      closeModal.addEventListener('click', function() { modal.classList.add('hidden'); });
      modal.addEventListener('click', function(e) { if (e.target === modal) modal.classList.add('hidden'); });
    }
@@ -586,12 +750,7 @@ import { technologies } from '../data/technologies';
        submitBtn.textContent = 'Salvando...';
 
        try {
-         var session = null;
-         try {
-           var sbMod = await import('/src/lib/supabase');
-           var s = await sbMod.supabase.auth.getSession();
-           session = s.data.session;
-         } catch(e) {}
+         var session = window.__bibSession || null;
 
          if (!session) {
            msgEl.className = 'rounded-lg px-3 py-2 text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20';
@@ -602,6 +761,8 @@ import { technologies } from '../data/technologies';
            return;
          }
 
+         var editId = document.getElementById('at-edit-id').value;
+         var isEdit = !!editId;
          var body = {
            name: name,
            category: category,
@@ -614,10 +775,12 @@ import { technologies } from '../data/technologies';
            logo: document.getElementById('at-logo').value.trim(),
            website: document.getElementById('at-website').value.trim(),
            use_cases: document.getElementById('at-usecases').value.trim(),
+           type_icon: document.getElementById('at-icon').value || 'code',
          };
+         if (isEdit) body.id = editId;
 
          var res = await fetch('/api/biblioteca', {
-           method: 'POST',
+           method: isEdit ? 'PUT' : 'POST',
            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
            body: JSON.stringify(body),
          });
@@ -629,15 +792,28 @@ import { technologies } from '../data/technologies';
            msgEl.textContent = result.error || 'Erro ao salvar.';
            msgEl.classList.remove('hidden');
          } else {
-           addCustomCardToGrid(result, customTechs.length);
-           customTechs.push(result);
-           var countEl = document.getElementById('tech-count');
-           if (countEl) countEl.textContent = String(techData.length + customTechs.length);
+           if (isEdit) {
+             // Update in-memory and reload
+             var idx = customTechs.findIndex(function(t) { return t.id === editId; });
+             if (idx >= 0) customTechs[idx] = result;
+             // Reload all custom cards
+             document.querySelectorAll('.tech-card[data-index^="c"]').forEach(function(el) { el.remove(); });
+             customTechs.forEach(function(t, i) { addCustomCardToGrid(t, i); });
+             applyFilters();
+           } else {
+             addCustomCardToGrid(result, customTechs.length);
+             customTechs.push(result);
+             var countEl = document.getElementById('tech-count');
+             if (countEl) countEl.textContent = String(techData.length + customTechs.length);
+           }
            msgEl.className = 'rounded-lg px-3 py-2 text-sm font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
-           msgEl.textContent = 'Tecnologia adicionada com sucesso!';
+           msgEl.textContent = isEdit ? 'Tecnologia atualizada!' : 'Tecnologia adicionada com sucesso!';
            msgEl.classList.remove('hidden');
            // Clear form
            ['at-name','at-tagline','at-description','at-language','at-role','at-pros','at-cons','at-logo','at-website','at-usecases'].forEach(function(id) { document.getElementById(id).value = ''; });
+           document.getElementById('at-edit-id').value = '';
+           document.getElementById('at-icon').value = 'code';
+           document.getElementById('at-modal-title').textContent = 'Adicionar Tecnologia';
            setTimeout(function() { modal.classList.add('hidden'); msgEl.classList.add('hidden'); }, 1500);
          }
        } catch(e) {
@@ -658,10 +834,18 @@ import { technologies } from '../data/technologies';
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
+      (window as any).__bibSession = session;
       const profile = await getProfile(session.user.id);
       if (profile && (profile.role === 'master' || profile.can_edit_biblioteca)) {
         const btn = document.getElementById('btn-add-tech');
         if (btn) { btn.classList.remove('hidden'); btn.classList.add('flex'); }
+        // Show edit buttons on custom cards
+        document.querySelectorAll('.cd-edit-tech').forEach(el => {
+          el.classList.remove('hidden');
+          el.classList.add('inline-flex');
+        });
+        // Store permission flag for dynamically added cards
+        (window as any).__canEditBib = true;
       }
     } catch {}
   }

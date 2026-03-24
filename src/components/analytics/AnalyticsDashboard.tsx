@@ -238,6 +238,7 @@ function AutocompleteInput({ value, onChange, onKeyDown, placeholder, color, lab
           onFocus={() => setOpen(true)}
           onKeyDown={handleInputKeyDown}
           placeholder={placeholder}
+          aria-label={label}
           {...(side === 'B' ? { 'data-i18n-placeholder': 'analytics.inputB.placeholder' } : {})}
         />
       </div>

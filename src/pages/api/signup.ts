@@ -9,6 +9,12 @@ const serviceRoleKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
 export const POST: APIRoute = async ({ request }) => {
   const headers = { 'Content-Type': 'application/json' };
 
+  // Rate limiting: 5 signups per hour per IP
+  const { rateLimit, getClientIp } = await import('../../lib/rate-limit');
+  const ip = getClientIp(request);
+  const blocked = rateLimit(`signup:${ip}`, 5, 60 * 60_000);
+  if (blocked) return blocked;
+
   try {
     const { email, password } = await request.json();
 

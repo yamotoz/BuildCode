@@ -121,6 +121,13 @@ export const PATCH: APIRoute = async ({ request }) => {
   if (!id) return json({ error: 'id obrigatório' }, 400);
 
   const adminClient = createClient(supabaseUrl, serviceRoleKey, { auth: { autoRefreshToken: false, persistSession: false } });
+
+  // Ownership check: only master can edit any post, others only their own
+  if (caller.role !== 'master') {
+    const { data: existing } = await adminClient.from('marketing_posts').select('user_id').eq('id', id).single();
+    if (!existing || existing.user_id !== caller.id) return json({ error: 'Sem permissão para editar este post' }, 403);
+  }
+
   updates.updated_at = new Date().toISOString();
   const { data, error } = await adminClient.from('marketing_posts').update(updates).eq('id', id).select().single();
   if (error) return json({ error: error.message }, 500);
@@ -139,6 +146,13 @@ export const DELETE: APIRoute = async ({ request }) => {
   if (!id) return json({ error: 'id obrigatório' }, 400);
 
   const adminClient = createClient(supabaseUrl, serviceRoleKey, { auth: { autoRefreshToken: false, persistSession: false } });
+
+  // Ownership check
+  if (caller.role !== 'master') {
+    const { data: existing } = await adminClient.from('marketing_posts').select('user_id').eq('id', id).single();
+    if (!existing || existing.user_id !== caller.id) return json({ error: 'Sem permissão para deletar este post' }, 403);
+  }
+
   const { error } = await adminClient.from('marketing_posts').delete().eq('id', id);
   if (error) return json({ error: error.message }, 500);
   return json({ success: true });

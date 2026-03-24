@@ -68,11 +68,15 @@ async function findOrCreateCustomer(name: string, email: string, cpfCnpj?: strin
 }
 
 export const POST: APIRoute = async ({ request }) => {
-  if (!ASAAS_API_KEY) {
-    return json({ error: 'Asaas API key not configured' }, 500);
-  }
-  console.log('[Asaas] Key prefix:', ASAAS_API_KEY.slice(0, 12), '| Length:', ASAAS_API_KEY.length);
+  // Rate limiting: 10 checkout attempts per hour per IP
+  const { rateLimit, getClientIp } = await import('../../../lib/rate-limit');
+  const ip = getClientIp(request);
+  const blocked = rateLimit(`checkout:${ip}`, 10, 60 * 60_000);
+  if (blocked) return blocked;
 
+  if (!ASAAS_API_KEY) {
+    return json({ error: 'Payment gateway not configured' }, 500);
+  }
   // Auth: get current user
   const authHeader = request.headers.get('authorization');
   if (!authHeader?.startsWith('Bearer ')) {

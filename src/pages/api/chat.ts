@@ -19,8 +19,14 @@ Quando o usuario disser que nao tem mais nada a adicionar ou quiser prosseguir c
 Se perguntado sobre algo fora do escopo de dev, redirecione mantendo a personalidade.`;
 
 export const POST: APIRoute = async ({ request }) => {
+  // Rate limiting: 30 messages per minute per IP
+  const { rateLimit, getClientIp } = await import('../../lib/rate-limit');
+  const ip = getClientIp(request);
+  const blocked = rateLimit(`chat:${ip}`, 30, 60_000);
+  if (blocked) return blocked;
+
   if (!OPENAI_API_KEY) {
-    return new Response(JSON.stringify({ error: 'OpenAI API key not configured' }), {
+    return new Response(JSON.stringify({ error: 'Service unavailable' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
@@ -135,6 +141,9 @@ export const POST: APIRoute = async ({ request }) => {
         cost_usd: 0,
       });
       if (logError) console.error('[chat] Erro ao registrar uso:', logError.message);
+      // Invalidate usage cache
+      const { cacheDel, CACHE_KEYS } = await import('../../lib/redis');
+      await cacheDel(CACHE_KEYS.usage(authenticatedUser.id));
     }
 
     return new Response(JSON.stringify({ reply }), {

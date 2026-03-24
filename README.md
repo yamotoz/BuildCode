@@ -6,7 +6,7 @@
 
 # BuildCode
 
-**Plataforma SaaS de arquitetura de software potencializada por IA - Astro SSR + React + Supabase + 9 LLMs**
+**Plataforma SaaS de arquitetura de software potencializada por IA - Astro SSR + React + Supabase + Redis + 9 LLMs**
 
 <br />
 
@@ -50,8 +50,7 @@ O sistema conduz o usuario por um wizard inteligente de 20 etapas cobrindo stack
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=flat-square&logo=framer&logoColor=white)
-![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
-![WebGL](https://img.shields.io/badge/WebGL-990000?style=flat-square&logo=webgl&logoColor=white)
+![Canvas 2D](https://img.shields.io/badge/Canvas_2D-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![Recharts](https://img.shields.io/badge/Recharts-FF6384?style=flat-square&logo=chart.js&logoColor=white)
 ![D3.js](https://img.shields.io/badge/D3.js-F9A03C?style=flat-square&logo=d3dotjs&logoColor=white)
 ![Lucide](https://img.shields.io/badge/Lucide_React-F56565?style=flat-square&logo=lucide&logoColor=white)
@@ -68,6 +67,7 @@ O sistema conduz o usuario por um wizard inteligente de 20 etapas cobrindo stack
 ![OpenRouter](https://img.shields.io/badge/OpenRouter-6366F1?style=flat-square&logoColor=white)
 ![GitHub API](https://img.shields.io/badge/GitHub_API-181717?style=flat-square&logo=github&logoColor=white)
 ![REST API](https://img.shields.io/badge/REST_API-009688?style=flat-square&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)
 ![Asaas](https://img.shields.io/badge/Asaas_Payments-00C853?style=flat-square&logoColor=white)
 ![Markdown](https://img.shields.io/badge/Markdown-000000?style=flat-square&logo=markdown&logoColor=white)
 ![JSON](https://img.shields.io/badge/JSON-000000?style=flat-square&logo=json&logoColor=white)
@@ -93,7 +93,7 @@ O sistema conduz o usuario por um wizard inteligente de 20 etapas cobrindo stack
 | **Tailwind CSS v4** | Framework CSS utility-first com suporte a dark/light mode e CSS layers |
 | **Framer Motion** | Biblioteca de animacoes declarativas para React - transicoes, gestos e layout animations |
 | **Lucide React** | Conjunto de icones SVG otimizados e customizaveis para React |
-| **Three.js** | Biblioteca 3D WebGL - usada para cena de particulas animadas no background |
+| **Canvas 2D** | Particulas animadas no background e graficos de uso - zero dependencias |
 
 ### Graficos & Visualizacao
 
@@ -111,6 +111,7 @@ O sistema conduz o usuario por um wizard inteligente de 20 etapas cobrindo stack
 | **Supabase Storage** | Armazenamento de arquivos e imagens com upload direto do client |
 | **Supabase Realtime** | Subscriptions em tempo real para atualizacoes automaticas na UI |
 | **PostgreSQL** | Banco de dados relacional robusto - base do Supabase |
+| **Redis Cloud** | Cache distribuido (ioredis) - rate limiting, session cache, query caching |
 
 ### Integracoes de IA - 9 Modelos, 3 Provedores
 
@@ -137,7 +138,7 @@ Pro     → GPT-4o, Claude Sonnet, Gemini 1.5 Pro             (maximo detalhe)
 | **Google Gemini API** | Geracao de conteudo via modelos Gemini |
 | **OpenRouter API** | Roteamento unificado para Claude, Llama, Mistral e DeepSeek |
 | **GitHub REST API** | Dados em tempo real - stars, forks, issues, commits, linguagens |
-| **Asaas** | Gateway de pagamentos brasileiro - assinaturas e cobrancas recorrentes |
+| **Asaas** | Gateway de pagamentos brasileiro - assinaturas, recargas e webhooks |
 
 ---
 
@@ -168,27 +169,50 @@ Cada agente possui voz propria via OpenAI TTS e e acessivel por chat flutuante i
 | **Analytics Dashboard** | GitHub API, Recharts - comparacao de tecnologias lado-a-lado |
 | **Painel Administrativo** | Supabase - metricas SaaS (MRR, Churn, ARPU, LTV) |
 | **Biblioteca de 200+ Tecnologias** | 9 categorias: frontend, backend, dados, infra, libs, devex, IA, design, MCP |
-| **Sistema de Planos** | 3 tiers com limites diferenciados e validacao server-side |
+| **Sistema de Planos** | 4 tiers (Explorador, Consultor, Arquiteto, VIP) com validacao server-side |
+| **Recarga Rebelde (Indie Credits)** | Combos e sliders custom via Asaas - creditos avulsos por tier |
 | **Perfil com Avatar** | Supabase Auth + Storage - upload e preview |
+| **Gestao de Usuarios (Master)** | Criar contas, alterar roles/planos, analytics por usuario |
+| **CyberDyne Landing Page** | Landing page cyberpunk para o scanner de seguranca ofensiva |
+| **Agencia de Marketing** | Gerador de posts para TikTok/LinkedIn com IA |
+| **Biblioteca Expandida** | 200+ hardcoded + custom techs (master pode adicionar/editar) |
+| **Cache Redis** | Rate limiting distribuido, cache de queries e usage stats |
 | **Internacionalizacao (i18n)** | 350+ chaves PT-BR e EN com troca instantanea |
 | **Dark/Light Mode** | Tailwind CSS - persistencia e troca dinamica |
-| **Background 3D** | Three.js - sistema de particulas WebGL |
+| **Particulas Canvas 2D** | 120 particulas animadas com linhas de conexao - zero dependencias |
 | **Exportacao** | Markdown, PDF, DOCX - restrito por plano |
+| **Security Hardening** | Honeypots, rate limiting, security headers, SPF/DMARC |
 
 ---
 
 ## Estrutura de Planos
 
-| | Explorador | Consultor | Arquiteto |
-|:---|:---|:---|:---|
-| Projetos | 3 | 15 | Ilimitado |
-| Prompt Base | 10.000 chars | 25.000 chars | 80.000 chars |
-| Modelos LLM | Budget | Budget + Mid | Todos (Budget + Mid + Pro) |
-| Audio TTS | - | Sim | Sim |
-| Exportacao | Copiar | .md | .md, .pdf, .docx |
-| Chat IA | 50/mes | 200/mes | Ilimitado |
+| | Explorador | Consultor (R$35) | Arquiteto (R$50) | VIP |
+|:---|:---|:---|:---|:---|
+| Projetos | 3 | 15 | Ilimitado | Ilimitado |
+| Prompt Base | 10.000 chars | 25.000 chars | 80.000 chars | Ilimitado |
+| Modelos LLM | Budget | Budget + Mid | Todos | Todos |
+| Pro credits | 0 | 20/mes | 50/mes | Ilimitado |
+| Audio TTS | - | Sim | Sim | Sim |
+| Exportacao | Copiar | .md | .md, .pdf, .docx | Todos |
+| Chat IA | 50/mes | 200/mes | Ilimitado | Ilimitado |
+
+> **VIP** e um plano oculto, atribuivel apenas pelo master. Nunca aparece na pagina de precos.
 
 ---
+
+## Seguranca
+
+| Camada | Implementacao |
+|:---|:---|
+| **Auth** | Supabase JWT + Bearer token em toda API route |
+| **RLS** | Row Level Security em todas as tabelas PostgreSQL |
+| **Rate Limiting** | Redis distribuido + fallback in-memory (por IP + endpoint) |
+| **Security Headers** | CSP, X-Frame-Options, HSTS, Referrer-Policy, Permissions-Policy |
+| **Honeypots** | Endpoints falsos (/api/admin/config, /api/v1/users, /api/debug/env, /.env) |
+| **Email Security** | SPF + DMARC configurados no DNS |
+| **Input Sanitization** | XSS prevention via `esc()` + server-side validation |
+| **Webhook Auth** | Token obrigatorio via header `asaas-access-token` |
 
 ## Roadmap
 
