@@ -36,7 +36,7 @@ import Layout from '../layouts/Layout.astro';
       <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-35">
         <source src="img/cyberdyne1.webm" type="video/webm" />
       </video>
-      <div class="absolute inset-0 bg-gradient-to-b from-[#080808]/70 via-[#080808]/40 to-[#080808]"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#080808]/70 via-[#080808]/70 to-[#080808]"></div>
     </div>
     <!-- Red ambient glow -->
     <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-red-600/[0.04] rounded-full blur-[120px] z-[1]"></div>
@@ -81,16 +81,16 @@ import Layout from '../layouts/Layout.astro';
           <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
           <div class="w-3 h-3 rounded-full bg-yellow-500/40"></div>
           <div class="w-3 h-3 rounded-full bg-green-500/40"></div>
-          <span class="ml-2 text-xs text-slate-500 font-mono">cyberdyne@kali:~</span>
+          <span class="ml-2 text-xs text-slate-400 font-mono">cyberdyne@kali:~</span>
         </div>
         <div class="p-5 font-mono text-[13px] leading-relaxed">
-          <p class="text-slate-500">$ python CyberDyneWeb.py --url https://seuapp.com --all</p>
+          <p class="text-slate-400">$ python CyberDyneWeb.py --url https://seuapp.com --all</p>
           <p class="text-slate-400 mt-3"><span class="text-red-400">[*]</span> Iniciando varredura completa...</p>
           <p class="text-slate-400"><span class="text-red-400">[*]</span> 8 modulos carregados: XSS, SQLi, LFI, IDOR, SSRF, JWT, Headers, Recon</p>
           <p class="text-slate-400"><span class="text-green-400">[+]</span> 113 checks ativos // Playwright Chromium pronto</p>
-          <p class="text-slate-400 mt-2"><span class="text-yellow-400">[!]</span> <span class="text-yellow-300">XSS Reflected</span> em /search?q= <span class="text-slate-500">(CVSS 6.1)</span></p>
-          <p class="text-slate-400"><span class="text-yellow-400">[!]</span> <span class="text-red-300">SQL Injection</span> em /api/users?id= <span class="text-slate-500">(CVSS 9.8)</span></p>
-          <p class="text-slate-400"><span class="text-yellow-400">[!]</span> <span class="text-red-300">JWT alg:none bypass</span> em /auth/token <span class="text-slate-500">(CVSS 9.8)</span></p>
+          <p class="text-slate-400 mt-2"><span class="text-yellow-400">[!]</span> <span class="text-yellow-300">XSS Reflected</span> em /search?q= <span class="text-slate-400">(CVSS 6.1)</span></p>
+          <p class="text-slate-400"><span class="text-yellow-400">[!]</span> <span class="text-red-300">SQL Injection</span> em /api/users?id= <span class="text-slate-400">(CVSS 9.8)</span></p>
+          <p class="text-slate-400"><span class="text-yellow-400">[!]</span> <span class="text-red-300">JWT alg:none bypass</span> em /auth/token <span class="text-slate-400">(CVSS 9.8)</span></p>
           <p class="text-red-400 mt-2 font-semibold">[RESULTADO] 3 criticas // 5 altas // 2 medias</p>
           <p class="text-green-400 mt-1">[+] Relatorio salvo: report_cyberdyne_2026.pdf</p>
           <span class="inline-block w-2 h-4 bg-red-500 animate-pulse ml-1"></span>
@@ -99,8 +99,8 @@ import Layout from '../layouts/Layout.astro';
 
       <!-- Scroll indicator -->
       <div class="cd-fade-up mt-12 flex flex-col items-center gap-2 opacity-40" style="animation-delay: 0.6s">
-        <span class="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold">Descubra mais</span>
-        <span class="material-symbols-outlined text-xl text-slate-500 animate-bounce">expand_more</span>
+        <span class="text-[10px] uppercase tracking-[0.3em] text-slate-400 font-bold">Descubra mais</span>
+        <span class="material-symbols-outlined text-xl text-slate-400 animate-bounce">expand_more</span>
       </div>
     </div>
   </section>

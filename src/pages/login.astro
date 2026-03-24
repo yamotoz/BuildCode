@@ -79,7 +79,7 @@ export const prerender = false;
 
           <div class="flex items-center gap-3">
             <div class="h-px flex-1 bg-border-color"></div>
-            <span class="text-xs text-slate-500 uppercase tracking-widest">ou</span>
+            <span class="text-xs text-slate-300 uppercase tracking-widest">ou</span>
             <div class="h-px flex-1 bg-border-color"></div>
           </div>
 
@@ -98,11 +98,11 @@ export const prerender = false;
         <!-- Email Login (hidden by default) -->
         <form id="form-login" class="space-y-5 hidden">
           <div class="relative group">
-            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="login-email">E-mail</label>
+            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-300 group-focus-within:text-primary transition-colors" for="login-email">E-mail</label>
             <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="login-email" placeholder="nome@empresa.com" type="email" required />
           </div>
           <div class="relative group">
-            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="login-password">Senha</label>
+            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-300 group-focus-within:text-primary transition-colors" for="login-password">Senha</label>
             <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 pr-12 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="login-password" placeholder="••••••••" type="password" required />
             <button type="button" class="pw-toggle" data-target="login-password" aria-label="Mostrar senha">
               <span class="material-symbols-outlined text-xl">visibility</span>
@@ -124,11 +124,11 @@ export const prerender = false;
         <!-- Signup Form (hidden by default) -->
         <form id="form-signup" class="space-y-4 hidden">
           <div class="relative group">
-            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="signup-email">E-mail</label>
+            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-300 group-focus-within:text-primary transition-colors" for="signup-email">E-mail</label>
             <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="signup-email" placeholder="seu@email.com" type="email" required />
           </div>
           <div class="relative group">
-            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="signup-password">Senha</label>
+            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-300 group-focus-within:text-primary transition-colors" for="signup-password">Senha</label>
             <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 pr-12 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="signup-password" placeholder="Crie uma senha forte" type="password" required />
             <button type="button" class="pw-toggle" data-target="signup-password" aria-label="Mostrar senha">
               <span class="material-symbols-outlined text-xl">visibility</span>
@@ -144,34 +144,34 @@ export const prerender = false;
             </div>
             <div class="flex items-center justify-between">
               <span id="pw-strength-label" class="text-[11px] font-semibold"></span>
-              <span id="pw-strength-tip" class="text-[10px] text-slate-600"></span>
+              <span id="pw-strength-tip" class="text-[10px] text-slate-400"></span>
             </div>
             <!-- Checklist -->
             <div class="grid grid-cols-2 gap-x-3 gap-y-1 mt-1">
               <div class="flex items-center gap-1.5" id="pw-check-length">
                 <span class="material-symbols-outlined text-[12px] text-slate-700">circle</span>
-                <span class="text-[10px] text-slate-600">8+ caracteres</span>
+                <span class="text-[10px] text-slate-400">8+ caracteres</span>
               </div>
               <div class="flex items-center gap-1.5" id="pw-check-upper">
                 <span class="material-symbols-outlined text-[12px] text-slate-700">circle</span>
-                <span class="text-[10px] text-slate-600">Letra maiuscula</span>
+                <span class="text-[10px] text-slate-400">Letra maiuscula</span>
               </div>
               <div class="flex items-center gap-1.5" id="pw-check-lower">
                 <span class="material-symbols-outlined text-[12px] text-slate-700">circle</span>
-                <span class="text-[10px] text-slate-600">Letra minuscula</span>
+                <span class="text-[10px] text-slate-400">Letra minuscula</span>
               </div>
               <div class="flex items-center gap-1.5" id="pw-check-number">
                 <span class="material-symbols-outlined text-[12px] text-slate-700">circle</span>
-                <span class="text-[10px] text-slate-600">Numero</span>
+                <span class="text-[10px] text-slate-400">Numero</span>
               </div>
               <div class="flex items-center gap-1.5" id="pw-check-symbol">
                 <span class="material-symbols-outlined text-[12px] text-slate-700">circle</span>
-                <span class="text-[10px] text-slate-600">Simbolo (!@#$...)</span>
+                <span class="text-[10px] text-slate-400">Simbolo (!@#$...)</span>
               </div>
             </div>
           </div>
           <div class="relative group">
-            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="signup-confirm">Confirmar Senha</label>
+            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-300 group-focus-within:text-primary transition-colors" for="signup-confirm">Confirmar Senha</label>
             <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 pr-12 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="signup-confirm" placeholder="Repita a senha" type="password" required />
             <button type="button" class="pw-toggle" data-target="signup-confirm" aria-label="Mostrar senha">
               <span class="material-symbols-outlined text-xl">visibility</span>
@@ -196,14 +196,14 @@ export const prerender = false;
             <h3 class="text-lg font-semibold text-white">Definir nova senha</h3>
           </div>
           <div class="relative group">
-            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="recovery-password">Nova senha</label>
+            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-300 group-focus-within:text-primary transition-colors" for="recovery-password">Nova senha</label>
             <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 pr-12 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="recovery-password" placeholder="••••••••" type="password" required minlength="6" />
             <button type="button" class="pw-toggle" data-target="recovery-password" aria-label="Mostrar senha">
               <span class="material-symbols-outlined text-xl">visibility</span>
             </button>
           </div>
           <div class="relative group">
-            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-500 group-focus-within:text-primary transition-colors" for="recovery-confirm">Confirmar senha</label>
+            <label class="absolute -top-2.5 left-4 bg-background-dark px-1 text-xs font-medium text-slate-300 group-focus-within:text-primary transition-colors" for="recovery-confirm">Confirmar senha</label>
             <input class="w-full rounded-xl border border-border-color bg-surface-dark/50 px-4 py-4 pr-12 text-sm text-white focus:border-primary/60 focus:ring-1 focus:ring-primary/40 outline-none transition-all" id="recovery-confirm" placeholder="••••••••" type="password" required minlength="6" />
             <button type="button" class="pw-toggle" data-target="recovery-confirm" aria-label="Mostrar senha">
               <span class="material-symbols-outlined text-xl">visibility</span>
@@ -216,7 +216,7 @@ export const prerender = false;
         </form>
 
         <!-- Terms note -->
-        <p class="text-center text-[11px] text-slate-600 leading-relaxed">
+        <p class="text-center text-[11px] text-slate-400 leading-relaxed">
           Ao continuar, você concorda com os<br />
           <a href="/termos" class="text-primary/60 hover:text-primary transition-colors">Termos de Uso</a> e
           <a href="/privacidade" class="text-primary/60 hover:text-primary transition-colors">Política de Privacidade</a>

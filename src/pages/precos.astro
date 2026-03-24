@@ -32,13 +32,13 @@ import Header from '../components/Header.astro';
       <div class="inline-flex items-center gap-3 rounded-full border border-border-color bg-surface-dark p-1.5">
         <label class="cursor-pointer">
           <input type="radio" name="billing-cycle" value="monthly" checked class="sr-only peer" aria-label="Cobrança mensal" />
-          <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-slate-300 transition-all" data-i18n="precos.billing.monthly">
+          <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-white transition-all" data-i18n="precos.billing.monthly">
             Mensal
           </span>
         </label>
         <label class="cursor-pointer">
           <input type="radio" name="billing-cycle" value="yearly" class="sr-only peer" aria-label="Cobrança anual" />
-          <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-slate-300 transition-all">
+          <span class="peer-checked:bg-primary peer-checked:text-background-dark px-5 py-2 rounded-full text-sm font-semibold text-white transition-all">
             <span data-i18n="precos.billing.yearly">Anual</span> <span class="text-xs opacity-80" data-i18n="precos.billing.discount">(-20%)</span>
           </span>
         </label>
@@ -652,15 +652,15 @@ import Header from '../components/Header.astro';
     <footer class="border-t border-border-color px-4 sm:px-6 lg:px-24 py-10">
       <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
         <div class="flex items-center gap-3">
-          <img id="precos-logo" src="/logo_backofff.png" data-dark="/logo_backofff.png" data-light="/Logowhitemodeloff.png" alt="BuildCode" class="h-7 w-auto object-contain" width="119" height="28" />
+          <img id="precos-logo" src="/logo_backofff.png" data-dark="/logo_backofff.png" data-light="/Logowhitemodeloff.png" alt="BuildCode" class="h-7 w-auto object-contain" width="119" height="28" loading="lazy" />
           <span class="font-display font-bold text-white text-lg">BuildCode</span>
         </div>
         <div class="flex items-center gap-6 text-sm text-slate-500">
-          <a href="https://github.com/yamotoz" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
-          <a href="/privacidade" class="hover:text-primary transition-colors">Privacidade</a>
-          <a href="/termos" class="hover:text-primary transition-colors">Termos</a>
+          <a href="https://github.com/yamotoz" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors min-h-[44px] inline-flex items-center">GitHub</a>
+          <a href="/privacidade" class="hover:text-primary transition-colors min-h-[44px] inline-flex items-center">Privacidade</a>
+          <a href="/termos" class="hover:text-primary transition-colors min-h-[44px] inline-flex items-center">Termos</a>
         </div>
-        <p class="text-xs text-slate-600">&copy; 2024 BuildCode. <span data-i18n="precos.footer.rights">Todos os direitos reservados.</span></p>
+        <p class="text-xs text-slate-600">&copy; 2026 BuildCode. <span data-i18n="precos.footer.rights">Todos os direitos reservados.</span></p>
       </div>
     </footer>
   </main>

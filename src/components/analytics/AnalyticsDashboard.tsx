@@ -368,7 +368,7 @@ export default function AnalyticsDashboard() {
             label="A"
             side="A"
           />
-          <div className="text-slate-500 font-mono text-xs uppercase tracking-widest select-none">VS</div>
+          <div className="text-slate-300 font-mono text-xs uppercase tracking-widest select-none">VS</div>
           <AutocompleteInput
             value={techB}
             onChange={setTechB}
