@@ -14,7 +14,7 @@ export const prerender = false;
     <header class="sticky top-0 z-40 glass-panel border-b border-border-color px-6 py-4">
       <div class="max-w-5xl mx-auto flex items-center justify-between">
         <a href="/" class="flex items-center gap-3 text-slate-100 hover:opacity-80 transition-opacity">
-          <img id="perfil-logo" src="/logo_backofff.png" data-dark="/logo_backofff.png" data-light="/Logowhitemodeloff.png" alt="BuildCode" class="h-8 w-auto object-contain" />
+          <img id="perfil-logo" src="/logo_backofff.png" data-dark="/logo_backofff.png" data-light="/Logowhitemodeloff.png" alt="BuildCode" class="h-8 w-auto object-contain" width="136" height="32" />
           <h2 class="font-display text-xl font-bold tracking-tight text-white hidden sm:block">BuildCode</h2>
         </a>
         <div class="flex items-center gap-3">
@@ -51,7 +51,7 @@ export const prerender = false;
             <!-- Avatar -->
             <div class="relative group">
               <div id="avatar-container" class="w-28 h-28 rounded-full border-2 border-primary/30 overflow-hidden bg-surface-dark flex items-center justify-center shadow-[0_0_30px_rgba(46,116,139,0.15)]">
-                <img id="avatar-img" src="" alt="Avatar" class="w-full h-full object-cover hidden" />
+                <img id="avatar-img" src="" alt="Avatar" class="w-full h-full object-cover hidden" width="112" height="112" />
                 <span id="avatar-initials" class="text-3xl font-bold text-primary"></span>
               </div>
               <label for="avatar-input" class="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
@@ -329,7 +329,7 @@ export const prerender = false;
 
           <div id="agent-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 relative z-10">
             <button type="button" data-agent="theboss" class="agent-card group relative rounded-xl overflow-hidden border-2 border-transparent hover:border-[#C0392B]/60 transition-all duration-300 cursor-pointer aspect-[3/4] bg-black">
-              <img src="/agentes/Theboss.png" alt="The Boss" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <img src="/agentes/Theboss.png" alt="The Boss" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" width="80" height="80" />
               <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
               <div class="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
                 <h4 class="text-white font-bold text-sm sm:text-base tracking-wide">The Boss</h4>
@@ -342,7 +342,7 @@ export const prerender = false;
             </button>
 
             <button type="button" data-agent="azrael" class="agent-card group relative rounded-xl overflow-hidden border-2 border-transparent hover:border-[#8E44AD]/60 transition-all duration-300 cursor-pointer aspect-[3/4] bg-black">
-              <img src="/agentes/Azrael.png" alt="Azrael" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <img src="/agentes/Azrael.png" alt="Azrael" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" width="80" height="80" />
               <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
               <div class="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
                 <h4 class="text-white font-bold text-sm sm:text-base tracking-wide">Azrael</h4>
@@ -355,7 +355,7 @@ export const prerender = false;
             </button>
 
             <button type="button" data-agent="rizler" class="agent-card group relative rounded-xl overflow-hidden border-2 border-transparent hover:border-[#27AE60]/60 transition-all duration-300 cursor-pointer aspect-[3/4] bg-black">
-              <img src="/agentes/Rizler.png" alt="Rizler" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <img src="/agentes/Rizler.png" alt="Rizler" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" width="80" height="80" />
               <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
               <div class="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
                 <h4 class="text-white font-bold text-sm sm:text-base tracking-wide">Rizler</h4>
@@ -368,7 +368,7 @@ export const prerender = false;
             </button>
 
             <button type="button" data-agent="anastasia" class="agent-card group relative rounded-xl overflow-hidden border-2 border-transparent hover:border-[#E91E63]/60 transition-all duration-300 cursor-pointer aspect-[3/4] bg-black">
-              <img src="/agentes/Anastasia.png" alt="Anastasia" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <img src="/agentes/Anastasia.png" alt="Anastasia" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" width="80" height="80" />
               <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
               <div class="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
                 <h4 class="text-white font-bold text-sm sm:text-base tracking-wide">Anastasia</h4>
@@ -724,7 +724,7 @@ export const prerender = false;
           <div class="flex items-end justify-center gap-2 sm:gap-4 w-full max-w-4xl px-4">
             <div data-loading-agent="theboss" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
               <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
-                <img src="/agentes/Theboss.png" alt="The Boss" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" />
+                <img src="/agentes/Theboss.png" alt="The Boss" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" width="80" height="80" />
                 <video src="/agentes/vids_agents/theboss_vid.mp4" class="agent-load-vid absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" muted playsinline preload="none"></video>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-[1]"></div>
                 <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold z-[2]">The Boss</p>
@@ -735,7 +735,7 @@ export const prerender = false;
             </div>
             <div data-loading-agent="azrael" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
               <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
-                <img src="/agentes/Azrael.png" alt="Azrael" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" />
+                <img src="/agentes/Azrael.png" alt="Azrael" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" width="80" height="80" />
                 <video src="/agentes/vids_agents/azraelvid.mp4" class="agent-load-vid absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" muted playsinline preload="none"></video>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-[1]"></div>
                 <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold z-[2]">Azrael</p>
@@ -746,7 +746,7 @@ export const prerender = false;
             </div>
             <div data-loading-agent="rizler" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
               <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
-                <img src="/agentes/Rizler.png" alt="Rizler" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" />
+                <img src="/agentes/Rizler.png" alt="Rizler" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" width="80" height="80" />
                 <video src="/agentes/vids_agents/Rizlervid.mp4" class="agent-load-vid absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" muted playsinline preload="none"></video>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-[1]"></div>
                 <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold z-[2]">Rizler</p>
@@ -757,7 +757,7 @@ export const prerender = false;
             </div>
             <div data-loading-agent="anastasia" class="agent-loading-col flex flex-col items-center gap-3 flex-1 opacity-30 grayscale transition-all duration-700">
               <div class="relative w-full aspect-[3/5] rounded-lg overflow-hidden border-2 border-white/10">
-                <img src="/agentes/Anastasia.png" alt="Anastasia" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" />
+                <img src="/agentes/Anastasia.png" alt="Anastasia" class="agent-load-img w-full h-full object-cover absolute inset-0 transition-opacity duration-500" width="80" height="80" />
                 <video src="/agentes/vids_agents/anastasia.mp4" class="agent-load-vid absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" muted playsinline preload="none"></video>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-[1]"></div>
                 <p class="absolute bottom-3 left-0 right-0 text-center text-white text-xs sm:text-sm font-bold z-[2]">Anastasia</p>

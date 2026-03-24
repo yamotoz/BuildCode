@@ -271,10 +271,10 @@ export default function AdminWrapper() {
 
   if (state === 'unauth') {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '128px 0', textAlign: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '128px 0', textAlign: 'center', background: '#0e1214', borderRadius: '16px', margin: '24px' }}>
         <span className="material-symbols-outlined" style={{ fontSize: '48px', color: '#475569', marginBottom: '16px' }}>lock</span>
-        <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#f1f5f9', marginBottom: '8px' }}>Acesso Restrito</h2>
-        <p style={{ color: '#cbd5e1', marginBottom: '24px' }}>Apenas administradores podem acessar esta página.</p>
+        <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#ffffff', marginBottom: '8px' }}>Acesso Restrito</h2>
+        <p style={{ color: '#d1d5db', marginBottom: '24px' }}>Apenas administradores podem acessar esta página.</p>
         <a href="/perfil" style={{ padding: '12px 24px', borderRadius: '12px', background: '#2E748B', color: 'white', fontWeight: 600, textDecoration: 'none' }}>Voltar ao Perfil</a>
       </div>
     );

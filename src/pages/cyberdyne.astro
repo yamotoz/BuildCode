@@ -55,7 +55,7 @@ import Layout from '../layouts/Layout.astro';
 
       <h1 class="cd-fade-up text-4xl md:text-6xl lg:text-[5.5rem] font-black leading-[0.92] mb-8 tracking-tighter" style="animation-delay: 0.1s">
         O Codigo Que Voce Nao Testou<br>
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-400 to-red-600">E o Ataque Que Voce Nao Viu Vir.</span>
+        <span class="text-red-500">E o Ataque Que Voce Nao Viu Vir.</span>
       </h1>
 
       <p class="cd-fade-up text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed" style="animation-delay: 0.2s">
@@ -81,16 +81,16 @@ import Layout from '../layouts/Layout.astro';
           <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
           <div class="w-3 h-3 rounded-full bg-yellow-500/40"></div>
           <div class="w-3 h-3 rounded-full bg-green-500/40"></div>
-          <span class="ml-2 text-xs text-slate-600 font-mono">cyberdyne@kali:~</span>
+          <span class="ml-2 text-xs text-slate-500 font-mono">cyberdyne@kali:~</span>
         </div>
         <div class="p-5 font-mono text-[13px] leading-relaxed">
           <p class="text-slate-500">$ python CyberDyneWeb.py --url https://seuapp.com --all</p>
           <p class="text-slate-400 mt-3"><span class="text-red-400">[*]</span> Iniciando varredura completa...</p>
           <p class="text-slate-400"><span class="text-red-400">[*]</span> 8 modulos carregados: XSS, SQLi, LFI, IDOR, SSRF, JWT, Headers, Recon</p>
           <p class="text-slate-400"><span class="text-green-400">[+]</span> 113 checks ativos // Playwright Chromium pronto</p>
-          <p class="text-slate-400 mt-2"><span class="text-yellow-400">[!]</span> <span class="text-yellow-300">XSS Reflected</span> em /search?q= <span class="text-slate-600">(CVSS 6.1)</span></p>
-          <p class="text-slate-400"><span class="text-yellow-400">[!]</span> <span class="text-red-300">SQL Injection</span> em /api/users?id= <span class="text-slate-600">(CVSS 9.8)</span></p>
-          <p class="text-slate-400"><span class="text-yellow-400">[!]</span> <span class="text-red-300">JWT alg:none bypass</span> em /auth/token <span class="text-slate-600">(CVSS 9.8)</span></p>
+          <p class="text-slate-400 mt-2"><span class="text-yellow-400">[!]</span> <span class="text-yellow-300">XSS Reflected</span> em /search?q= <span class="text-slate-500">(CVSS 6.1)</span></p>
+          <p class="text-slate-400"><span class="text-yellow-400">[!]</span> <span class="text-red-300">SQL Injection</span> em /api/users?id= <span class="text-slate-500">(CVSS 9.8)</span></p>
+          <p class="text-slate-400"><span class="text-yellow-400">[!]</span> <span class="text-red-300">JWT alg:none bypass</span> em /auth/token <span class="text-slate-500">(CVSS 9.8)</span></p>
           <p class="text-red-400 mt-2 font-semibold">[RESULTADO] 3 criticas // 5 altas // 2 medias</p>
           <p class="text-green-400 mt-1">[+] Relatorio salvo: report_cyberdyne_2026.pdf</p>
           <span class="inline-block w-2 h-4 bg-red-500 animate-pulse ml-1"></span>
@@ -319,11 +319,11 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="text-sm text-slate-500 font-mono">CyberDyne v7.0 // Um produto <a href="/" class="text-red-400 hover:text-red-300 transition-colors">BuildCode</a></p>
       <div class="flex items-center gap-6">
-        <a href="https://github.com/yamotoz/CyberDyne" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-600 hover:text-red-400 transition-colors flex items-center gap-1">
+        <a href="https://github.com/yamotoz/CyberDyne" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-500 hover:text-red-400 transition-colors flex items-center gap-1">
           <span class="material-symbols-outlined text-base">code</span>
           GitHub
         </a>
-        <a href="/" class="text-sm text-slate-600 hover:text-primary transition-colors flex items-center gap-1">
+        <a href="/" class="text-sm text-slate-500 hover:text-primary transition-colors flex items-center gap-1">
           <span class="material-symbols-outlined text-base">arrow_back</span>
           BuildCode
         </a>
