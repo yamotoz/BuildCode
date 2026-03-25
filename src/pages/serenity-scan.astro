@@ -1,0 +1,738 @@
+---
+export const prerender = false;
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Serenity QA | Analise de Qualidade" description="Analise automatica de qualidade do seu software. 9 dominios, relatorios detalhados.">
+<div class="serenity-scan bg-[#FAF8F5] text-[#1a1a2e] min-h-screen">
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#FAF8F5]/80 border-b border-[#d4af37]/10 px-4 py-3 sm:px-6 sm:py-4 md:px-8 lg:px-24">
+    <div class="mx-auto relative flex max-w-[1440px] items-center justify-between">
+      <a href="/serenity" class="flex items-center gap-2 sm:gap-3 text-[#1a1a2e] hover:opacity-80 transition-opacity shrink-0">
+        <img src="/logosyoff.png" alt="Serenity" class="h-11 sm:h-12 w-auto object-contain" width="160" height="48" loading="eager" />
+        <h2 class="font-display text-lg sm:text-xl font-bold tracking-tight text-[#1a1a2e] hidden sm:block">Serenity</h2>
+      </a>
+      <nav class="flex items-center gap-4 sm:gap-6">
+        <a href="/serenity" class="text-[#5a5a6e] hover:text-[#d4af37] transition-colors text-sm font-medium tracking-wide">Voltar</a>
+        <a href="/" class="text-[#2E748B] hover:text-[#2E748B]/80 transition-colors text-sm font-medium tracking-wide">BuildCode</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+    <!-- ═══════════════ AUTH GATE ═══════════════ -->
+    <section id="auth-gate" class="sy-fade-in">
+      <div class="bg-white rounded-2xl border border-[#d4af37]/15 shadow-[0_4px_20px_rgba(212,175,55,0.06)] p-8 sm:p-12 text-center max-w-lg mx-auto mt-16 sm:mt-24">
+        <!-- Gold corner accents -->
+        <div class="relative">
+          <div class="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 rounded-tl-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+          <div class="absolute -top-4 -right-4 w-8 h-8 border-t-2 border-r-2 rounded-tr-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+        </div>
+
+        <div class="w-16 h-16 rounded-full bg-[#d4af37]/10 flex items-center justify-center mx-auto mb-6">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37]">lock</span>
+        </div>
+
+        <h2 class="text-2xl font-bold text-[#1a1a2e] mb-3">Acesso Restrito</h2>
+        <p class="text-[#5a5a6e] mb-8 leading-relaxed">
+          Faca login para acessar o Serenity QA e analisar a qualidade do seu software.
+        </p>
+
+        <a href="/login" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#d4af37] to-[#b8960c] text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] transition-all hover:scale-[1.02]">
+          <span class="material-symbols-outlined text-xl">login</span>
+          Fazer Login
+        </a>
+
+        <div class="relative mt-8">
+          <div class="absolute -bottom-4 -left-4 w-8 h-8 border-b-2 border-l-2 rounded-bl-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+          <div class="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2 rounded-br-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SCAN FORM ═══════════════ -->
+    <section id="scan-form" class="hidden sy-fade-in">
+      <div class="bg-white rounded-2xl border border-[#d4af37]/10 p-6 sm:p-8 shadow-sm relative">
+        <!-- Gold corner accents -->
+        <div class="absolute top-3 left-3 w-8 h-8 border-t-2 border-l-2 rounded-tl-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+        <div class="absolute top-3 right-3 w-8 h-8 border-t-2 border-r-2 rounded-tr-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+        <div class="absolute bottom-3 left-3 w-8 h-8 border-b-2 border-l-2 rounded-bl-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+        <div class="absolute bottom-3 right-3 w-8 h-8 border-b-2 border-r-2 rounded-br-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+
+        <!-- Title -->
+        <div class="text-center mb-8">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#d4af37]/20 bg-[#d4af37]/5 text-[#b8960c] text-xs font-mono mb-4">
+            <span class="flex size-1.5 rounded-full bg-[#d4af37] animate-pulse"></span>
+            QA Engine Online
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-[#1a1a2e] mb-2">Analise de Qualidade</h2>
+          <p class="text-[#5a5a6e] text-sm sm:text-base">Insira a URL e selecione os dominios para analise</p>
+        </div>
+
+        <!-- URL Input -->
+        <div class="mb-6">
+          <label for="scan-url" class="block text-sm font-semibold text-[#1a1a2e] mb-2">URL do Alvo</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#d4af37]/50 text-xl">language</span>
+            <input
+              type="url"
+              id="scan-url"
+              placeholder="https://exemplo.com.br"
+              class="w-full bg-[#FAF8F5] border border-[#d4af37]/20 rounded-xl pl-11 pr-4 py-3 text-[#1a1a2e] placeholder:text-[#5a5a6e]/50 focus:border-[#d4af37]/50 focus:outline-none focus:ring-2 focus:ring-[#d4af37]/10 transition-all"
+            />
+          </div>
+        </div>
+
+        <!-- Domain Selection -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-3">
+            <label class="block text-sm font-semibold text-[#1a1a2e]">Dominios de Analise</label>
+            <div class="flex gap-3">
+              <button id="btn-select-all" type="button" class="text-xs text-[#b8960c] hover:text-[#d4af37] font-medium transition-colors cursor-pointer">Selecionar Todos</button>
+              <span class="text-[#d4af37]/30">|</span>
+              <button id="btn-clear-all" type="button" class="text-xs text-[#b8960c] hover:text-[#d4af37] font-medium transition-colors cursor-pointer">Limpar</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <!-- Infrastructure -->
+            <div data-domain="infrastructure" data-active="true" class="flex items-center gap-3 bg-[#FAF8F5] border border-[#d4af37]/50 bg-[#d4af37]/5 rounded-xl p-3 cursor-pointer hover:border-[#d4af37]/30 transition-all select-none">
+              <span class="material-symbols-outlined text-xl text-[#d4af37]">dns</span>
+              <span class="text-sm font-medium text-[#1a1a2e] flex-1">Infrastructure</span>
+              <span class="material-symbols-outlined text-lg text-[#d4af37] domain-check">check_circle</span>
+            </div>
+            <!-- Performance -->
+            <div data-domain="performance" data-active="true" class="flex items-center gap-3 bg-[#FAF8F5] border border-[#d4af37]/50 bg-[#d4af37]/5 rounded-xl p-3 cursor-pointer hover:border-[#d4af37]/30 transition-all select-none">
+              <span class="material-symbols-outlined text-xl text-[#d4af37]">speed</span>
+              <span class="text-sm font-medium text-[#1a1a2e] flex-1">Performance</span>
+              <span class="material-symbols-outlined text-lg text-[#d4af37] domain-check">check_circle</span>
+            </div>
+            <!-- SEO -->
+            <div data-domain="seo" data-active="true" class="flex items-center gap-3 bg-[#FAF8F5] border border-[#d4af37]/50 bg-[#d4af37]/5 rounded-xl p-3 cursor-pointer hover:border-[#d4af37]/30 transition-all select-none">
+              <span class="material-symbols-outlined text-xl text-[#d4af37]">search</span>
+              <span class="text-sm font-medium text-[#1a1a2e] flex-1">SEO</span>
+              <span class="material-symbols-outlined text-lg text-[#d4af37] domain-check">check_circle</span>
+            </div>
+            <!-- Click Agent -->
+            <div data-domain="click_agent" data-active="true" class="flex items-center gap-3 bg-[#FAF8F5] border border-[#d4af37]/50 bg-[#d4af37]/5 rounded-xl p-3 cursor-pointer hover:border-[#d4af37]/30 transition-all select-none">
+              <span class="material-symbols-outlined text-xl text-[#d4af37]">touch_app</span>
+              <span class="text-sm font-medium text-[#1a1a2e] flex-1">Click Agent</span>
+              <span class="material-symbols-outlined text-lg text-[#d4af37] domain-check">check_circle</span>
+            </div>
+            <!-- Forms -->
+            <div data-domain="forms" data-active="true" class="flex items-center gap-3 bg-[#FAF8F5] border border-[#d4af37]/50 bg-[#d4af37]/5 rounded-xl p-3 cursor-pointer hover:border-[#d4af37]/30 transition-all select-none">
+              <span class="material-symbols-outlined text-xl text-[#d4af37]">edit_note</span>
+              <span class="text-sm font-medium text-[#1a1a2e] flex-1">Forms</span>
+              <span class="material-symbols-outlined text-lg text-[#d4af37] domain-check">check_circle</span>
+            </div>
+            <!-- Functionality -->
+            <div data-domain="functionality" data-active="true" class="flex items-center gap-3 bg-[#FAF8F5] border border-[#d4af37]/50 bg-[#d4af37]/5 rounded-xl p-3 cursor-pointer hover:border-[#d4af37]/30 transition-all select-none">
+              <span class="material-symbols-outlined text-xl text-[#d4af37]">settings</span>
+              <span class="text-sm font-medium text-[#1a1a2e] flex-1">Functionality</span>
+              <span class="material-symbols-outlined text-lg text-[#d4af37] domain-check">check_circle</span>
+            </div>
+            <!-- Responsiveness -->
+            <div data-domain="responsiveness" data-active="true" class="flex items-center gap-3 bg-[#FAF8F5] border border-[#d4af37]/50 bg-[#d4af37]/5 rounded-xl p-3 cursor-pointer hover:border-[#d4af37]/30 transition-all select-none">
+              <span class="material-symbols-outlined text-xl text-[#d4af37]">devices</span>
+              <span class="text-sm font-medium text-[#1a1a2e] flex-1">Responsiveness</span>
+              <span class="material-symbols-outlined text-lg text-[#d4af37] domain-check">check_circle</span>
+            </div>
+            <!-- Accessibility -->
+            <div data-domain="accessibility" data-active="true" class="flex items-center gap-3 bg-[#FAF8F5] border border-[#d4af37]/50 bg-[#d4af37]/5 rounded-xl p-3 cursor-pointer hover:border-[#d4af37]/30 transition-all select-none">
+              <span class="material-symbols-outlined text-xl text-[#d4af37]">accessibility_new</span>
+              <span class="text-sm font-medium text-[#1a1a2e] flex-1">Accessibility</span>
+              <span class="material-symbols-outlined text-lg text-[#d4af37] domain-check">check_circle</span>
+            </div>
+            <!-- Content -->
+            <div data-domain="content" data-active="true" class="flex items-center gap-3 bg-[#FAF8F5] border border-[#d4af37]/50 bg-[#d4af37]/5 rounded-xl p-3 cursor-pointer hover:border-[#d4af37]/30 transition-all select-none">
+              <span class="material-symbols-outlined text-xl text-[#d4af37]">article</span>
+              <span class="text-sm font-medium text-[#1a1a2e] flex-1">Content</span>
+              <span class="material-symbols-outlined text-lg text-[#d4af37] domain-check">check_circle</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Usage info -->
+        <div id="usage-info" class="text-center text-sm text-[#5a5a6e] mb-6">
+          <span class="material-symbols-outlined text-base align-middle mr-1 text-[#d4af37]">analytics</span>
+          Carregando informacoes de uso...
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center">
+          <button id="btn-scan" type="button" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#d4af37] to-[#b8960c] text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] transition-all hover:scale-[1.02] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+            <span class="material-symbols-outlined text-xl">rocket_launch</span>
+            Iniciar Analise
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SCAN PROGRESS ═══════════════ -->
+    <section id="scan-progress" class="hidden sy-fade-in">
+      <div class="bg-white rounded-2xl border border-[#d4af37]/10 p-6 sm:p-8 relative">
+        <!-- Gold corner accents -->
+        <div class="absolute top-3 left-3 w-8 h-8 border-t-2 border-l-2 rounded-tl-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+        <div class="absolute top-3 right-3 w-8 h-8 border-t-2 border-r-2 rounded-tr-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+
+        <!-- Title -->
+        <div class="text-center mb-8">
+          <h2 class="text-xl sm:text-2xl font-bold text-[#1a1a2e] mb-2">Analisando seu software...</h2>
+          <p class="text-[#5a5a6e] text-sm">Aguarde enquanto o Serenity QA verifica cada dominio</p>
+        </div>
+
+        <!-- Progress Gauge -->
+        <div class="flex justify-center mb-8">
+          <svg viewBox="0 0 200 200" class="w-40 h-40 sm:w-48 sm:h-48">
+            <circle cx="100" cy="100" r="90" fill="none" stroke="#e5e0d8" stroke-width="12"/>
+            <circle id="progress-circle" cx="100" cy="100" r="90" fill="none" stroke="#d4af37" stroke-width="12"
+              stroke-dasharray="565.5" stroke-dashoffset="565.5" stroke-linecap="round"
+              transform="rotate(-90 100 100)" style="transition: stroke-dashoffset 0.5s ease"/>
+            <text id="progress-text" x="100" y="108" text-anchor="middle" fill="#1a1a2e" font-size="48" font-weight="900">0</text>
+            <text x="100" y="130" text-anchor="middle" fill="#5a5a6e" font-size="14">por cento</text>
+          </svg>
+        </div>
+
+        <!-- Domain Status List -->
+        <div id="progress-domains" class="max-w-md mx-auto space-y-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SCAN RESULTS ═══════════════ -->
+    <section id="scan-results" class="hidden sy-fade-in">
+
+      <!-- Score Header -->
+      <div class="bg-white rounded-2xl border border-[#d4af37]/10 p-6 sm:p-8 text-center relative mb-6">
+        <!-- Gold corner accents -->
+        <div class="absolute top-3 left-3 w-8 h-8 border-t-2 border-l-2 rounded-tl-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+        <div class="absolute top-3 right-3 w-8 h-8 border-t-2 border-r-2 rounded-tr-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+        <div class="absolute bottom-3 left-3 w-8 h-8 border-b-2 border-l-2 rounded-bl-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+        <div class="absolute bottom-3 right-3 w-8 h-8 border-b-2 border-r-2 rounded-br-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+
+        <div class="text-xs font-black tracking-[0.3em] uppercase text-[#d4af37] mb-4">Serenity QA Report</div>
+
+        <!-- Result Gauge -->
+        <div class="flex justify-center mb-4">
+          <svg viewBox="0 0 200 200" class="w-40 h-40 sm:w-48 sm:h-48">
+            <circle cx="100" cy="100" r="90" fill="none" stroke="#e5e0d8" stroke-width="12"/>
+            <circle id="result-circle" cx="100" cy="100" r="90" fill="none" stroke="#d4af37" stroke-width="12"
+              stroke-dasharray="565.5" stroke-dashoffset="565.5" stroke-linecap="round"
+              transform="rotate(-90 100 100)" style="transition: stroke-dashoffset 1s ease"/>
+            <text id="result-score" x="100" y="108" text-anchor="middle" fill="#1a1a2e" font-size="48" font-weight="900">0</text>
+            <text x="100" y="130" text-anchor="middle" fill="#5a5a6e" font-size="14">pontos</text>
+          </svg>
+        </div>
+
+        <!-- Verdict Badge -->
+        <div class="mb-3">
+          <span id="result-verdict" class="inline-block text-sm font-bold rounded-full px-5 py-1.5 border"></span>
+        </div>
+
+        <!-- Scanned URL -->
+        <p id="result-url" class="text-sm text-[#5a5a6e]"></p>
+      </div>
+
+      <!-- Domain Bars -->
+      <div class="bg-white rounded-2xl border border-[#d4af37]/10 p-6 sm:p-8 mb-6">
+        <h3 class="text-lg font-bold text-[#1a1a2e] mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-[#d4af37]">bar_chart</span>
+          Pontuacao por Dominio
+        </h3>
+        <div id="domain-bars" class="space-y-1">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Findings -->
+      <div class="bg-white rounded-2xl border border-[#d4af37]/10 p-6 sm:p-8 mb-6">
+        <h3 class="text-lg font-bold text-[#1a1a2e] mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-[#d4af37]">bug_report</span>
+          Achados Detalhados
+        </h3>
+
+        <!-- Severity summary -->
+        <div id="severity-summary" class="flex flex-wrap gap-2 mb-6">
+          <!-- Populated by JS -->
+        </div>
+
+        <div id="findings-list" class="space-y-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- New Scan button -->
+      <div class="text-center">
+        <button id="btn-new-scan" type="button" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#d4af37] to-[#b8960c] text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] transition-all hover:scale-[1.02] cursor-pointer">
+          <span class="material-symbols-outlined text-xl">refresh</span>
+          Nova Analise
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="border-t border-[#d4af37]/10 py-6 mt-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <p class="text-xs text-[#5a5a6e]">Serenity QA Engine &mdash; Qualidade nao se discute, se comprova.</p>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ═══════════════ STYLES ═══════════════ -->
+<style>
+  .serenity-scan .sy-fade-in {
+    opacity: 0;
+    animation: sy-fade-in 0.6s ease-out forwards;
+  }
+  @keyframes sy-fade-in {
+    to { opacity: 1; }
+  }
+  .serenity-scan .sy-pulse-gold {
+    animation: sy-pulse-gold 2s ease-in-out infinite;
+  }
+  @keyframes sy-pulse-gold {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  /* Override dark theme styles for this page */
+  .serenity-scan,
+  .serenity-scan * {
+    color-scheme: light;
+  }
+  .serenity-scan input:focus {
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  }
+  /* Domain card hover */
+  .serenity-scan [data-domain]:hover {
+    transform: translateY(-1px);
+  }
+  .serenity-scan [data-domain] {
+    transition: all 0.2s ease;
+  }
+</style>
+
+<!-- ═══════════════ CLIENT-SIDE JAVASCRIPT ═══════════════ -->
+<script type="module">
+  import { supabase } from '../lib/supabase';
+
+  // ── State ──
+  let session = null;
+  let scanUrl = '';
+
+  // ── DOM refs ──
+  const authGate = document.getElementById('auth-gate');
+  const scanForm = document.getElementById('scan-form');
+  const scanProgress = document.getElementById('scan-progress');
+  const scanResults = document.getElementById('scan-results');
+  const urlInput = document.getElementById('scan-url');
+  const btnScan = document.getElementById('btn-scan');
+  const usageInfo = document.getElementById('usage-info');
+
+  // ══════════════════════════════════════════
+  //  AUTH CHECK
+  // ══════════════════════════════════════════
+
+  async function checkAuth() {
+    const { data: { session: s } } = await supabase.auth.getSession();
+    session = s;
+    if (session) {
+      authGate.classList.add('hidden');
+      scanForm.classList.remove('hidden');
+      loadUsageInfo();
+    }
+  }
+
+  checkAuth();
+
+  // Listen for auth changes
+  supabase.auth.onAuthStateChange((_event, s) => {
+    session = s;
+    if (session) {
+      authGate.classList.add('hidden');
+      scanForm.classList.remove('hidden');
+      loadUsageInfo();
+    } else {
+      authGate.classList.remove('hidden');
+      scanForm.classList.add('hidden');
+    }
+  });
+
+  // ══════════════════════════════════════════
+  //  USAGE INFO
+  // ══════════════════════════════════════════
+
+  async function loadUsageInfo() {
+    if (!session) return;
+    try {
+      // Quick check via a test call or just display generic info
+      usageInfo.innerHTML = `
+        <span class="material-symbols-outlined text-base align-middle mr-1 text-[#d4af37]">analytics</span>
+        Pronto para analise. Selecione os dominios e inicie.
+      `;
+    } catch {
+      usageInfo.textContent = '';
+    }
+  }
+
+  // ══════════════════════════════════════════
+  //  DOMAIN TOGGLES
+  // ══════════════════════════════════════════
+
+  const domainCards = document.querySelectorAll('[data-domain]');
+
+  domainCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const isActive = card.dataset.active === 'true';
+      card.dataset.active = isActive ? 'false' : 'true';
+
+      const check = card.querySelector('.domain-check');
+
+      if (isActive) {
+        // Deactivate
+        card.classList.remove('border-[#d4af37]/50', 'bg-[#d4af37]/5');
+        card.classList.add('border-[#d4af37]/10');
+        if (check) check.textContent = '';
+      } else {
+        // Activate
+        card.classList.add('border-[#d4af37]/50', 'bg-[#d4af37]/5');
+        card.classList.remove('border-[#d4af37]/10');
+        if (check) check.textContent = 'check_circle';
+      }
+    });
+  });
+
+  // Select All
+  document.getElementById('btn-select-all')?.addEventListener('click', () => {
+    domainCards.forEach(c => {
+      c.dataset.active = 'true';
+      c.classList.add('border-[#d4af37]/50', 'bg-[#d4af37]/5');
+      c.classList.remove('border-[#d4af37]/10');
+      const check = c.querySelector('.domain-check');
+      if (check) check.textContent = 'check_circle';
+    });
+  });
+
+  // Clear All
+  document.getElementById('btn-clear-all')?.addEventListener('click', () => {
+    domainCards.forEach(c => {
+      c.dataset.active = 'false';
+      c.classList.remove('border-[#d4af37]/50', 'bg-[#d4af37]/5');
+      c.classList.add('border-[#d4af37]/10');
+      const check = c.querySelector('.domain-check');
+      if (check) check.textContent = '';
+    });
+  });
+
+  // ══════════════════════════════════════════
+  //  DOMAIN ICON MAP (for progress/results)
+  // ══════════════════════════════════════════
+
+  const domainIcons = {
+    infrastructure: 'dns',
+    performance: 'speed',
+    seo: 'search',
+    click_agent: 'touch_app',
+    forms: 'edit_note',
+    functionality: 'settings',
+    responsiveness: 'devices',
+    accessibility: 'accessibility_new',
+    content: 'article',
+  };
+
+  const domainLabels = {
+    infrastructure: 'Infrastructure',
+    performance: 'Performance',
+    seo: 'SEO',
+    click_agent: 'Click Agent',
+    forms: 'Forms',
+    functionality: 'Functionality',
+    responsiveness: 'Responsiveness',
+    accessibility: 'Accessibility',
+    content: 'Content',
+  };
+
+  // ══════════════════════════════════════════
+  //  SUBMIT SCAN
+  // ══════════════════════════════════════════
+
+  btnScan?.addEventListener('click', async () => {
+    const url = urlInput?.value?.trim();
+    if (!url) {
+      urlInput?.focus();
+      return;
+    }
+
+    if (!url.startsWith('https://')) {
+      alert('A URL deve comecar com https://');
+      return;
+    }
+
+    const domains = [...document.querySelectorAll('[data-domain][data-active="true"]')]
+      .map(el => el.dataset.domain);
+
+    if (!domains.length) {
+      alert('Selecione pelo menos um dominio');
+      return;
+    }
+
+    scanUrl = url;
+
+    // Show progress, hide form
+    scanForm.classList.add('hidden');
+    scanProgress.classList.remove('hidden');
+
+    // Build progress domain list
+    const progressDomains = document.getElementById('progress-domains');
+    progressDomains.innerHTML = domains.map(d => `
+      <div data-domain-status="${d}" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#FAF8F5]">
+        <span class="material-symbols-outlined text-lg text-[#5a5a6e]/40">${domainIcons[d] || 'circle'}</span>
+        <span class="text-sm font-medium text-[#1a1a2e] flex-1">${domainLabels[d] || d}</span>
+        <span class="material-symbols-outlined text-lg text-[#5a5a6e]/30 status-icon">hourglass_empty</span>
+        <span class="text-xs text-[#5a5a6e]/50 status-text w-24 text-right">Aguardando</span>
+      </div>
+    `).join('');
+
+    // Animate progress gauge
+    const circle = document.getElementById('progress-circle');
+    const text = document.getElementById('progress-text');
+    const totalDash = 565.5;
+
+    for (let i = 0; i < domains.length; i++) {
+      const statusEl = document.querySelector(`[data-domain-status="${domains[i]}"]`);
+      if (statusEl) {
+        const icon = statusEl.querySelector('.status-icon');
+        const txt = statusEl.querySelector('.status-text');
+        icon.textContent = 'pending';
+        icon.classList.add('animate-pulse', 'text-[#d4af37]');
+        icon.classList.remove('text-[#5a5a6e]/30');
+        txt.textContent = 'Analisando...';
+        txt.classList.add('text-[#b8960c]');
+        txt.classList.remove('text-[#5a5a6e]/50');
+      }
+
+      await new Promise(r => setTimeout(r, 800 + Math.random() * 1200));
+
+      const progress = ((i + 1) / domains.length) * 100;
+      circle.style.strokeDashoffset = String(totalDash - (totalDash * progress / 100));
+      text.textContent = String(Math.round(progress));
+
+      if (statusEl) {
+        const icon = statusEl.querySelector('.status-icon');
+        const txt = statusEl.querySelector('.status-text');
+        icon.textContent = 'check_circle';
+        icon.classList.remove('animate-pulse', 'text-[#d4af37]');
+        icon.classList.add('text-emerald-500');
+        txt.textContent = 'Concluido';
+        txt.classList.remove('text-[#b8960c]');
+        txt.classList.add('text-emerald-600');
+      }
+    }
+
+    // Call API
+    try {
+      const res = await fetch('/api/serenity/scan', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ url, domains }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erro desconhecido');
+
+      renderSerenityResults(data);
+      scanProgress.classList.add('hidden');
+      scanResults.classList.remove('hidden');
+    } catch (err) {
+      alert('Erro: ' + err.message);
+      scanProgress.classList.add('hidden');
+      scanForm.classList.remove('hidden');
+    }
+  });
+
+  // ══════════════════════════════════════════
+  //  RENDER RESULTS
+  // ══════════════════════════════════════════
+
+  function renderSerenityResults(data) {
+    // 1. Score gauge
+    const resultCircle = document.getElementById('result-circle');
+    const totalDash = 565.5;
+    const score = data.score || 0;
+
+    // Animate gauge
+    setTimeout(() => {
+      resultCircle.style.strokeDashoffset = String(totalDash - (totalDash * score / 100));
+    }, 100);
+
+    // Color based on score
+    if (score < 70) resultCircle.style.stroke = '#dc2626';
+    else if (score <= 90) resultCircle.style.stroke = '#d4af37';
+    else resultCircle.style.stroke = '#10b981';
+
+    document.getElementById('result-score').textContent = String(score);
+
+    // Verdict badge
+    const verdict = data.verdict || (score < 70 ? 'REPROVADO' : score <= 90 ? 'APROVADO' : 'EXCELENTE');
+    const verdictEl = document.getElementById('result-verdict');
+    verdictEl.textContent = verdict;
+    verdictEl.className = 'inline-block text-sm font-bold rounded-full px-5 py-1.5 border';
+
+    if (verdict === 'REPROVADO') {
+      verdictEl.classList.add('bg-red-100', 'text-red-700', 'border-red-200');
+    } else if (verdict === 'APROVADO') {
+      verdictEl.classList.add('bg-[#d4af37]/10', 'text-[#b8960c]', 'border-[#d4af37]/20');
+    } else {
+      verdictEl.classList.add('bg-emerald-100', 'text-emerald-700', 'border-emerald-200');
+    }
+
+    // Scanned URL
+    document.getElementById('result-url').textContent = scanUrl;
+
+    // 2. Domain bars
+    const barsContainer = document.getElementById('domain-bars');
+    barsContainer.innerHTML = '';
+
+    if (data.domain_scores) {
+      Object.entries(data.domain_scores).forEach(([domain, info]) => {
+        const domainScore = info.score;
+        const barColor = domainScore < 50 ? '#dc2626' : domainScore < 70 ? '#ea580c' : domainScore < 90 ? '#d4af37' : '#10b981';
+        const icon = domainIcons[domain] || 'circle';
+        const label = domainLabels[domain] || domain.replace(/_/g, ' ');
+
+        barsContainer.innerHTML += `
+          <div class="flex items-center gap-3 sm:gap-4 py-2 cursor-pointer hover:bg-[#d4af37]/5 rounded-lg px-3 transition-all" data-expand-domain="${domain}">
+            <span class="material-symbols-outlined text-lg text-[#5a5a6e] shrink-0">${icon}</span>
+            <span class="text-sm font-medium text-[#1a1a2e] w-28 sm:w-32 capitalize shrink-0">${label}</span>
+            <div class="flex-1 bg-[#e5e0d8] rounded-full h-3 overflow-hidden min-w-0">
+              <div class="h-full rounded-full transition-all duration-700" style="width:${domainScore}%;background:${barColor}"></div>
+            </div>
+            <span class="text-sm font-bold w-10 text-right shrink-0" style="color:${barColor}">${domainScore}</span>
+            <span class="material-symbols-outlined text-sm text-[#5a5a6e]/40 shrink-0 expand-arrow">expand_more</span>
+          </div>
+          <div class="domain-findings hidden pl-10 pr-3 pb-2 space-y-2" data-findings-for="${domain}">
+            ${(info.findings || []).map(f => renderFindingCard(f)).join('')}
+          </div>
+        `;
+      });
+
+      // Click to expand domain findings
+      barsContainer.querySelectorAll('[data-expand-domain]').forEach(bar => {
+        bar.addEventListener('click', () => {
+          const domain = bar.dataset.expandDomain;
+          const findingsDiv = barsContainer.querySelector(`[data-findings-for="${domain}"]`);
+          const arrow = bar.querySelector('.expand-arrow');
+          if (findingsDiv) {
+            findingsDiv.classList.toggle('hidden');
+            if (arrow) arrow.textContent = findingsDiv.classList.contains('hidden') ? 'expand_more' : 'expand_less';
+          }
+        });
+      });
+    }
+
+    // 3. Severity summary
+    const severitySummary = document.getElementById('severity-summary');
+    const sevColors = {
+      critical: 'bg-red-100 text-red-700',
+      high: 'bg-orange-100 text-orange-700',
+      medium: 'bg-yellow-100 text-yellow-700',
+      low: 'bg-blue-100 text-blue-700',
+      info: 'bg-slate-100 text-slate-700',
+    };
+    const sevLabels = { critical: 'Criticos', high: 'Altos', medium: 'Medios', low: 'Baixos', info: 'Info' };
+
+    severitySummary.innerHTML = '';
+    if (data.summary) {
+      Object.entries(data.summary).forEach(([sev, count]) => {
+        if (count > 0) {
+          severitySummary.innerHTML += `
+            <span class="text-xs font-bold rounded-full px-3 py-1 ${sevColors[sev] || sevColors.info}">
+              ${count} ${sevLabels[sev] || sev}
+            </span>
+          `;
+        }
+      });
+    }
+
+    // 4. All findings
+    const findingsContainer = document.getElementById('findings-list');
+    findingsContainer.innerHTML = '';
+
+    if (data.findings && data.findings.length > 0) {
+      // Sort by severity
+      const sevOrder = { critical: 0, high: 1, medium: 2, low: 3, info: 4 };
+      const sorted = [...data.findings].sort((a, b) => (sevOrder[a.severity] ?? 5) - (sevOrder[b.severity] ?? 5));
+
+      sorted.forEach(f => {
+        findingsContainer.innerHTML += renderFindingCard(f);
+      });
+    } else {
+      findingsContainer.innerHTML = '<p class="text-sm text-[#5a5a6e] text-center py-4">Nenhum achado encontrado.</p>';
+    }
+  }
+
+  function renderFindingCard(f) {
+    const sevColors = {
+      critical: 'bg-red-100 text-red-700',
+      high: 'bg-orange-100 text-orange-700',
+      medium: 'bg-yellow-100 text-yellow-700',
+      low: 'bg-blue-100 text-blue-700',
+      info: 'bg-slate-100 text-slate-700',
+    };
+
+    return `
+      <div class="bg-[#FAF8F5] rounded-xl p-4 border border-[#d4af37]/[0.06]">
+        <div class="flex items-start gap-2 mb-2 flex-wrap">
+          <span class="text-xs font-bold rounded-full px-2.5 py-0.5 shrink-0 ${sevColors[f.severity] || sevColors.info}">${(f.severity || 'info').toUpperCase()}</span>
+          <span class="text-sm font-semibold text-[#1a1a2e]">${escapeHtml(f.title)}</span>
+        </div>
+        <p class="text-sm text-[#5a5a6e] leading-relaxed">${escapeHtml(f.description)}</p>
+        ${f.fix_suggestion ? `<p class="text-sm text-[#b8960c] mt-2 italic">Sugestao: ${escapeHtml(f.fix_suggestion)}</p>` : ''}
+        ${f.element ? `<code class="block mt-2 text-xs font-mono bg-[#1a1a2e] text-[#d4af37] rounded px-2 py-1 overflow-x-auto whitespace-pre-wrap break-all">${escapeHtml(f.element)}</code>` : ''}
+      </div>
+    `;
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // ══════════════════════════════════════════
+  //  NEW SCAN
+  // ══════════════════════════════════════════
+
+  document.getElementById('btn-new-scan')?.addEventListener('click', () => {
+    // Reset
+    scanResults.classList.add('hidden');
+    scanForm.classList.remove('hidden');
+
+    // Reset gauges
+    const resultCircle = document.getElementById('result-circle');
+    resultCircle.style.strokeDashoffset = '565.5';
+    resultCircle.style.stroke = '#d4af37';
+    document.getElementById('result-score').textContent = '0';
+
+    const progressCircle = document.getElementById('progress-circle');
+    progressCircle.style.strokeDashoffset = '565.5';
+    document.getElementById('progress-text').textContent = '0';
+
+    // Clear URL
+    urlInput.value = '';
+    urlInput.focus();
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</Layout>

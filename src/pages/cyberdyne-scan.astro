@@ -1,0 +1,524 @@
+---
+export const prerender = false;
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="CyberDyne Scanner | Pentesting as a Service" description="Scanner de seguranca ofensiva. Insira uma URL e descubra vulnerabilidades em minutos.">
+
+<div class="cyberdyne-scan bg-[#080808] text-white min-h-screen">
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#080808]/80 border-b border-red-500/10 px-4 py-3 sm:px-6 sm:py-4 md:px-8 lg:px-24">
+    <div class="mx-auto relative flex max-w-[1440px] items-center justify-between">
+      <a href="/cyberdyne-scan" class="flex items-center gap-2 sm:gap-3 text-slate-100 hover:opacity-80 transition-opacity shrink-0">
+        <img src="/cyoff.png" alt="CyberDyne" class="h-11 sm:h-12 w-auto object-contain" width="160" height="48" loading="eager" />
+        <h2 class="font-display text-lg sm:text-xl font-bold tracking-tight text-white hidden sm:block">CyberDyne</h2>
+      </a>
+      <nav class="flex gap-4 sm:gap-6">
+        <a class="text-slate-300 hover:text-red-400 transition-colors text-sm font-medium tracking-wide" href="/cyberdyne">Voltar</a>
+        <a class="text-[#5A9DB5] hover:text-secondary transition-colors text-sm font-medium tracking-wide" href="/">BuildCode</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════ AUTH GATE ═══════════════ -->
+  <section id="auth-gate" class="flex items-center justify-center min-h-[80vh] px-4">
+    <div class="max-w-md w-full text-center rounded-2xl border border-red-500/15 bg-[#0a0a0a]/90 p-8 sm:p-12 shadow-[0_0_60px_rgba(220,38,38,0.06)]">
+      <span class="material-symbols-outlined text-6xl text-red-500/60 mb-6 block">lock</span>
+      <h2 class="text-2xl sm:text-3xl font-black mb-4">Acesso Restrito</h2>
+      <p class="text-slate-400 text-sm sm:text-base mb-8 leading-relaxed">
+        Faca login para acessar o CyberDyne Scanner.
+        Voce precisa de uma conta BuildCode ativa.
+      </p>
+      <a href="/login" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] w-full sm:w-auto">
+        <span class="material-symbols-outlined text-xl">login</span>
+        Fazer Login
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SCAN FORM ═══════════════ -->
+  <section id="scan-form" class="hidden px-4 py-12 sm:px-6 md:px-12 lg:px-24">
+    <div class="max-w-3xl mx-auto">
+      <!-- Terminal container -->
+      <div class="rounded-2xl border border-red-500/15 bg-[#0a0a0a]/90 shadow-[0_0_60px_rgba(220,38,38,0.06)] overflow-hidden">
+        <!-- Terminal header -->
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-red-500/10 bg-[#0c0c0c]/80">
+          <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/40"></div>
+          <div class="w-3 h-3 rounded-full bg-green-500/40"></div>
+          <span class="ml-2 text-xs text-slate-400 font-mono">cyberdyne@scanner:~</span>
+        </div>
+
+        <div class="p-5 sm:p-8">
+          <!-- URL Input -->
+          <label class="block text-sm font-bold text-slate-300 mb-2">
+            <span class="material-symbols-outlined text-sm text-red-500 align-middle mr-1">language</span>
+            URL do Alvo
+          </label>
+          <input
+            type="url"
+            id="scan-url"
+            placeholder="https://seusite.com"
+            class="w-full bg-[#0c0c0c] border border-red-500/20 rounded-xl px-4 py-3 text-white font-mono text-sm focus:border-red-500/50 focus:outline-none focus:shadow-[0_0_15px_rgba(220,38,38,0.1)] transition-all placeholder:text-slate-600"
+          />
+          <p class="text-xs text-slate-600 mt-1.5 font-mono">Apenas HTTPS. Sem localhost ou IPs privados.</p>
+
+          <!-- Module Selection -->
+          <h3 class="text-sm font-bold text-slate-300 mt-8 mb-3">
+            <span class="material-symbols-outlined text-sm text-red-500 align-middle mr-1">apps</span>
+            Modulos de Varredura
+          </h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div data-module="xss" data-active="true" class="border-red-500/50 bg-red-500/5 border rounded-xl p-3 cursor-pointer hover:border-red-500/30 transition-all text-center">
+              <span class="material-symbols-outlined text-2xl text-red-400 block mb-1">code</span>
+              <p class="text-xs font-bold text-slate-200">XSS</p>
+              <p class="text-[10px] text-slate-500">Detection</p>
+            </div>
+            <div data-module="sqli" data-active="true" class="border-red-500/50 bg-red-500/5 border rounded-xl p-3 cursor-pointer hover:border-red-500/30 transition-all text-center">
+              <span class="material-symbols-outlined text-2xl text-orange-400 block mb-1">storage</span>
+              <p class="text-xs font-bold text-slate-200">SQL Injection</p>
+              <p class="text-[10px] text-slate-500">Detection</p>
+            </div>
+            <div data-module="lfi" data-active="true" class="border-red-500/50 bg-red-500/5 border rounded-xl p-3 cursor-pointer hover:border-red-500/30 transition-all text-center">
+              <span class="material-symbols-outlined text-2xl text-yellow-400 block mb-1">folder_open</span>
+              <p class="text-xs font-bold text-slate-200">LFI / Path</p>
+              <p class="text-[10px] text-slate-500">Traversal</p>
+            </div>
+            <div data-module="idor" data-active="true" class="border-red-500/50 bg-red-500/5 border rounded-xl p-3 cursor-pointer hover:border-red-500/30 transition-all text-center">
+              <span class="material-symbols-outlined text-2xl text-purple-400 block mb-1">lock_open</span>
+              <p class="text-xs font-bold text-slate-200">IDOR</p>
+              <p class="text-[10px] text-slate-500">Auth Bypass</p>
+            </div>
+            <div data-module="ssrf" data-active="true" class="border-red-500/50 bg-red-500/5 border rounded-xl p-3 cursor-pointer hover:border-red-500/30 transition-all text-center">
+              <span class="material-symbols-outlined text-2xl text-blue-400 block mb-1">cloud</span>
+              <p class="text-xs font-bold text-slate-200">SSRF</p>
+              <p class="text-[10px] text-slate-500">Analysis</p>
+            </div>
+            <div data-module="jwt" data-active="true" class="border-red-500/50 bg-red-500/5 border rounded-xl p-3 cursor-pointer hover:border-red-500/30 transition-all text-center">
+              <span class="material-symbols-outlined text-2xl text-green-400 block mb-1">key</span>
+              <p class="text-xs font-bold text-slate-200">JWT</p>
+              <p class="text-[10px] text-slate-500">Security</p>
+            </div>
+            <div data-module="recon" data-active="true" class="border-red-500/50 bg-red-500/5 border rounded-xl p-3 cursor-pointer hover:border-red-500/30 transition-all text-center">
+              <span class="material-symbols-outlined text-2xl text-cyan-400 block mb-1">radar</span>
+              <p class="text-xs font-bold text-slate-200">Recon</p>
+              <p class="text-[10px] text-slate-500">Reconnaissance</p>
+            </div>
+            <div data-module="headers" data-active="true" class="border-red-500/50 bg-red-500/5 border rounded-xl p-3 cursor-pointer hover:border-red-500/30 transition-all text-center">
+              <span class="material-symbols-outlined text-2xl text-slate-400 block mb-1">shield</span>
+              <p class="text-xs font-bold text-slate-200">Headers</p>
+              <p class="text-[10px] text-slate-500">Security</p>
+            </div>
+          </div>
+
+          <!-- Usage indicator -->
+          <p id="usage-indicator" class="text-sm text-slate-500 mt-6 font-mono text-center"></p>
+
+          <!-- Submit button -->
+          <button
+            id="btn-scan"
+            class="mt-6 w-full sm:w-auto sm:min-w-[280px] sm:mx-auto sm:flex inline-flex items-center justify-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] hover:scale-[1.02] text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          >
+            <span class="material-symbols-outlined text-xl">rocket_launch</span>
+            Iniciar Varredura
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SCAN PROGRESS ═══════════════ -->
+  <section id="scan-progress" class="hidden px-4 py-12 sm:px-6 md:px-12 lg:px-24">
+    <div class="max-w-3xl mx-auto">
+      <div class="rounded-2xl border border-red-500/15 bg-[#0a0a0a]/90 shadow-[0_0_60px_rgba(220,38,38,0.06)] overflow-hidden">
+        <!-- Terminal header -->
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-red-500/10 bg-[#0c0c0c]/80">
+          <div class="w-3 h-3 rounded-full bg-red-500/60 animate-pulse"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/40"></div>
+          <div class="w-3 h-3 rounded-full bg-green-500/40"></div>
+          <span class="ml-2 text-xs text-slate-400 font-mono">cyberdyne@scanner:~ varredura em progresso...</span>
+        </div>
+
+        <!-- Terminal output -->
+        <div id="terminal-output" class="p-5 sm:p-6 font-mono text-[13px] leading-relaxed max-h-[400px] overflow-y-auto min-h-[200px]">
+        </div>
+
+        <!-- Progress bar -->
+        <div class="px-5 pb-5 sm:px-6 sm:pb-6">
+          <div class="w-full h-2 rounded-full bg-[#0c0c0c] border border-red-500/10 overflow-hidden">
+            <div id="progress-bar" class="h-full rounded-full bg-gradient-to-r from-red-700 via-red-500 to-red-400 transition-all duration-700 ease-out shadow-[0_0_10px_rgba(220,38,38,0.5)]" style="width: 0%"></div>
+          </div>
+          <p id="progress-text" class="text-xs text-slate-500 font-mono mt-2 text-center">0%</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SCAN RESULTS ═══════════════ -->
+  <section id="scan-results" class="hidden px-4 py-12 sm:px-6 md:px-12 lg:px-24">
+    <div class="max-w-4xl mx-auto">
+
+      <!-- Summary bar -->
+      <div id="results-summary" class="flex flex-wrap items-center gap-3 sm:gap-4 mb-8 p-4 sm:p-6 rounded-2xl border border-red-500/15 bg-[#0a0a0a]/90">
+        <div class="flex items-center gap-2 mr-auto">
+          <span class="material-symbols-outlined text-2xl text-red-500">bug_report</span>
+          <span id="total-findings" class="text-xl font-black text-white">0</span>
+          <span class="text-sm text-slate-400">vulnerabilidades encontradas</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span id="badge-critical" class="px-3 py-1 rounded-full text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/20">0 Criticas</span>
+          <span id="badge-high" class="px-3 py-1 rounded-full text-xs font-bold bg-orange-500/20 text-orange-400 border border-orange-500/20">0 Altas</span>
+          <span id="badge-medium" class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/20">0 Medias</span>
+          <span id="badge-low" class="px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-400 border border-blue-500/20">0 Baixas</span>
+        </div>
+      </div>
+
+      <!-- Findings list -->
+      <div id="findings-list" class="space-y-4">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- New scan button -->
+      <div class="text-center mt-10">
+        <button id="btn-new-scan" class="inline-flex items-center justify-center gap-2 px-8 py-4 border border-red-500/30 hover:border-red-500/60 text-red-400 hover:text-red-300 font-bold rounded-xl transition-all bg-red-500/5 hover:bg-red-500/10">
+          <span class="material-symbols-outlined text-xl">refresh</span>
+          Nova Varredura
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SCAN HISTORY ═══════════════ -->
+  <section id="scan-history" class="hidden px-4 py-12 sm:px-6 md:px-12 lg:px-24 border-t border-red-500/10">
+    <div class="max-w-4xl mx-auto">
+      <h3 class="text-xl font-black mb-6 flex items-center gap-2">
+        <span class="material-symbols-outlined text-red-500">history</span>
+        Historico de Varreduras
+      </h3>
+      <div id="history-list" class="text-sm text-slate-500 font-mono">
+        Nenhuma varredura realizada ainda.
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══════════════ STYLES ═══════════════ -->
+<style>
+  .cyberdyne-scan [data-module] {
+    user-select: none;
+  }
+  .cyberdyne-scan [data-module]:active {
+    transform: scale(0.97);
+  }
+
+  /* Scrollbar for terminal output */
+  #terminal-output::-webkit-scrollbar {
+    width: 6px;
+  }
+  #terminal-output::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  #terminal-output::-webkit-scrollbar-thumb {
+    background: rgba(220, 38, 38, 0.2);
+    border-radius: 3px;
+  }
+
+  /* Finding card expand animation */
+  .finding-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    opacity: 0;
+  }
+  .finding-details.open {
+    max-height: 600px;
+    opacity: 1;
+  }
+
+  /* Blink cursor for terminal */
+  .cd-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: #ef4444;
+    animation: blink-cursor 1s step-end infinite;
+  }
+  @keyframes blink-cursor {
+    50% { opacity: 0; }
+  }
+</style>
+
+<!-- ═══════════════ CLIENT-SIDE JAVASCRIPT ═══════════════ -->
+<script>
+  import { supabase } from '../lib/supabase';
+
+  // ── State ──
+  let session: any = null;
+  let scanData: any = null;
+
+  // ── DOM refs ──
+  const authGate = document.getElementById('auth-gate')!;
+  const scanForm = document.getElementById('scan-form')!;
+  const scanProgress = document.getElementById('scan-progress')!;
+  const scanResults = document.getElementById('scan-results')!;
+  const scanHistory = document.getElementById('scan-history')!;
+  const urlInput = document.getElementById('scan-url') as HTMLInputElement;
+  const btnScan = document.getElementById('btn-scan')!;
+  const terminalOutput = document.getElementById('terminal-output')!;
+  const progressBar = document.getElementById('progress-bar')!;
+  const progressText = document.getElementById('progress-text')!;
+  const btnNewScan = document.getElementById('btn-new-scan')!;
+  const usageIndicator = document.getElementById('usage-indicator')!;
+
+  // ── Auth check ──
+  async function checkAuth() {
+    const { data: { session: s } } = await supabase.auth.getSession();
+    session = s;
+    if (session) {
+      authGate.classList.add('hidden');
+      scanForm.classList.remove('hidden');
+      scanHistory.classList.remove('hidden');
+    }
+  }
+  checkAuth();
+
+  // ── Module toggles ──
+  document.querySelectorAll<HTMLElement>('[data-module]').forEach(card => {
+    card.addEventListener('click', () => {
+      const isActive = card.dataset.active === 'true';
+      card.dataset.active = isActive ? 'false' : 'true';
+      if (isActive) {
+        card.classList.remove('border-red-500/50', 'bg-red-500/5');
+        card.classList.add('border-red-500/10');
+      } else {
+        card.classList.add('border-red-500/50', 'bg-red-500/5');
+        card.classList.remove('border-red-500/10');
+      }
+    });
+  });
+
+  // ── Terminal animation ──
+  async function animateTerminal(modules: string[]): Promise<void> {
+    const moduleNames = modules.map(m => m.toUpperCase()).join(', ');
+    const lines = [
+      { text: '<span class="text-red-400">[*]</span> Conectando ao alvo...', delay: 800 },
+      { text: '<span class="text-red-400">[*]</span> Resolvendo DNS...', delay: 1000 },
+      { text: '<span class="text-green-400">[+]</span> Alvo acessivel (HTTP 200)', delay: 900 },
+      { text: `<span class="text-red-400">[*]</span> Carregando modulos: ${moduleNames}`, delay: 1100 },
+      { text: '<span class="text-green-400">[+]</span> 113 verificacoes ativas', delay: 800 },
+      { text: '<span class="text-red-400">[*]</span> Iniciando varredura...', delay: 1200 },
+      { text: '<span class="text-red-400">[*]</span> Modulo XSS... concluido (2 findings)', delay: 1400 },
+      { text: '<span class="text-red-400">[*]</span> Modulo SQLi... concluido (1 finding)', delay: 1100 },
+      { text: '<span class="text-red-400">[*]</span> Modulo JWT... concluido (1 finding)', delay: 1000 },
+      { text: '<span class="text-red-400">[*]</span> Modulo Headers... concluido (1 finding)', delay: 900 },
+      { text: '<span class="text-red-400">[*]</span> Modulo IDOR... concluido (1 finding)', delay: 1100 },
+      { text: '<span class="text-red-400">[*]</span> Modulo SSRF... concluido (1 finding)', delay: 1000 },
+      { text: '<span class="text-yellow-400">[!]</span> <span class="text-red-300 font-semibold">Vulnerabilidade CRITICA detectada</span>', delay: 1300 },
+      { text: '<span class="text-green-400">[+]</span> Varredura completa. Gerando relatorio...', delay: 800 },
+    ];
+
+    terminalOutput.innerHTML = '';
+    for (let i = 0; i < lines.length; i++) {
+      await new Promise(r => setTimeout(r, lines[i].delay));
+      terminalOutput.innerHTML += `<p class="text-slate-400 mb-1">${lines[i].text}</p>`;
+      terminalOutput.scrollTop = terminalOutput.scrollHeight;
+      const pct = Math.round(((i + 1) / lines.length) * 100);
+      progressBar.style.width = `${pct}%`;
+      progressText.textContent = `${pct}%`;
+    }
+  }
+
+  // ── Severity helpers ──
+  const severityConfig: Record<string, { color: string; bg: string; border: string; label: string }> = {
+    critical: { color: 'text-red-400', bg: 'bg-red-500/20', border: 'border-red-500/20', label: 'CRITICA' },
+    high:     { color: 'text-orange-400', bg: 'bg-orange-500/20', border: 'border-orange-500/20', label: 'ALTA' },
+    medium:   { color: 'text-yellow-400', bg: 'bg-yellow-500/20', border: 'border-yellow-500/20', label: 'MEDIA' },
+    low:      { color: 'text-blue-400', bg: 'bg-blue-500/20', border: 'border-blue-500/20', label: 'BAIXA' },
+    info:     { color: 'text-slate-400', bg: 'bg-slate-500/20', border: 'border-slate-500/20', label: 'INFO' },
+  };
+
+  const moduleIcons: Record<string, string> = {
+    xss: 'code', sqli: 'storage', lfi: 'folder_open', idor: 'lock_open',
+    ssrf: 'cloud', jwt: 'key', recon: 'radar', headers: 'shield',
+    redirect: 'open_in_new', info: 'info',
+  };
+
+  // ── Render results ──
+  function renderResults(data: any) {
+    const findings = data.findings || [];
+    const summary = data.summary || {};
+
+    // Update summary bar
+    document.getElementById('total-findings')!.textContent = String(findings.length);
+    document.getElementById('badge-critical')!.textContent = `${summary.critical || 0} Criticas`;
+    document.getElementById('badge-high')!.textContent = `${summary.high || 0} Altas`;
+    document.getElementById('badge-medium')!.textContent = `${summary.medium || 0} Medias`;
+    document.getElementById('badge-low')!.textContent = `${summary.low || 0} Baixas`;
+
+    // Group findings by module
+    const grouped: Record<string, any[]> = {};
+    for (const f of findings) {
+      const mod = f.module || 'other';
+      if (!grouped[mod]) grouped[mod] = [];
+      grouped[mod].push(f);
+    }
+
+    // Render grouped findings
+    const container = document.getElementById('findings-list')!;
+    container.innerHTML = '';
+
+    for (const [mod, modFindings] of Object.entries(grouped)) {
+      const icon = moduleIcons[mod] || 'security';
+      const modName = mod.toUpperCase();
+
+      // Module header
+      const modHeader = document.createElement('div');
+      modHeader.className = 'flex items-center gap-2 mt-6 mb-3';
+      modHeader.innerHTML = `
+        <span class="material-symbols-outlined text-xl text-red-500">${icon}</span>
+        <h4 class="text-base font-bold text-slate-200">${modName}</h4>
+        <span class="text-xs text-slate-500 font-mono">(${modFindings.length})</span>
+      `;
+      container.appendChild(modHeader);
+
+      // Finding cards
+      for (const finding of modFindings) {
+        const sev = severityConfig[finding.severity] || severityConfig.info;
+        const card = document.createElement('div');
+        card.className = 'rounded-xl border border-red-500/10 bg-[#0a0a0a]/80 overflow-hidden hover:border-red-500/20 transition-all';
+
+        const cvssDisplay = finding.cvss != null ? `<span class="text-xs font-mono ${sev.color}">CVSS ${finding.cvss}</span>` : '';
+
+        card.innerHTML = `
+          <div class="finding-header flex items-center gap-3 px-4 py-3 cursor-pointer select-none">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${sev.bg} ${sev.color} ${sev.border} border shrink-0">${sev.label}</span>
+            <span class="text-sm font-semibold text-slate-200 flex-1 truncate">${finding.title}</span>
+            ${cvssDisplay}
+            <span class="material-symbols-outlined text-sm text-slate-500 finding-chevron transition-transform">expand_more</span>
+          </div>
+          <div class="finding-details px-4 pb-0">
+            <div class="pb-4 space-y-3 border-t border-red-500/5 pt-3">
+              <p class="text-sm text-slate-400 leading-relaxed">${finding.description}</p>
+              ${finding.affected_url ? `<div><span class="text-xs font-bold text-slate-500 uppercase tracking-wider">URL Afetada</span><p class="text-xs text-red-400/80 font-mono mt-1 break-all">${finding.affected_url}</p></div>` : ''}
+              ${finding.evidence ? `<div><span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Evidencia</span><pre class="text-xs text-slate-400 font-mono mt-1 p-3 rounded-lg bg-[#0c0c0c] border border-red-500/5 overflow-x-auto whitespace-pre-wrap">${finding.evidence}</pre></div>` : ''}
+              ${finding.element ? `<div><span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Elemento</span><pre class="text-xs text-slate-400 font-mono mt-1 p-3 rounded-lg bg-[#0c0c0c] border border-red-500/5 overflow-x-auto whitespace-pre-wrap">${finding.element}</pre></div>` : ''}
+            </div>
+          </div>
+        `;
+
+        // Toggle expand
+        card.querySelector('.finding-header')!.addEventListener('click', () => {
+          const details = card.querySelector('.finding-details')!;
+          const chevron = card.querySelector('.finding-chevron')!;
+          details.classList.toggle('open');
+          chevron.classList.toggle('rotate-180');
+        });
+
+        container.appendChild(card);
+      }
+    }
+
+    // Update remaining scans
+    if (data.remaining != null) {
+      usageIndicator.textContent = `${Math.max(0, data.remaining)} varreduras restantes este mes`;
+    }
+  }
+
+  // ── Submit scan ──
+  btnScan.addEventListener('click', async () => {
+    const url = urlInput.value.trim();
+    if (!url) {
+      urlInput.classList.add('border-red-500/80');
+      urlInput.focus();
+      return;
+    }
+    if (!url.startsWith('https://')) {
+      urlInput.classList.add('border-red-500/80');
+      alert('A URL deve comecar com https://');
+      return;
+    }
+
+    urlInput.classList.remove('border-red-500/80');
+
+    const modules = [...document.querySelectorAll<HTMLElement>('[data-module][data-active="true"]')]
+      .map(el => el.dataset.module!);
+
+    if (modules.length === 0) {
+      alert('Selecione pelo menos um modulo.');
+      return;
+    }
+
+    // Disable button
+    btnScan.setAttribute('disabled', 'true');
+    btnScan.innerHTML = '<span class="material-symbols-outlined text-xl animate-spin">progress_activity</span> Preparando...';
+
+    // Show progress
+    scanForm.classList.add('hidden');
+    scanProgress.classList.remove('hidden');
+
+    // Animate terminal
+    await animateTerminal(modules);
+
+    // Call API
+    try {
+      const res = await fetch('/api/cyberdyne/scan', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ url, modules }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Erro desconhecido');
+      }
+
+      scanData = data;
+
+      // Short delay before showing results
+      await new Promise(r => setTimeout(r, 1000));
+
+      // Show results
+      renderResults(data);
+      scanProgress.classList.add('hidden');
+      scanResults.classList.remove('hidden');
+
+    } catch (err: any) {
+      terminalOutput.innerHTML += `<p class="text-red-400 mt-2 font-semibold">[ERRO] ${err.message}</p>`;
+      terminalOutput.innerHTML += `<p class="text-slate-500 mt-1">[*] Tente novamente ou verifique os parametros.</p>`;
+
+      // Show return button in terminal
+      setTimeout(() => {
+        terminalOutput.innerHTML += `<p class="mt-4"><button id="btn-retry" class="text-red-400 hover:text-red-300 underline font-bold text-sm">Voltar ao formulario</button></p>`;
+        document.getElementById('btn-retry')?.addEventListener('click', resetToForm);
+      }, 500);
+    }
+
+    // Re-enable button
+    btnScan.removeAttribute('disabled');
+    btnScan.innerHTML = '<span class="material-symbols-outlined text-xl">rocket_launch</span> Iniciar Varredura';
+  });
+
+  // ── New scan ──
+  function resetToForm() {
+    scanResults.classList.add('hidden');
+    scanProgress.classList.add('hidden');
+    scanForm.classList.remove('hidden');
+    progressBar.style.width = '0%';
+    progressText.textContent = '0%';
+    terminalOutput.innerHTML = '';
+    scanData = null;
+  }
+
+  btnNewScan.addEventListener('click', resetToForm);
+
+  // ── Enter key on URL input ──
+  urlInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') btnScan.click();
+  });
+</script>
+
+</Layout>

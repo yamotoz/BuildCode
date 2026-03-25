@@ -36,6 +36,27 @@ O sistema conduz o usuario por um wizard inteligente de 20 etapas cobrindo stack
 
 ---
 
+## Preview
+
+<div align="center">
+
+### Funcionalidades
+<img src="Img/features.png" alt="Funcionalidades do BuildCode" width="100%" />
+
+<br />
+
+### Frameworks & Tecnologias
+<img src="Img/frameetechs.png" alt="Frameworks e Tecnologias" width="100%" />
+
+<br />
+
+### Banco de Dados
+<img src="Img/banco.png" alt="Banco de Dados" width="100%" />
+
+</div>
+
+---
+
 ## Tecnologias & Stack
 
 <div align="center">

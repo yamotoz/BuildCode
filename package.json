@@ -9,14 +9,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/node": "^9.5.4",
-    "@astrojs/react": "^4.4.2",
+    "@astrojs/node": "^10.0.3",
+    "@astrojs/react": "^5.0.1",
     "@astrojs/sitemap": "^3.7.1",
-    "@astrojs/vercel": "^8.2.11",
+    "@astrojs/vercel": "^10.0.2",
     "@supabase/supabase-js": "^2.98.0",
     "@tailwindcss/vite": "^4.2.1",
     "@vercel/speed-insights": "^2.0.0",
-    "astro": "^5.17.1",
+    "astro": "^6.0.8",
     "framer-motion": "^12.35.0",
     "ioredis": "^5.10.1",
     "lucide-react": "^0.577.0",

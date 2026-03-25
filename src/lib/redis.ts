@@ -149,6 +149,12 @@ export const CACHE_KEYS = {
 
   /** All profiles list (admin): profiles:all — TTL 3min */
   allProfiles: () => 'profiles:all',
+
+  /** Scan usage count this month: scan_usage:{type}:{userId}:{YYYY-MM} — TTL 2min */
+  scanUsage: (userId: string, type: string) => `scan_usage:${type}:${userId}:${new Date().toISOString().slice(0, 7)}`,
+
+  /** Scan result cache: scan_result:{scanId} — TTL 30min */
+  scanResult: (scanId: string) => `scan_result:${scanId}`,
 } as const;
 
 /**

@@ -26,6 +26,9 @@ export default defineConfig({
         !page.includes('/app') &&
         !page.includes('/perfil') &&
         !page.includes('/admin') &&
+        !page.includes('/cyberdyne-scan') &&
+        !page.includes('/serenity-scan') &&
+        !page.includes('/marketing') &&
         !page.includes('/api/'),
       i18n: {
         defaultLocale: 'pt-BR',

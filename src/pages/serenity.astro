@@ -1,0 +1,551 @@
+---
+export const prerender = false;
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Serenity QA | Motor de Qualidade Automatizado" description="Análise automática de qualidade com 9 domínios, 113+ checks e relatórios detalhados. Performance, SEO, acessibilidade e mais.">
+
+<main id="main-content" class="serenity-page bg-[#FAF8F5] text-[#1a1a2e] min-h-screen">
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#FAF8F5]/80 border-b border-[#d4af37]/10 px-4 py-3 sm:px-6 sm:py-4 md:px-8 lg:px-24">
+    <div class="mx-auto relative flex max-w-[1440px] items-center justify-between">
+      <a href="/serenity" class="flex items-center gap-2 sm:gap-3 text-[#1a1a2e] hover:opacity-80 transition-opacity shrink-0">
+        <img src="/logosyoff.png" alt="Serenity" class="h-14 sm:h-16 w-auto object-contain" width="200" height="64" loading="eager" />
+        <h2 class="font-display text-lg sm:text-xl font-bold tracking-tight text-[#1a1a2e] hidden sm:block">Serenity</h2>
+      </a>
+      <nav class="hidden lg:flex gap-6 xl:gap-8 absolute left-1/2 -translate-x-1/2">
+        <a class="text-[#5a5a6e] hover:text-[#d4af37] transition-colors text-sm font-medium tracking-wide" href="#domains">Domínios</a>
+        <a class="text-[#5a5a6e] hover:text-[#d4af37] transition-colors text-sm font-medium tracking-wide" href="#modules">Módulos</a>
+        <a class="text-[#5a5a6e] hover:text-[#d4af37] transition-colors text-sm font-medium tracking-wide" href="#how">Como Funciona</a>
+        <a class="text-[#2E748B] hover:text-[#2E748B]/80 transition-colors text-sm font-medium tracking-wide" href="/">BuildCode</a>
+      </nav>
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <a href="/serenity-scan" class="flex cursor-pointer items-center justify-center rounded-full bg-[#d4af37] text-white hover:bg-[#b8960c] transition-colors px-4 sm:px-6 py-2 text-xs sm:text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(212,175,55,0.3)] whitespace-nowrap">
+          Acessar Sistema
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <!-- Video background -->
+    <div class="absolute inset-0 z-0">
+      <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-40">
+        <source src="/img/serenity.webm" type="video/webm" />
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/60 via-[#FAF8F5]/30 to-[#FAF8F5]/80"></div>
+    </div>
+    <!-- Gold ambient glow -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#d4af37]/[0.05] rounded-full blur-[120px] z-[1]"></div>
+    <!-- Second ambient glow - bottom right -->
+    <div class="absolute bottom-1/4 right-0 w-[500px] h-[300px] bg-[#d4af37]/[0.03] rounded-full blur-[100px] z-[1]"></div>
+    <!-- Gold top border -->
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4af37]/20 to-transparent z-[2]"></div>
+
+    <div class="relative z-20 max-w-[1200px] mx-auto px-6 md:px-12 lg:px-24 text-center pt-12 md:pt-16">
+
+      <!-- Badge -->
+      <div class="sy-fade-up inline-flex items-center gap-2.5 mb-10 px-5 py-2 rounded-full border border-[#d4af37]/20 bg-[#d4af37]/5 text-[#b8960c] text-sm font-mono backdrop-blur-sm">
+        <span class="flex size-2 rounded-full bg-[#d4af37] animate-pulse"></span>
+        Serenity QA Engine // Quality Assurance
+      </div>
+
+      <h1 class="sy-fade-up text-4xl md:text-6xl lg:text-[5.5rem] font-black leading-[0.92] mb-8 tracking-tighter text-[#1a1a2e]" style="animation-delay: 0.1s">
+        Qualidade Não Se Discute.<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-[#C9A84C] to-[#b8960c]">Se Comprova.</span>
+      </h1>
+
+      <p class="sy-fade-up text-lg md:text-xl text-[#5a5a6e] max-w-2xl mx-auto mb-12 leading-relaxed" style="animation-delay: 0.2s">
+        Motor automatizado de qualidade que analisa seu software em <span class="text-[#1a1a2e] font-semibold">9 domínios</span>,
+        detecta problemas reais e entrega relatórios com evidências.
+        Você descobre onde melhorar <span class="text-[#b8960c] font-semibold">antes do usuário reclamar</span>.
+      </p>
+
+      <div class="sy-fade-up flex flex-col sm:flex-row gap-4 justify-center mb-16" style="animation-delay: 0.3s">
+        <a href="/serenity-scan" class="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#d4af37] hover:bg-[#b8960c] text-white font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(212,175,55,0.2)] hover:shadow-[0_0_50px_rgba(212,175,55,0.35)] hover:scale-[1.02]">
+          <span class="material-symbols-outlined text-xl group-hover:rotate-12 transition-transform">rocket_launch</span>
+          Testar Agora
+        </a>
+        <a href="#domains" class="group inline-flex items-center justify-center gap-2 px-8 py-4 border border-[#d4af37]/30 hover:border-[#d4af37]/60 text-[#b8960c] hover:text-[#d4af37] font-bold rounded-xl transition-all bg-[#d4af37]/5 hover:bg-[#d4af37]/10 backdrop-blur-sm">
+          <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">visibility</span>
+          Conhecer os Domínios
+        </a>
+      </div>
+
+      <!-- Report preview card -->
+      <div class="sy-fade-up max-w-2xl mx-auto rounded-2xl border border-[#d4af37]/15 bg-white/90 shadow-[0_20px_60px_rgba(0,0,0,0.06)] overflow-hidden backdrop-blur-sm" style="animation-delay: 0.4s">
+        <div class="relative p-6 md:p-8">
+          <!-- Gold corner accents -->
+          <div class="absolute top-3 left-3 w-8 h-8 border-t-2 border-l-2 rounded-tl-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+          <div class="absolute top-3 right-3 w-8 h-8 border-t-2 border-r-2 rounded-tr-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+          <div class="absolute bottom-3 left-3 w-8 h-8 border-b-2 border-l-2 rounded-bl-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+          <div class="absolute bottom-3 right-3 w-8 h-8 border-b-2 border-r-2 rounded-br-lg" style="border-color: rgba(212,175,55,0.3);"></div>
+
+          <!-- Report header -->
+          <div class="text-center mb-5 pb-4 border-b border-[#d4af37]/15">
+            <div class="text-xs font-black tracking-[0.3em] uppercase text-[#d4af37] mb-1">Serenity QA</div>
+            <div class="text-lg font-bold text-[#1a1a2e]">Quality Report</div>
+            <div class="text-xs mt-1 text-[#9a9aae]">25/03/2026 | app.example.com</div>
+          </div>
+
+          <div class="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+            <!-- Score gauge -->
+            <div class="shrink-0">
+              <svg viewBox="0 0 120 120" class="w-24 h-24">
+                <circle cx="60" cy="60" r="54" fill="none" stroke="#e5e0d8" stroke-width="8"/>
+                <circle cx="60" cy="60" r="54" fill="none" stroke="#d4af37" stroke-width="8"
+                  stroke-dasharray="339.3" stroke-dashoffset="27" stroke-linecap="round"
+                  transform="rotate(-90 60 60)"/>
+                <text x="60" y="65" text-anchor="middle" fill="#1a1a2e" font-size="28" font-weight="900">92</text>
+              </svg>
+            </div>
+
+            <!-- Domain bars -->
+            <div class="flex-1 w-full space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-[#3a3a4e]">Performance</span>
+                <span class="text-xs font-bold text-[#22c55e]">96/100</span>
+              </div>
+              <div class="w-full h-1.5 bg-[#e5e0d8] rounded-full overflow-hidden">
+                <div class="h-full bg-[#22c55e] rounded-full" style="width: 96%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-[#3a3a4e]">SEO</span>
+                <span class="text-xs font-bold text-[#22c55e]">94/100</span>
+              </div>
+              <div class="w-full h-1.5 bg-[#e5e0d8] rounded-full overflow-hidden">
+                <div class="h-full bg-[#22c55e] rounded-full" style="width: 94%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-[#3a3a4e]">Acessibilidade</span>
+                <span class="text-xs font-bold text-[#d4af37]">87/100</span>
+              </div>
+              <div class="w-full h-1.5 bg-[#e5e0d8] rounded-full overflow-hidden">
+                <div class="h-full bg-[#d4af37] rounded-full" style="width: 87%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-[#3a3a4e]">Responsividade</span>
+                <span class="text-xs font-bold text-[#22c55e]">91/100</span>
+              </div>
+              <div class="w-full h-1.5 bg-[#e5e0d8] rounded-full overflow-hidden">
+                <div class="h-full bg-[#22c55e] rounded-full" style="width: 91%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 text-center border-t border-[#d4af37]/15">
+            <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#b8960c]">Quality Certified</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="sy-fade-up mt-12 flex flex-col items-center gap-2 opacity-40" style="animation-delay: 0.6s">
+        <span class="text-[10px] uppercase tracking-[0.3em] text-[#5a5a6e] font-bold">Descubra mais</span>
+        <span class="material-symbols-outlined text-xl text-[#5a5a6e] animate-bounce">expand_more</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ NUMBERS / SOCIAL PROOF ═══════════════ -->
+  <section class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight">
+        Qualidade em Números
+      </h2>
+      <p class="text-[#5a5a6e] text-center max-w-xl mx-auto mb-4">O que o Serenity consegue medir em uma única varredura.</p>
+      <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent mx-auto mb-16"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="rounded-2xl p-8 border border-[#d4af37]/[0.08] bg-white text-center hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)]">
+          <p class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-[#d4af37] to-[#b8960c] mb-3">275+</p>
+          <p class="text-sm text-[#5a5a6e]">Verificações individuais em <span class="text-[#1a1a2e] font-semibold">9 domínios</span> distintos</p>
+        </div>
+        <div class="rounded-2xl p-8 border border-[#d4af37]/[0.08] bg-white text-center hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)]">
+          <p class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-[#d4af37] to-[#b8960c] mb-3">8</p>
+          <p class="text-sm text-[#5a5a6e]">Módulos avançados incluindo <span class="text-[#1a1a2e] font-semibold">chaos engineering</span></p>
+        </div>
+        <div class="rounded-2xl p-8 border border-[#d4af37]/[0.08] bg-white text-center hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)]">
+          <p class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-[#d4af37] to-[#b8960c] mb-3">4</p>
+          <p class="text-sm text-[#5a5a6e]">Formatos de relatório: <span class="text-[#1a1a2e] font-semibold">HTML, PDF, JSON, Prompt</span></p>
+        </div>
+        <div class="rounded-2xl p-8 border border-[#d4af37]/[0.08] bg-white text-center hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)]">
+          <p class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-[#d4af37] to-[#b8960c] mb-3">&lt;3m</p>
+          <p class="text-sm text-[#5a5a6e]">Tempo médio de varredura completa com <span class="text-[#1a1a2e] font-semibold">todos os domínios</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 9 ANALYSIS DOMAINS ═══════════════ -->
+  <section id="domains" class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] to-[#b8960c]">9</span> Domínios de Análise
+      </h2>
+      <p class="text-[#5a5a6e] text-center max-w-xl mx-auto mb-4">Cada aspecto do seu software é inspecionado com precisão cirúrgica.</p>
+      <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent mx-auto mb-16"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Infrastructure -->
+        <div class="bg-white rounded-2xl p-6 border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)] group">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-4 block group-hover:scale-110 transition-transform">dns</span>
+          <h3 class="font-bold text-lg text-[#1a1a2e] mb-1">Infrastructure</h3>
+          <span class="text-sm text-[#b8960c] font-mono">20 checks</span>
+          <p class="text-sm text-[#5a5a6e] mt-2 leading-relaxed">SSL, headers de segurança, HTTPS, caminhos expostos</p>
+        </div>
+        <!-- Performance -->
+        <div class="bg-white rounded-2xl p-6 border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)] group">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-4 block group-hover:scale-110 transition-transform">speed</span>
+          <h3 class="font-bold text-lg text-[#1a1a2e] mb-1">Performance</h3>
+          <span class="text-sm text-[#b8960c] font-mono">50 checks</span>
+          <p class="text-sm text-[#5a5a6e] mt-2 leading-relaxed">LCP, CLS, TTFB, peso da página, recursos bloqueantes</p>
+        </div>
+        <!-- SEO -->
+        <div class="bg-white rounded-2xl p-6 border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)] group">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-4 block group-hover:scale-110 transition-transform">search</span>
+          <h3 class="font-bold text-lg text-[#1a1a2e] mb-1">SEO</h3>
+          <span class="text-sm text-[#b8960c] font-mono">40 checks</span>
+          <p class="text-sm text-[#5a5a6e] mt-2 leading-relaxed">Titles, metas, headings, sitemap, robots, Schema.org</p>
+        </div>
+        <!-- Click Agent -->
+        <div class="bg-white rounded-2xl p-6 border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)] group">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-4 block group-hover:scale-110 transition-transform">touch_app</span>
+          <h3 class="font-bold text-lg text-[#1a1a2e] mb-1">Click Agent</h3>
+          <span class="text-sm text-[#b8960c] font-mono">35 checks</span>
+          <p class="text-sm text-[#5a5a6e] mt-2 leading-relaxed">Elementos interativos, navegação, dead-ends, clickability</p>
+        </div>
+        <!-- Forms -->
+        <div class="bg-white rounded-2xl p-6 border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)] group">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-4 block group-hover:scale-110 transition-transform">edit_note</span>
+          <h3 class="font-bold text-lg text-[#1a1a2e] mb-1">Forms</h3>
+          <span class="text-sm text-[#b8960c] font-mono">30 checks</span>
+          <p class="text-sm text-[#5a5a6e] mt-2 leading-relaxed">Validação, XSS/SQLi, CSRF, mensagens de erro</p>
+        </div>
+        <!-- Functionality -->
+        <div class="bg-white rounded-2xl p-6 border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)] group">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-4 block group-hover:scale-110 transition-transform">settings</span>
+          <h3 class="font-bold text-lg text-[#1a1a2e] mb-1">Functionality</h3>
+          <span class="text-sm text-[#b8960c] font-mono">25 checks</span>
+          <p class="text-sm text-[#5a5a6e] mt-2 leading-relaxed">Links quebrados, JS errors, cookies, redirects</p>
+        </div>
+        <!-- Responsiveness -->
+        <div class="bg-white rounded-2xl p-6 border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)] group">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-4 block group-hover:scale-110 transition-transform">devices</span>
+          <h3 class="font-bold text-lg text-[#1a1a2e] mb-1">Responsiveness</h3>
+          <span class="text-sm text-[#b8960c] font-mono">20 checks</span>
+          <p class="text-sm text-[#5a5a6e] mt-2 leading-relaxed">Multi-viewport, touch targets, overflow, CLS mobile</p>
+        </div>
+        <!-- Accessibility -->
+        <div class="bg-white rounded-2xl p-6 border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)] group">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-4 block group-hover:scale-110 transition-transform">accessibility_new</span>
+          <h3 class="font-bold text-lg text-[#1a1a2e] mb-1">Accessibility</h3>
+          <span class="text-sm text-[#b8960c] font-mono">35 checks</span>
+          <p class="text-sm text-[#5a5a6e] mt-2 leading-relaxed">WCAG 2.1, contraste, labels, landmarks, skip-nav</p>
+        </div>
+        <!-- Content -->
+        <div class="bg-white rounded-2xl p-6 border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)] group">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-4 block group-hover:scale-110 transition-transform">article</span>
+          <h3 class="font-bold text-lg text-[#1a1a2e] mb-1">Content</h3>
+          <span class="text-sm text-[#b8960c] font-mono">20 checks</span>
+          <p class="text-sm text-[#5a5a6e] mt-2 leading-relaxed">Placeholders, datas desatualizadas, tokens expostos</p>
+        </div>
+      </div>
+
+      <!-- Total checks callout -->
+      <div class="mt-10 text-center">
+        <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-[#d4af37]/20 bg-[#d4af37]/5">
+          <span class="material-symbols-outlined text-[#d4af37]">verified</span>
+          <span class="text-sm font-bold text-[#b8960c]">Total: 275+ verificações individuais em uma única varredura</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 8 ADVANCED MODULES ═══════════════ -->
+  <section id="modules" class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight">Módulos Avançados</h2>
+      <p class="text-[#5a5a6e] text-center max-w-xl mx-auto mb-4">Testes que vão além do básico. Cada módulo simula cenários reais de falha.</p>
+      <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent mx-auto mb-16"></div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Chaos Engineering -->
+        <div class="p-4 rounded-xl bg-white border border-[#d4af37]/[0.06] hover:border-[#d4af37]/25 transition-all group hover:shadow-[0_4px_20px_rgba(212,175,55,0.06)]">
+          <span class="material-symbols-outlined text-2xl text-[#d4af37] mb-2 block group-hover:scale-110 transition-transform">bolt</span>
+          <p class="text-sm font-bold text-[#1a1a2e]">Chaos Engineering</p>
+          <p class="text-xs text-[#5a5a6e] mt-1">Injeção de falhas 500, timeout, offline</p>
+        </div>
+        <!-- Memory Leak -->
+        <div class="p-4 rounded-xl bg-white border border-[#d4af37]/[0.06] hover:border-[#d4af37]/25 transition-all group hover:shadow-[0_4px_20px_rgba(212,175,55,0.06)]">
+          <span class="material-symbols-outlined text-2xl text-[#d4af37] mb-2 block group-hover:scale-110 transition-transform">memory</span>
+          <p class="text-sm font-bold text-[#1a1a2e]">Memory Leak</p>
+          <p class="text-xs text-[#5a5a6e] mt-1">Monitoramento de heap via CDP</p>
+        </div>
+        <!-- Race Condition -->
+        <div class="p-4 rounded-xl bg-white border border-[#d4af37]/[0.06] hover:border-[#d4af37]/25 transition-all group hover:shadow-[0_4px_20px_rgba(212,175,55,0.06)]">
+          <span class="material-symbols-outlined text-2xl text-[#d4af37] mb-2 block group-hover:scale-110 transition-transform">timer</span>
+          <p class="text-sm font-bold text-[#1a1a2e]">Race Condition</p>
+          <p class="text-xs text-[#5a5a6e] mt-1">Interações paralelas com timing</p>
+        </div>
+        <!-- Network Analysis -->
+        <div class="p-4 rounded-xl bg-white border border-[#d4af37]/[0.06] hover:border-[#d4af37]/25 transition-all group hover:shadow-[0_4px_20px_rgba(212,175,55,0.06)]">
+          <span class="material-symbols-outlined text-2xl text-[#d4af37] mb-2 block group-hover:scale-110 transition-transform">lan</span>
+          <p class="text-sm font-bold text-[#1a1a2e]">Network Analysis</p>
+          <p class="text-xs text-[#5a5a6e] mt-1">Interceptação HTTP, APIs expostas</p>
+        </div>
+        <!-- Cache Audit -->
+        <div class="p-4 rounded-xl bg-white border border-[#d4af37]/[0.06] hover:border-[#d4af37]/25 transition-all group hover:shadow-[0_4px_20px_rgba(212,175,55,0.06)]">
+          <span class="material-symbols-outlined text-2xl text-[#d4af37] mb-2 block group-hover:scale-110 transition-transform">cached</span>
+          <p class="text-sm font-bold text-[#1a1a2e]">Cache Audit</p>
+          <p class="text-xs text-[#5a5a6e] mt-1">Cold vs warm load comparison</p>
+        </div>
+        <!-- Behavioral -->
+        <div class="p-4 rounded-xl bg-white border border-[#d4af37]/[0.06] hover:border-[#d4af37]/25 transition-all group hover:shadow-[0_4px_20px_rgba(212,175,55,0.06)]">
+          <span class="material-symbols-outlined text-2xl text-[#d4af37] mb-2 block group-hover:scale-110 transition-transform">psychology</span>
+          <p class="text-sm font-bold text-[#1a1a2e]">Behavioral</p>
+          <p class="text-xs text-[#5a5a6e] mt-1">Simulação de interação humana</p>
+        </div>
+        <!-- i18n Stress -->
+        <div class="p-4 rounded-xl bg-white border border-[#d4af37]/[0.06] hover:border-[#d4af37]/25 transition-all group hover:shadow-[0_4px_20px_rgba(212,175,55,0.06)]">
+          <span class="material-symbols-outlined text-2xl text-[#d4af37] mb-2 block group-hover:scale-110 transition-transform">translate</span>
+          <p class="text-sm font-bold text-[#1a1a2e]">i18n Stress</p>
+          <p class="text-xs text-[#5a5a6e] mt-1">Pseudolocalização, strings longas</p>
+        </div>
+        <!-- WebSocket/SSE -->
+        <div class="p-4 rounded-xl bg-white border border-[#d4af37]/[0.06] hover:border-[#d4af37]/25 transition-all group hover:shadow-[0_4px_20px_rgba(212,175,55,0.06)]">
+          <span class="material-symbols-outlined text-2xl text-[#d4af37] mb-2 block group-hover:scale-110 transition-transform">sync</span>
+          <p class="text-sm font-bold text-[#1a1a2e]">WebSocket/SSE</p>
+          <p class="text-xs text-[#5a5a6e] mt-1">Conexões real-time, desconexão</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SCORING SYSTEM ═══════════════ -->
+  <section id="scoring" class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight">Sistema de Pontuação</h2>
+      <p class="text-[#5a5a6e] text-center max-w-xl mx-auto mb-4">Cada scan gera um score objetivo baseado em evidências reais.</p>
+      <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent mx-auto mb-16"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- REPROVADO -->
+        <div class="rounded-2xl p-8 border border-red-200 bg-red-50 text-center transition-all hover:shadow-lg">
+          <span class="material-symbols-outlined text-5xl text-red-500 mb-4 block">close</span>
+          <h3 class="text-2xl font-black text-red-600 mb-1">REPROVADO</h3>
+          <p class="text-4xl font-black text-red-500 mb-3">0 a 69</p>
+          <p class="text-sm text-red-700/70 leading-relaxed">Problemas críticos detectados. O software apresenta falhas que impactam diretamente a experiência do usuário ou a segurança.</p>
+        </div>
+        <!-- APROVADO -->
+        <div class="rounded-2xl p-8 border border-[#d4af37]/20 bg-[#d4af37]/5 text-center transition-all hover:shadow-lg">
+          <span class="material-symbols-outlined text-5xl text-[#d4af37] mb-4 block">check_circle</span>
+          <h3 class="text-2xl font-black text-[#b8960c] mb-1">APROVADO</h3>
+          <p class="text-4xl font-black text-[#d4af37] mb-3">70 a 90</p>
+          <p class="text-sm text-[#5a5a6e] leading-relaxed">Qualidade aceitável com pontos de melhoria. O software funciona bem mas pode ser otimizado em áreas específicas.</p>
+        </div>
+        <!-- EXCELENTE -->
+        <div class="rounded-2xl p-8 border border-emerald-200 bg-emerald-50 text-center transition-all hover:shadow-lg">
+          <span class="material-symbols-outlined text-5xl text-emerald-500 mb-4 block">military_tech</span>
+          <h3 class="text-2xl font-black text-emerald-600 mb-1">EXCELENTE</h3>
+          <p class="text-4xl font-black text-emerald-500 mb-3">91 a 100</p>
+          <p class="text-sm text-emerald-700/70 leading-relaxed">Qualidade excepcional. O software atende ou supera todos os padrões em todos os domínios analisados.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+  <section id="how" class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight">Como Funciona</h2>
+      <p class="text-[#5a5a6e] text-center max-w-xl mx-auto mb-4">Três passos. Nenhuma configuração complexa.</p>
+      <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent mx-auto mb-16"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        <!-- Connecting lines (hidden on mobile) -->
+        <div class="hidden md:block absolute top-8 left-[calc(16.67%+2rem)] right-[calc(16.67%+2rem)] h-px z-0">
+          <div class="w-full h-full bg-gradient-to-r from-[#d4af37]/30 via-[#d4af37]/15 to-[#d4af37]/30"></div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="relative text-center">
+          <div class="w-16 h-16 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/20 flex items-center justify-center mx-auto mb-6 relative z-10">
+            <span class="material-symbols-outlined text-3xl text-[#d4af37]">link</span>
+          </div>
+          <span class="absolute top-0 right-1/2 translate-x-1/2 -translate-y-3 text-xs font-mono text-[#d4af37]/60 bg-[#FAF8F5] px-2 z-20">01</span>
+          <h3 class="text-xl font-bold mb-3 text-[#1a1a2e]">Insira a URL</h3>
+          <p class="text-[#5a5a6e] text-sm leading-relaxed">Cole a URL do seu site e selecione os domínios que deseja analisar. Você pode escolher todos ou focar em áreas específicas.</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="relative text-center">
+          <div class="w-16 h-16 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/20 flex items-center justify-center mx-auto mb-6 relative z-10">
+            <span class="material-symbols-outlined text-3xl text-[#d4af37]">radar</span>
+          </div>
+          <span class="absolute top-0 right-1/2 translate-x-1/2 -translate-y-3 text-xs font-mono text-[#d4af37]/60 bg-[#FAF8F5] px-2 z-20">02</span>
+          <h3 class="text-xl font-bold mb-3 text-[#1a1a2e]">Análise Automática</h3>
+          <p class="text-[#5a5a6e] text-sm leading-relaxed">O motor varre cada página em 9 domínios simultaneamente. Playwright Chromium executa testes reais como um usuário faria.</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="relative text-center">
+          <div class="w-16 h-16 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/20 flex items-center justify-center mx-auto mb-6 relative z-10">
+            <span class="material-symbols-outlined text-3xl text-[#d4af37]">description</span>
+          </div>
+          <span class="absolute top-0 right-1/2 translate-x-1/2 -translate-y-3 text-xs font-mono text-[#d4af37]/60 bg-[#FAF8F5] px-2 z-20">03</span>
+          <h3 class="text-xl font-bold mb-3 text-[#1a1a2e]">Receba o Relatório</h3>
+          <p class="text-[#5a5a6e] text-sm leading-relaxed">Relatório interativo com score global, findings detalhados e sugestões de fix. Pronto para apresentar ao time ou ao cliente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ REPORT FORMATS ═══════════════ -->
+  <section class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[1200px] mx-auto">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight">Formatos de Relatório</h2>
+      <p class="text-[#5a5a6e] text-center max-w-xl mx-auto mb-4">Exporte o resultado no formato que melhor se encaixa no seu workflow.</p>
+      <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent mx-auto mb-16"></div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+        <!-- HTML -->
+        <div class="rounded-2xl p-6 bg-white border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all text-center group hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)]">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-3 block group-hover:scale-110 transition-transform">web</span>
+          <h3 class="font-bold text-[#1a1a2e] mb-1">HTML</h3>
+          <p class="text-xs text-[#5a5a6e]">Interativo, self-contained</p>
+        </div>
+        <!-- PDF -->
+        <div class="rounded-2xl p-6 bg-white border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all text-center group hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)]">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-3 block group-hover:scale-110 transition-transform">picture_as_pdf</span>
+          <h3 class="font-bold text-[#1a1a2e] mb-1">PDF</h3>
+          <p class="text-xs text-[#5a5a6e]">Client-ready</p>
+        </div>
+        <!-- JSON -->
+        <div class="rounded-2xl p-6 bg-white border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all text-center group hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)]">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-3 block group-hover:scale-110 transition-transform">data_object</span>
+          <h3 class="font-bold text-[#1a1a2e] mb-1">JSON</h3>
+          <p class="text-xs text-[#5a5a6e]">CI/CD pipelines</p>
+        </div>
+        <!-- Prompt Recall -->
+        <div class="rounded-2xl p-6 bg-white border border-[#d4af37]/[0.08] hover:border-[#d4af37]/30 transition-all text-center group hover:shadow-[0_4px_20px_rgba(212,175,55,0.08)]">
+          <span class="material-symbols-outlined text-3xl text-[#d4af37] mb-3 block group-hover:scale-110 transition-transform">smart_toy</span>
+          <h3 class="font-bold text-[#1a1a2e] mb-1">Prompt Recall</h3>
+          <p class="text-xs text-[#5a5a6e]">AI agents</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ WHY QUALITY MATTERS ═══════════════ -->
+  <section class="px-6 py-24 md:px-12 lg:px-24 border-t border-[#d4af37]/10">
+    <div class="max-w-[900px] mx-auto text-center">
+      <span class="material-symbols-outlined text-6xl text-[#d4af37] mb-6 block">lightbulb</span>
+      <h2 class="text-3xl md:text-5xl font-black mb-6 leading-tight text-[#1a1a2e]">
+        Vibe Coding Funciona.<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] to-[#b8960c]">Mas Qualidade Não é Opcional.</span>
+      </h2>
+      <p class="text-[#5a5a6e] text-lg leading-relaxed mb-4">
+        Código gerado por IA funciona rápido. Mas "funcionar" não significa "funcionar bem".
+        Links quebrados, formulários sem validação, páginas que demoram 8 segundos pra carregar...
+        tudo isso passa despercebido até o usuário reclamar.
+      </p>
+      <p class="text-[#5a5a6e] text-lg leading-relaxed mb-8">
+        O Serenity existe pra garantir que o que você entrega é digno de confiança.
+        Ele testa o que você esqueceu de testar, mede o que você não pensou em medir,
+        e documenta tudo com precisão.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CTA FINAL ═══════════════ -->
+  <section class="px-6 py-24 md:px-12 lg:px-24">
+    <div class="max-w-[900px] mx-auto text-center">
+      <span class="material-symbols-outlined text-6xl text-[#d4af37] mb-6 block">verified</span>
+      <h2 class="text-3xl md:text-5xl font-black mb-6 leading-tight text-[#1a1a2e]">
+        Pare de Adivinhar.<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] to-[#b8960c]">Comece a Comprovar.</span>
+      </h2>
+      <p class="text-[#5a5a6e] text-lg leading-relaxed mb-8">
+        Seu software merece mais do que um "parece que funciona".
+        O Serenity entrega certezas, com dados, evidências e um relatório
+        que você tem orgulho de apresentar.
+      </p>
+      <a href="/serenity-scan" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#d4af37] hover:bg-[#b8960c] text-white font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(212,175,55,0.25)] hover:shadow-[0_0_40px_rgba(212,175,55,0.4)] text-lg hover:scale-[1.02]">
+        <span class="material-symbols-outlined text-xl">rocket_launch</span>
+        Iniciar Análise Gratuita
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="px-6 py-8 md:px-12 lg:px-24 border-t border-[#d4af37]/10">
+    <div class="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-[#5a5a6e] font-mono">Serenity QA // Um produto <a href="/" class="text-[#d4af37] hover:text-[#b8960c] transition-colors">BuildCode</a></p>
+      <div class="flex items-center gap-6">
+        <a href="/" class="text-sm text-[#5a5a6e] hover:text-[#d4af37] transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">arrow_back</span>
+          BuildCode
+        </a>
+        <a href="https://github.com/yamotoz" target="_blank" rel="noopener noreferrer" class="text-sm text-[#5a5a6e] hover:text-[#d4af37] transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">code</span>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<!-- ═══════════════ STYLES ═══════════════ -->
+<style>
+  /* Fade up animation for hero elements */
+  .sy-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: sy-fade-up 0.8s ease-out forwards;
+  }
+  @keyframes sy-fade-up {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Section reveal on scroll */
+  .sy-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .sy-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Gold glow line separator */
+  .sy-glow-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.3) 50%, transparent 100%);
+  }
+</style>
+
+<!-- Scroll reveal observer -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('section:not(#hero)').forEach(section => {
+    section.classList.add('sy-reveal');
+    observer.observe(section);
+  });
+</script>
+
+</Layout>
