@@ -59,8 +59,8 @@ download_icons.cjs
 generate_techs.js
 skills-lock.json
 
-# Pasta de imagens antigas
-Img/
+# Pasta de imagens antigas (raiz apenas)
+/Img/
 
 # Arquivos temporarios
 *.tmp
