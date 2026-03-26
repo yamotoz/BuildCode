@@ -37,7 +37,7 @@ O sistema conduz o usuario por um wizard inteligente de 20 etapas cobrindo stack
 ---
 
 ### Frameworks & Tecnologias
-<img src="public/frameetechs.png" alt="Frameworks e Tecnologias" width="100%" />
+<img src="public/frameetechs.png" alt="Frameworks e Tecnologias" width="60%" />
 
 <br />
 
@@ -106,7 +106,7 @@ O sistema conduz o usuario por um wizard inteligente de 20 etapas cobrindo stack
 |:---|:---|
 | **Recharts** | Biblioteca de graficos React baseada em D3 - radar, barra, area, pie charts |
 
-<img src="public/banco.png" alt="Banco de Dados" width="100%" />
+<img src="public/banco.png" alt="Banco de Dados" width="60%" />
 
 ### Backend & Banco de Dados
 
@@ -164,7 +164,7 @@ Cada agente possui voz propria via OpenAI TTS e e acessivel por chat flutuante i
 
 ---
 
-<img src="public/features.png" alt="Funcionalidades do BuildCode" width="100%" />
+<img src="public/features.png" alt="Funcionalidades do BuildCode" width="60%" />
 
 ## Funcionalidades
 
