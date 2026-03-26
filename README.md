@@ -218,14 +218,6 @@ Cada agente possui voz propria via OpenAI TTS e e acessivel por chat flutuante i
 | **Input Sanitization** | XSS prevention via `esc()` + server-side validation |
 | **Webhook Auth** | Token obrigatorio via header `asaas-access-token` |
 
-## Roadmap
-
-- Persistencia de projetos com historico completo de geracoes
-- Templates pre-configurados por vertical (fintech, healthtech, edtech)
-- Modo colaborativo para equipes
-- Deploy direto via Vercel/Railway integrado
-- Marketplace de plugins e extensoes de agentes
-
 ---
 
 ## Licenca
