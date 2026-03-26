@@ -36,26 +36,10 @@ O sistema conduz o usuario por um wizard inteligente de 20 etapas cobrindo stack
 
 ---
 
-## Preview
-
-<div align="center">
-
-### Funcionalidades
-<img src="Img/features.png" alt="Funcionalidades do BuildCode" width="100%" />
-
-<br />
-
 ### Frameworks & Tecnologias
-<img src="Img/frameetechs.png" alt="Frameworks e Tecnologias" width="100%" />
+<img src="public/frameetechs.png" alt="Frameworks e Tecnologias" width="100%" />
 
 <br />
-
-### Banco de Dados
-<img src="Img/banco.png" alt="Banco de Dados" width="100%" />
-
-</div>
-
----
 
 ## Tecnologias & Stack
 
@@ -122,6 +106,8 @@ O sistema conduz o usuario por um wizard inteligente de 20 etapas cobrindo stack
 |:---|:---|
 | **Recharts** | Biblioteca de graficos React baseada em D3 - radar, barra, area, pie charts |
 
+<img src="public/banco.png" alt="Banco de Dados" width="100%" />
+
 ### Backend & Banco de Dados
 
 | Tecnologia | Descricao |
@@ -177,6 +163,8 @@ Pro     → GPT-4o, Claude Sonnet, Gemini 1.5 Pro             (maximo detalhe)
 Cada agente possui voz propria via OpenAI TTS e e acessivel por chat flutuante integrado ao wizard.
 
 ---
+
+<img src="public/features.png" alt="Funcionalidades do BuildCode" width="100%" />
 
 ## Funcionalidades
 
