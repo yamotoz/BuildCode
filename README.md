@@ -20,8 +20,6 @@ https://github.com/user-attachments/assets/b128e015-2b0a-4085-bcd6-81168f4c28d1
 
 <br />
 
-</div>
-
 ---
 
 ## Sobre
@@ -37,13 +35,12 @@ O sistema conduz o usuario por um wizard inteligente de 20 etapas cobrindo stack
 ---
 
 ### Frameworks & Tecnologias
+
 <img src="public/frameetechs.png" alt="Frameworks e Tecnologias" width="60%" />
 
 <br />
 
 ## Tecnologias & Stack
-
-<div align="center">
 
 ![Astro](https://img.shields.io/badge/Astro_SSR-BC52EE?style=flat-square&logo=astro&logoColor=white)
 ![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black)
@@ -78,8 +75,6 @@ O sistema conduz o usuario por um wizard inteligente de 20 etapas cobrindo stack
 ![JSON](https://img.shields.io/badge/JSON-000000?style=flat-square&logo=json&logoColor=white)
 ![NPM](https://img.shields.io/badge/NPM-CB3837?style=flat-square&logo=npm&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
-
-</div>
 
 ### Framework & Runtime
 
@@ -232,8 +227,6 @@ Cada agente possui voz propria via OpenAI TTS e e acessivel por chat flutuante i
 - Marketplace de plugins e extensoes de agentes
 
 ---
-
-<div align="center">
 
 ## Licenca
 
